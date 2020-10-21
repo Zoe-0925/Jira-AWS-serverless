@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-jiraapi-dev-90349-authRole",
+      "UnauthRoleArn": "arn:aws:iam::948386438603:role/amplify-jiraapi-dev-90349-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::948386438603:role/amplify-jiraapi-dev-90349-authRole",
+      "Region": "ap-southeast-2",
+      "DeploymentBucketName": "amplify-jiraapi-dev-90349-deployment",
+      "UnauthRoleName": "amplify-jiraapi-dev-90349-unauthRole",
+      "StackName": "amplify-jiraapi-dev-90349",
+      "StackId": "arn:aws:cloudformation:ap-southeast-2:948386438603:stack/amplify-jiraapi-dev-90349/248de9c0-13e9-11eb-91e0-0632b63af0a2",
+      "AmplifyAppId": "d3ql69usoi204k"
+    }
+  }
+}

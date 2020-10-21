@@ -1,0 +1,50 @@
+import { hot } from 'react-hot-loader/root';
+import React from 'react';
+/**     Router    */
+import { Router } from 'react-router-dom';
+import { Switch, Route } from "react-router-dom";
+import { ConnectedRouter } from 'connected-react-router'
+/**    Pages     */
+import Login from "./Pages/Login"
+import Signup from "./Pages/Signup"
+import Board from "./Pages/Board"
+import ProjectDetail from "./Pages/ProjectDetail"
+import './App.scss';
+import Amplify, { Auth } from 'aws-amplify';
+import aws_exports from './aws-exports';
+
+import Test from "./Pages/Test"
+
+Amplify.configure(aws_exports);
+
+const App = ({ history, context }) => {
+
+  //useEffect(() => {
+  //  if (isLoggedOut()) {
+  //    history.push("/login")
+  // }
+  //}, [])
+
+  return (
+    <div className="App">
+      <ConnectedRouter history={history} context={context}>
+        <Router history={history}>
+          <Switch>
+            <Route path="/" exact component={Board} />
+            <Route path="/login" exact component={Login} />
+            <Route path="/signup" exact component={Signup} />
+            <Route path="/projects" exact component={Board} />
+            <Route path="/projects/create" exact component={App} />
+            <Route path="/projects/detail" exact component={App} />
+            <Route path="/ManageCategory" exact component={App} />
+            <Route path="/projects/roadmap" component={App} />
+            <Route path="/projects/board" exact component={Board} />
+            <Route path="/projects/settings/details" exact component={ProjectDetail} />
+            <Route path="/projects/settings/issuetypes/:issueType" exact component={App} />
+          </Switch>
+        </Router>
+      </ConnectedRouter>
+    </div>
+  );
+}
+export default process.env.NODE_ENV === "development" ? hot(App) : App;
