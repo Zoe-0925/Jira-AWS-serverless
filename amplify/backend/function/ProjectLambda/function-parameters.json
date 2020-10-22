@@ -1,0 +1,62 @@
+{
+  "permissions": {
+    "storage": {
+      "Issue": [
+        "read",
+        "delete"
+      ],
+      "Label": [
+        "read",
+        "delete"
+      ],
+      "Status": [
+        "create",
+        "read",
+        "delete"
+      ],
+      "Project": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    },
+    "function": {
+      "IssueLambda": [
+        "read",
+        "delete"
+      ],
+      "LabelLambda": [
+        "read",
+        "delete"
+      ],
+      "StatusLambda": [
+        "read",
+        "delete"
+      ]
+    },
+    "auth": {
+      "cognito461656c1": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    },
+    "api": {
+      "IssueApi": [
+        "read",
+        "delete"
+      ],
+      "LabelApi": [
+        "read",
+        "delete"
+      ],
+      "StatusApi": [
+        "read",
+        "delete"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}

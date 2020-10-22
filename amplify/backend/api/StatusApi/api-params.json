@@ -1,0 +1,45 @@
+{
+    "paths": [
+        {
+            "name": "/status",
+            "lambdaFunction": "StatusLambda",
+            "privacy": {
+                "protected": true,
+                "auth": [
+                    "/POST",
+                    "/GET",
+                    "/PUT",
+                    "/PATCH",
+                    "/DELETE"
+                ],
+                "unauth": [
+                    "/GET"
+                ]
+            },
+            "policyResourceName": "/status"
+        }
+    ],
+    "resourceName": "StatusApi",
+    "apiName": "StatusApi",
+    "functionArns": [
+        {
+            "lambdaFunction": "StatusLambda"
+        }
+    ],
+    "privacy": {
+        "auth": 1,
+        "unauth": 1,
+        "authRoleName": "amplify-jiraaws-dev-151650-authRole",
+        "unAuthRoleName": "amplify-jiraaws-dev-151650-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "StatusLambda",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}

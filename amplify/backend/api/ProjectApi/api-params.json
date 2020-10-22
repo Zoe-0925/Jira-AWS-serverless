@@ -1,0 +1,42 @@
+{
+    "paths": [
+        {
+            "name": "/projects",
+            "lambdaFunction": "ProjectLambda",
+            "privacy": {
+                "private": true,
+                "auth": [
+                    "/POST",
+                    "/GET",
+                    "/PUT",
+                    "/PATCH",
+                    "/DELETE"
+                ]
+            },
+            "policyResourceName": "/projects"
+        }
+    ],
+    "resourceName": "ProjectApi",
+    "apiName": "ProjectApi",
+    "functionArns": [
+        {
+            "lambdaFunction": "ProjectLambda"
+        }
+    ],
+    "privacy": {
+        "auth": 1,
+        "unauth": 0,
+        "authRoleName": "amplify-jiraaws-dev-151650-authRole",
+        "unAuthRoleName": "amplify-jiraaws-dev-151650-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "ProjectLambda",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}

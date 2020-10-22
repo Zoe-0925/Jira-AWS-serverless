@@ -121,7 +121,7 @@ export const manualLogout = (data) => async  dispatch => {
     }
 }
 
-export const fetchSignUp = (data) => async  dispatch => {
+export const signUp = (data) => async  dispatch => {
     //TODO need to update here to connect passport and 3rd party register
 
     dispatch({ type: LOADING_USER })
@@ -158,6 +158,19 @@ export const fetchSignUp = (data) => async  dispatch => {
         console.log('Error', err);
     }
 }
+
+export const signIn = (username, password)=> async  dispatch => {
+    dispatch({ type: LOADING_USER })
+    try {
+        const user = await Auth.signIn(username, password);
+        //TODO
+        //check if user's attributes are valid,
+        //and then call the 
+    } catch (error) {
+        console.log('error signing in', error);
+    }
+}
+
 
 export const updateInfo = (data) => async  dispatch => {
     dispatch({ type: LOADING_USER })
@@ -300,13 +313,6 @@ export function deleteUser(BASE, id, token) {//fetch all USERs of a user
 }
 
 
-async function signIn() {
-    try {
-        const user = await Auth.signIn(username, password);
-    } catch (error) {
-        console.log('error signing in', error);
-    }
-}
 
 async function signOut() {
     try {
@@ -322,15 +328,7 @@ async function getSessionAndRefreshToken() {
         .catch(err => console.log(err));
 }
 
-async function signOut() {
-    try {
-        await Auth.signOut();
-    } catch (error) {
-        console.log('error signing out: ', error);
-    }
-}
-
-async function changePassword() {
+async function changePassword(user) {
     Auth.currentAuthenticatedUser()
         .then(user => {
             return Auth.changePassword(user, 'oldPassword', 'newPassword');
@@ -339,7 +337,7 @@ async function changePassword() {
         .catch(err => console.log(err));
 }
 
-async function forgetPassword() {
+async function forgetPassword(username,code, new_password) {
     // Send confirmation code to user's email
     Auth.forgotPassword(username)
         .then(data => console.log(data))
@@ -351,7 +349,7 @@ async function forgetPassword() {
         .catch(err => console.log(err));
 }
 
-async function completeNewPassword() {
+async function completeNewPassword(username, password,newPassword) {
     Auth.signIn(username, password)
         .then(user => {
             if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {

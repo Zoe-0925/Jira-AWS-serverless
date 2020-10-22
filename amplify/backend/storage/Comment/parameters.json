@@ -1,0 +1,5 @@
+{
+    "tableName": "Comment",
+    "partitionKeyName": "_id",
+    "partitionKeyType": "S"
+}

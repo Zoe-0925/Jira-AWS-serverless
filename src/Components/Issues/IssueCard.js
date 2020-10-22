@@ -26,14 +26,14 @@ const IssueCard = ({ task, openTaskDetail }) => {
     
     const reorderToBotttom = (e, id) => {
         e.preventDefault()
-        handleClose()
+        handleMenuClose()
         // maybe need the status id as well
     }
 
     const handleDeleteTask = (e, id, status) => {
         e.preventDefault()
         dispatch(deleteIssue(id, status))
-        handleClose()
+        handleMenuClose()
     }
 
     return (

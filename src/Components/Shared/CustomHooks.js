@@ -128,9 +128,9 @@ export function useEditText(value) {
 }
 
 export const useDotIconMenu = () => {
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [anchorEl, setAnchorEl] = useState(null);
     const isOpen = Boolean(anchorEl);
-    const anchorRef = React.useRef(null);
+    const anchorRef = useRef(null);
 
     const handleMenuClose = () => {
         setAnchorEl(null);
