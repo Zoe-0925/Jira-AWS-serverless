@@ -1,6 +1,6 @@
 {
     "identityPoolName": "jiraaws_identitypool_7d5eacb3",
-    "allowUnauthenticatedIdentities": true,
+    "allowUnauthenticatedIdentities": false,
     "resourceNameTruncated": "jiraaw7d5eacb3",
     "userPoolName": "jiraaws_userpool_7d5eacb3",
     "autoVerifiedAttributes": [
@@ -43,5 +43,9 @@
             "UnauthRole",
             "Arn"
         ]
-    }
+    },
+    "useDefault": "default",
+    "userPoolGroupList": [],
+    "serviceName": "Cognito",
+    "dependsOn": []
 }

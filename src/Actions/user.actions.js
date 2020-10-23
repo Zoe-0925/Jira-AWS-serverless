@@ -2,8 +2,6 @@ import axios from 'axios'
 import { Auth } from 'aws-amplify';
 import { Cache } from 'aws-amplify';
 import API from '@aws-amplify/api';
-
-
 import Util from "../Components/Util"
 import history from "../history"
 import { setLocalStorage } from "../Components/Credential/Auth.service"
@@ -29,7 +27,6 @@ export const GET_USER_BY_EMAIL = "GET_USER_BY_EMAIL"  // => login
 export const DELETE_USER = "UPDATE_USER"
 //export const CHECK_EMAIL_EXIST = "CHECK_EMAIL_EXIST"
 //-------------------------------------------------------
-
 
 
 function loginSuccess(data) {
@@ -76,185 +73,94 @@ export function dispatchAddOtherUsers(userList) {
 }
 
 /******************* Thunk Actions  *****************************/
-/**
-export const manualLogin = (data, successPath) => // path to redirect to upon successful log in
-    async  dispatch => {
-        dispatch({ type: LOADING_USER })
-        try {
-            const response = await fetchLogin(process.env.BASE, data)
-            if (response.data.success && response.data.data.length > 0) {
-                setLocalStorage("token", response.data.data.token)
-                dispatch(loginSuccess(response.data.data[0]))
-                history.push(successPath)
-            }
-            else {
-                dispatch(dispatchError(response.data.message))
-            }
-        }
-        catch (err) {
-            dispatch(dispatchError(err))
-            // Something happened in setting up the request that triggered an Error
-            console.log('Error', err);
-        }
-    }
-    */
-
-export const manualLogout = (data) => async  dispatch => {
+export const signUp = (data, name) => async  dispatch => {
     dispatch({ type: LOADING_USER })
     try {
-        const token = localStorage.getItem("token")
-        const response = await fetchLogout(process.env.BASE, data, token)
-        if (response.data.success) {
-            dispatch({ type: LOGOUT_SUCCESS_USER })
-            localStorage.removeItem("token");
-            localStorage.removeItem("expires_at");
-            history.push("./login")
-        }
-        else {
-            dispatch(dispatchError(response.data.message))
-        }
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-        // Something happened in setting up the request that triggered an Error
-        console.log('Error', err);
-    }
-}
-
-export const signUp = (data) => async  dispatch => {
-    //TODO need to update here to connect passport and 3rd party register
-
-    dispatch({ type: LOADING_USER })
-    try {
+        //Sign up the user in Cognito
         const { user } = await Auth.signUp({
-            email: data.email,
+            username: data.email,
             password: data.password,
+            attributes: {
+                email: data.email
+            }
         });
 
         if (!user.confirmed) {
-            dispatch(dispatchError("Sign up failed."))
+            //TODO maybe return info???
+            return { error: "You have already signed up. Please login." }
+        }
+        //Create a user object in DynamoDB
+        let response = await API.post('UserApi', '/users', {
+            body: {
+                email: email,
+                name: name
+            }
+        })
+        if (response.error === undefined) {
+            //TODO
+            //cache the email to the just signed up place???
+            return response.data
+        }
+        else {
+            return { error: "You have already signed up. Please login." }
+        }
+    }
+    catch (err) {
+        return { error: "You have already signed up. Please login." }
+    }
+}
+
+export const signIn = (email, password) => async  dispatch => {
+    dispatch({ type: LOADING_USER })
+    try {
+        const { user } = await Auth.signIn(email, password);
+        if (!user.confirmed) {
+            dispatch(dispatchError("Invalid user name or password."))
             return
         }
-
-        //TODO
-        //If successful, save the name to the user in the DB.
-        //TOken should be from the session storage, not the local storage.
-
-
-        const token = localStorage.getItem("token")
-        const response = await fetchSignUp(process.env.BASE, data, token)
-        if (response.data.success) {
-            data._id = response.data.data.id
-            dispatch({ type: LOGIN_SUCCESS_USER, data: data })
-            history.push("/projects")
+        const userInformation = await API.get('UserApi', `/users/email/${email}`, {})
+        if (userInformation.error) {
+            dispatch(dispatchError(err))
+            return
         }
-        else {
-            dispatch(dispatchError(response.data.message))
-        }
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-        // Something happened in setting up the request that triggered an Error
-        console.log('Error', err);
-    }
-}
+        dispatch({ type: LOGIN_SUCCESS_USER, data: JSON.parse(response) })
+        history.push("/projects")
 
-export const signIn = (username, password)=> async  dispatch => {
-    dispatch({ type: LOADING_USER })
-    try {
-        const user = await Auth.signIn(username, password);
-        //TODO
-        //check if user's attributes are valid,
-        //and then call the 
-    } catch (error) {
-        console.log('error signing in', error);
-    }
-}
-
-
-export const updateInfo = (data) => async  dispatch => {
-    dispatch({ type: LOADING_USER })
-    try {
-        const token = localStorage.getItem("token")
-        const response = await fetchUpdateUserInfo(process.env.BASE, { name: data.name }, token)
-        if (response.data.success) {
-            dispatch(updateInfo(data))
-        }
-        else {
-            dispatch(dispatchError(response.data.message))
-        }
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-        // Something happened in setting up the request that triggered an Error
-        console.log('Error', err);
-    }
-}
-
-export const updateEmail = (data) => async  dispatch => {
-    dispatch({ type: LOADING_USER })
-    try {
-        const token = localStorage.getItem("token")
-        const response = await fetchUpdateEmail(process.env.BASE, { email: data.email }, token)
-        if (response.data.success) {
-            dispatch(dispatchUpdateEmail(data.email))
-        }
-        else {
-            dispatch(dispatchError(response.data.message))
-        }
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-        // Something happened in setting up the request that triggered an Error
-        console.log('Error', err);
-    }
-}
-
-export const updatePassword = (data) => async  dispatch => {
-    dispatch({ type: LOADING_USER })
-    try {
-        const token = localStorage.getItem("token")
-        const response = await fetchUpdatePassword(process.env.BASE,
-            { salt: data.salt, hash: data.hash }, token)
-        if (response.data.success) {
-            dispatch(dispatchUpdatePassword(data.salt, data.hash))
-        }
-        else {
-            dispatch(dispatchError(response.data.message))
-        }
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-        // Something happened in setting up the request that triggered an Error
-        console.log('Error', err);
-    }
-}
-
-export const checkEmail = (email) => async  dispatch => {
-    dispatch({ type: LOADING_USER })
-    try {
-        const token = localStorage.getItem("token")
-        const response = await fetchCheckEmail(process.env.BASE, email, token)
-        return response.data.success //boolean
     } catch (err) {
-        console.log('Error', err);
+        dispatch(dispatchError(err))
     }
 }
 
-export const getUserByIds = (idList) => async  dispatch => {
+export const signOut = () => async  dispatch => {
     dispatch({ type: LOADING_USER })
     try {
-        const token = localStorage.getItem("token")
-        const trimmedList = [new Set(...idList)]
-        let response = (trimmedList.length > 1) ?
-            await fetchUserByIdList(process.env.BASE, trimmedList, token) :
-            (trimmedList.length === 1) ?
-                await fetchUserById(process.env.BASE, trimmedList[0], token) :
-                ""
-        if (response !== "" && response.data.success) {
-            dispatch(dispatchAddOtherUsers(response.data))
+        const response = await Auth.signOut()
+        if (response.error) {
+            dispatch(dispatchError(err))
+            return
         }
-    } catch (err) {
+        dispatch({
+            type: LOGOUT_SUCCESS_USER
+        })
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+    }
+}
+
+export const updatePassword = (oldPassword, newPassword) => async  dispatch => {
+    dispatch({ type: LOADING_USER })
+    try {
+        const user = await Auth.currentAuthenticatedUser()
+        const data = await Auth.changePassword(user, oldPassword, newPassword);
+        if(data.error){
+            dispatch(dispatchError(data.error))
+            return
+        }
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+        // Something happened in setting up the request that triggered an Error
         console.log('Error', err);
     }
 }
@@ -262,82 +168,14 @@ export const getUserByIds = (idList) => async  dispatch => {
 
 /********************* API calls *************************/
 
-export function fetchSignUp(BASE, item, token) {
-    return post('/users/signup', BASE, item, token)
-}
 
-export function fetchLogin(BASE, item, token) {
-    return post('/users/login', BASE, item, token)
-}
-
-export function fetchLogout(BASE, item) {
-    return post('/users/logout', BASE, item, "")
-}
-
-//TODO for testing purpose
-export function createUser(BASE, item) {
-    return post('/users/', BASE, item, "")
-}
-
-export function fetchUserById(BASE, id, token) {//fetch all USERs of a user
-    return axios.get(BASE + '/users/' + id, jwtConfig(token));
-}
-
-export function fetchUserByIdList(BASE, idList, token) {//fetch all USERs of a user
-    return post('/users/multiple', BASE, idList, token)
-}
-
-export function fetchUserByEmail(BASE, email, token) {//fetch all USERs of a user
-    return axios.get(BASE + '/users/email' + email, jwtConfig(token));
-}
-
-// @return: {result:boolean}
-export function fetchCheckEmail(BASE, email, token) {//fetch all USERs of a user
-    return post('/users/checkEmail', BASE, email, token)
-}
-
-export function fetchUpdateUserInfo(BASE, id, update, token) {//fetch all USERs of a user
-    return put('/users/info/' + id, BASE, update, token)
-}
-
-export function fetchUpdateEmail(BASE, id, update, token) {//fetch all USERs of a user
-    return put('/users/email/' + id, BASE, update, token)
-}
-
-export function fetchUpdatePassword(BASE, id, update, token) {//fetch all USERs of a user
-    return put('/users/password' + id, BASE, update, token)
-}
-
-export function deleteUser(BASE, id, token) {//fetch all USERs of a user
-    return axios.delete(BASE + '/users/' + id, jwtConfig(token));
-}
-
-
-
-async function signOut() {
-    try {
-        await Auth.signOut();
-    } catch (error) {
-        console.log('error signing out: ', error);
-    }
-}
-
-async function getSessionAndRefreshToken() {
+export async function getSessionAndRefreshToken() {
     Auth.currentSession()
         .then(data => console.log(data))
         .catch(err => console.log(err));
 }
 
-async function changePassword(user) {
-    Auth.currentAuthenticatedUser()
-        .then(user => {
-            return Auth.changePassword(user, 'oldPassword', 'newPassword');
-        })
-        .then(data => console.log(data))
-        .catch(err => console.log(err));
-}
-
-async function forgetPassword(username,code, new_password) {
+async function forgetPassword(username, code, new_password) {
     // Send confirmation code to user's email
     Auth.forgotPassword(username)
         .then(data => console.log(data))
@@ -349,7 +187,7 @@ async function forgetPassword(username,code, new_password) {
         .catch(err => console.log(err));
 }
 
-async function completeNewPassword(username, password,newPassword) {
+async function completeNewPassword(username, password, newPassword) {
     Auth.signIn(username, password)
         .then(user => {
             if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
@@ -376,15 +214,14 @@ async function completeNewPassword(username, password,newPassword) {
         });
 }
 
-async function isLoggedIn() {
-    Auth.currentAuthenticatedUser({
+export async function isLoggedIn() {
+    return await Auth.currentAuthenticatedUser({
         bypassCache: false  // Optional, By default is false. If set to true, this call will send a request to Cognito to get the latest user data
-    }).then(user => console.log(user))
-        .catch(err => console.log(err));
+    })
 }
 
 //Only for 3rd party login
-async function retreveJWT() {
+export async function retreveJWT() {
     // Run this after the sign-in
     const federatedInfo = Cache.getItem('federatedInfo');
     const { token } = federatedInfo;

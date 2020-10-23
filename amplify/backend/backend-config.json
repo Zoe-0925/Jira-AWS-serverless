@@ -395,7 +395,8 @@
   "auth": {
     "cognito461656c1": {
       "service": "Cognito",
-      "providerPlugin": "awscloudformation"
+      "providerPlugin": "awscloudformation",
+      "dependsOn": []
     }
   },
   "api": {
