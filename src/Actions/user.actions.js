@@ -31,13 +31,6 @@ export function updateUser(data) {
     }
 }
 
-export function dispatchUpdateEmail(email) {
-    return {
-        type: UPDATE_USER_EMAIL,
-        email: email
-    }
-}
-
 export function dispatchUpdatePassword(salt, hash) {
     return {
         type: UPDATE_USER_PASSWORD,
@@ -111,9 +104,7 @@ export const signUp = (email, name, password) => async  dispatch => {
 export const checkUserExist = (email) => async  dispatch => {
     dispatch({ type: LOADING_USER })
     try {
-        const user = await API.get("/email/" + email);
-        return user
-
+        return await API.get("/email/" + email);
     } catch (err) {
         dispatch(dispatchError(err))
     }
@@ -178,33 +169,34 @@ export const updatePassword = (oldPassword, newPassword) => async  dispatch => {
 }
 
 export const getCurrentUser = () => async  dispatch => {
-    console.log("called")
     dispatch({ type: LOADING_USER })
     try {
-        const credential = await Auth.currentAuthenticatedUser({
-            bypassCache: true  // Optional, By default is false. If set to true, this call will send a request to Cognito to get the latest user data
+        const credential = await Auth.currentAuthenticatedUser({  bypassCache: true  // Optional, By default is false. If set to true, this call will send a request to Cognito to get the latest user data
         })
         if (credential) {
             const email = credential.username
             const accessToken = credential.signInUserSession.accessToken
             const refreshToken = credential.signInUserSession.refreshToken.token //The token String
             dispatch(saveTokens(accessToken, refreshToken))
-            const data = await API.get("UserApi", "/users/");
-            if (data.error) {
-         //        if (data.error.trim() = "API /email/" + email + " does not exist") {
-
-                dispatch(dispatchError(data.error))
-                return
+            let userInfo = await API.get("UserApi", "/users/email/" + email);
+            if (userInfo.Item) {  //if user does not exist, create one.
+                userInfo = await API.post("UserApi", "/users/", {
+                    body: {
+                        _id: uuidv4(),
+                        email: email,
+                        name: "",
+                        projects: []
+                    }
+                });
             }
-            console.log('User retrieved', data);
-            //TODO
-            //save the user to the current user
+            dispatch(updateUser(userInfo))
+            if (userInfo.error) {
+                dispatch(dispatchError(data.error))
+            }
         }
     }
     catch (err) {
         dispatch(dispatchError(err))
-        // Something happened in setting up the request that triggered an Error
-        console.log('Error', err);
     }
 }
 

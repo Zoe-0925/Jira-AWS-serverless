@@ -109,9 +109,9 @@ app.get(path, function (req, res) {
  * HTTP Get method for list objects *
  ********************************/
 
- //TODO update
+//TODO update
 
-app.get(path+ "/id/:queryString", function (req, res) {
+app.get(path + "/id/:queryString", function (req, res) {
   let condition = {}
   if (userIdPresent && req.apiGateway) {
     condition[partitionKeyName]['AttributeValueList'] = [req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH];
@@ -180,7 +180,7 @@ app.get(path + '/object' + hashKeyPath, function (req, res) {
 * HTTP put method for insert object *
 *************************************/
 
-app.put(path, function (req, res) {
+app.put(path/addNewMember, function (req, res) {
 
   if (userIdPresent) {
     req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
@@ -188,9 +188,17 @@ app.put(path, function (req, res) {
 
   let putItemParams = {
     TableName: tableName,
-    Item: req.body
+    Key: {
+      "_id": req.body._id,
+    },
+    UpdateExpression: "set info.members =[...info.members, :r], info.plot=:p, info.actors=:a",
+    ExpressionAttributeValues: {
+      ":r": 5.5,
+      ":p": "Everything happens all at once.",
+      ":a": ["Larry", "Moe", "Curly"]
+    },
   }
-  dynamodb.put(putItemParams, (err, data) => {
+  dynamodb.update(putItemParams, (err, data) => {
     if (err) {
       res.statusCode = 500;
       res.json({ error: err, url: req.url, body: req.body });

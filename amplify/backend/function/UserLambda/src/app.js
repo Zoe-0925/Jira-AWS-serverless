@@ -106,11 +106,11 @@ app.get(path + "/email/:email", function (req, res) {
     TableName: tableName,
     KeyConditionExpression: "#email = :email",
     IndexName: "email-index",
-    ExpressionAttributeNames:{
-        "#email": "email"
+    ExpressionAttributeNames: {
+      "#email": "email"
     },
     ExpressionAttributeValues: {
-        ":email": req.params.email,
+      ":email": req.params.email,
     },
   }
 
@@ -119,9 +119,9 @@ app.get(path + "/email/:email", function (req, res) {
       res.statusCode = 500;
       res.json({ error: 'Could not load items: ' + err.message });
     } else {
-      if (data.Item) {
+      if(data.Item){
         res.json(data.Item);
-      } else {
+      }else{
         res.json(data);
       }
     }
