@@ -50,12 +50,10 @@ export const saveProjectLabels = labels => async  dispatch => {
     }
 }
 
-
-/**    Thunk Actions    */
 export const createLabel = (newLabel) => async  dispatch => {
     dispatch({ type: LOADING_LABEL })
     try {
-        const data = API.post("LabelApi", "/labels", {
+        await API.post("LabelApi", "/labels", {
             body: newLabel
         })
         dispatch(createSuccessfulLabel(newLabel))
@@ -69,6 +67,7 @@ export const deleteLabel = (id) => async  dispatch => {
     dispatch({ type: LOADING_LABEL })
     try {
         await API.del("LabelApi", "/labels/" + id)
+        dispatch(deleteSuccessfulLabel(id))
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -79,12 +78,7 @@ export const getAllLabels = (projectId) => async  dispatch => {
     dispatch({ type: LOADING_LABEL })
     try {
         const data = await API.get("LabelApi", "/labels/project" + projectId)
-        if (!data.error) {
-            dispatch(appendSuccessfulLabels(data))
-        }
-        else {
-            dispatch(dispatchError(data.error))
-        }
+        dispatch(appendSuccessfulLabels(data))
     }
     catch (err) {
         dispatch(dispatchError(err))
