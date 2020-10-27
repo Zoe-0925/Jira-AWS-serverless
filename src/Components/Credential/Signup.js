@@ -1,5 +1,5 @@
-import React from 'react'
-
+import React, { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from "react-redux"
 import { Form, Field, withFormik } from 'formik';
 import {
     Button,
@@ -10,9 +10,11 @@ import { Link } from 'react-router-dom'
 import {
     TextField,
 } from 'formik-material-ui';
-import { useDispatch } from "react-redux"
 import { EmailField, PasswordField } from "./SharedTextFields"
-import { fetchSignUp } from "../../Actions/user.actions"
+import { signUp } from "../../Actions/user.actions"
+import { selectUserLoading, selectUserError, selectUserAuthenticated } from "../../Reducers/Selectors"
+import SuccessfulFeedback from "./SuccessfulFeedback"
+import history from "../../history"
 
 export const SignupForm = props => {
     const {
@@ -20,6 +22,28 @@ export const SignupForm = props => {
         handleChange,
         handleSubmit,
     } = props
+
+    const [sucessful, setSuccessful] = useState(false)
+
+    const dispatch = useDispatch()
+    const error = useSelector(selectUserError)
+    const completed = useSelector(selectUserAuthenticated)
+
+    const mockClick = () => {
+        dispatch({ type: "LOADING_USER" })
+        setSuccessful(true)
+        dispatch({ type: "CANCEL_LOADING_USER" })
+    }
+
+
+    useEffect(() => {
+        if (completed) { //display feedback
+            setSuccessful(true)
+
+
+        }
+    }, [completed])
+
 
     return <div className="login-wrapper">
         <div className="form">
@@ -47,17 +71,21 @@ export const SignupForm = props => {
 
                 <Button
                     className="row main-submit-btn"
-                    onClick={handleSubmit}
-                >Sign up</Button>
+                    onClick={mockClick}
+                    disabled={loading}>Sign up</Button>
+                {error !== "" && <p className="error-msg">{error}</p>}
+                {sucessful && <SuccessfulFeedback open={sucessful} message="Sign up successfully!" />}
                 <p className="or-label">OR</p>
 
                 <Button
                     className="row submit-btn"
                     onClick={handleSubmit}
+                    disabled={loading}
                 >Continue with Google</Button>
                 <Button
                     className="row submit-btn"
                     onClick={handleSubmit}
+                    disabled={loading}
                 >Continue with Git hub</Button>
                 <Box margin={1}>
                     <Divider className="blank-divider" />
@@ -115,20 +143,18 @@ export const SignupView = withFormik({
 //TODO
 // onContinue needs to use the server to validate if the email already exists
 
-const SignupController = () => {
+const SignupHOC = () => {
     const dispatch = useDispatch()
 
-    const handleSignup = (values) => {
-        dispatch(fetchSignUp({
-            email: values.email,
-            name: values.name,
-            password: values.password
-        }))
+    const handleSignup = async (values) => {
+        const { email, name, password } = values
+        dispatch(signUp(email, name, password))
     }
-
     return (
         <SignupView onContinue={handleSignup} />
     )
 }
 
-export default SignupController
+export default SignupHOC
+
+//TODO display the error message somewhere

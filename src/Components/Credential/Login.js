@@ -1,15 +1,14 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
+import { useSelector, useDispatch } from "react-redux"
 import { Form, withFormik } from 'formik';
 import {
     Button,
     Divider,
 } from '@material-ui/core';
-import {Link} from 'react-router-dom'
-import { useDispatch } from "react-redux"
+import { Link } from 'react-router-dom'
 import { EmailField, PasswordField } from "./SharedTextFields"
-//TODO swap
-//import { manualLogin } from "../../Actions/user.actions"
-import { manualLogin } from "../../Actions/mockUserActions"
+import { selectUserLoading, selectUserError, selectUserAuthenticated } from "../../Reducers/Selectors"
+import { signIn } from "../../Actions/user.actions"
 
 const LoginForm = props => {
 
@@ -18,6 +17,16 @@ const LoginForm = props => {
         handleChange,
         handleSubmit,
     } = props
+
+    const loading = useSelector(selectUserLoading)
+    const error = useSelector(selectUserError)
+    const completed = useSelector(selectUserAuthenticated)
+
+    useEffect(() => {
+        if (completed) { //display feedback
+            history.push("/projects")
+        }
+    }, [completed])
 
     return <div className="login-wrapper">
         <div className="form">
@@ -31,6 +40,7 @@ const LoginForm = props => {
                     className="row main-submit-btn"
                     onClick={handleSubmit}
                 >Log in</Button>
+                {error !== "" && <p className="error-msg">{error}</p>}
                 <Divider />
                 <Button
                     className="row submit-btn"
@@ -41,7 +51,7 @@ const LoginForm = props => {
                     onClick={handleSubmit}
                 >Log in with Git hub</Button>
                 <Divider />
-                <Link href="/signup" className="link"><p className="link">Sign up for an account</p></Link>
+                <Link to="/signup" className="link"><p className="link">Sign up for an account</p></Link>
             </Form>
         </div>
     </div>
@@ -80,14 +90,12 @@ const LoginView = withFormik({
 //TODO
 // onContinue needs to use the server to validate if the email already exists
 
-const LoginController = () => {
+const LoginHOC = () => {
     const dispatch = useDispatch()
 
     const handleLogin = (values) => {
-        dispatch(manualLogin({
-            email: values.email,
-            password: values.password
-        }, "/projects"))
+        console.log("email & password",values.email, values.password )
+        dispatch(signIn(values.email, values.password))
     }
 
     return (
@@ -95,4 +103,4 @@ const LoginController = () => {
     )
 }
 
-export default LoginController
+export default LoginHOC

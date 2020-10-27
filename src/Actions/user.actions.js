@@ -1,40 +1,21 @@
-import axios from 'axios'
 import { Auth } from 'aws-amplify';
 import { Cache } from 'aws-amplify';
 import API from '@aws-amplify/api';
-import Util from "../Components/Util"
 import history from "../history"
 import { setLocalStorage } from "../Components/Credential/Auth.service"
 require('dotenv').config()
-
-const { post, put, jwtConfig } = Util
 
 export const ERROR_USER = "ERROR_USER"
 export const LOADING_USER = "LOADING_USER"
 export const LOGIN_SUCCESS_USER = "LOGIN_SUCCESS_USER"
 export const LOGOUT_SUCCESS_USER = "LOGOUT_SUCCESS_USER"
-export const UPDATE_USER_INFO = "UPDATE_USER_INFO"
-export const UPDATE_USER_EMAIL = "UPDATE_USER_EMAIL"
-export const UPDATE_USER_PASSWORD = "UPDATE_USER_PASSWORD"
 export const UPDATE_USER = "UPDATE_USER"
 export const ADD_OTHER_USERS = "ADD_OTHER_USERS"
-
-export const CREATE_USER = "CREATE_USER"
-
-//TODO - do we need them???
-export const GET_USER_BY_ID = "GET_USER_BY_ID"  // => login
-export const GET_USER_BY_EMAIL = "GET_USER_BY_EMAIL"  // => login
 export const DELETE_USER = "UPDATE_USER"
+export const SAVE_TOKENS = "SAVE_TOKENS"
 //export const CHECK_EMAIL_EXIST = "CHECK_EMAIL_EXIST"
 //-------------------------------------------------------
 
-
-function loginSuccess(data) {
-    return {
-        type: LOGIN_SUCCESS_USER,
-        data: data
-    }
-}
 
 export function dispatchError(data) {
     return {
@@ -72,24 +53,33 @@ export function dispatchAddOtherUsers(userList) {
     }
 }
 
-/******************* Thunk Actions  *****************************/
-export const signUp = (data, name) => async  dispatch => {
-    dispatch({ type: LOADING_USER })
-    try {
-        //Sign up the user in Cognito
-        const { user } = await Auth.signUp({
-            username: data.email,
-            password: data.password,
-            attributes: {
-                email: data.email
-            }
-        });
+export function saveTokens(accessToken, refreshToken) {
+    return {
+        type: SAVE_TOKENS,
+        accessToken: accessToken,
+        refreshToken: refreshToken
+    }
+}
 
-        if (!user.confirmed) {
-            //TODO maybe return info???
-            return { error: "You have already signed up. Please login." }
+
+/******************* Thunk Actions  *****************************/
+export const signUp = (email, name, password) => async  dispatch => {
+    dispatch({ type: LOADING_USER })
+
+    try {
+        const authResponse = await Auth.signUp({
+            username: email,
+            password,
+            attributes: {
+                email
+            }
+        })
+        if (authResponse.userConfirmed) {
+            dispatch(signUp(email, name))
         }
-        //Create a user object in DynamoDB
+        //TODO
+        // If succeeded, show the feedback
+        //TODO add loading indiator and feedback
         let response = await API.post('UserApi', '/users', {
             body: {
                 email: email,
@@ -98,15 +88,34 @@ export const signUp = (data, name) => async  dispatch => {
         })
         if (response.error === undefined) {
             //TODO
-            //cache the email to the just signed up place???
+            //Update the sign up successful state
+            // redirect to login
+            console.log("response", response)
             return response.data
         }
         else {
+            console.log("error at Dynamodb create user")
             return { error: "You have already signed up. Please login." }
         }
     }
     catch (err) {
-        return { error: "You have already signed up. Please login." }
+        dispatch(dispatchError(err.message))
+
+
+    }
+    //Create a user object in DynamoDB
+
+
+}
+
+export const checkUserExist = (email) => async  dispatch => {
+    dispatch({ type: LOADING_USER })
+    try {
+        const user = await API.get("/email/" + email);
+        return user
+
+    } catch (err) {
+        dispatch(dispatchError(err))
     }
 }
 
@@ -116,10 +125,13 @@ export const signIn = (email, password) => async  dispatch => {
         const { user } = await Auth.signIn(email, password);
         if (!user.confirmed) {
             dispatch(dispatchError("Invalid user name or password."))
+            console.log("error at cognito sign up")
             return
         }
+        console.log("Succeeded at cognito sign up")
         const userInformation = await API.get('UserApi', `/users/email/${email}`, {})
         if (userInformation.error) {
+            console.log("error at Dynamodb create user")
             dispatch(dispatchError(err))
             return
         }
@@ -153,7 +165,7 @@ export const updatePassword = (oldPassword, newPassword) => async  dispatch => {
     try {
         const user = await Auth.currentAuthenticatedUser()
         const data = await Auth.changePassword(user, oldPassword, newPassword);
-        if(data.error){
+        if (data.error) {
             dispatch(dispatchError(data.error))
             return
         }
@@ -165,6 +177,36 @@ export const updatePassword = (oldPassword, newPassword) => async  dispatch => {
     }
 }
 
+export const getCurrentUser = () => async  dispatch => {
+    console.log("called")
+    dispatch({ type: LOADING_USER })
+    try {
+        const credential = await Auth.currentAuthenticatedUser({
+            bypassCache: true  // Optional, By default is false. If set to true, this call will send a request to Cognito to get the latest user data
+        })
+        if (credential) {
+            const email = credential.username
+            const accessToken = credential.signInUserSession.accessToken
+            const refreshToken = credential.signInUserSession.refreshToken.token //The token String
+            dispatch(saveTokens(accessToken, refreshToken))
+            const data = await API.get("UserApi", "/users/");
+            if (data.error) {
+         //        if (data.error.trim() = "API /email/" + email + " does not exist") {
+
+                dispatch(dispatchError(data.error))
+                return
+            }
+            console.log('User retrieved', data);
+            //TODO
+            //save the user to the current user
+        }
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+        // Something happened in setting up the request that triggered an Error
+        console.log('Error', err);
+    }
+}
 
 /********************* API calls *************************/
 

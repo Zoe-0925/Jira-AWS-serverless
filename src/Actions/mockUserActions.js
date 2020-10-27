@@ -74,64 +74,7 @@ export function dispatchAddOtherUsers(userList) {
 const mockUser = { _id: "testUserId", name: "userName", email: "test email", salt: "test salt", hash: "test hash" }
 
 /******************* Thunk Actions  *****************************/
-export  function manualLogin(
-    data,
-    successPath, // path to redirect to upon successful log in
-) {
-    return dispatch => {
-        dispatch({ type: LOADING_USER })
-        localStorage.setItem("token", "test token")
-        const newData = { _id: uuidv4(), email: data.email, name: "test name", project: ["test id"] }
-        dispatch(loginSuccess(newData))
-        history.push(successPath)
-    }
-}
 
-export  function manualLogout(data) {
-    return dispatch => {
-        dispatch({ type: LOADING_USER })
-        dispatch({ type: LOGOUT_SUCCESS_USER })
-        history.push("./login")
-    }
-}
-
-//TODO need to update here to connect passport and 3rd party register
-export function manualSignup(data, token) {
-    return dispatch => {
-        dispatch({ type: LOADING_USER })
-        const newData = { _id: uuidv4(), email: data.email, name: data.name, projects: data.projects }
-        dispatch(dispatchSignupSuccess(newData))
-        history.push("/projects")
-    }
-}
-
-export function updateInfo(data, token) { // data = {name:"..."}
-    return dispatch => {
-        dispatch({ type: LOADING_USER })
-        let newData = Object.assign({}, mockUser)
-        newData.name = data.name
-        dispatch(updateUser(newData))
-    }
-}
-
-export function updateEmail(data, token) {// data = {email:"..."}
-    return async  dispatch => {
-        dispatch({ type: LOADING_USER })
-        let newData = Object.assign({}, mockUser)
-        newData.email = data.email
-        dispatch(dispatchUpdateEmail(newData))
-    }
-}
-
-export function updatePassword(data, token) {//data = {password:"..."}
-    return async  dispatch => {
-        dispatch({ type: LOADING_USER })
-        let newData = Object.assign({}, mockUser)
-        newData.hash = "updated hash"
-        newData.salt = "updated salt"
-        dispatch(dispatchUpdatePassword(newData))
-    }
-}
 
 export function getUserByIds(idList) {
     return async  dispatch => {
@@ -146,5 +89,3 @@ export function getUserByIds(idList) {
 
     }
 }
-
-

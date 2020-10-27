@@ -1,9 +1,11 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import IssueDetail from "../Components/Issues/IssueDetail"
 import {
     Button,
 } from '@material-ui/core';
-
+import { useDispatch, useSelector } from "react-redux"
+import { getCurrentUser } from "../Actions/user.actions"
+import API from '@aws-amplify/api';
 
 const testIssue = new Map()
 testIssue.set("hdkahdjaskdh", {
@@ -14,11 +16,22 @@ testIssue.set("hdkahdjaskdh", {
 
 export default function Test() {
     const [open, setOpen] = useState(false)
+    const dispatch = useDispatch()
+
+
+    const retrieveUser = async () => {
+        // dispatch(getCurrentUser())
+        console.log("clicked")
+        const date = new Date()
+        const result = await API.get("UserApi", "/users/email/jin0925aki@gmail.com"
+        )
+        console.log("result", result)
+    }
 
 
     return (<div>
-        <Button onClick={() => setOpen(true)}>open</Button>
-        <IssueDetail open={open} handleClose={() => setOpen(false)} issue={testIssue} />
+        <Button onClick={() => retrieveUser()}>open</Button>
+
     </div>
     )
 }
@@ -35,3 +48,43 @@ export default function Test() {
         color: theme.palette.grey[500],
     },
  */
+
+/**
+ * {
+               _id:"testProjectId",
+               name:"Test Project",
+               key:"Test key",
+               lead:"test id",
+               members:[],
+               image:"",
+               default_assignee:'Project Lead',
+               start_date:JSON.stringify(date)
+           }
+ */
+
+ //get project by id
+ //const project = API.get("ProjectApi", "/projects/object/" + projectId)
+
+
+ //get user by email
+ //  const result = await API.get("UserApi", "/users/email/"+ email);
+
+ //create label
+/**
+const result = await API.put("LabelApi", "/labels", {
+   body: newLabel
+});
+
+*/
+
+/*
+Create status
+
+      const result = await API.put("StatusApi", "/status", {
+            body: {
+                _id: "testStatusId",
+                name: "Test Status",
+                project: "testProjectId",
+                issues: []
+            }})
+*/

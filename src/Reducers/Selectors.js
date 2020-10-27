@@ -120,6 +120,11 @@ export const selectUsersForProjectMember = createSelector(
     (memberIds, allUsers) => memberIds.map(each => allUsers.find(user => user._id === each))
 )
 
+export const selectUserError =()=>createSelector(
+    selectUserReducer,
+    reducer => reducer.error
+)
+
 /****************** Reselectors - Issues  *********************/
 export const selectIssueLoading = createSelector(
     selectIssueReducer,
