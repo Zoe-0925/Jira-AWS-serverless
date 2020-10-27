@@ -1,7 +1,4 @@
-import axios from 'axios'
-import Util from "../Components/Util"
 import API from '@aws-amplify/api';
-const { post, put, jwtConfig } = Util
 
 
 export const LOADING_PROJECT = "LOADING_PROJECT"
@@ -158,33 +155,4 @@ export const deleteProject = (id) => async  dispatch => {
         // Something happened in setting up the request that triggered an Error
         console.log('Error', err);
     }
-}
-/*****************  API Calls****************/
-
-export function fetchAllProjects(BASE) {
-    return axios.get('/projects/', BASE)
-}
-
-export function fetchCreateProject(BASE, item, token) {
-    return post('/projects/', BASE, item, token)
-}
-
-export function fetchUsersProjects(BASE, id, token) {//fetch all projects of a user
-    return axios.get(BASE + '/projects/user/' + id, jwtConfig(token));
-}
-
-export function fetchProjectById(BASE, id, token) {//fetch all projects of a user
-    return axios.get(BASE + '/projects/' + id, jwtConfig(token));
-}
-
-export function fetchUpdateProject(BASE, id, update, token) {//fetch all projects of a user
-    return put('/projects/' + id, BASE, update, token)
-}
-
-export function fetchDeleteProject(BASE, id, token) {//fetch all projects of a user
-    return axios.delete(BASE + '/projects/' + id, jwtConfig(token));
-}
-
-export function leaveProjectById(BASE, id, userId, token) {//fetch all projects of a user
-    return axios.delete(BASE + '/projects/' + id + '/members/' + userId, jwtConfig(token));
 }
