@@ -1,9 +1,4 @@
-import axios from 'axios'
-import Util from "../Components/Util"
 import API from '@aws-amplify/api';
-require('dotenv').config()
-
-const { post, put, jwtConfig } = Util
 
 export const LOADING_LABEL = "LOADING_LABEL"
 export const ERROR_LABEL = "ERROR_LABEL"
@@ -43,10 +38,7 @@ export function dispatchError(data) {
     }
 }
 
-
-
-
-/****************************************************************************/
+/******************************** Thunk Actions ****************************************/
 
 export const saveProjectLabels = labels => async  dispatch => {
     dispatch({ type: LOADING_LABEL })
@@ -60,7 +52,7 @@ export const saveProjectLabels = labels => async  dispatch => {
 
 
 /**    Thunk Actions    */
-export const createLabel = (data, token) => async  dispatch => {
+export const createLabel = (data) => async  dispatch => {
     dispatch({ type: LOADING_LABEL })
     try {
         await API.post("LabelApi", "/labels", {
@@ -72,7 +64,7 @@ export const createLabel = (data, token) => async  dispatch => {
     }
 }
 
-export const deleteLabel = (id, token) => async  dispatch => {
+export const deleteLabel = (id) => async  dispatch => {
     dispatch({ type: LOADING_LABEL })
     try {
         await API.del("LabelApi", "/labels/" + id)
@@ -82,43 +74,18 @@ export const deleteLabel = (id, token) => async  dispatch => {
     }
 }
 
-export const getAllLabels = (projectId, token) => async  dispatch => {
+export const getAllLabels = (projectId) => async  dispatch => {
     dispatch({ type: LOADING_LABEL })
     try {
-        const response = await dispatch(fetchAllLabels(process.env.BASE, projectId, token))
-        if (response.data.success) {
-            dispatch(appendSuccessfulLabels(response.data.data))
+        const data = await API.get("LabelApi", "/labels/project" + projectId)
+        if (!data.error) {
+            dispatch(appendSuccessfulLabels(data))
         }
         else {
-            dispatch(dispatchError(response.data.message))
+            dispatch(dispatchError(data.error))
         }
     }
     catch (err) {
         dispatch(dispatchError(err))
-        console.log('Error', err);
     }
 }
-/****************************************************************************/
-
-/**    API Call Actions    */
-export function fetchCreateLabel(BASE, item, token) {
-    return post("/labels/", BASE, item, token)
-}
-
-export function fetchLabelById(BASE, id, token) {//fetch all projects of a Label
-    return axios.get(BASE + '/labels/' + id, jwtConfig(token));
-}
-
-export function fetchAllLabels(BASE, id, token) {//fetch all labels in a project
-    return axios.get(BASE + '/labels/project/' + id, jwtConfig(token));
-}
-
-//TODO not sure if it's useful. Maybe delete later
-export function fetchUpdateLabel(BASE, id, update, token) {//fetch all projects of a Label
-    return put("/labels/" + id, BASE, update, token)
-}
-
-export function deleteLabelById(BASE, id, token) {//fetch all Labels of a Label
-    return axios.delete(BASE + '/labels/' + id, jwtConfig(token));
-}
-

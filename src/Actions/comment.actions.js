@@ -1,8 +1,4 @@
-import axios from 'axios'
-import Util from "../Components/Util"
-require('dotenv').config()
-
-const { post, put, jwtConfig } = Util
+import API from '@aws-amplify/api';
 
 export const LOADING_COMMENT = "LOADING_COMMENT"
 export const ERROR_COMMENT = "ERROR_COMMENT"
@@ -56,12 +52,48 @@ export function dispatchError() {
 
 
 /**********************************  Thunk Actions  ******************************************/
-export const getCommentsForIssue = (issueId, token) => async  dispatch => {
+export const getCommentsForIssue = (issueId) => async  dispatch => {
     dispatch({ type: LOADING_COMMENT })
     try {
-        const response = await dispatch(fetchCommentsForIssue(process.env.BASE, issueId, token))
-        if (response.data.success) {
-            dispatch(appendSuccessfulComments(response.data))
+        const data = API.get("CommentApi", "/comments/issue/" + issueId)
+        if (data.error === undefined) {
+            dispatch(appendSuccessfulComments(data))
+        }
+        else {
+            dispatch(dispatchError(data.error))
+        }
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+    }
+}
+
+export const createComment = (newComment) => async  dispatch => {
+    dispatch({ type: LOADING_COMMENT })
+    try {
+        const data = API.post("CommentApi", "/comments", {
+            body: newComment
+        })
+        if (data.error === undefined) {
+            dispatch(createSuccessfulComment(newComment))
+        }
+        else {
+            dispatch(dispatchError(data.error))
+        }
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+    }
+}
+
+export const updateComment = (comment) => async  dispatch => {
+    dispatch({ type: LOADING_COMMENT })
+    try {
+        const data = API.put("CommentApi", "/comments", {
+            body: comment
+        })
+        if (data.error === undefined) {
+            dispatch(updateSuccessfulComment(comment))
         }
         else {
             dispatch(dispatchError(response.message))
@@ -69,90 +101,22 @@ export const getCommentsForIssue = (issueId, token) => async  dispatch => {
     }
     catch (err) {
         dispatch(dispatchError(err))
-        // Something happened in setting up the request that triggered an Error
-        console.log('Error', err);
     }
 }
 
-export const createComment = (data, token) => async  dispatch => {
+export const deleteComment = (id) => async  dispatch => {
     dispatch({ type: LOADING_COMMENT })
     try {
-        const response = await dispatch(fetchCreateComment(process.env.BASE, data, token))
-        if (response.data.success) {
-            let newData = Object.assign({}, data)
-            newData._id = response.id
-            dispatch(createSuccessfulComment(newData))
+        const data = await API.del("CommentApi", "/comments/" + id)
+        if (data.error === undefined) {
+            dispatch(deleteSuccessfulComment(id))
         }
         else {
-            dispatch(dispatchError(response.message))
+            dispatch(dispatchError(data.error))
         }
     }
     catch (err) {
         dispatch(dispatchError(err))
-        // Something happened in setting up the request that triggered an Error
-        console.log('Error', err);
     }
-}
-
-export const updateComment = (data, token) => async  dispatch => {
-    dispatch({ type: LOADING_COMMENT })
-    try {
-        const response = await dispatch(fetchUpdateComment(process.env.BASE, data, token))
-        if (response.data.success) {
-            dispatch(updateSuccessfulComment(data))
-        }
-        else {
-            dispatch(dispatchError(response.message))
-        }
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-        // Something happened in setting up the request that triggered an Error
-        console.log('Error', err);
-    }
-}
-
-export const deleteComment = (data, token) => async  dispatch => {
-    dispatch({ type: LOADING_COMMENT })
-    try {
-        const response = await dispatch(fetchUpdateComment(process.env.BASE, data, token))
-        if (response.data.success) {
-            dispatch(deleteSuccessfulComment(data))
-        }
-        else {
-            dispatch(dispatchError(response.message))
-        }
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-        // Something happened in setting up the request that triggered an Error
-        console.log('Error', err);
-    }
-}
-
-/**********************************  API Call Actions  ******************************************/
-export function fetchCreateComment(BASE, item, token) {
-    return post("/comments/", BASE, item, token)
-}
-
-export function fetchCommentById(BASE, id, token) {//fetch a Comment
-    return axios.get(BASE + '/comments/' + id, jwtConfig(token));
-}
-
-export function fetchAllComments(BASE, id, token) {//fetch all Comments in a project
-    return axios.get(BASE + '/comments/project/' + id, jwtConfig(token));
-}
-
-export function fetchCommentsForIssue(BASE, id, token) {//fetch all Comments in an issue
-    return axios.get(BASE + '/comments/issue/' + id, jwtConfig(token));
-}
-
-//TODO not sure if it's useful. Maybe delete later
-export function fetchUpdateComment(BASE, update, token) {//fetch all projects of a Comment
-    return put("/comments/" + update._id, BASE, update, token)
-}
-
-export function fetchDeleteCommentById(BASE, id, token) {//fetch all projects of a Comment
-    return axios.delete(BASE + '/comments/' + id, jwtConfig(token));
 }
 
