@@ -93,14 +93,9 @@ export const getAllProjects = () => async (dispatch, getState) => {
 export const updateProject = (id, update) => async  dispatch => {
     dispatch({ type: LOADING_PROJECT })
     try {
-        const token = localStorage.getItem("token")
-        const response = await dispatch(fetchUpdateProject(process.env.BASE, id, update, token))
-        if (response.data.success) {
-            dispatch(updateSuccessfulProject(response.data.data))
-        }
-        else {
-            dispatch(dispatchError(response.data.message))
-        }
+
+        //  dispatch(updateSuccessfulProject(response.data.data))
+
     }
     catch (err) {
         dispatch(dispatchError(err))
