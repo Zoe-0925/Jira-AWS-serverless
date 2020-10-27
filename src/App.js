@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import { Router } from 'react-router-dom';
 import { Switch, Route } from "react-router-dom";
 /**    Pages     */
+import ProjectList from "./Pages/ProjectList"
 import Login from "./Pages/Login"
 import Signup from "./Pages/Signup"
 import Board from "./Pages/Board"
@@ -24,7 +25,7 @@ const App = () => {
       <AmplifySignOut />
       <Router history={history}>
         <Switch>
-          <Route path="/" exact component={Test} />
+          <Route path="/" exact component={ProjectList} />
           <Route path="/login" exact component={Login} />
           <Route path="/signup" exact component={Signup} />
           <Route path="/projects" exact component={Board} />

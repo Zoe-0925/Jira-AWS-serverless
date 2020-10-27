@@ -89,19 +89,17 @@ export const createProject = (data) => async  dispatch => {
 export const getAllProjects = () => async (dispatch, getState) => {
     dispatch({ type: LOADING_PROJECT })
     try {
-        const userId = getState().UserReducer.user._id
-        const token = localStorage.getItem("token")
-        const response = await dispatch(fetchAllProjects(process.env.BASE, userId, token))
-        if (response.data.success) {
-            dispatch(appendSuccessfulProject(response.data.data))
+        //const userId = getState().UserReducer.user._id
+        const data = API.get("ProjectApi", "projects")
+        if (!data.error) {
+            dispatch(appendSuccessfulProject(data))
         }
         else {
-            dispatch(dispatchError(response.data.message))
+            dispatch(dispatchError(data.error))
         }
     }
     catch (err) {
         dispatch(dispatchError(err))
-        console.log('Error', err);
     }
 }
 

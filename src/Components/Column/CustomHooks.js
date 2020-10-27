@@ -1,8 +1,6 @@
 import { useState } from 'react'
 import { useSelector, useDispatch } from "react-redux"
-import { createStatus } from "../../Actions/mockStatusActions"
-//TODO swap
-//import {createStatus} from "../../Actions/StatusActions"
+import { createStatus } from "../../Actions/StatusActions"
 import { getUserByIds } from "../../Actions/mockUserActions"
 import { selectCurrentProject, selectCurrentUser } from "../../Reducers/Selectors"
 
@@ -43,14 +41,17 @@ export const useIssueDetailModal = () => {
 
     const [open, setOpen] = useState(false)
     const [issueOpened, setIssue] = useState("")
-    
+
     const openTaskDetail = (task) => {
         setOpen(true)
         setIssue(task)
         if (task.assignee === task._id && task.reportee === task._id) { return }
+
+        //TODO 
+        //change this
         dispatch(getUserByIds([task.assignee, task.reportee]))
     }
 
-    return { open, setOpen, issueOpened,  openTaskDetail}
+    return { open, setOpen, issueOpened, openTaskDetail }
 
 }

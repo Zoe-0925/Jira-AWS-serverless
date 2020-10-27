@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux"
+import { getAllProjects } from "../Actions/project.actions"
 import { saveProjectIssues } from "../Actions/issue.actions"
 import { saveProjectStatus } from "../Actions/status.actions"
 import { saveProjectLabels } from "../Actions/labels.actions"
@@ -22,14 +23,17 @@ export default function ProjectList() {
         history.push("/board")
     }
 
-    const handleClick = () => {
-        // retrieve the projectId and call fetchBoardPage
-
-    }
+    useEffect(() => {
+        if (projects.length === 0) {
+            //TODO fetch projects
+            dispatch(getAllProjects())
+        }
+    }, []
+    )
 
     return (
         <div>
-
+            <p>Project list</p>
         </div>
     )
 }

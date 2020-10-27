@@ -5,7 +5,6 @@ require('dotenv').config()
 
 const { post, put, jwtConfig } = Util
 
-
 export const LOADING_LABEL = "LOADING_LABEL"
 export const ERROR_LABEL = "ERROR_LABEL"
 export const CREATE_SUCCESS_LABEL = "CREATE_SUCCESS_LABEL"
