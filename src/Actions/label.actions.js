@@ -52,12 +52,13 @@ export const saveProjectLabels = labels => async  dispatch => {
 
 
 /**    Thunk Actions    */
-export const createLabel = (data) => async  dispatch => {
+export const createLabel = (newLabel) => async  dispatch => {
     dispatch({ type: LOADING_LABEL })
     try {
-        await API.post("LabelApi", "/labels", {
-            body: data
+        const data = API.post("LabelApi", "/labels", {
+            body: newLabel
         })
+        dispatch(createSuccessfulLabel(newLabel))
     }
     catch (err) {
         dispatch(dispatchError(err))

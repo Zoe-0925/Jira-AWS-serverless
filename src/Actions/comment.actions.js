@@ -55,13 +55,8 @@ export function dispatchError() {
 export const getCommentsForIssue = (issueId) => async  dispatch => {
     dispatch({ type: LOADING_COMMENT })
     try {
-        const data = API.get("CommentApi", "/comments/issue/" + issueId)
-        if (data.error === undefined) {
-            dispatch(appendSuccessfulComments(data))
-        }
-        else {
-            dispatch(dispatchError(data.error))
-        }
+        const data = await API.get("CommentApi", "/comments/issue/" + issueId)
+        dispatch(appendSuccessfulComments(data))
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -71,15 +66,10 @@ export const getCommentsForIssue = (issueId) => async  dispatch => {
 export const createComment = (newComment) => async  dispatch => {
     dispatch({ type: LOADING_COMMENT })
     try {
-        const data = API.post("CommentApi", "/comments", {
+        await API.post("CommentApi", "/comments", {
             body: newComment
         })
-        if (data.error === undefined) {
-            dispatch(createSuccessfulComment(newComment))
-        }
-        else {
-            dispatch(dispatchError(data.error))
-        }
+        dispatch(createSuccessfulComment(newComment))
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -89,15 +79,10 @@ export const createComment = (newComment) => async  dispatch => {
 export const updateComment = (comment) => async  dispatch => {
     dispatch({ type: LOADING_COMMENT })
     try {
-        const data = API.put("CommentApi", "/comments", {
+        await API.put("CommentApi", "/comments", {
             body: comment
         })
-        if (data.error === undefined) {
-            dispatch(updateSuccessfulComment(comment))
-        }
-        else {
-            dispatch(dispatchError(response.message))
-        }
+        dispatch(updateSuccessfulComment(comment))
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -108,12 +93,7 @@ export const deleteComment = (id) => async  dispatch => {
     dispatch({ type: LOADING_COMMENT })
     try {
         const data = await API.del("CommentApi", "/comments/" + id)
-        if (data.error === undefined) {
-            dispatch(deleteSuccessfulComment(id))
-        }
-        else {
-            dispatch(dispatchError(data.error))
-        }
+        dispatch(deleteSuccessfulComment(id))
     }
     catch (err) {
         dispatch(dispatchError(err))
