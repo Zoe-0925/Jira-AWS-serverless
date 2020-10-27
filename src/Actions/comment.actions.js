@@ -92,7 +92,7 @@ export const updateComment = (comment) => async  dispatch => {
 export const deleteComment = (id) => async  dispatch => {
     dispatch({ type: LOADING_COMMENT })
     try {
-        const data = await API.del("CommentApi", "/comments/" + id)
+        await API.del("CommentApi", "/comments/" + id)
         dispatch(deleteSuccessfulComment(id))
     }
     catch (err) {
