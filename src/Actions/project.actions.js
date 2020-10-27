@@ -64,18 +64,13 @@ export function dispatchError(data) {
 }
 
 /*****************  Thunk Actions  ****************/
-export const createProject = (data) => async  dispatch => {
+export const createProject = (newProject) => async  dispatch => {
     dispatch({ type: LOADING_PROJECT })
     try {
-        const response = await API.post("ProjectApi", "/projects", {
-            body: data
+        await API.post("ProjectApi", "/projects", {
+            body: newProject
         })
-        if (response.error) {
-            dispatch(dispatchError(response.error))
-        }
-        else {
-            dispatch(createSuccessfulProject(data))
-        }
+        dispatch(createSuccessfulProject(newProject))
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -88,34 +83,10 @@ export const getAllProjects = () => async (dispatch, getState) => {
     try {
         //const userId = getState().UserReducer.user._id
         const data = API.get("ProjectApi", "projects")
-        if (!data.error) {
-            dispatch(appendSuccessfulProject(data))
-        }
-        else {
-            dispatch(dispatchError(data.error))
-        }
+        dispatch(appendSuccessfulProject(data))
     }
     catch (err) {
         dispatch(dispatchError(err))
-    }
-}
-
-export const getASingleProject = (id) => async  dispatch => {
-    dispatch({ type: LOADING_PROJECT })
-    try {
-        const token = localStorage.getItem("token")
-        const response = await dispatch(fetchDeleteProject(process.env.BASE, id, token))
-        if (response.data.success) {
-            dispatch(appendCurrentProject(response.data.data))
-        }
-        else {
-            dispatch(dispatchError(response.data.message))
-        }
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-        // Something happened in setting up the request that triggered an Error
-        console.log('Error', err);
     }
 }
 
@@ -133,26 +104,16 @@ export const updateProject = (id, update) => async  dispatch => {
     }
     catch (err) {
         dispatch(dispatchError(err))
-        // Something happened in setting up the request that triggered an Error
-        console.log('Error', err);
     }
 }
 
 export const deleteProject = (id) => async  dispatch => {
     dispatch({ type: LOADING_PROJECT })
     try {
-        const token = localStorage.getItem("token")
-        const response = await dispatch(fetchDeleteProject(process.env.BASE, id, token))
-        if (response.data.success) {
-            dispatch(deleteSuccessfulProject(id))
-        }
-        else {
-            dispatch(dispatchError(response.data.message))
-        }
+        await API.del("ProjectApi", "/projects/" + id)
+        dispatch(deleteSuccessfulProject(id))
     }
     catch (err) {
         dispatch(dispatchError(err))
-        // Something happened in setting up the request that triggered an Error
-        console.log('Error', err);
     }
 }
