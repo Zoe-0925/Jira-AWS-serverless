@@ -85,7 +85,8 @@ app.get(path + "/:issue", function (req, res) {
     TableName: tableName,
     KeyConditionExpression: '#issue = :issue',
     ExpressionAttributeValues: { ':issue': req.params.issue },
-    ExpressionAttributeNames: { '#issue': 'issue' }
+    ExpressionAttributeNames: { '#issue': 'issue' },
+    IndexName: "issue-index"
   }
 
   dynamodb.query(queryParams, (err, data) => {

@@ -83,7 +83,8 @@ app.get(path + "/:project", function (req, res) {
     TableName: tableName,
     KeyConditionExpression: '#project = :project',
     ExpressionAttributeValues: { ':project': req.params.project },
-    ExpressionAttributeNames: { '#project': 'project' }
+    ExpressionAttributeNames: { '#project': 'project' },
+    IndexName: "project-index"
   }
 
   dynamodb.query(queryParams, (err, data) => {

@@ -80,7 +80,122 @@ app.get(path + "/:project", function (req, res) {
     TableName: tableName,
     KeyConditionExpression: '#project = :project',
     ExpressionAttributeValues: { ':project': req.params.project },
-    ExpressionAttributeNames: { '#project': 'project' }
+    ExpressionAttributeNames: { '#project': 'project' },
+    IndexName: "project-index"
+  }
+
+  dynamodb.query(queryParams, (err, data) => {
+    if (err) {
+      res.statusCode = 500;
+      res.json({ error: 'Could not load items: ' + err });
+    } else {
+      res.json(data.Items);
+    }
+  });
+});
+
+/********************************
+ * HTTP Get method for list objects *
+ ********************************/
+app.get(path + "/issueType/:issueType", function (req, res) {
+  var condition = {}
+  condition[partitionKeyName] = {
+    ComparisonOperator: 'EQ'
+  }
+
+  if (userIdPresent && req.apiGateway) {
+    condition[partitionKeyName]['AttributeValueList'] = [req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH];
+  } else {
+    try {
+      condition[partitionKeyName]['AttributeValueList'] = [convertUrlType(req.params[partitionKeyName], partitionKeyType)];
+    } catch (err) {
+      res.statusCode = 500;
+      res.json({ error: 'Wrong column type ' + err });
+    }
+  }
+
+  let queryParams = {
+    TableName: tableName,
+    KeyConditionExpression: '#issueType = :issueType',
+    ExpressionAttributeValues: { ':issueType': req.params.issueType },
+    ExpressionAttributeNames: { '#issueType': 'issueType' },
+    IndexName: "issueType-index"
+  }
+
+  dynamodb.query(queryParams, (err, data) => {
+    if (err) {
+      res.statusCode = 500;
+      res.json({ error: 'Could not load items: ' + err });
+    } else {
+      res.json(data.Items);
+    }
+  });
+});
+
+/********************************
+ * HTTP Get method for list objects *
+ ********************************/
+app.get(path + "/parent/:issueId", function (req, res) {
+  var condition = {}
+  condition[partitionKeyName] = {
+    ComparisonOperator: 'EQ'
+  }
+
+  if (userIdPresent && req.apiGateway) {
+    condition[partitionKeyName]['AttributeValueList'] = [req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH];
+  } else {
+    try {
+      condition[partitionKeyName]['AttributeValueList'] = [convertUrlType(req.params[partitionKeyName], partitionKeyType)];
+    } catch (err) {
+      res.statusCode = 500;
+      res.json({ error: 'Wrong column type ' + err });
+    }
+  }
+
+  let queryParams = {
+    TableName: tableName,
+    KeyConditionExpression: '#parent = :issueId',
+    ExpressionAttributeValues: { ':issueId': req.params.parent },
+    ExpressionAttributeNames: { '#parent': 'parent' },
+    IndexName: "parent-index"
+  }
+
+  dynamodb.query(queryParams, (err, data) => {
+    if (err) {
+      res.statusCode = 500;
+      res.json({ error: 'Could not load items: ' + err });
+    } else {
+      res.json(data.Items);
+    }
+  });
+});
+
+/********************************
+ * HTTP Get method for list objects *
+ ********************************/
+app.get(path + "/status/:status", function (req, res) {
+  var condition = {}
+  condition[partitionKeyName] = {
+    ComparisonOperator: 'EQ'
+  }
+
+  if (userIdPresent && req.apiGateway) {
+    condition[partitionKeyName]['AttributeValueList'] = [req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH];
+  } else {
+    try {
+      condition[partitionKeyName]['AttributeValueList'] = [convertUrlType(req.params[partitionKeyName], partitionKeyType)];
+    } catch (err) {
+      res.statusCode = 500;
+      res.json({ error: 'Wrong column type ' + err });
+    }
+  }
+
+  let queryParams = {
+    TableName: tableName,
+    KeyConditionExpression: '#status = :status',
+    ExpressionAttributeValues: { ':status': req.params.status },
+    ExpressionAttributeNames: { '#status': 'status' },
+    IndexName: "status-index"
   }
 
   dynamodb.query(queryParams, (err, data) => {

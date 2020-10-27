@@ -71,28 +71,14 @@ const convertUrlType = (param, type) => {
  * HTTP Get method for list objects *
  ********************************/
 
-app.get(path+ "/:project", function (req, res) {
-  var condition = {}
-  condition[partitionKeyName] = {
-    ComparisonOperator: 'EQ'
-  }
-
-  if (userIdPresent && req.apiGateway) {
-    condition[partitionKeyName]['AttributeValueList'] = [req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH];
-  } else {
-    try {
-      condition[partitionKeyName]['AttributeValueList'] = [convertUrlType(req.params[partitionKeyName], partitionKeyType)];
-    } catch (err) {
-      res.statusCode = 500;
-      res.json({ error: 'Wrong column type ' + err });
-    }
-  }
+app.get(path + "/:project", function (req, res) {
 
   let queryParams = {
     TableName: tableName,
     KeyConditionExpression: '#project = :project',
     ExpressionAttributeValues: { ':project': req.params.project },
-    ExpressionAttributeNames: { '#project': 'project' }
+    ExpressionAttributeNames: { '#project': 'project' },
+    IndexName: "project-index"
   }
 
   dynamodb.query(queryParams, (err, data) => {

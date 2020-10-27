@@ -77,7 +77,42 @@ const convertUrlType = (param, type) => {
  ********************************/
 
 app.get(path, function (req, res) {
+  var condition = {}
+  condition[partitionKeyName] = {
+    ComparisonOperator: 'EQ'
+  }
 
+  if (userIdPresent && req.apiGateway) {
+    condition[partitionKeyName]['AttributeValueList'] = [req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH];
+  } else {
+    try {
+      condition[partitionKeyName]['AttributeValueList'] = [convertUrlType(req.params[partitionKeyName], partitionKeyType)];
+    } catch (err) {
+      res.json({ error: 'Wrong column type ' + err });
+    }
+  }
+
+  let queryParams = {
+    TableName: tableName
+  }
+  dynamodb.scan(queryParams, (err, data) => {
+    if (err) {
+      res.statusCode = 500;
+      res.json({ error: 'Could not load items: ' + err });
+    } else {
+      res.json(data.Items);
+    }
+  });
+});
+
+/********************************
+ * HTTP Get method for list objects *
+ ********************************/
+
+ //TODO update
+
+app.get(path+ "/id/:queryString", function (req, res) {
+  let condition = {}
   if (userIdPresent && req.apiGateway) {
     condition[partitionKeyName]['AttributeValueList'] = [req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH];
   } else {
@@ -89,9 +124,8 @@ app.get(path, function (req, res) {
     }
   }
 
-  let queryParams = {
-    TableName: tableName,
-  }
+  //TODO decode query string
+
 
   dynamodb.scan(queryParams, (err, data) => {
     if (err) {
@@ -161,7 +195,7 @@ app.put(path, function (req, res) {
       res.statusCode = 500;
       res.json({ error: err, url: req.url, body: req.body });
     } else {
-      res.json({  data: data })
+      res.json({ data: data })
     }
   });
 });
@@ -185,7 +219,7 @@ app.post(path, function (req, res) {
       res.statusCode = 500;
       res.json({ error: err, url: req.url, body: req.body });
     } else {
-      res.json({  data: data })
+      res.json({ data: data })
     }
   });
 });
@@ -218,7 +252,7 @@ app.delete(path + '/object' + hashKeyPath, function (req, res) {
       res.statusCode = 500;
       res.json({ error: err, url: req.url });
     } else {
-      res.json({data: data });
+      res.json({ data: data });
     }
   });
 });

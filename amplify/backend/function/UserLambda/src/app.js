@@ -102,17 +102,19 @@ app.get(path, function (req, res) {
  *****************************************/
 
 app.get(path + "/email/:email", function (req, res) {
-
-
   let getItemParams = {
     TableName: tableName,
-    Key: {
-      "email": req.params.email,
-    }
+    KeyConditionExpression: "#email = :email",
+    IndexName: "email-index",
+    ExpressionAttributeNames:{
+        "#email": "email"
+    },
+    ExpressionAttributeValues: {
+        ":email": req.params.email,
+    },
   }
 
-  //TODO update
-  dynamodb.get(getItemParams, (err, data) => {
+  dynamodb.query(getItemParams, (err, data) => {
     if (err) {
       res.statusCode = 500;
       res.json({ error: 'Could not load items: ' + err.message });
@@ -173,7 +175,7 @@ app.post(path, function (req, res) {
   if (userIdPresent) {
     req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
   }
-  console.log("req.body",req.body)
+  console.log("req.body", req.body)
   let putItemParams = {
     TableName: tableName,
     Item: req.body

@@ -195,7 +195,7 @@
         "Timeout": "25",
         "Code": {
           "S3Bucket": "amplify-jiraaws-dev-151650-deployment",
-          "S3Key": "amplify-builds/ProjectLambda-6d6e6a4f6c71715a644d-build.zip"
+          "S3Key": "amplify-builds/ProjectLambda-5a556a65325273697548-build.zip"
         }
       }
     },

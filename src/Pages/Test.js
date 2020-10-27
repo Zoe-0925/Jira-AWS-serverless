@@ -23,9 +23,45 @@ export default function Test() {
         // dispatch(getCurrentUser())
         console.log("clicked")
         const date = new Date()
-        const result = await API.get("UserApi", "/users/email/jin0925aki@gmail.com"
-        )
-        console.log("result", result)
+        const status = await API.put("StatusApi", "/status", {
+            body: {
+                _id: "statusId",
+                name: "Test Status",
+                project: "projectId",
+                issues: ["issueId"]
+            }
+        })
+        const project = await API.put("StatusApi", "/status", {
+            body: {
+                _id: "projectId",
+                name: "Test Project",
+                key: "Test Key",
+                lead: "userId",
+                members: ["userId"],
+                image: "",
+                default_assignee: 'Project Lead',
+                start_date: JSON.stringify(date),
+                members: []
+            }
+        })
+        const issue = await API.put("IssueApi", "/issues", {
+            body: {
+                _id: "issueId",
+                project: "projectId",
+                summary: "test summary",
+                issueType: "task",
+                description: "test description",
+                status: "statusId",
+                assignee: "userId",
+                labels: [],
+                flag: false,
+                startDate: JSON.stringify(date),
+                parent: "",
+                created: JSON.stringify(date),
+                updated: JSON.stringify(date)
+            }
+        })
+        console.log("result")
     }
 
 
