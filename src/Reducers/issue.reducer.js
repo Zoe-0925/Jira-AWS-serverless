@@ -2,7 +2,7 @@ import {
     LOADING_ISSUE, CREATE_SUCCESS_TASK, CREATE_SUCCESS_EPIC, DELETE_SUCCESS_TASK,
     UPDATE_SUCCESS_TASK, DELETE_SUCCESS_EPIC, UPDATE_SUCCESS_EPIC,
     APPEND_SUCCESS_TASKS_PARENT, APPEND_SUCCESS_TASKS_CHILDREN,
-    ERROR_ISSUE, UPDATE_ISSUE_GROUP, TOGGLE_FLAG, CREATE_SUCCESS_SUB_TASK,
+    ERROR_ISSUE, UPDATE_ISSUE_GROUP, TOGGLE_FLAG, CREATE_SUCCESS_SUB_TASK, APPEND_SUCCESS_SUBTASKS,
     DELETE_SUCCESS_SUB_TASK, ADD_TASK_TO_EPIC, REMOVE_TASK_FROM_EPIC, ADD_SUBTASK_TO_TASK, REMOVE_SUBTASK_FROM_TASK
 } from "../Actions/issue.actions"
 import { DELETE_SUCCESS_STATUS } from "../Actions/status.actions"
@@ -10,7 +10,7 @@ import { DELETE_SUCCESS_STATUS } from "../Actions/status.actions"
 const issues = new Map()
 issues.set("hdkahdjaskdh", {
     _id: "hdkahdjaskdh", summary: "test 1", key: "test key 1", labels: ["test"], assignee: "testUserId",
-    issueType: "task", flag: false, reportee: "testUserId", project: "test id", status:"1"
+    issueType: "task", flag: false, reportee: "testUserId", project: "test id", status: "1"
 })
 
 
@@ -42,7 +42,7 @@ export default function IssueReducer(state = {
         case DELETE_SUCCESS_TASK:
             newState = { ...state, authenticated: true, loading: false }
             newState.tasks.delete(action.id)
-            newState.subtasks.filter(item =>item.parent!==action.id)
+            newState.subtasks.filter(item => item.parent !== action.id)
             return newState
         case DELETE_SUCCESS_EPIC:
             newState = { ...state, authenticated: true, loading: false }
@@ -76,22 +76,22 @@ export default function IssueReducer(state = {
         case REMOVE_TASK_FROM_EPIC:
             newState = { ...state, authenticated: true, loading: false }
 
- 
+
             return newState
 
         case ADD_SUBTASK_TO_TASK:
             newState = { ...state, authenticated: true, loading: false }
 
-       
+
             return newState
 
         case REMOVE_SUBTASK_FROM_TASK:
             newState = { ...state, authenticated: true, loading: false }
 
             //TODO update the issue and update the epic
-           // task = newState.issues.get(action.id)
+            // task = newState.issues.get(action.id)
             //task.epic = action.data
-           // newState.issues.set(action.id, issue)
+            // newState.issues.set(action.id, issue)
             return newState
 
         case DELETE_SUCCESS_STATUS:
@@ -113,6 +113,8 @@ export default function IssueReducer(state = {
         case APPEND_SUCCESS_TASKS_PARENT:
             return state;
         case APPEND_SUCCESS_TASKS_CHILDREN:
+            return state;
+        case APPEND_SUCCESS_SUBTASKS: //
             return state;
         case TOGGLE_FLAG:
             newState = { ...state, authenticated: true, loading: false }

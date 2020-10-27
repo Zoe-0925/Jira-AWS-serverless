@@ -1,5 +1,6 @@
 import axios from 'axios'
 import Util from "../Components/Util"
+import API from '@aws-amplify/api';
 require('dotenv').config()
 
 const { post, put, jwtConfig } = Util
@@ -48,45 +49,37 @@ export function dispatchError(data) {
 
 /****************************************************************************/
 
+export const saveProjectLabels = labels => async  dispatch => {
+    dispatch({ type: LOADING_LABEL })
+    try {
+        dispatch(appendSuccessfulLabels(labels))
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+    }
+}
 
-//export const GET_LABEL_BY_ID = "GET_LABEL_BY_ID"
-//export const GET_ALL_LABELS = "GET_ALL_LABELS"
 
 /**    Thunk Actions    */
 export const createLabel = (data, token) => async  dispatch => {
     dispatch({ type: LOADING_LABEL })
     try {
-        const response = await dispatch(fetchCreateLabel(process.env.BASE, data, token))
-        if (response.data.success) {
-            data._id = response.data.data.id
-            dispatch(createSuccessfulLabel(data))
-        }
-        else {
-            dispatch(dispatchError(response.data.message))
-        }
+        await API.post("LabelApi", "/labels", {
+            body: data
+        })
     }
     catch (err) {
         dispatch(dispatchError(err))
-        // Something happened in setting up the request that triggered an Error
-        console.log('Error', err);
     }
 }
 
 export const deleteLabel = (id, token) => async  dispatch => {
     dispatch({ type: LOADING_LABEL })
     try {
-        const response = await dispatch(deleteLabelById(process.env.BASE, id, token))
-        if (response.data.success) {
-            dispatch(deleteSuccessfulLabel(id))
-        }
-        else {
-            dispatch(dispatchError(response.data.message))
-        }
+        await API.del("LabelApi", "/labels/" + id)
     }
     catch (err) {
         dispatch(dispatchError(err))
-        // Something happened in setting up the request that triggered an Error
-        console.log('Error', err);
     }
 }
 

@@ -19,6 +19,7 @@ export const UPDATE_SUCCESS_TASK = "UPDATE_SUCCESS_TASK"
 export const UPDATE_SUCCESS_EPIC = "UPDATE_SUCCESS_EPIC"
 export const APPEND_SUCCESS_TASKS = "APPEND_SUCCESS_TASKS"
 export const APPEND_SUCCESS_EPICS = "APPEND_SUCCESS_EPICS"
+export const APPEND_SUCCESS_SUBTASKS = "APPEND_SUCCESS_SUBTASKS"
 export const APPEND_SUCCESS_CURRENT_TASK = "APPEND_SUCCESS_CURRENT_TASK"
 export const APPEND_SUCCESS_CURRENT_EPIC = "APPEND_SUCCESS_CURRENT_EPIC"
 export const DELETE_SUCCESS_SUB_TASK = "DELETE_SUCCESS_SUB_TASK"
@@ -40,6 +41,13 @@ export function appendSuccessfulTasks(data) {
 export function appendSuccessfulEpics(data) {
     return {
         type: APPEND_SUCCESS_EPICS,
+        data: data
+    }
+}
+
+export function appendSuccessfulSubtasks(data) {
+    return {
+        type: APPEND_SUCCESS_SUBTASKS,
         data: data
     }
 }
@@ -137,24 +145,21 @@ export const getLabelsAndIssuesGroupByStatus = (projectId, token) => async  disp
     }
 }
 
-
-export const constgetIssuesForProject = (projectId, token) => async  dispatch => {
+export const saveProjectIssues = (issues) => async  dispatch => {
     dispatch({ type: LOADING_ISSUE })
+    const tasks = issues.filter(item => item.issueType === "task")
+    const epics = issues.filter(item => item.issueType === "epic")
+    const subTasks = issues.filter(item => item.issueType === "subtask")
     try {
-        const response = await dispatch(fetchProjectsIssues(process.env.BASE, projectId, token))
-        if (response.data.success) {
-            dispatch(appendSuccessfulTasks(response.data.data))
-        }
-        else {
-            dispatch(dispatchError(response.message))
-        }
+        if (tasks.length > 0) { dispatch(appendSuccessfulTasks(tasks)) }
+        if (epics.length > 0) { dispatch(appendSuccessfulEpics(epics)) }
+        if (subTasks.length > 0) { dispatch(appendSuccessfulSubTasks(subTasks)) }
     }
     catch (err) {
         dispatch(dispatchError(err))
-        // Something happened in setting up the request that triggered an Error
-        console.log('Error', err);
     }
 }
+
 
 export const createTask = (data) => async  dispatch => {
     dispatch({ type: LOADING_ISSUE })
@@ -303,58 +308,4 @@ export const toggleFlag = (id) => async  dispatch => {
 
 
 /**********************************  API Call Actions  ******************************************/
-
-function fetchCreateIssue(BASE, item, token) {
-    return post('/issues/', BASE, item, token)
-}
-
-//TODO create issue type
-//Change the enum...
-//Maybe issue type itself is anoher document LOL
-
-
-function fetchIssueById(BASE, id, token) {//fetch all Issues of a user
-    return axios.get(BASE + '/issues/' + id, jwtConfig(token));
-}
-
-function fetchLabelsAndIssuesAndStatus(BASE, id, token) {//fetch all labels, issues and status
-    return axios.get(BASE + '/issues/project/board/' + id, jwtConfig(token));
-}
-
-
-function fetchProjectsIssues(BASE, id, token) {//fetch all Issues in a project
-    return axios.get(BASE + '/issues/project/' + id, jwtConfig(token));
-}
-
-function fetchByProjectAndIssueType(BASE, id, type, token) {//fetch all Issues of a particular type in a project
-    return axios.get(BASE + '/issues/project/' + id + 'issueType/' + type, jwtConfig(token));
-}
-
-function fetchByAssigneeAndIssueType(BASE, id, type, token) {//fetch all Issues of a particular type of an assignee
-    return axios.get(BASE + '/issues/assignee/' + id + 'issueType/' + type, jwtConfig(token));
-}
-
-function fetchByReporteeAndIssueType(BASE, id, type, token) {//fetch all Issues of a particular type of a reportee
-    return axios.get(BASE + '/issues/reportee/' + id + 'issueType/' + type, jwtConfig(token));
-}
-
-function fetchChildren(BASE, id, token) {//fetch all chilren of an Issues 
-    return axios.get(BASE + '/issues/' + id + '/children', jwtConfig(token)); //e.g. subtasks of a task    or   tasks of an epic 
-}
-
-function fetchParent(BASE, id, token) {//fetch all chilren of an Issues 
-    return axios.get(BASE + '/issues/' + id + '/parent', jwtConfig(token)); //e.g. subtasks of a task    or   tasks of an epic 
-}
-
-function fetchUpdateIssue(BASE, id, update, token) {//fetch all Issues of a user
-    return put('/issues/' + id, BASE, update, token)
-}
-
-function fetchToggleFlag(BASE, id, token) {//fetch all Issues of a user
-    return put('/issues/' + id + "/flag", BASE, token)
-}
-
-function fetchDeleteIssue(BASE, id, token) {//fetch all Issues of a user
-    return axios.delete(BASE + '/issues/' + id, jwtConfig(token));
-}
 

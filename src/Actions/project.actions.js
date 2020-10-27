@@ -1,5 +1,6 @@
 import axios from 'axios'
 import Util from "../Components/Util"
+import API from '@aws-amplify/api';
 const { post, put, jwtConfig } = Util
 
 
@@ -58,7 +59,6 @@ export function setCurrentProject(data) {
     }
 }
 
-
 export function dispatchError(data) {
     return {
         type: ERROR_PROJECT,
@@ -70,26 +70,23 @@ export function dispatchError(data) {
 export const createProject = (data) => async  dispatch => {
     dispatch({ type: LOADING_PROJECT })
     try {
-        const token = localStorage.getItem("token")
-        const response = await dispatch(fetchCreateProject(process.env.BASE, data, token))
-        if (response.data.success) {
-            const newData = Object.assign({}, data)
-            newData._id = response.data.id
-            dispatch(createSuccessfulProject(newData))
+        const response = await API.post("ProjectApi", "/projects", {
+            body: data
+        })
+        if (response.error) {
+            dispatch(dispatchError(response.error))
         }
         else {
-            dispatch(dispatchError(response.data.message))
+            dispatch(createSuccessfulProject(data))
         }
     }
     catch (err) {
         dispatch(dispatchError(err))
-        // Something happened in setting up the request that triggered an Error
-        console.log('Error', err);
     }
 }
 
 //Get all projects of the user
-export const getAllProjects = () => async  (dispatch, getState) => {
+export const getAllProjects = () => async (dispatch, getState) => {
     dispatch({ type: LOADING_PROJECT })
     try {
         const userId = getState().UserReducer.user._id

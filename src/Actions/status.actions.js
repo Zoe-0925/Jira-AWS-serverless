@@ -91,6 +91,16 @@ export const deleteSuccessfulIssueFromStatus = (issueId, statusId) => {
 
 /**************************** Thunk Actions ***************************/
 
+export const saveProjectStatus = (status,order) => async  dispatch => {
+    dispatch({ type: LOADING_STATUS })
+    try {
+       dispatch(appendSuccessfulStatus(status, order))
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+    }
+}
+
 //TODO not finished yet.
 export const moveIssuesRequest = (id, source, destination, startIndex, endIndex) => async  dispatch => {
     dispatch({ type: LOADING_STATUS })
