@@ -104,7 +104,7 @@ export const getAllProjects = () => async (dispatch, getState) => {
     dispatch({ type: LOADING_PROJECT })
     try {
         //const userId = getState().UserReducer.user._id
-        const data = API.get("ProjectApi", "projects")
+        const data = await API.get("ProjectApi", "projects")
         dispatch(appendSuccessfulProject(data))
     }
     catch (err) {

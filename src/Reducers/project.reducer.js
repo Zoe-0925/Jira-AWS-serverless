@@ -43,10 +43,7 @@ export default function ProjectReducer(state = {
             }
             return newState
         case APPEND_SUCCESS_PROJECTS:
-            newState = Object.assign({}, state, { loading: false, authenticated: true })
-            tempProjects = newState.projects.concat(action.data)
-            newState.projects = tempProjects
-            return newState
+            return { ...state, projects: action.data, loading: false, authenticated: true }
         case UPDATE_SUCCESS_PROJECT:
             newState = Object.assign({}, state, { loading: false, authenticated: true })
             tempProjects = newState.projects.filter(item => item._id !== action.data._id)
