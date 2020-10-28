@@ -271,6 +271,36 @@ app.put(path, function (req, res) {
 });
 
 /************************************
+* HTTP put method for updating status *
+*************************************/
+
+app.put(path + "/update", function (req, res) {
+
+  if (userIdPresent) {
+    req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
+  }
+
+  let putItemParams = {
+    TableName: tableName,
+    Key: {
+      "_id": req.body._id,
+    },
+    UpdateExpression: "set info." + req.body.key + " = :value",
+    ExpressionAttributeValues: {
+      ":value": req.body.value
+    },
+  }
+  dynamodb.update(putItemParams, (err, data) => {
+    if (err) {
+      res.statusCode = 500;
+      res.json({ error: err, url: req.url, body: req.body });
+    } else {
+      res.json({ data: data })
+    }
+  });
+});
+
+/************************************
 * HTTP post method for insert object *
 *************************************/
 
@@ -311,7 +341,7 @@ app.delete(path + '/object' + hashKeyPath, function (req, res) {
       res.json({ error: 'Wrong column type ' + err });
     }
   }
-  
+
   let removeItemParams = {
     TableName: tableName,
     Key: params

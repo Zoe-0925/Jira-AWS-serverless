@@ -161,6 +161,37 @@ app.put(path, function (req, res) {
   });
 });
 
+/*****************************************
+* HTTP put method for updating user name *
+******************************************/
+
+app.put(path + "/description", function (req, res) {
+
+  if (userIdPresent) {
+    req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
+  }
+
+  let putItemParams = {
+    TableName: tableName,
+    Key: {
+      "_id": req.body._id,
+    },
+    UpdateExpression: "set info.description = :description",
+    ExpressionAttributeValues: {
+      ":description": req.body.description
+    },
+  }
+  dynamodb.update(putItemParams, (err, data) => {
+    if (err) {
+      res.statusCode = 500;
+      res.json({ error: err, url: req.url, body: req.body });
+    } else {
+      res.json({ data: data })
+    }
+  });
+});
+
+
 /************************************
 * HTTP post method for insert object *
 *************************************/
