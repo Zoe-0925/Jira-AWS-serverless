@@ -1,19 +1,34 @@
 import API from '@aws-amplify/api';
 
-
 export const LOADING_PROJECT = "LOADING_PROJECT"
 export const ERROR_PROJECT = "ERROR_PROJECT"
 export const CREATE_SUCCESS_PROJECT = "CREATE_SUCCESS_PROJECT"
 export const DELETE_SUCCESS_PROJECT = "DELETE_SUCCESS_PROJECT"
+export const UPDATE_SUCCESS_MEMBERS ="UPDATE_MEMBERS"
 export const UPDATE_SUCCESS_PROJECT = "UPDATE_SUCCESS_PROJECT"
+export const UPDATE_SUCCESS_PROJECT_NAME_AND_ASSIGNEE = "UPDATE_SUCCESS_PROJECT_NAME_AND_ASSIGNEE"
 export const APPEND_SUCCESS_PROJECTS = "APPEND_SUCCESS_PROJECTS"
 export const SET_CURRENT_PROJECT = "SET_CURRENT_PROJECT"
 export const APPEDN_CURRENT_PROJECT = "APPEDN_CURRENT_PROJECT"
 export const CREATE_PROJECT = "CREATE_PROJECT"
 export const LEAVE_PROJECT = "LEAVE_PROJECT"  //Remove a user from a project...
-
+export const UPDATE_STATUS_ORDER = "UPDATE_STATUS_ORDER"
 
 /***************** Actions  ***********************/
+export function updateSuccessfulMembers(data) {
+    return {
+        type: UPDATE_SUCCESS_MEMBERS,
+        data: data
+    }
+}
+
+export function updateSuccessfulStatusOrder(data) {
+    return {
+        type: UPDATE_STATUS_ORDER,
+        data: data
+    }
+}
+
 export function createSuccessfulProject(data) {
     return {
         type: CREATE_SUCCESS_PROJECT,
@@ -38,6 +53,13 @@ export function appendSuccessfulProject(data) {
 export function updateSuccessfulProject(data) {
     return {
         type: UPDATE_SUCCESS_PROJECT,
+        data: data
+    }
+}
+
+export function updateSuccessfulProjectNameAndAssignee(data) {
+    return {
+        type: UPDATE_SUCCESS_PROJECT_NAME_AND_ASSIGNEE,
         data: data
     }
 }
@@ -90,14 +112,23 @@ export const getAllProjects = () => async (dispatch, getState) => {
     }
 }
 
-export const updateProject = (id, update) => async  dispatch => {
+export const updateProjectNameAndAssignee = (data) => async  dispatch => {
     dispatch({ type: LOADING_PROJECT })
     try {
-
-        //  dispatch(updateSuccessfulProject(response.data.data))
-
+        await API.put("ProjectApi", "/projects/detail", data)
+        dispatch(updateSuccessfulProjectNameAndAssignee(data))
     }
     catch (err) {
+        dispatch(dispatchError(err))
+    }
+}
+
+export const updateMembers = data => async  dispatch => {
+    dispatch({ type: LOADING_PROJECT })
+    try {
+        await API.put("ProjectApi", "/projects/members", data)
+        dispatch(updateSuccessfulProjecMembers(data))
+    } catch (err) {
         dispatch(dispatchError(err))
     }
 }

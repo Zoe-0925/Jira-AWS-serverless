@@ -16,7 +16,7 @@ import {
     Select,
 } from 'formik-material-ui';
 import { useDispatch, useSelector } from "react-redux"
-import { updateProject, deleteProject } from "../../Actions/project.actions"
+import { updateProjectNameAndAssignee, deleteProject } from "../../Actions/project.actions"
 import { selectCurrentProjectObject } from "../../Reducers/Selectors"
 import { useDotIconMenu } from "../Shared/CustomHooks"
 
@@ -127,7 +127,10 @@ const ProjectDetailController = () => {
     const currentProject = useSelector(selectCurrentProjectObject)
 
     const handleUpdate = values => {
-        dispatch(updateProject(currentProject._id, values))
+        dispatch(updateProjectNameAndAssignee({
+            ...values,
+            _id: currentProject._id
+        }))
     }
 
     function removeProject() {

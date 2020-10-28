@@ -177,10 +177,10 @@ app.get(path + '/object' + hashKeyPath, function (req, res) {
 
 
 /************************************
-* HTTP put method for insert object *
+* HTTP put method for updating members *
 *************************************/
 
-app.put(path/addNewMember, function (req, res) {
+app.put(path + "/members", function (req, res) {
 
   if (userIdPresent) {
     req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
@@ -191,11 +191,41 @@ app.put(path/addNewMember, function (req, res) {
     Key: {
       "_id": req.body._id,
     },
-    UpdateExpression: "set info.members =[...info.members, :r], info.plot=:p, info.actors=:a",
+    UpdateExpression: "set info.members = :members",
     ExpressionAttributeValues: {
-      ":r": 5.5,
-      ":p": "Everything happens all at once.",
-      ":a": ["Larry", "Moe", "Curly"]
+      ":members": req.body.members
+    },
+  }
+  dynamodb.update(putItemParams, (err, data) => {
+    if (err) {
+      res.statusCode = 500;
+      res.json({ error: err, url: req.url, body: req.body });
+    } else {
+      res.json({ data: data })
+    }
+  });
+});
+
+/************************************
+* HTTP put method for updating project name and default assignee *
+*************************************/
+
+app.put(path + "/detail", function (req, res) {
+
+  if (userIdPresent) {
+    req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
+  }
+
+  let putItemParams = {
+    TableName: tableName,
+    Key: {
+      "_id": req.body._id,
+    },
+    UpdateExpression: "set info.name = :name, info.default_assignee=:default_assignee",
+    ExpressionAttributeValues: {
+      ":name": req.body.name,
+      ":default_assignee": req.body.default_assignee,
+
     },
   }
   dynamodb.update(putItemParams, (err, data) => {
