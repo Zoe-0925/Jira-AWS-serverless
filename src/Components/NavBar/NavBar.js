@@ -88,7 +88,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function NavAppBar() {
+export default function NavBar() {
     const classes = useStyles();
     const [profileAnchorEl, setProfileAnchorEl] = useState(null);
     const [projectAnchorEl, setProjectAnchorEl] = useState(null);

@@ -17,7 +17,7 @@ import {
 } from 'formik-material-ui';
 import { useDispatch, useSelector } from "react-redux"
 import { updateProjectNameAndAssignee, deleteProject } from "../../Actions/project.actions"
-import { selectCurrentProjectObject } from "../../Reducers/Selectors"
+import { selectCurrentProject } from "../../Reducers/Selectors"
 import { useDotIconMenu } from "../Shared/CustomHooks"
 
 const ProjectDetailForm = ({
@@ -124,7 +124,7 @@ const ProjectDetail = withFormik({
 
 const ProjectDetailController = () => {
     const dispatch = useDispatch()
-    const currentProject = useSelector(selectCurrentProjectObject)
+    const currentProject = useSelector(selectCurrentProject)
 
     const handleUpdate = values => {
         dispatch(updateProjectNameAndAssignee({

@@ -55,7 +55,6 @@ export default function StatusReducer(state = {
             return newState
         case DELETE_SUCCESS_STATUS:
             //TODO remove it from the status order as well
-
             newState = Object.assign({}, state, { loading: false, authenticated: true })
             newState.status.detele(action.id)
             return newState
@@ -64,14 +63,11 @@ export default function StatusReducer(state = {
             newState.status.set(action.data._id, action.data)
             return newState
         case APPEND_SUCCESS_STATUS:
-            newState = Object.assign({}, state, { loading: false, authenticated: true })
-            newState.status = action.data
-            newState.statusOrder = action.order
-            return newState
+            return { ...state, loading: false, authenticated: true, status: action.data, statusOrder: action.order }
         case DELETE_ISSUE_FROM_STATUS:
             newState = Object.assign({}, state, { loading: false, authenticated: true })
             const newIssueList = newState.status.get(action.statusId).issues.filter(id => id !== action.issueId)
-            newState.status.get(action.statusId).issues= newIssueList
+            newState.status.get(action.statusId).issues = newIssueList
             return newState
         case ERROR_STATUS:
             return Object.assign({}, state, { loading: false, authenticated: false, errorMessage: action.data })

@@ -48,22 +48,21 @@ export const selectProjectAuthenticated = createSelector(
     reducer => reducer.authenticated
 )
 
+export const selectCurrentProjectId = createSelector(
+    selectProjectReducer,
+    reducer => reducer.currentProjectId
+)
 
 
 export const selectCurrentProject = createSelector(
     selectProjectReducer,
-    reducer => reducer.currentProject
+    selectCurrentProjectId,
+    (reducer, id) => reducer.projects.find(item => item._id === id)
 )
 
 export const selectAllProjects = createSelector(
     selectProjectReducer,
     reducer => reducer.projects
-)
-
-export const selectCurrentProjectObject = createSelector(
-    selectCurrentProject,
-    selectAllProjects,
-    (id, projects) => { return projects.find(item => item._id === id) }
 )
 
 export const selectProjectMembers = createSelector(
@@ -120,7 +119,7 @@ export const selectUsersForProjectMember = createSelector(
     (memberIds, allUsers) => memberIds.map(each => allUsers.find(user => user._id === each))
 )
 
-export const selectUserError =()=>createSelector(
+export const selectUserError = () => createSelector(
     selectUserReducer,
     reducer => reducer.error
 )

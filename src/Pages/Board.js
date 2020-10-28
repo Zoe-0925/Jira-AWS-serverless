@@ -7,7 +7,7 @@ import { DrawerInner } from "../Components/SideDrawer/DrawerInner"
 import { useEditText } from "../Components/Shared/CustomHooks"
 import { EditableText, Input } from "../Components/Shared/EditableText"
 import DragContext from "../Components/Column/DragContext"
-import NavAppBar from "../Components/NavBar/NavAppBar"
+import NavBar from "../Components/NavBar/NavBar"
 import { selectCurrentProjectName } from '../Reducers/Selectors';
 
 export default function Board() {
@@ -17,11 +17,14 @@ export default function Board() {
 
     return (
         <div className={open ? "main drawer-close" : "main drawer-open"}>
-            <NavAppBar />
+            <NavBar />
             <Drawer handleClick={setOpen} open={open}>
                 <DrawerInner currentLocation="board" />
             </Drawer>
-            <NavBreadcrumbs />
+            <Breadcrumbs aria-label="breadcrumb" className="bread-crumbs" >
+                <Link color="inherit" href="/">Projects</Link>
+                <Typography color="textPrimary">{projectName}</Typography>
+            </Breadcrumbs>
             <EditableText name="epic-summary" className="board-name"
                 setEdit={setEdit} edit={edit} value={state}>
                 <Input state={state} setState={setState} setEdit={setEdit} />

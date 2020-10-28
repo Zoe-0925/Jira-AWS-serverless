@@ -20,7 +20,7 @@ export default function ProjectReducer(state = {
         start_date: ""
     }],
     errorMessage: "",
-    currentProject: "test id"
+    currentProjectId: "test id"
 }, action) {
     let newState
     let tempProjects
@@ -28,18 +28,16 @@ export default function ProjectReducer(state = {
         case LOADING_PROJECT:
             return Object.assign({}, state, { loading: true, errorMessage: "", authenticated: false })
         case SET_CURRENT_PROJECT:
-            newState = Object.assign({}, state, { loading: false, authenticated: true })
-            newState.currentProject = action.id
-            return newState
+            return { ...state, loading: false, authenticated: true, currentProjectId: action.id }
         case CREATE_SUCCESS_PROJECT:
             newState = Object.assign({}, state, { loading: false, authenticated: true })
-            newState.projects.push(action.data)
+            newState.projects = newState.projects.push(action.data)
             return newState
         case DELETE_SUCCESS_PROJECT:
             newState = Object.assign({}, state, { loading: false, authenticated: true })
             newState.projects = newState.projects.filter(item => item._id !== action.id)
-            if (newState.currentProject === action.id) {
-                newState.currentProject = ""
+            if (newState.currentProjectId === action.id) {
+                newState.currentProjectId = ""
             }
             return newState
         case APPEND_SUCCESS_PROJECTS:

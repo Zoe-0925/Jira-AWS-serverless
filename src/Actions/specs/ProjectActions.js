@@ -1,5 +1,5 @@
 import {
-    createSuccessfulProject, appendSuccessfulProject, appendCurrentProject, updateSuccessfulProject,
+    createSuccessfulProject, updateSuccessfulProject,
     deleteSuccessfulProject, dispatchError
 } from "../project.actions"
 

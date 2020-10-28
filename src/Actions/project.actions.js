@@ -36,13 +36,6 @@ export function createSuccessfulProject(data) {
     }
 }
 
-export function appendCurrentProject(data) {
-    return {
-        type: APPEDN_CURRENT_PROJECT,
-        data: data
-    }
-}
-
 export function appendSuccessfulProject(data) {
     return {
         type: APPEND_SUCCESS_PROJECTS,
