@@ -1,7 +1,7 @@
 import {
     LOADING_STATUS, ERROR_STATUS, CREATE_SUCCESS_STATUS, DELETE_SUCCESS_STATUS,
     UPDATE_SUCCESS_STATUS, APPEND_SUCCESS_STATUS, REORDER_ISSUES, MOVE_ISSUES,
-    DELETE_ISSUE_FROM_STATUS
+    DELETE_ISSUE_FROM_STATUS, UPDATE_SUCCESS_STATUS_ORDER
 } from "../Actions/status.actions"
 
 const status = new Map()
@@ -62,8 +62,10 @@ export default function StatusReducer(state = {
             newState = Object.assign({}, state, { loading: false, authenticated: true })
             newState.status.set(action.data._id, action.data)
             return newState
+        case UPDATE_SUCCESS_STATUS_ORDER:
+            return { ...state, loading: false, authenticated: true, statusOrder: action.data }
         case APPEND_SUCCESS_STATUS:
-            return { ...state, loading: false, authenticated: true, status: action.data, statusOrder: action.order }
+            return { ...state, loading: false, authenticated: true, status: action.data }
         case DELETE_ISSUE_FROM_STATUS:
             newState = Object.assign({}, state, { loading: false, authenticated: true })
             const newIssueList = newState.status.get(action.statusId).issues.filter(id => id !== action.issueId)

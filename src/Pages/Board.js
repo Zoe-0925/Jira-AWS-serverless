@@ -1,6 +1,5 @@
 import React from 'react'
 import { useSelector } from "react-redux"
-import NavBreadcrumbs from "../Components/NavBar/NavBreadcrumbs"
 import FilterManager from "../Components/Filters/FilterManager"
 import Drawer from "../Components/SideDrawer/Drawer"
 import { DrawerInner } from "../Components/SideDrawer/DrawerInner"

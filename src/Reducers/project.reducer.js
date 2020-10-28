@@ -17,7 +17,8 @@ export default function ProjectReducer(state = {
         image: "",
         issues: [],
         default_assignee: "Project Lead",
-        start_date: ""
+        start_date: "",
+        statusOrder: ["1", "2", "3", "4"]
     }],
     errorMessage: "",
     currentProjectId: "test id"

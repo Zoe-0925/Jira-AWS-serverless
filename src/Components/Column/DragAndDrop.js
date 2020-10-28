@@ -11,10 +11,13 @@ import {
 import { useIssueDetailModal, useCreateStatus } from "./CustomHooks"
 import IssueCard from "../Issues/IssueCard"
 import IssueDetail from "../Issues/IssueDetail"
+import { saveProjectIssues } from "../Actions/issue.actions"
+import { saveProjectStatus } from "../Actions/status.actions"
+import { saveProjectLabels } from "../Actions/labels.actions"
 
 
 export const MyDraggable = (task, index, openTaskDetail) => {
-    return task===undefined?<div></div>:<Draggable
+    return task === undefined ? <div></div> : <Draggable
         className="draggable"
         key={task._id}
         draggableId={task._id}
@@ -48,6 +51,23 @@ export default function DragAndDrop() {
     const filterByEpic = useSelector(selectFilterByEpic)
     const filterByAssignee = useSelector(selectFilterByAssignee)
     const filterByLabel = useSelector(selectFilterByLabel)
+
+    useEffect(() => {
+        if (columnOrder.length === 0) {
+            const [issues, status, labels] = await Promise.all(
+                API.get("IssueApi", "/issues/project/" + projectId),
+                API.get("StatusApi", "/status/project/" + projectId),
+                API.get("LabelApi", "/labels/project/" + projectId)
+            )
+            await Promise.all([
+                dispatch(saveProjectIssues(issues)),
+
+                //TODO where do we get the statusOrder from? Project object?
+                dispatch(saveProjectStatus(status)), //TODO need status order from the project object,
+                dispatch(saveProjectLabels(labels))
+            ]);
+        }
+    }, [])
 
     useEffect(() => {
         setColumns(columnOrder.map(each => status.get(each)))

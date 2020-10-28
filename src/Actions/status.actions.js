@@ -5,6 +5,7 @@ export const ERROR_STATUS = "ERROR_STATUS"
 export const CREATE_SUCCESS_STATUS = "CREATE_SUCCESS_STATUS"
 export const DELETE_SUCCESS_STATUS = "DELETE_SUCCESS_STATUS"
 export const UPDATE_SUCCESS_STATUS = "UPDATE_SUCCESS_STATUS"
+export const UPDATE_SUCCESS_STATUS_ORDER = "UPDATE_SUCCESS_STATUS_ORDER"
 export const APPEND_SUCCESS_STATUS = "APPEND_SUCCESS_STATUS"
 export const REORDER_ISSUES = "REORDER_ISSUES"
 export const MOVE_ISSUES = "MOVE_ISSUES"
@@ -21,6 +22,13 @@ export const createSuccessfulStatus = (data) => {
 export const updateSuccessfulStatus = (data) => {
     return {
         type: UPDATE_SUCCESS_STATUS,
+        data: data
+    }
+}
+
+export const updateSuccessfulStatusOrder = (data) => {
+    return {
+        type: UPDATE_SUCCESS_STATUS_ORDER,
         data: data
     }
 }
@@ -86,10 +94,22 @@ export const deleteSuccessfulIssueFromStatus = (issueId, statusId) => {
 
 /**************************** Thunk Actions ***************************/
 
-export const saveProjectStatus = (status, order) => async  dispatch => {
+export const saveProjectStatus = (status) => async  dispatch => {
     dispatch({ type: LOADING_STATUS })
     try {
-        dispatch(appendSuccessfulStatus(status, order))
+        dispatch(appendSuccessfulStatus(status))
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+    }
+}
+
+export const addStatusOrder = (projectId) => async (dispatch, getState) => {
+    dispatch({ type: LOADING_STATUS })
+    try {
+        const projectReducer = getState().ProjectReducer
+        const order = projectReducer.projects.find(project=>project._id===projectReducer.currentProjectId).statusOrder
+        dispatch(updateStatusOrder(order))
     }
     catch (err) {
         dispatch(dispatchError(err))
