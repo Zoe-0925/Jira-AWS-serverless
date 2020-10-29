@@ -3,9 +3,13 @@ import { useDispatch, useSelector } from "react-redux"
 import { getAllProjects, setCurrentProject, deleteProject } from "../../Actions/project.actions"
 import { addStatusOrder } from "../../Actions/status.actions"
 import { selectAllProjects, selectAllUsers } from "../../Reducers/Selectors"
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@material-ui/core'
+import {
+    Table, TableBody, TableCell, TableContainer, TableHead,
+    TableRow, Paper, MenuItem
+} from '@material-ui/core'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { DotIconMenu } from "../Shared/Tabs"
+import history from "../../history"
 
 export default function ProjectListTable() {
     const dispatch = useDispatch()
@@ -25,20 +29,19 @@ export default function ProjectListTable() {
     };
 
 
-    const updateCurrentProject = async (projectId) => {
-        await Promise.all(
-            dispatch(setCurrentProject(projectId)),
+    const updateCurrentProject = (projectId) => {
+        dispatch(setCurrentProject(projectId)),
             dispatch(addStatusOrder(projectId))
-        )
+
     }
 
-    const goToBoardPage = async (projectId) => {
-        await updateCurrentProject(projectId)
+    const goToBoardPage = (projectId) => {
+        updateCurrentProject(projectId)
         history.push("/projects/board")
     }
 
-    const goToProjectDetail = async (projectId) => {
-        await updateCurrentProject(projectId)
+    const goToProjectDetail = (projectId) => {
+        updateCurrentProject(projectId)
         history.push("/projects/settings/details")
     }
 
