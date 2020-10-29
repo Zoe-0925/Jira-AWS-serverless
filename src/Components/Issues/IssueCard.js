@@ -7,7 +7,7 @@ import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import { Container, Row, Col } from 'reactstrap';
 import { DotIconMenu } from "../Shared/Tabs"
 import { deleteIssue, toggleFlag } from "../../Actions/mockIssueActions"
-import { useDotIconMenu } from "../Shared/CustomHooks"
+
 
 const IssueCard = ({ task, openTaskDetail }) => {
     const dispatch = useDispatch()

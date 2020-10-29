@@ -867,5 +867,31 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
   text-overflow: ellipsis;
   white-space: nowrap;
   line-height: 32px;
-  margin-top:2.5rem;
+  margin-top: 2.5rem;
+}
+
+.project-list-table {
+
+  .table-body {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  table-body:hover {
+    background-color: $bgc;
+    
+  }
+
+  th{
+    font-family: BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    font-size: 14px;
+    color: #172b4d;
+  
+  }
+
+  .project-name{
+    cursor:pointer;
+    color:#0C47BE;
+  }
 }

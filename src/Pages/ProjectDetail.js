@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { useSelector } from "react-redux"
 import Drawer from "../Components/SideDrawer/Drawer"
 import ProjectDetailForm from "../Components/Project/ProjectDetailForm"
@@ -9,14 +9,10 @@ export default function ProjectDetail() {
     const [open, setOpen] = React.useState(true);
     const projectName = useSelector(selectCurrentProjectName)
 
-    return (
-        <Fragment>
-            <div className="main">
-                <Drawer  open={open} handleClick={setOpen}>
-                    <ProjectSetting projectName={projectName} currentLocation="detail" />
-                </Drawer>
-                <ProjectDetailForm />
-            </div>
-        </Fragment>
-    )
+    return <div className="main">
+        <Drawer open={open} handleClick={setOpen}>
+            <ProjectSetting projectName={projectName} currentLocation="detail" />
+        </Drawer>
+        <ProjectDetailForm />
+    </div>
 }
