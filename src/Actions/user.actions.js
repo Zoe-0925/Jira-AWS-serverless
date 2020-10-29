@@ -127,7 +127,7 @@ export const signIn = (email, password) => async  dispatch => {
             return
         }
         dispatch({ type: LOGIN_SUCCESS_USER, data: JSON.parse(response) })
-        history.push("/projects")
+        history.push("/projects/")
 
     } catch (err) {
         dispatch(dispatchError(err))

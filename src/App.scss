@@ -113,10 +113,6 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
   height: auto;
 }
 
-.row {
-  margin-top: $margin-1;
-  width: $full;
-}
 .drawer-close {
   margin-left: 260px;
 }
@@ -126,6 +122,9 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
 }
 
 .main {
+  padding-left: 3%;
+  padding-right: 3%;
+
   .nav-bar {
     font-size: 1rem;
     font-family: Roboto, sans-serif;
@@ -163,9 +162,60 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
     }
   }
 
+  #button-file {
+    width: 11rem;
+  }
+
+  .input-container {
+    width: 21.875rem;
+  }
+
+  .field {
+    width: inherit;
+    background-color: $bgc;
+    height: 2.5rem;
+    margin-top: 0;
+    padding-top: 0;
+  }
+
+  #key-field {
+    width: 40%;
+  }
+
+  .navbar-create-btn{
+     @include call-to-action-button;
+     margin-top:1rem;
+  }
+
+  .field-label {
+    float: left;
+    color: rgb(107, 119, 140);
+    font-size: 0.8rem;
+    font-weight: 600;
+    line-height: 1.33333;
+    margin-top: 0;
+    padding-top: 0.4rem;
+    margin-bottom: 0;
+    padding-bottom: 0.2rem;
+  }
+
+  .project-icon {
+    width: 150px;
+    height: 150px;
+    margin-left: 42%;
+  }
+  .button {
+    margin-left: 43%;
+    background-color: $bgc;
+    margin-top: 10px;
+  }
+
+  .project-detail-dot {
+    padding: 0;
+  }
+
   .bread-crumbs {
     margin-top: 5rem;
-    padding-left: 4rem;
   }
 
   .board-name {
@@ -467,26 +517,6 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
 
   .item-left {
     margin-left: 10%;
-  }
-}
-
-.project-detail-form {
-  width: 100%;
-  margin-top: 100px;
-
-  #button-file {
-    width: 11rem;
-  }
-
-  .project-icon {
-    width: 150px;
-    height: 150px;
-    margin-left: 42%;
-  }
-  .button {
-    margin-left: 43%;
-    background-color: $bgc;
-    margin-top: 10px;
   }
 }
 
@@ -871,7 +901,6 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
 }
 
 .project-list-table {
-
   .table-body {
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -880,18 +909,17 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
 
   table-body:hover {
     background-color: $bgc;
-    
   }
 
-  th{
-    font-family: BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  th {
+    font-family: BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, "Fira Sans", "Droid Sans", "Helvetica Neue",
+      sans-serif;
     font-size: 14px;
     color: #172b4d;
-  
   }
 
-  .project-name{
-    cursor:pointer;
-    color:#0C47BE;
+  .project-name {
+    cursor: pointer;
+    color: #0c47be;
   }
 }

@@ -24,7 +24,7 @@ const LoginForm = props => {
 
     useEffect(() => {
         if (completed) { //display feedback
-            history.push("/projects")
+            history.push("/projects/")
         }
     }, [completed])
 

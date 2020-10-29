@@ -158,7 +158,7 @@ export default function NavBar() {
             <div className="menu-container">
                 <p className="menu-title">RECENT</p>
                 <Divider />
-                <MenuItem onClick={() => history.push("/projects")}>View All Projects</MenuItem>
+                <MenuItem onClick={() => history.push("/projects/")}>View All Projects</MenuItem>
                 <MenuItem onClick={() => history.push("/projects/create")}>Create Project</MenuItem>
             </div>
         </Menu>
@@ -233,7 +233,7 @@ export default function NavBar() {
             <div className="menu-container">
                 <p className="menu-title">MY ACCOUNT</p>
                 <Divider />
-                <MenuItem onClick={() => history.push("/projects")}>Profile</MenuItem>
+                <MenuItem onClick={() => history.push("/projects/board")}>Profile</MenuItem>
                 <Divider />
                 <MenuItem onClick={() => { }}>Log Out</MenuItem>
             </div>
@@ -253,7 +253,7 @@ export default function NavBar() {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Button onClick={() => history.push("/projects")} className="nav-title">Jira Mock </Button>
+                    <Button onClick={() => history.push("/projects/")} className="nav-title">Jira Mock </Button>
                     <Button className="nav-tab" onClick={handleProjectMenuOpen}>Projects <ExpandMoreIcon /></Button>
                     {projectMenu}
 

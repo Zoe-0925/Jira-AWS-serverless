@@ -10,11 +10,11 @@ export default function ProjectDetail() {
     const [open, setOpen] = useState(true);
     const dispatch = useDispatch()
 
-    return <div className="main">
+    return <div className={open ? "main drawer-close" : "main drawer-open"}>
         <NavBar />
         <Drawer open={open} handleClick={setOpen}>
-            <ProjectSetting  currentLocation="detail" />
+            <ProjectSetting currentLocation="detail" />
         </Drawer>
-        <ProjectDetailForm onContinue={values => { dispatch(updateProjectNameAndAssignee(values)) }}/>
+        <ProjectDetailForm onContinue={values => { dispatch(updateProjectNameAndAssignee(values)) }} />
     </div>
 }

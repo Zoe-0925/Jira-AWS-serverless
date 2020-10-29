@@ -7,7 +7,7 @@ export default function Login() {
     //const authenticated = useSelector(state => state.state)
 
     if (isLoggedIn()) {
-        history.push("/projects")
+        history.push("/projects/board")
     }
 
     return (

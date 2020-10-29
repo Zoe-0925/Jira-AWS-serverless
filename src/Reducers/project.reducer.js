@@ -21,7 +21,7 @@ export default function ProjectReducer(state = {
         statusOrder: ["1", "2", "3", "4"]
     }],
     errorMessage: "",
-    currentProjectId: ""
+    currentProjectId: "test id"
 }, action) {
     let newState
     let tempProjects

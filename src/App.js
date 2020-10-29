@@ -9,6 +9,7 @@ import Login from "./Pages/Login"
 import Signup from "./Pages/Signup"
 import Board from "./Pages/Board"
 import ProjectDetail from "./Pages/ProjectDetail"
+import ProjectList from "./Pages/ProjectList"
 import './App.scss';
 import Amplify from 'aws-amplify';
 import aws_exports from './aws-exports';
@@ -25,17 +26,14 @@ const App = () => {
       <AmplifySignOut />
       <Router history={history}>
         <Switch>
-          <Route path="/" exact component={ProjectList} />
+          <Route path="/" exact component={ProjectDetail} />
           <Route path="/login" exact component={Login} />
           <Route path="/signup" exact component={Signup} />
-          <Route path="/projects" exact component={Board} />
+          <Route path="/projects" exact component={ProjectList} />
           <Route path="/projects/create" exact component={App} />
-          <Route path="/projects/detail" exact component={App} />
-          <Route path="/ManageCategory" exact component={App} />
           <Route path="/projects/roadmap" component={App} />
           <Route path="/projects/board" exact component={Board} />
           <Route path="/projects/settings/details" exact component={ProjectDetail} />
-          <Route path="/projects/settings/issuetypes/:issueType" exact component={App} />
         </Switch>
       </Router>
     </div>
