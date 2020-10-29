@@ -25,6 +25,7 @@ export default function ProjectReducer(state = {
 }, action) {
     let newState
     let tempProjects
+    let target 
     switch (action.type) {
         case LOADING_PROJECT:
             return Object.assign({}, state, { loading: true, errorMessage: "", authenticated: false })
@@ -51,7 +52,7 @@ export default function ProjectReducer(state = {
             return newState
         case UPDATE_SUCCESS_PROJECT_NAME_AND_ASSIGNEE:
             newState = Object.assign({}, state, { loading: false, authenticated: true })
-            let target = Object.assign({}, newState.projects.find(item => item._id === action.data._id))
+            target = Object.assign({}, newState.projects.find(item => item._id === action.data._id))
             tempProjects = newState.projects.filter(item => item._id !== action.data._id)
             target.default_assignee = action.data.default_assignee
             target.name = action.data.name
@@ -59,7 +60,7 @@ export default function ProjectReducer(state = {
             return newState
         case UPDATE_SUCCESS_MEMBERS:
             newState = Object.assign({}, state, { loading: false, authenticated: true })
-            let target = Object.assign({}, newState.projects.find(item => item._id === action.data._id))
+            target = Object.assign({}, newState.projects.find(item => item._id === action.data._id))
             tempProjects = newState.projects.filter(item => item._id !== action.data._id)
             target.members = action.data.members
             tempProjects.push(target)

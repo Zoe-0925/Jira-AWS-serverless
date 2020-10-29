@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useDispatch } from "react-redux"
 import { MenuItem } from '@material-ui/core';
 import { AddTab, DotIconMenu } from "../Shared/Tabs"
-import { updateSuccessfulStatus, deleteSuccessfulStatus } from "../../Actions/mockStatusActions"
+import { updateSuccessfulStatus, deleteSuccessfulStatus } from "../../Actions/status.actions"
 /**--------------Editable Textfiled-------------- */
 import { EditableText, Input, Textarea } from "../Shared/EditableText"
 /**--------------Icons-------------- */

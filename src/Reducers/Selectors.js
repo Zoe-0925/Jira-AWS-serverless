@@ -66,7 +66,7 @@ export const selectAllProjects = createSelector(
 )
 
 export const selectProjectMembers = createSelector(
-    selectCurrentProjectObject,
+    selectCurrentProject,
     currentProject => currentProject.members
 )
 
@@ -82,7 +82,7 @@ export const selectMemberNames = createSelector(
 )
 
 export const selectCurrentProjectName = createSelector(
-    selectCurrentProjectObject,
+    selectCurrentProject,
     project => project.name
 )
 

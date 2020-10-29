@@ -736,7 +736,7 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
 
 .add-epic-btn {
   width: 7rem;
-  font-size:0.7rem;
+  font-size: 0.7rem;
 }
 
 .issue-detail-form {
@@ -855,4 +855,17 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
     padding-top: 1rem;
     color: grey;
   }
+}
+
+.project-list-title {
+  font-size: 1.71429em;
+  font-style: inherit;
+  color: rgb(23, 43, 77);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 32px;
+  margin-top:2.5rem;
 }

@@ -11,9 +11,9 @@ import {
 import { useIssueDetailModal, useCreateStatus } from "./CustomHooks"
 import IssueCard from "../Issues/IssueCard"
 import IssueDetail from "../Issues/IssueDetail"
-import { saveProjectIssues } from "../Actions/issue.actions"
-import { saveProjectStatus } from "../Actions/status.actions"
-import { saveProjectLabels } from "../Actions/labels.actions"
+import { saveProjectIssues } from "../../Actions/issue.actions"
+import { saveProjectStatus } from "../../Actions/status.actions"
+import { saveProjectLabels } from "../../Actions/label.actions"
 
 
 export const MyDraggable = (task, index, openTaskDetail) => {
@@ -52,7 +52,7 @@ export default function DragAndDrop() {
     const filterByAssignee = useSelector(selectFilterByAssignee)
     const filterByLabel = useSelector(selectFilterByLabel)
 
-    useEffect(() => {
+    useEffect(async () => {
         if (columnOrder.length === 0) {
             const [issues, status, labels] = await Promise.all(
                 API.get("IssueApi", "/issues/project/" + projectId),
