@@ -21,7 +21,7 @@ export default function ProjectReducer(state = {
         statusOrder: ["1", "2", "3", "4"]
     }],
     errorMessage: "",
-    currentProjectId: "test id"
+    currentProjectId: ""
 }, action) {
     let newState
     let tempProjects
@@ -30,7 +30,7 @@ export default function ProjectReducer(state = {
         case LOADING_PROJECT:
             return Object.assign({}, state, { loading: true, errorMessage: "", authenticated: false })
         case SET_CURRENT_PROJECT:
-            return { ...state, loading: false, authenticated: true, currentProjectId: action.id }
+            return { ...state, loading: false, authenticated: true, currentProjectId: action.data }
         case CREATE_SUCCESS_PROJECT:
             newState = Object.assign({}, state, { loading: false, authenticated: true })
             newState.projects = newState.projects.push(action.data)

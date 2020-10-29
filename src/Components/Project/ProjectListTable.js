@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { getAllProjects, setCurrentProject, deleteProject } from "../../Actions/project.actions"
 import { addStatusOrder } from "../../Actions/status.actions"
-import { selectAllProjects, selectAllUsers } from "../../Reducers/Selectors"
+import { selectAllProjects, selectAllUsers ,selectCurrentProject} from "../../Reducers/Selectors"
 import {
     Table, TableBody, TableCell, TableContainer, TableHead,
     TableRow, Paper, MenuItem
@@ -15,7 +15,7 @@ export default function ProjectListTable() {
     const dispatch = useDispatch()
     const projects = useSelector(selectAllProjects)
     const users = useSelector(selectAllUsers)
-
+   
     const [anchorEl, setAnchorEl] = React.useState(null);
     const isOpen = Boolean(anchorEl);
     const anchorRef = React.useRef(null);
@@ -30,18 +30,20 @@ export default function ProjectListTable() {
 
 
     const updateCurrentProject = (projectId) => {
-        dispatch(setCurrentProject(projectId)),
-            dispatch(addStatusOrder(projectId))
+        dispatch(setCurrentProject(projectId))
+        dispatch(addStatusOrder(projectId))
 
     }
 
     const goToBoardPage = (projectId) => {
-        updateCurrentProject(projectId)
+        dispatch(setCurrentProject(projectId))
+        //TODO
+        //update status order
         history.push("/projects/board")
     }
 
     const goToProjectDetail = (projectId) => {
-        updateCurrentProject(projectId)
+        dispatch(setCurrentProject(projectId))
         history.push("/projects/settings/details")
     }
 
@@ -85,7 +87,7 @@ export default function ProjectListTable() {
                                 <TableCell component="th" scope="row" >
                                     <DotIconMenu className="dot-icon" anchorEl={anchorEl} isOpen={isOpen} anchorRef={anchorRef}
                                         handleMenuClose={handleMenuClose} handleMenuOpen={handleMenuOpen} >
-                                        <MenuItem onClick={() => goToProjectDetail(project._id)}>Project settings</MenuItem>
+                                        <MenuItem onClick={() =>  goToProjectDetail(project._id)}>Project settings</MenuItem>
                                         <MenuItem onClick={() => dispatch(deleteProject(project._id))}>Move to trash</MenuItem>
                                     </DotIconMenu>
                                 </TableCell>

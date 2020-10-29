@@ -57,7 +57,9 @@ export const selectCurrentProjectId = createSelector(
 export const selectCurrentProject = createSelector(
     selectProjectReducer,
     selectCurrentProjectId,
-    (reducer, id) => reducer.projects.find(item => item._id === id)
+    (reducer, id) => {
+        console.log("current project in selector", reducer.projects.find(item => item._id === id) )
+        reducer.projects.find(item => item._id === id)}
 )
 
 export const selectAllProjects = createSelector(

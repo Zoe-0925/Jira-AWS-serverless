@@ -1,32 +1,40 @@
-import React from 'react'
-import Typography from '@material-ui/core/Typography';
-import Breadcrumbs from '@material-ui/core/Breadcrumbs';
-import Link from '@material-ui/core/Link';
+import React, { useState, useEffect } from 'react'
 import { Form, Field } from 'formik';
 import { withFormik } from 'formik';
 import { DotIconMenu } from "../Shared/Tabs"
 import {
-    Button,
-    InputLabel,
-    Divider,
-    MenuItem,
+    Link, Typography, Breadcrumbs, Button, InputLabel, Divider, MenuItem,
 } from '@material-ui/core';
 import {
     TextField,
     Select,
 } from 'formik-material-ui';
-import { useDispatch, useSelector } from "react-redux"
-import { updateProjectNameAndAssignee, deleteProject } from "../../Actions/project.actions"
-import { selectCurrentProject } from "../../Reducers/Selectors"
+import { useSelector } from "react-redux"
+import { selectCurrentProjectId, selectProjectReducer } from "../../Reducers/Selectors"
 import { useDotIconMenu } from "../Shared/CustomHooks"
 
 const ProjectDetailForm = ({
     values,
     handleChange,
     handleSubmit,
-    project,
     removeProject
 }) => {
+
+    const [displayValues, setDisplayValues] = useState(values)
+    const currentProjectId = useSelector(selectCurrentProjectId)
+    const projectReducer = useSelector(selectProjectReducer)
+
+    useEffect(() => {
+        const project = projectReducer.projects.find(item => item._id === currentProjectId)
+        if (project) {
+            setDisplayValues({
+                _id: project._id,
+                name: project.name,
+                key: project.key,
+                default_assignee: project.default_assignee
+            })
+        }
+    }, [currentProjectId])
 
     const { anchorEl, isOpen, anchorRef, handleMenuClose, handleMenuOpen } = useDotIconMenu()
 
@@ -35,8 +43,8 @@ const ProjectDetailForm = ({
             <Breadcrumbs aria-label="breadcrumb">
                 <Link color="inherit" href="/projects">
                     Projects</Link>
-                <Link color="inherit" href={"/project/" + project._id}>
-                    <Typography color="textPrimary">{project.name}</Typography>
+                <Link color="inherit" href={"/project/" + displayValues._id}>
+                    <Typography color="textPrimary">{displayValues.name}</Typography>
                 </Link>
             </Breadcrumbs>
         </div>
@@ -61,7 +69,7 @@ const ProjectDetailForm = ({
                     variant="outlined"
                     size="small"
                     onChange={handleChange}
-                    value={values.name}
+                    value={displayValues.name}
                 />
                 <InputLabel className="row" id="state">Key</InputLabel>
                 <Field
@@ -74,11 +82,11 @@ const ProjectDetailForm = ({
                     size="small"
                     disabled={true}
                     onChange={handleChange}
-                    value={values.key}
+                    value={displayValues.key}
                 />
                 <InputLabel className="row" id="default_assignee">Default Assignee</InputLabel>
                 <Field
-                    initialValues={{ default_assignee: project.default_assignee }}
+                    initialvalues={{ default_assignee: displayValues.default_assignee }}
                     className="select full"
                     component={Select}
                     labelId="default_assignee" id="default_assignee" name="default_assignee"
@@ -99,12 +107,13 @@ const ProjectDetailForm = ({
     </div>
 }
 
-const ProjectDetail = withFormik({
+const ProjectDetailWrapper = withFormik({
 
     mapPropsToValues: ({ project }) => ({
-        name: project.name,
-        key: project.key,
-        default_assignee: project.default_assignee
+        _id: project !== undefined ? project._id : "",
+        name: project !== undefined ? project.name : "",
+        key: project !== undefined ? project.key : "",
+        default_assignee: project !== undefined ? project.default_assignee : ""
     }),
 
     // Custom sync validation
@@ -122,23 +131,5 @@ const ProjectDetail = withFormik({
     displayName: 'BasicForm',
 })(ProjectDetailForm);
 
-const ProjectDetailController = () => {
-    const dispatch = useDispatch()
-    const currentProject = useSelector(selectCurrentProject)
-
-    const handleUpdate = values => {
-        dispatch(updateProjectNameAndAssignee({
-            ...values,
-            _id: currentProject._id
-        }))
-    }
-
-    function removeProject() {
-        dispatch(deleteProject(currentProject._id))
-    }
-
-    return (<ProjectDetail onContinue={handleUpdate} project={currentProject} removeProject={removeProject} />)
-}
-
-export default ProjectDetailController
+export default ProjectDetailWrapper
 
