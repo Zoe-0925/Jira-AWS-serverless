@@ -4,7 +4,7 @@ import Drawer from "../Components/SideDrawer/Drawer"
 import ProjectDetailForm from "../Components/Project/ProjectDetailForm"
 import { ProjectSetting } from "../Components/SideDrawer/DrawerInner"
 import NavBar from "../Components/NavBar/NavBar"
-import { updateProjectNameAndAssignee, deleteProject } from "../../Actions/project.actions"
+import { updateProjectNameAndAssignee, deleteProject } from "../Actions/project.actions"
 
 export default function ProjectDetail() {
     const [open, setOpen] = useState(true);

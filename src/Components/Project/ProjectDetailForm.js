@@ -20,22 +20,6 @@ const ProjectDetailForm = ({
     removeProject
 }) => {
 
-    const [displayValues, setDisplayValues] = useState(values)
-    const currentProjectId = useSelector(selectCurrentProjectId)
-    const projectReducer = useSelector(selectProjectReducer)
-
-    useEffect(() => {
-        const project = projectReducer.projects.find(item => item._id === currentProjectId)
-        if (project) {
-            setDisplayValues({
-                _id: project._id,
-                name: project.name,
-                key: project.key,
-                default_assignee: project.default_assignee
-            })
-        }
-    }, [currentProjectId])
-
     const { anchorEl, isOpen, anchorRef, handleMenuClose, handleMenuOpen } = useDotIconMenu()
 
     return <div className="project-detail-form">
@@ -43,8 +27,8 @@ const ProjectDetailForm = ({
             <Breadcrumbs aria-label="breadcrumb">
                 <Link color="inherit" href="/projects">
                     Projects</Link>
-                <Link color="inherit" href={"/project/" + displayValues._id}>
-                    <Typography color="textPrimary">{displayValues.name}</Typography>
+                <Link color="inherit" href={"/project/" + values._id}>
+                    <Typography color="textPrimary">{values.name}</Typography>
                 </Link>
             </Breadcrumbs>
         </div>
@@ -69,7 +53,7 @@ const ProjectDetailForm = ({
                     variant="outlined"
                     size="small"
                     onChange={handleChange}
-                    value={displayValues.name}
+                    value={values.name}
                 />
                 <InputLabel className="row" id="state">Key</InputLabel>
                 <Field
@@ -82,11 +66,11 @@ const ProjectDetailForm = ({
                     size="small"
                     disabled={true}
                     onChange={handleChange}
-                    value={displayValues.key}
+                    value={values.key}
                 />
                 <InputLabel className="row" id="default_assignee">Default Assignee</InputLabel>
                 <Field
-                    initialvalues={{ default_assignee: displayValues.default_assignee }}
+                    initialvalues={{ default_assignee: values.default_assignee }}
                     className="select full"
                     component={Select}
                     labelId="default_assignee" id="default_assignee" name="default_assignee"
@@ -99,7 +83,7 @@ const ProjectDetailForm = ({
                 </Field>
                 <Divider />
                 <Button
-                    className="row navbar-create-btn"
+                    className="navbar-create-btn"
                     onClick={handleSubmit}
                 >Save</Button>
             </Form>
@@ -131,5 +115,19 @@ const ProjectDetailWrapper = withFormik({
     displayName: 'BasicForm',
 })(ProjectDetailForm);
 
-export default ProjectDetailWrapper
+const ProjectDetailHOC = () => {
+
+    const [project, setProject] = useState()
+    const currentProjectId = useSelector(selectCurrentProjectId)
+    const projectReducer = useSelector(selectProjectReducer)
+
+    useEffect(() => {
+        setProject(projectReducer.projects.find(item => item._id === currentProjectId))
+    }, [currentProjectId])
+
+    return ( project=== undefined ? <p>Loading</p> : <ProjectDetailWrapper project={project} onContinue={values => { dispatch(updateProjectNameAndAssignee(values)) }} />
+    )
+}
+
+export default ProjectDetailHOC
 
