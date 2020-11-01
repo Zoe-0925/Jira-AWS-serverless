@@ -10,7 +10,7 @@ export const APPEND_SUCCESS_STATUS = "APPEND_SUCCESS_STATUS"
 export const REORDER_ISSUES = "REORDER_ISSUES"
 export const MOVE_ISSUES = "MOVE_ISSUES"
 export const DELETE_ISSUE_FROM_STATUS = "DELETE_ISSUE_FROM_STATUS"
-export const DELETE_STATUS_BY_PROJECT="DELETE_STATUS_BY_PROJECT"
+export const DELETE_STATUS_BY_PROJECT = "DELETE_STATUS_BY_PROJECT"
 
 export const createSuccessfulStatus = (data) => {
     return {
@@ -92,7 +92,7 @@ export const deleteSuccessfulIssueFromStatus = (issueId, statusId) => {
     }
 }
 
-export function deleteSuccessStatusByProject(id){
+export function deleteSuccessStatusByProject(id) {
     return {
         type: DELETE_STATUS_BY_PROJECT,
         id: id
@@ -117,7 +117,7 @@ export const addStatusOrder = (projectId) => async (dispatch, getState) => {
     dispatch({ type: LOADING_STATUS })
     try {
         const projectReducer = getState().ProjectReducer
-        const order = projectReducer.projects.find(project=>project._id===projectReducer.currentProjectId).statusOrder
+        const order = projectReducer.projects.find(project => project._id === projectReducer.currentProjectId).statusOrder
         dispatch(updateStatusOrder(order))
     }
     catch (err) {
@@ -201,5 +201,13 @@ export const getAllStatus = (projectId) => async  dispatch => {
 }
 
 export const deleteStatusByProject = (projectId) => async  dispatch => {
-    
+    dispatch({ type: LOADING_STATUS })
+    try {
+        //TODO
+        //update batch write item and update the api call
+        dispatch(deleteSuccessStatusByProject(projectId))
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+    }
 }

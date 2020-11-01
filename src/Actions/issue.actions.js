@@ -301,7 +301,9 @@ export const toggleFlag = (id) => async  dispatch => {
 export const deleteIssueByProject = (projectId) => async  dispatch => {
     dispatch({ type: LOADING_ISSUE })
     try {
-        await API.del("IssueApi", "/issues/project/" + projectId)
+        //TODO
+        //update batch write item and update the api call
+        // await API.del("IssueApi", "/issues/project/" + projectId)
         dispatch(deleteSuccessIssueByProject(projectId))
     }
     catch (err) {

@@ -120,6 +120,14 @@ export const deleteCommentByProject = (projectId) => async  dispatch => {
 }
 
 export const deleteCommentByIssue = (issueId) => async  dispatch => {
-
+    dispatch({ type: LOADING_COMMENT })
+    try {
+        //TODO
+        //update batch write item and update the api call
+        dispatch(deleteSuccessCommentByProject(projectId))
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+    }
 }
 

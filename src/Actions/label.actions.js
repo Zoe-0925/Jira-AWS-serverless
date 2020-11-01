@@ -94,5 +94,13 @@ export const getAllLabels = (projectId) => async  dispatch => {
 }
 
 export const deleteLabelByProject = (projectId) => async  dispatch => {
-    
+    dispatch({ type: LOADING_LABEL })
+    try {
+        //TODO
+        //update batch write item and update the api call
+        dispatch(deleteSuccessLabelByProject(projectId))
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+    }
 }
