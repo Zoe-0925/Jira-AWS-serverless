@@ -25,7 +25,7 @@ const App = () => {
       <AmplifySignOut />
       <Router history={history}>
         <Switch>
-          <Route path="/" exact component={login} />
+          <Route path="/" exact component={Login} />
           <Route path="/login" exact component={Login} />
           <Route path="/signup" exact component={Signup} />
           <Route path="/projects" exact component={ProjectList} />
