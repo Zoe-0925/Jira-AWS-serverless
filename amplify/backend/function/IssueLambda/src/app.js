@@ -355,9 +355,43 @@ app.delete(path + '/object' + hashKeyPath, function (req, res) {
     }
   });
 });
+
+/**************************************
+* HTTP remove method to delete object by project id *
+***************************************/
+
+app.delete(path + '/project/:project', function (req, res) {
+  var params = {};
+  if (userIdPresent && req.apiGateway) {
+    params[partitionKeyName] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
+  } else {
+    params[partitionKeyName] = req.params[partitionKeyName];
+    try {
+      params[partitionKeyName] = convertUrlType(req.params[partitionKeyName], partitionKeyType);
+    } catch (err) {
+      res.statusCode = 500;
+      res.json({ error: 'Wrong column type ' + err });
+    }
+  }
+
+  let removeItemParams = {
+    TableName: tableName,
+    KeyConditionExpression: '#status = :status',
+    ExpressionAttributeValues: { ':project': req.params.project },
+    ExpressionAttributeNames: { '#project': 'project' },
+    IndexName: "project-index"
+  }
+
+  //TODO:
+  //batch write item
+});
+
+
 app.listen(3000, function () {
   console.log("App started")
 });
+
+
 
 // Export the app object. When executing the application local this does nothing. However,
 // to port it to AWS Lambda we will create a wrapper around that will load the app from

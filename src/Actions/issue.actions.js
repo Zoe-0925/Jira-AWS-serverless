@@ -2,6 +2,7 @@ import axios from 'axios'
 import Util from "../Components/Util"
 import { createSuccessfulStatus, deleteSuccessfulIssueFromStatus } from "./status.actions"
 import { appendSuccessfulLabels } from "./label.actions"
+import { API } from 'aws-amplify';
 require('dotenv').config()
 
 const { post, put, jwtConfig } = Util
@@ -15,7 +16,7 @@ export const CREATE_SUCCESS_TASK = "CREATE_SUCCESS_TASK"
 export const CREATE_SUCCESS_EPIC = "CREATE_SUCCESS_EPIC"
 export const DELETE_SUCCESS_TASK = "DELETE_SUCCESS_TASK"
 export const DELETE_SUCCESS_EPIC = "DELETE_SUCCESS_EPIC"
-export const DELETE_ISSUE_BY_PROJECT="DELETE_ISSUE_BY_PROJECT"
+export const DELETE_ISSUE_BY_PROJECT = "DELETE_ISSUE_BY_PROJECT"
 export const UPDATE_SUCCESS_TASK = "UPDATE_SUCCESS_TASK"
 export const UPDATE_SUCCESS_EPIC = "UPDATE_SUCCESS_EPIC"
 export const APPEND_SUCCESS_TASKS = "APPEND_SUCCESS_TASKS"
@@ -122,7 +123,7 @@ export function dispatchError() {
     }
 }
 
-export function deleteSuccessIssueByProject(id){
+export function deleteSuccessIssueByProject(id) {
     return {
         type: DELETE_ISSUE_BY_PROJECT,
         id: id
@@ -147,8 +148,6 @@ export const getLabelsAndIssuesGroupByStatus = (projectId, token) => async  disp
     }
     catch (err) {
         dispatch(dispatchError(err))
-        // Something happened in setting up the request that triggered an Error
-        console.log('Error', err);
     }
 }
 
@@ -185,8 +184,6 @@ export const createTask = (data) => async  dispatch => {
     }
     catch (err) {
         dispatch(dispatchError(err))
-        // Something happened in setting up the request that triggered an Error
-        console.log('Error', err);
     }
 }
 
@@ -207,8 +204,6 @@ export const createEpic = (data) => async  dispatch => {
     }
     catch (err) {
         dispatch(dispatchError(err))
-        // Something happened in setting up the request that triggered an Error
-        console.log('Error', err);
     }
 }
 
@@ -226,8 +221,6 @@ export const getASingleIssue = (id) => async  dispatch => {
     }
     catch (err) {
         dispatch(dispatchError(err))
-        // Something happened in setting up the request that triggered an Error
-        console.log('Error', err);
     }
 }
 
@@ -248,8 +241,6 @@ export const getIssueByProjectAndType = (id, type) => async  dispatch => {
     }
     catch (err) {
         dispatch(dispatchError(err))
-        // Something happened in setting up the request that triggered an Error
-        console.log('Error', err);
     }
 }
 
@@ -268,8 +259,6 @@ export const updateIssue = (data) => async  dispatch => {
     }
     catch (err) {
         dispatch(dispatchError(err))
-        // Something happened in setting up the request that triggered an Error
-        console.log('Error', err);
     }
 }
 
@@ -288,8 +277,6 @@ export const deleteIssue = (issueId, statusId) => async  dispatch => {
     }
     catch (err) {
         dispatch(dispatchError(err))
-        // Something happened in setting up the request that triggered an Error
-        console.log('Error', err);
     }
 }
 
@@ -308,13 +295,18 @@ export const toggleFlag = (id) => async  dispatch => {
     }
     catch (err) {
         dispatch(dispatchError(err))
-        // Something happened in setting up the request that triggered an Error
-        console.log('Error', err);
     }
 }
 
 export const deleteIssueByProject = (projectId) => async  dispatch => {
-
+    dispatch({ type: LOADING_ISSUE })
+    try {
+        await API.del("IssueApi", "/issues/project/" + projectId)
+        dispatch(deleteSuccessIssueByProject(projectId))
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+    }
 }
 
 /**********************************  API Call Actions  ******************************************/
