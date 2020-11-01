@@ -32,14 +32,6 @@ export function updateUser(data) {
     }
 }
 
-export function dispatchUpdatePassword(salt, hash) {
-    return {
-        type: UPDATE_USER_PASSWORD,
-        salt: salt,
-        hash: hash
-    }
-}
-
 export function dispatchAddOtherUsers(userList) {
     return {
         type: ADD_OTHER_USERS,
@@ -84,7 +76,7 @@ export const signUp = (email, name, password) => async  dispatch => {
 export const confirmSignUp = (email, code) => async  dispatch => {
     dispatch({ type: LOADING_USER })
     try {
-        const authResponse = await Auth.confirmSignUp(email, password);
+        const authResponse = await Auth.confirmSignUp(email, code);
         console.log("confirm sign up", authResponse)
 
         //   if (authResponse.userConfirmed) {
@@ -126,7 +118,7 @@ export const signIn = (email, password) => async  dispatch => {
         const userInformation = await API.get('UserApi', `/users/email/${email}`, {})
         if (userInformation.error) {
             console.log("error at Dynamodb create user")
-            dispatch(dispatchError(err))
+            dispatch(dispatchError(userInformation.error))
             return
         }
         const data = { email: user.email, name: user.name, projects: JSON.parse(userInformation).projects }
@@ -143,7 +135,7 @@ export const signOut = () => async  dispatch => {
     try {
         const response = await Auth.signOut()
         if (response.error) {
-            dispatch(dispatchError(err))
+            dispatch(dispatchError(response.error))
             return
         }
         dispatch({
@@ -167,25 +159,27 @@ export const updatePassword = (oldPassword, newPassword) => async  dispatch => {
     }
     catch (err) {
         dispatch(dispatchError(err))
-        // Something happened in setting up the request that triggered an Error
-        console.log('Error', err);
     }
 }
 
 export const getCurrentUser = () => async  dispatch => {
     dispatch({ type: LOADING_USER })
     try {
-        const user = await Auth.currentAuthenticatedUser({
+        const credential = await Auth.currentAuthenticatedUser({
             bypassCache: true  // Optional, By default is false. If set to true, this call will send a request to Cognito to get the latest user data
         })
-        if (user) {
+        if (credential) {
             const accessToken = credential.signInUserSession.accessToken
             const refreshToken = credential.signInUserSession.refreshToken.token //The token String
             dispatch(saveTokens(accessToken, refreshToken))
-            dispatch(updateUser(user))
-            if (userInfo.error) {
-                dispatch(dispatchError(data.error))
-            }
+
+            //TODO update
+
+            //  const userInfo = await API.get("UserApi", "/users/email/" + credential.email)
+            //   dispatch(updateUser(user))
+            //   if (userInfo.error) {
+            //       dispatch(dispatchError(data.error))
+            //   }
         }
     }
     catch (err) {
@@ -193,7 +187,9 @@ export const getCurrentUser = () => async  dispatch => {
     }
 }
 
-export const getUserNameAndProjects = () => async  dispatch => {
+//TODO 
+//bug
+export const getUserNameAndProjects = (name) => async  dispatch => {
     dispatch({ type: LOADING_USER })
     const user = await Auth.currentAuthenticatedUser()
     if (user.name === undefined) {

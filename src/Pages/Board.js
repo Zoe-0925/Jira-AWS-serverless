@@ -7,8 +7,9 @@ import { useEditText } from "../Components/Shared/CustomHooks"
 import { EditableText, Input } from "../Components/Shared/EditableText"
 import DragContext from "../Components/Column/DragContext"
 import NavBar from "../Components/NavBar/NavBar"
-import { selectCurrentProjectName, selectCurrentProjectId } from '../Reducers/Selectors';
+import { selectCurrentProjectName, selectCurrentProjectId, selectCurrentUser, selectProjectReducer } from '../Reducers/Selectors';
 import history from "../history"
+import {Typography, Link,Breadcrumbs } from "@material-ui/core"
 
 export default function Board() {
     const dispatch = useDispatch()

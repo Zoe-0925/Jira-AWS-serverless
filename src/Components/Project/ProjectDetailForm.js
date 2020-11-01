@@ -1,4 +1,5 @@
 import React, { useState, useEffect, Fragment } from 'react'
+import {useDispatch} from "react-redux"
 import { Form, Field } from 'formik';
 import { withFormik } from 'formik';
 import { DotIconMenu } from "../Shared/Tabs"
@@ -14,6 +15,7 @@ import { selectCurrentProjectId, selectProjectReducer, selectProjectMembers, sel
 import { useDotIconMenu } from "../Shared/CustomHooks"
 import { Container, Row, Col } from "reactstrap"
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import {updateProjectNameAndAssignee} from "../../Actions/project.actions"
 
 const ProjectDetailForm = ({
     values,
@@ -144,7 +146,6 @@ const ProjectDetailWrapper = withFormik({
     },
     handleSubmit: (values, { 'props': { onContinue } }) => {
         onContinue({
-            ...project,
             _id: values._id,
             name: values.name,
             key: values.key,
@@ -156,7 +157,7 @@ const ProjectDetailWrapper = withFormik({
 })(ProjectDetailForm);
 
 const ProjectDetailHOC = () => {
-
+    const dispatch = useDispatch()
     const [project, setProject] = useState()
     const [members, setMembers] = useState([])
     const currentProjectId = useSelector(selectCurrentProjectId)
@@ -173,7 +174,7 @@ const ProjectDetailHOC = () => {
         const updateDate = new Date()
         //TODO
         //Use the date library to format the date.
-        const formattedValues = { ...values, updatedAt: JSON.stringtify(updateDate) }
+        const formattedValues = { ...values, updatedAt: JSON.stringtify(updateDate), members: project.members }
         dispatch(updateProjectNameAndAssignee(formattedValues))
     }
 

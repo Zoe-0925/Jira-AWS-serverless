@@ -118,7 +118,8 @@ export const addStatusOrder = (projectId) => async (dispatch, getState) => {
     try {
         const projectReducer = getState().ProjectReducer
         const order = projectReducer.projects.find(project => project._id === projectReducer.currentProjectId).statusOrder
-        dispatch(updateStatusOrder(order))
+       //TODO
+       // dispatch(updateStatusOrder(order))
     }
     catch (err) {
         dispatch(dispatchError(err))

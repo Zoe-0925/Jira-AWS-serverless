@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Droppable, Draggable } from "react-beautiful-dnd";
+import API from '@aws-amplify/api';
 import { v4 as uuidv4 } from 'uuid'
 import { useDispatch, useSelector } from "react-redux"
 import AddBoxRoundedIcon from '@material-ui/icons/AddBoxRounded';
 import Column from "./Column"
 import {
     selectStatus, selectStatusOrder, selectTasks, selectNoneFilter, selectCurrentProject,
-    selectFilterByEpic, selectFilterByLabel, selectFilterByAssignee, selectGroupBy
+    selectFilterByEpic, selectFilterByLabel, selectFilterByAssignee, selectGroupBy, selectProjectReducer
 } from "../../Reducers/Selectors"
 import { useIssueDetailModal, useCreateStatus } from "./CustomHooks"
 import IssueCard from "../Issues/IssueCard"
@@ -38,10 +39,13 @@ export const MyDraggable = (task, index, openTaskDetail) => {
 
 
 export default function DragAndDrop() {
+    const dispatch = useDispatch()
     const columnOrder = useSelector(selectStatusOrder) // droppableId = the index of each column in order
     const status = useSelector(selectStatus)
     const columnsFromStore = columnOrder.map(each => status.get(each))
     const tasks = useSelector(selectTasks)
+    const projectReducer = useSelector(selectProjectReducer)
+    const projectId = projectReducer.currentProjectId
 
     const [columns, setColumns] = useState(columnsFromStore)
 

@@ -120,7 +120,8 @@ export const updateMembers = data => async  dispatch => {
     dispatch({ type: LOADING_PROJECT })
     try {
         await API.put("ProjectApi", "/projects/members", data)
-        dispatch(updateSuccessfulProjecMembers(data))
+        //TODO
+       // dispatch(updateSuccessfulProjecMembers(data))
     } catch (err) {
         dispatch(dispatchError(err))
     }

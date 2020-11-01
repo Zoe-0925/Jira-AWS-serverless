@@ -124,7 +124,7 @@ export const deleteCommentByIssue = (issueId) => async  dispatch => {
     try {
         //TODO
         //update batch write item and update the api call
-        dispatch(deleteSuccessCommentByProject(projectId))
+        dispatch(deleteSuccessCommentByProject(issueId))
     }
     catch (err) {
         dispatch(dispatchError(err))
