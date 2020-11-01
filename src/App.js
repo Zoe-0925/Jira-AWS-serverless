@@ -25,7 +25,7 @@ const App = () => {
       <AmplifySignOut />
       <Router history={history}>
         <Switch>
-          <Route path="/" exact component={ProjectList} />
+          <Route path="/" exact component={login} />
           <Route path="/login" exact component={Login} />
           <Route path="/signup" exact component={Signup} />
           <Route path="/projects" exact component={ProjectList} />
@@ -38,4 +38,6 @@ const App = () => {
     </div>
   );
 }
+//export default process.env.NODE_ENV === "development" ? hot(App) : App
+
 export default process.env.NODE_ENV === "development" ? hot(withAuthenticator(App)) : withAuthenticator(App)

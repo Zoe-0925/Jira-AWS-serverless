@@ -298,10 +298,15 @@ export const toggleFlag = (id) => async  dispatch => {
     }
 }
 
-export const deleteIssueByProject = (projectId) => async  dispatch => {
+export const deleteIssueByProject = (projectId) => async (dispatch, getState) => {
     dispatch({ type: LOADING_ISSUE })
     try {
         //TODO
+        //TODO: get all the keys of all issues to be deleted.
+        // Then paginate the keys into sets of 25.
+        // for each set, call the API's batch delete.
+
+
         //update batch write item and update the api call
         // await API.del("IssueApi", "/issues/project/" + projectId)
         dispatch(deleteSuccessIssueByProject(projectId))

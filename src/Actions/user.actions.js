@@ -58,38 +58,47 @@ export function saveTokens(accessToken, refreshToken) {
 /******************* Thunk Actions  *****************************/
 export const signUp = (email, name, password) => async  dispatch => {
     dispatch({ type: LOADING_USER })
-
     try {
         const authResponse = await Auth.signUp({
             username: email,
             password,
             attributes: {
-                email
-            }
-        })
-        if (authResponse.userConfirmed) {
-            dispatch(signUp(email, name))
-        }
-        //TODO
-        // If succeeded, show the feedback
-        //TODO add loading indiator and feedback
-        let response = await API.post('UserApi', '/users', {
-            body: {
                 email: email,
                 name: name
             }
         })
-        if (response.error === undefined) {
-            //TODO
-            //Update the sign up successful state
-            // redirect to login
-            console.log("response", response)
-            return response.data
+        if (authResponse.userConfirmed) {
+            //cancel loading, and 
+            //redirect
         }
-        else {
-            console.log("error at Dynamodb create user")
-            return { error: "You have already signed up. Please login." }
-        }
+        //TODO
+        // If succeeded, show the feedback
+        //TODO add loading indiator and feedback
+    }
+    catch (err) {
+        dispatch(dispatchError(err.message))
+
+
+    }
+    //Create a user object in DynamoDB
+
+
+}
+
+/******************* Thunk Actions  *****************************/
+export const confirmSignUp = (email, code) => async  dispatch => {
+    dispatch({ type: LOADING_USER })
+    try {
+        const authResponse = await Auth.confirmSignUp(email, password);
+        console.log("confirm sign up",  authResponse)
+     //   if (authResponse.userConfirmed) {
+     //       await Auth.confirmSignUp(email, password);
+            //history.push
+            //cancel loading
+    //    }
+        //TODO
+        // If succeeded, show the feedback
+        //TODO add loading indiator and feedback
     }
     catch (err) {
         dispatch(dispatchError(err.message))
@@ -171,25 +180,14 @@ export const updatePassword = (oldPassword, newPassword) => async  dispatch => {
 export const getCurrentUser = () => async  dispatch => {
     dispatch({ type: LOADING_USER })
     try {
-        const credential = await Auth.currentAuthenticatedUser({  bypassCache: true  // Optional, By default is false. If set to true, this call will send a request to Cognito to get the latest user data
+        const user = await Auth.currentAuthenticatedUser({
+            bypassCache: true  // Optional, By default is false. If set to true, this call will send a request to Cognito to get the latest user data
         })
-        if (credential) {
-            const email = credential.username
+        if (user) {
             const accessToken = credential.signInUserSession.accessToken
             const refreshToken = credential.signInUserSession.refreshToken.token //The token String
             dispatch(saveTokens(accessToken, refreshToken))
-            let userInfo = await API.get("UserApi", "/users/email/" + email);
-            if (userInfo.Item) {  //if user does not exist, create one.
-                userInfo = await API.post("UserApi", "/users/", {
-                    body: {
-                        _id: uuidv4(),
-                        email: email,
-                        name: "",
-                        projects: []
-                    }
-                });
-            }
-            dispatch(updateUser(userInfo))
+            dispatch(updateUser(user))
             if (userInfo.error) {
                 dispatch(dispatchError(data.error))
             }
@@ -198,6 +196,19 @@ export const getCurrentUser = () => async  dispatch => {
     catch (err) {
         dispatch(dispatchError(err))
     }
+}
+
+export const getUserNameAndProjects = () => async  dispatch => {
+    dispatch({ type: LOADING_USER })
+    const user = await Auth.currentAuthenticatedUser()
+    if (user.name === undefined) {
+        await Auth.updateUserAttributes(user, {
+            'name': name,
+            'projects': []
+        });
+    }
+
+
 }
 
 /********************* API calls *************************/
