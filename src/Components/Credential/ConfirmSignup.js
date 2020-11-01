@@ -10,12 +10,12 @@ import { Link } from 'react-router-dom'
 import {
     TextField,
 } from 'formik-material-ui';
-import { EmailField, PasswordField } from "./SharedTextFields"
-import { signUp } from "../../Actions/user.actions"
-import { selectUserLoading, selectUserError, selectUserAuthenticated } from "../../Reducers/Selectors"
+import { EmailField } from "./SharedTextFields"
+import { confirmSignUp } from "../../Actions/user.actions"
+import {  selectUserError, selectUserAuthenticated } from "../../Reducers/Selectors"
 import SuccessfulFeedback from "./SuccessfulFeedback"
 
-export const SignupForm = props => {
+export const ConfirmSignupForm = props => {
     const {
         values,
         handleChange,
@@ -24,43 +24,35 @@ export const SignupForm = props => {
 
     const [sucessful, setSuccessful] = useState(false)
 
-    const loading = useSelector(selectUserLoading)
     const error = useSelector(selectUserError)
     const completed = useSelector(selectUserAuthenticated)
 
     useEffect(() => {
         if (completed) { //display feedback
             setSuccessful(true)
-
-
         }
     }, [completed])
-
 
     return <div className="login-wrapper">
         <div className="form">
             <Form onSubmit={handleSubmit}>
                 <image className="logo" src="../../../images/logo.png" alt="logo" />
-                <p className="title">Sign up for your account</p>
+                <p className="title">Confirm email to sign up</p>
                 <EmailField handleChange={handleChange} value={values.email} />
                 <Field
                     data-testid="name-field"
                     fullWidth={true}
                     className="row text-field"
                     component={TextField}
-                    name="name"
+                    name="code"
                     type="text"
                     margin="normal"
                     variant="outlined"
                     size="small"
                     onChange={handleChange}
-                    value={values.name}
-                    placeholder="Enter full name"
+                    value={values.code}
+                    placeholder="Enter confirmation code"
                 />
-                <PasswordField
-                    placeholder="Create password" handleChange={handleChange}
-                    value={values.password} />
-
                 <Button
                     className="row main-submit-btn"
                     onClick={handleSubmit}
@@ -68,17 +60,6 @@ export const SignupForm = props => {
                 {error !== "" && <p className="error-msg">{error}</p>}
                 {sucessful && <SuccessfulFeedback open={sucessful} message="Sign up successfully!" />}
                 <p className="or-label">OR</p>
-
-                <Button
-                    className="row submit-btn"
-                    onClick={handleSubmit}
-                    disabled={loading}
-                >Continue with Google</Button>
-                <Button
-                    className="row submit-btn"
-                    onClick={handleSubmit}
-                    disabled={loading}
-                >Continue with Git hub</Button>
                 <Box margin={1}>
                     <Divider className="blank-divider" />
                     <Link className="link" to="/login"><p className="link">Already have an account? Log in</p></Link>
@@ -88,11 +69,10 @@ export const SignupForm = props => {
     </div>
 }
 
-export const SignupView = withFormik({
+export const ConfirmSignupView = withFormik({
     mapPropsToValues: () => ({
         email: "",
-        name: "",
-        password: ""
+        code: ""
     }),
 
     // Custom sync validation
@@ -104,24 +84,9 @@ export const SignupView = withFormik({
         if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
             errors.email = 'Please enter a valid email address';
         }
-        if (!/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/.test(values.password)) {
-            errors.password = 'Password must contain at least 1 lower case, 1 upper case, 1 number and 1 special character. ';
-        }
-        if (!values.name) {
-            errors.name = 'Required';
-        }
-        if (!/^[A-Za-z]/i.test(values.name)) {
-            errors.name = 'Please enter a valid name';
-        }
-        if (!values.password) {
+        if (!values.code) {
             errors.password = 'Required';
         }
-        /**   const validEmail = checkEmail(values.email)
-          if (!validEmail) {
-              errors.email = 'This email address already existed.';
-          }*/
-        //TODO
-        //Password regex
         return errors;
     },
     handleSubmit: (values, { 'props': { onContinue } }) => {
@@ -129,24 +94,19 @@ export const SignupView = withFormik({
     },
 
     displayName: 'BasicForm',
-})(SignupForm);
+})(ConfirmSignupForm);
 
-
-//TODO
-// onContinue needs to use the server to validate if the email already exists
-
-const SignupHOC = () => {
+const ConfirmSignupHOC = () => {
     const dispatch = useDispatch()
 
-    const handleSignup = async (values) => {
-        const { email, name, password } = values
-        dispatch(signUp(email, name, password))
+    const confirm = async (values) => {
+        const { email, code } = values
+        dispatch(confirmSignUp(email, code))
     }
     return (
-        <SignupView onContinue={handleSignup} />
+        <SignupView onContinue={confirm} />
     )
 }
 
-export default SignupHOC
+export default ConfirmSignupHOC
 
-//TODO display the error message somewhere

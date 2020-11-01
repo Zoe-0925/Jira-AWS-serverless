@@ -1,4 +1,5 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
+import { Auth } from 'aws-amplify';
 import { useSelector, useDispatch } from "react-redux"
 import { Form, withFormik } from 'formik';
 import {
@@ -20,13 +21,6 @@ const LoginForm = props => {
 
     const loading = useSelector(selectUserLoading)
     const error = useSelector(selectUserError)
-    const completed = useSelector(selectUserAuthenticated)
-
-    useEffect(() => {
-        if (completed) { //display feedback
-            history.push("/projects/")
-        }
-    }, [completed])
 
     return <div className="login-wrapper">
         <div className="form">
@@ -93,9 +87,8 @@ const LoginView = withFormik({
 const LoginHOC = () => {
     const dispatch = useDispatch()
 
-    const handleLogin = (values) => {
-        console.log("email & password",values.email, values.password )
-        dispatch(signIn(values.email, values.password))
+    const handleLogin = async (values) => {
+       dispatch(signIn(values.email, values.password))
     }
 
     return (

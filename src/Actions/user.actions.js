@@ -13,6 +13,7 @@ export const UPDATE_USER = "UPDATE_USER"
 export const ADD_OTHER_USERS = "ADD_OTHER_USERS"
 export const DELETE_USER = "UPDATE_USER"
 export const SAVE_TOKENS = "SAVE_TOKENS"
+export const FINISH_LOADING = "FINISH_LOADING"
 //export const CHECK_EMAIL_EXIST = "CHECK_EMAIL_EXIST"
 //-------------------------------------------------------
 
@@ -64,25 +65,19 @@ export const signUp = (email, name, password) => async  dispatch => {
             password,
             attributes: {
                 email: email,
-                name: name
+                fullname: name
             }
         })
         if (authResponse.userConfirmed) {
-            //cancel loading, and 
-            //redirect
+            dispatch({
+                type: FINISH_LOADING
+            })
+            history.push("/confirmSignup")
         }
-        //TODO
-        // If succeeded, show the feedback
-        //TODO add loading indiator and feedback
     }
     catch (err) {
         dispatch(dispatchError(err.message))
-
-
     }
-    //Create a user object in DynamoDB
-
-
 }
 
 /******************* Thunk Actions  *****************************/
@@ -90,15 +85,23 @@ export const confirmSignUp = (email, code) => async  dispatch => {
     dispatch({ type: LOADING_USER })
     try {
         const authResponse = await Auth.confirmSignUp(email, password);
-        console.log("confirm sign up",  authResponse)
-     //   if (authResponse.userConfirmed) {
-     //       await Auth.confirmSignUp(email, password);
-            //history.push
-            //cancel loading
-    //    }
+        console.log("confirm sign up", authResponse)
+
+        //   if (authResponse.userConfirmed) {
+        //       await Auth.confirmSignUp(email, password);
+        //history.push
+        //cancel loading
+        //    }
         //TODO
         // If succeeded, show the feedback
         //TODO add loading indiator and feedback
+        //
+        /** 
+        dispatch({
+            type: FINISH_LOADING
+        })
+        */
+        //And create a user object in dynamodb.
     }
     catch (err) {
         dispatch(dispatchError(err.message))
@@ -108,15 +111,6 @@ export const confirmSignUp = (email, code) => async  dispatch => {
     //Create a user object in DynamoDB
 
 
-}
-
-export const checkUserExist = (email) => async  dispatch => {
-    dispatch({ type: LOADING_USER })
-    try {
-        return await API.get("/email/" + email);
-    } catch (err) {
-        dispatch(dispatchError(err))
-    }
 }
 
 export const signIn = (email, password) => async  dispatch => {
@@ -135,7 +129,8 @@ export const signIn = (email, password) => async  dispatch => {
             dispatch(dispatchError(err))
             return
         }
-        dispatch({ type: LOGIN_SUCCESS_USER, data: JSON.parse(response) })
+        const data = { email: user.email, name: user.name, projects: JSON.parse(userInformation).projects }
+        dispatch({ type: LOGIN_SUCCESS_USER, data: data })
         history.push("/projects/")
 
     } catch (err) {

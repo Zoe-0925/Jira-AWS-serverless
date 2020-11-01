@@ -1,5 +1,0 @@
-{
-    "tableName": "Project",
-    "partitionKeyName": "_id",
-    "partitionKeyType": "S"
-}
