@@ -39,6 +39,7 @@ export default function ProjectListTable() {
         dispatch(setCurrentProject(projectId))
         //TODO
         //update status order
+        //and fetch resources for the project
         history.push("/projects/board")
     }
 

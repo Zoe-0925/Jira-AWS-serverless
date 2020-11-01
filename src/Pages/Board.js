@@ -1,5 +1,5 @@
-import React from 'react'
-import { useSelector } from "react-redux"
+import React, { useEffect } from 'react'
+import { useSelector, useDispatch } from "react-redux"
 import FilterManager from "../Components/Filters/FilterManager"
 import Drawer from "../Components/SideDrawer/Drawer"
 import { DrawerInner } from "../Components/SideDrawer/DrawerInner"
@@ -7,12 +7,38 @@ import { useEditText } from "../Components/Shared/CustomHooks"
 import { EditableText, Input } from "../Components/Shared/EditableText"
 import DragContext from "../Components/Column/DragContext"
 import NavBar from "../Components/NavBar/NavBar"
-import { selectCurrentProjectName } from '../Reducers/Selectors';
+import { selectCurrentProjectName, selectCurrentProjectId } from '../Reducers/Selectors';
+import history from "../history"
 
 export default function Board() {
-    const projectName = useSelector(selectCurrentProjectName)
+    const dispatch = useDispatch()
+
+    const currentUser = useSelector(selectCurrentUser)
+    const currentProjectId = useSelector(selectCurrentProjectId)
+    const projectReducer = useSelector(selectProjectReducer)
+
+    //TODO
+    //Wnat if the project does not exist
+    const projectName = currentProjectId !== undefined ? projectReducer.projects.find(item => item._id === currentProjectId).name : ""
     const { state, setState, edit, setEdit } = useEditText(projectName || "")//project name
     const [open, setOpen] = React.useState(true);
+
+    useEffect(() => {
+        if (currentUser === undefined) {
+            history.push("/")
+        } else if (currentProjectId === undefined) {
+            history.push("/projects")
+        } else if (projectName === undefined) {
+            //TODO
+            //fetch project resources of the project id.
+        }else{
+            
+        }
+    }, [])
+
+    useEffect(() => {
+
+    }, [currentProjectId])
 
     return (
         <div className={open ? "main drawer-close" : "main drawer-open"}>
@@ -22,7 +48,7 @@ export default function Board() {
             </Drawer>
             <Breadcrumbs aria-label="breadcrumb" className="bread-crumbs" >
                 <Link color="inherit" href="/">Projects</Link>
-                <Typography color="textPrimary">{projectName}</Typography>
+                <Typography color="textPrimary">{projectName ? projectName : ""}</Typography>
             </Breadcrumbs>
             <EditableText name="epic-summary" className="board-name"
                 setEdit={setEdit} edit={edit} value={state}>

@@ -10,7 +10,7 @@ export const APPEND_SUCCESS_STATUS = "APPEND_SUCCESS_STATUS"
 export const REORDER_ISSUES = "REORDER_ISSUES"
 export const MOVE_ISSUES = "MOVE_ISSUES"
 export const DELETE_ISSUE_FROM_STATUS = "DELETE_ISSUE_FROM_STATUS"
-
+export const DELETE_STATUS_BY_PROJECT="DELETE_STATUS_BY_PROJECT"
 
 export const createSuccessfulStatus = (data) => {
     return {
@@ -91,6 +91,15 @@ export const deleteSuccessfulIssueFromStatus = (issueId, statusId) => {
         statusId: statusId
     }
 }
+
+export function deleteSuccessStatusByProject(id){
+    return {
+        type: DELETE_STATUS_BY_PROJECT,
+        id: id
+    }
+}
+
+
 
 /**************************** Thunk Actions ***************************/
 
@@ -189,4 +198,8 @@ export const getAllStatus = (projectId) => async  dispatch => {
     catch (err) {
         dispatch(dispatchError(err))
     }
+}
+
+export const deleteStatusByProject = (projectId) => async  dispatch => {
+    
 }

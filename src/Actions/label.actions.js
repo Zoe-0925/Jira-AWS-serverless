@@ -5,6 +5,7 @@ export const ERROR_LABEL = "ERROR_LABEL"
 export const CREATE_SUCCESS_LABEL = "CREATE_SUCCESS_LABEL"
 export const DELETE_SUCCESS_LABEL = "DELETE_SUCCESS_LABEL"
 export const APPEND_SUCCESS_LABELS = "APPEND_SUCCESS_LABELS"
+export const DELETE_LABEL_BY_PROJECT="DELETE_LABEL_BY_PROJECT"
 
 /********************** Actions *******************/
 
@@ -35,6 +36,13 @@ export function dispatchError(data) {
     return {
         type: ERROR_LABEL,
         data: data
+    }
+}
+
+export function deleteSuccessLabelByProject(id){
+    return {
+        type: DELETE_LABEL_BY_PROJECT,
+        id: id
     }
 }
 
@@ -83,4 +91,8 @@ export const getAllLabels = (projectId) => async  dispatch => {
     catch (err) {
         dispatch(dispatchError(err))
     }
+}
+
+export const deleteLabelByProject = (projectId) => async  dispatch => {
+    
 }

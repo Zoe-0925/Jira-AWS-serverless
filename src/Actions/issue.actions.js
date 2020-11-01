@@ -15,6 +15,7 @@ export const CREATE_SUCCESS_TASK = "CREATE_SUCCESS_TASK"
 export const CREATE_SUCCESS_EPIC = "CREATE_SUCCESS_EPIC"
 export const DELETE_SUCCESS_TASK = "DELETE_SUCCESS_TASK"
 export const DELETE_SUCCESS_EPIC = "DELETE_SUCCESS_EPIC"
+export const DELETE_ISSUE_BY_PROJECT="DELETE_ISSUE_BY_PROJECT"
 export const UPDATE_SUCCESS_TASK = "UPDATE_SUCCESS_TASK"
 export const UPDATE_SUCCESS_EPIC = "UPDATE_SUCCESS_EPIC"
 export const APPEND_SUCCESS_TASKS = "APPEND_SUCCESS_TASKS"
@@ -29,7 +30,6 @@ export const ADD_SUBTASK_TO_TASK = "ADD_SUBTASK_TO_TASK"
 export const REMOVE_SUBTASK_FROM_TASK = "REMOVE_SUBTASK_FROM_TASK"
 export const UPDATE_ISSUE_GROUP = "UPDATE_ISSUE_GROUP"
 export const TOGGLE_FLAG = "TOGGLE_FLAG"
-
 /**********************************  Actions  ******************************************/
 export function appendSuccessfulTasks(data) {
     return {
@@ -119,6 +119,13 @@ export function toggleSuccessfulFlag(id) {
 export function dispatchError() {
     return {
         type: ERROR_ISSUE
+    }
+}
+
+export function deleteSuccessIssueByProject(id){
+    return {
+        type: DELETE_ISSUE_BY_PROJECT,
+        id: id
     }
 }
 
@@ -306,6 +313,9 @@ export const toggleFlag = (id) => async  dispatch => {
     }
 }
 
+export const deleteIssueByProject = (projectId) => async  dispatch => {
+
+}
 
 /**********************************  API Call Actions  ******************************************/
 

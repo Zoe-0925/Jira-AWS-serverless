@@ -3,7 +3,8 @@ import {
     UPDATE_SUCCESS_TASK, DELETE_SUCCESS_EPIC, UPDATE_SUCCESS_EPIC,
     APPEND_SUCCESS_TASKS_PARENT, APPEND_SUCCESS_TASKS_CHILDREN,
     ERROR_ISSUE, UPDATE_ISSUE_GROUP, TOGGLE_FLAG, CREATE_SUCCESS_SUB_TASK, APPEND_SUCCESS_SUBTASKS,
-    DELETE_SUCCESS_SUB_TASK, ADD_TASK_TO_EPIC, REMOVE_TASK_FROM_EPIC, ADD_SUBTASK_TO_TASK, REMOVE_SUBTASK_FROM_TASK
+    DELETE_SUCCESS_SUB_TASK, ADD_TASK_TO_EPIC, REMOVE_TASK_FROM_EPIC, ADD_SUBTASK_TO_TASK, REMOVE_SUBTASK_FROM_TASK,
+    DELETE_ISSUE_BY_PROJECT
 } from "../Actions/issue.actions"
 import { DELETE_SUCCESS_STATUS } from "../Actions/status.actions"
 
@@ -121,7 +122,15 @@ export default function IssueReducer(state = {
             let issue = newState.issues.get(action.id)
             console.log("action.id", action.id, "issue", issue)
             issue.flag = !issue.flag
-            return newState;
+            return newState
+        case DELETE_ISSUE_BY_PROJECT:
+            newState = { ...state, authenticated: true, loading: false }
+            for (let [key, value] of newState.entries()) {
+                if (value.project === action.id) {
+                    newState.delete(key)
+                }
+            }
+            return newState 
         case ERROR_ISSUE:
             return { ...state, authenticated: false, loading: false, errorMessage: action.data }
         default:

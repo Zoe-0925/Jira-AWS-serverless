@@ -13,7 +13,8 @@ export const GET_COMMENT_BY_ID = "GET_COMMENT_BY_ID"
 export const GET_ALL_COMMENTS = "GET_ALL_COMMENTS"
 export const UPDATE_COMMENT = "UPDATE_COMMENT"
 export const DELETE_COMMENT = "UPDATE_COMMENT"
-
+export const DELETE_COMMENT_BY_PROJECT = "DELETE_COMMENT_BY_PROJECT"
+export const DELETE_COMMENT_BY_ISSUE = "DELETE_COMMENT_BY_ISSUE"
 
 /**********************************  Actions  ******************************************/
 export function appendSuccessfulComments(data) {
@@ -47,6 +48,20 @@ export function updateSuccessfulComment(data) {
 export function dispatchError() {
     return {
         type: ERROR_COMMENT
+    }
+}
+
+export function deleteSuccessCommentByProject(id) {
+    return {
+        type: DELETE_COMMENT_BY_PROJECT,
+        id: id
+    }
+}
+
+export function deleteSuccessCommentByIssue(id) {
+    return {
+        type: DELETE_COMMENT_BY_ISSUE,
+        id: id
     }
 }
 
@@ -98,5 +113,13 @@ export const deleteComment = (id) => async  dispatch => {
     catch (err) {
         dispatch(dispatchError(err))
     }
+}
+
+export const deleteCommentByProject = (projectId) => async  dispatch => {
+
+}
+
+export const deleteCommentByIssue = (issueId) => async  dispatch => {
+
 }
 
