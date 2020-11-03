@@ -1,0 +1,42 @@
+{
+    "paths": [
+        {
+            "name": "/comments",
+            "lambdaFunction": "CommentLambda",
+            "privacy": {
+                "private": true,
+                "auth": [
+                    "/POST",
+                    "/GET",
+                    "/PUT",
+                    "/PATCH",
+                    "/DELETE"
+                ]
+            },
+            "policyResourceName": "/comments"
+        }
+    ],
+    "resourceName": "CommentApi",
+    "apiName": "CommentApi",
+    "functionArns": [
+        {
+            "lambdaFunction": "CommentLambda"
+        }
+    ],
+    "privacy": {
+        "auth": 1,
+        "unauth": 0,
+        "authRoleName": "amplify-jiraserverless-dev-90420-authRole",
+        "unAuthRoleName": "amplify-jiraserverless-dev-90420-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "CommentLambda",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}
