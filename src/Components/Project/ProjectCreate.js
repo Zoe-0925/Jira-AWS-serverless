@@ -9,6 +9,7 @@ import {
     Link, Typography, Breadcrumbs, Button, InputLabel, Divider, Dialog
 } from '@material-ui/core';
 import { TextField } from 'formik-material-ui';
+import { DialogCloseIcon } from "../Shared/Tabs"
 
 export const ProjectCreateForm = ({
     values,
@@ -29,7 +30,7 @@ export const ProjectCreateForm = ({
         <div align="center" className="form">
             <Form onSubmit={handleSubmit}>
                 <div className="input-container">
-                    <InputLabel className="field-label" for="name">Name *</InputLabel>
+                    <InputLabel className="field-label">Name *</InputLabel>
                     <Field
                         id="name"
                         className="field"
@@ -44,7 +45,7 @@ export const ProjectCreateForm = ({
                     />
                 </div>
                 <div className="input-container">
-                    <InputLabel className="field-label" for="key">Key *</InputLabel>
+                    <InputLabel className="field-label">Key *</InputLabel>
                     <Field
                         id="key-field"
                         className="field"
