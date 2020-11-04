@@ -3,18 +3,15 @@ import { useDispatch } from "react-redux"
 import { useSelector } from "react-redux"
 import { Form, Field, withFormik } from 'formik';
 import Select from 'react-select';
-import { Container, Row, Col } from 'reactstrap';
+import { Container, Row } from 'reactstrap';
 import {
     Button,
     Divider,
     Typography,
     InputLabel,
     TextareaAutosize,
-    IconButton,
     DialogActions, Dialog
 } from '@material-ui/core';
-import MuiDialogTitle from '@material-ui/core/DialogTitle';
-import CloseIcon from '@material-ui/icons/Close';
 import * as Yup from 'yup';
 import {
     TextField,

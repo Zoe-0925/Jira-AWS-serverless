@@ -7,6 +7,7 @@ import {
 } from '@material-ui/core';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import CloseIcon from '@material-ui/icons/Close';
+import { Row, Col } from "reactstrap"
 
 export function AddTab({ operationName, handleClick, className }) {
     return (
@@ -77,17 +78,17 @@ export function DotIconMenu({ className, anchorEl, isOpen, anchorRef, handleMenu
     )
 }
 
-export function DialogCloseIcon({handleClose}) {
+export function DialogCloseIcon({ handleClose }) {
     return (
         <MuiDialogTitle disableTypography className="title">
-        <Row>
-            <Col xs lg="11"></Col>
-            <Col xs lg="1">
-                <IconButton aria-label="close" className="close-btn" onClick={handleClose}>
-                    <CloseIcon />
-                </IconButton>
-            </Col>
-        </Row>
-    </MuiDialogTitle>
+            <Row>
+                <Col xs lg="11"></Col>
+                <Col xs lg="1">
+                    <IconButton aria-label="close" className="close-btn" onClick={handleClose}>
+                        <CloseIcon />
+                    </IconButton>
+                </Col>
+            </Row>
+        </MuiDialogTitle>
     )
 }

@@ -71,8 +71,8 @@ export const ProjectCreateForm = ({
 export const ProjectCreateWrapper = withFormik({
 
     mapPropsToValues: () => ({
-        name: project !== undefined ? project.name : "",
-        key: project !== undefined ? project.key : "",
+        name: "",
+        key: "",
     }),
 
     // Custom sync validation
