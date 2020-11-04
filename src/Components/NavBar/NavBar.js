@@ -4,11 +4,12 @@ import { fade, makeStyles } from '@material-ui/core/styles';
 import { v4 as uuidv4 } from 'uuid'
 import { Auth } from 'aws-amplify';
 import {
-    AppBar, Button, Tab, Menu, MenuItem, Badge, Divider, InputBase, Typography, IconButton, Toolbar,
+    AppBar, Button,  Menu, MenuItem, Badge, Divider, InputBase,  IconButton, Toolbar,
 } from '@material-ui/core'
 
 import history from "../../history"
 import { selectAllProjects } from "../../Reducers/Selectors"
+import {ProjectCreateHOC} from "../Project/ProjectCreate"
 /***** Icons ****/
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';

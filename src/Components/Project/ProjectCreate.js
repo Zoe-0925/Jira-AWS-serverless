@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core';
 import { TextField } from 'formik-material-ui';
 
-export const ProjecCreateForm = ({
+export const ProjectCreateForm = ({
     values,
     handleChange,
     handleSubmit,
