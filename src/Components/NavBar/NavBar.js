@@ -182,9 +182,6 @@ export default function NavBar() {
                     <Button onClick={() => history.push("/projects/")} className="nav-title">Jira Mock </Button>
                     <Button className="nav-tab" onClick={handleProjectMenuOpen}>Projects <ExpandMoreIcon /></Button>
                     {projectMenu}
-
-
-
                     <IssueCreateDialogue />
                     <div className={classes.grow} />
                     <div className={classes.sectionDesktop}>
@@ -199,8 +196,6 @@ export default function NavBar() {
                                     input: classes.inputInput,
                                 }}
                                 inputProps={{ 'aria-label': 'search' }}
-
-
                             />
                         </div>
                         <IconButton
