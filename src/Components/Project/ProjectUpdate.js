@@ -1,5 +1,7 @@
-import React, { useState, useEffect, Fragment } from 'react'
-import {useDispatch} from "react-redux"
+import React, { useState, useEffect , Fragment} from 'react'
+import { useDispatch,useSelector } from "react-redux"
+import { selectCurrentProjectId, selectProjectReducer, selectUserReducer } from "../../Reducers/Selectors"
+import { updateProjectNameAndAssignee } from "../../Actions/project.actions"
 import { Form, Field } from 'formik';
 import { withFormik } from 'formik';
 import { DotIconMenu } from "../Shared/Tabs"
@@ -10,14 +12,11 @@ import {
     TextField,
     Select,
 } from 'formik-material-ui';
-import { useSelector } from "react-redux"
-import { selectCurrentProjectId, selectProjectReducer, selectProjectMembers, selectUserReducer } from "../../Reducers/Selectors"
 import { useDotIconMenu } from "../Shared/CustomHooks"
 import { Container, Row, Col } from "reactstrap"
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import {updateProjectNameAndAssignee} from "../../Actions/project.actions"
 
-const ProjectDetailForm = ({
+export const ProjectDetailForm = ({
     values,
     handleChange,
     handleSubmit,
@@ -125,7 +124,7 @@ const ProjectDetailForm = ({
     </Fragment>
 }
 
-const ProjectDetailWrapper = withFormik({
+export const ProjectDetailWrapper = withFormik({
 
     mapPropsToValues: ({ project, members }) => ({
         _id: project !== undefined ? project._id : "",
@@ -156,7 +155,7 @@ const ProjectDetailWrapper = withFormik({
     displayName: 'BasicForm',
 })(ProjectDetailForm);
 
-const ProjectDetailHOC = () => {
+export const ProjectUpdateHOC = () => {
     const dispatch = useDispatch()
     const [project, setProject] = useState()
     const [members, setMembers] = useState([])
@@ -182,5 +181,4 @@ const ProjectDetailHOC = () => {
     )
 }
 
-export default ProjectDetailHOC
 

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useSelector, useDispatch } from "react-redux"
 import { createStatus } from "../../Actions/status.actions"
 import { getUserByIds } from "../../Actions/mockUserActions"
-import { selectCurrentProject, selectCurrentUser } from "../../Reducers/Selectors"
+import { selectCurrentProject,  } from "../../Reducers/Selectors"
 
 
 

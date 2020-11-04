@@ -10,7 +10,7 @@ import {
 const UserReducer = (state = {
 	loading: false,
 	authenticated: false,
-	currentUser: "testUserId",
+	currentUserId: "testUserId",
 	users: [{ _id: "testUserId", name: "userName", email: "test email" }],
 	errorMessage: ""
 }, action) => {

@@ -100,9 +100,9 @@ export const selectUserAuthenticated = createSelector(
     reducer => reducer.authenticated
 )
 
-export const selectCurrentUser = createSelector(
+export const selectCurrentUserId = createSelector(
     selectUserReducer,
-    reducer => reducer.currentUser
+    reducer => reducer.currentUserId
 )
 
 export const selectAllUsers = createSelector(

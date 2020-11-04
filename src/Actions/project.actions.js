@@ -11,7 +11,7 @@ export const APPEND_SUCCESS_PROJECTS = "APPEND_SUCCESS_PROJECTS"
 export const SET_CURRENT_PROJECT = "SET_CURRENT_PROJECT"
 export const APPEDN_CURRENT_PROJECT = "APPEDN_CURRENT_PROJECT"
 export const LEAVE_PROJECT = "LEAVE_PROJECT"  //Remove a user from a project...
-export const UPDATE_SUCCESS_STATUS_ORDER="UPDATE_SUCCESS_STATUS_ORDER"
+export const UPDATE_SUCCESS_STATUS_ORDER = "UPDATE_SUCCESS_STATUS_ORDER"
 
 /***************** Actions  ***********************/
 export function updateSuccessfulMembers(data) {
@@ -20,7 +20,6 @@ export function updateSuccessfulMembers(data) {
         data: data
     }
 }
-
 
 
 export function createSuccessfulProject(data) {
@@ -83,10 +82,11 @@ export function dispatchError(data) {
 export const createProject = (newProject) => async  dispatch => {
     dispatch({ type: LOADING_PROJECT })
     try {
-            await API.post("ProjectApi", "/projects", {
-                body: newProject
-            })
+        await API.post("ProjectApi", "/projects", {
+            body: newProject
+        })
         dispatch(createSuccessfulProject(newProject))
+        history.pushState("/projects")
     }
     catch (err) {
         dispatch(dispatchError(err))

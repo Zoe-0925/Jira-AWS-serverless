@@ -7,14 +7,14 @@ import { useEditText } from "../Components/Shared/CustomHooks"
 import { EditableText, Input } from "../Components/Shared/EditableText"
 import DragContext from "../Components/Column/DragContext"
 import NavBar from "../Components/NavBar/NavBar"
-import { selectCurrentProjectName, selectCurrentProjectId, selectCurrentUser, selectProjectReducer } from '../Reducers/Selectors';
+import { selectCurrentProjectName, selectCurrentProjectId, selectCurrentUserId, selectProjectReducer } from '../Reducers/Selectors';
 import history from "../history"
-import {Typography, Link,Breadcrumbs } from "@material-ui/core"
+import { Typography, Link, Breadcrumbs } from "@material-ui/core"
 
 export default function Board() {
     const dispatch = useDispatch()
 
-    const currentUser = useSelector(selectCurrentUser)
+    const currentUserId = useSelector(selectCurrentUserId)
     const currentProjectId = useSelector(selectCurrentProjectId)
     const projectReducer = useSelector(selectProjectReducer)
 
@@ -25,15 +25,13 @@ export default function Board() {
     const [open, setOpen] = React.useState(true);
 
     useEffect(() => {
-        if (currentUser === undefined) {
+        if (currentUserId === undefined || currentUserId === "") {
             history.push("/")
-        } else if (currentProjectId === undefined) {
-            history.push("/projects")
         } else if (projectName === undefined) {
             //TODO
             //fetch project resources of the project id.
-        }else{
-            
+        } else {
+
         }
     }, [])
 
