@@ -74,6 +74,18 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
   margin: 0;
 }
 
+@mixin fieldLabel {
+  float: left;
+  color: rgb(107, 119, 140);
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.33333;
+  margin-top: 0;
+  padding-top: 0.4rem;
+  margin-bottom: 0;
+  padding-bottom: 0.2rem;
+}
+
 @mixin title {
   color: #333;
   font-weight: normal;
@@ -182,21 +194,13 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
     width: 40%;
   }
 
-  .navbar-create-btn{
-     @include call-to-action-button;
-     margin-top:1rem;
+  .navbar-create-btn {
+    @include call-to-action-button;
+    margin-top: 1rem;
   }
 
   .field-label {
-    float: left;
-    color: rgb(107, 119, 140);
-    font-size: 0.8rem;
-    font-weight: 600;
-    line-height: 1.33333;
-    margin-top: 0;
-    padding-top: 0.4rem;
-    margin-bottom: 0;
-    padding-bottom: 0.2rem;
+    @include fieldLabel;
   }
 
   .project-icon {
@@ -921,5 +925,28 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
   .project-name {
     cursor: pointer;
     color: #0c47be;
+  }
+}
+
+.project-create-form {
+  width: $full;
+
+  .navbar-create-btn {
+    @include call-to-action-button;
+  }
+
+  .input-container {
+    width: 21.875rem;
+  }
+
+  .field {
+    width: $full;
+    background-color: $bgc;
+  }
+
+  .field-label {
+    @include fieldLabel;
+    padding: 0;
+    margin: 0;
   }
 }

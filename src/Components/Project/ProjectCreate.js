@@ -19,15 +19,8 @@ export const ProjectCreateForm = ({
 }) => {
     return <Fragment>
         <DialogCloseIcon handleClose={handleClose} />
-        <Breadcrumbs aria-label="breadcrumb" className="bread-crumbs" >
-            <Link color="inherit" href="/projects">
-                Projects</Link>
-            <Link color="inherit" href={"/project/" + values._id}>
-                <Typography color="textPrimary">{values.name}</Typography>
-            </Link>
-        </Breadcrumbs>
         <div align="center"><Typography variant="h5">Create project</Typography></div>
-        <div align="center" className="form">
+        <div align="center" className="project-create-form">
             <Form onSubmit={handleSubmit}>
                 <div className="input-container">
                     <InputLabel className="field-label">Name *</InputLabel>
@@ -59,7 +52,8 @@ export const ProjectCreateForm = ({
                         value={values.key}
                     />
                 </div>
-                <Divider />
+                <br />
+                <br />
                 <Button
                     className="navbar-create-btn"
                     onClick={handleSubmit}
@@ -105,6 +99,7 @@ export const ProjectCreateHOC = ({ open, setOpen }) => {
     }
 
     return <Dialog
+        fullScreen
         open={open}
         onClose={() => setOpen(false)}
         aria-labelledby="max-width-dialog-title"

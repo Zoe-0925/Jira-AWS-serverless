@@ -82,12 +82,12 @@ export function DialogCloseIcon({ handleClose }) {
     return (
         <MuiDialogTitle disableTypography className="title">
             <Row>
-                <Col xs lg="11"></Col>
                 <Col xs lg="1">
                     <IconButton aria-label="close" className="close-btn" onClick={handleClose}>
                         <CloseIcon />
                     </IconButton>
                 </Col>
+                <Col xs lg="11"></Col>
             </Row>
         </MuiDialogTitle>
     )
