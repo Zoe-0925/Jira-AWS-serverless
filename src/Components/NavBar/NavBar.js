@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useSelector } from "react-redux"
 import { fade, makeStyles } from '@material-ui/core/styles';
 import { v4 as uuidv4 } from 'uuid'
 import { Auth } from 'aws-amplify';
@@ -8,7 +7,6 @@ import {
 } from '@material-ui/core'
 
 import history from "../../history"
-import { selectAllProjects } from "../../Reducers/Selectors"
 import {ProjectCreateHOC} from "../Project/ProjectCreate"
 /***** Icons ****/
 import MenuIcon from '@material-ui/icons/Menu';
