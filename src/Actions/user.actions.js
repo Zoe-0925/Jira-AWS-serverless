@@ -2,7 +2,6 @@ import { Auth } from 'aws-amplify';
 import { Cache } from 'aws-amplify';
 import API from '@aws-amplify/api';
 import history from "../history"
-import { setLocalStorage } from "../Components/Credential/Auth.service"
 require('dotenv').config()
 
 export const ERROR_USER = "ERROR_USER"

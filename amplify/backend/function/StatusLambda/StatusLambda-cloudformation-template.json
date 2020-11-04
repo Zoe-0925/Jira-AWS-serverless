@@ -251,7 +251,7 @@
         "Timeout": "25",
         "Code": {
           "S3Bucket": "amplify-jiraserverless-dev-90420-deployment",
-          "S3Key": "amplify-builds/StatusLambda-62583363644f664c4e62-build.zip"
+          "S3Key": "amplify-builds/StatusLambda-523266376c3139552b67-build.zip"
         }
       }
     },

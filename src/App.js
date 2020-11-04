@@ -26,7 +26,7 @@ const App = () => {
     <div className="App">
       <Router history={history}>
         <Switch>
-          <Route path="/" exact component={Signup} />
+          <Route path="/" exact component={Test} />
           <Route path="/login" exact component={Login} />
           <Route path="/signup" exact component={Signup} />
           <Route path="/confirmSignup" exact component={App} />
@@ -40,6 +40,7 @@ const App = () => {
     </div>
   );
 }
-export default process.env.NODE_ENV === "development" ? hot(App) : App
 
-//export default process.env.NODE_ENV === "development" ? hot(withAuthenticator(App)) : withAuthenticator(App)
+//export default process.env.NODE_ENV === "development" ? hot(App) : App
+
+export default process.env.NODE_ENV === "development" ? hot(withAuthenticator(App)) : withAuthenticator(App)

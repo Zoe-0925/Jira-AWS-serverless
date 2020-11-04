@@ -1,7 +1,8 @@
 import {
     LOADING_STATUS, ERROR_STATUS, CREATE_SUCCESS_STATUS, DELETE_SUCCESS_STATUS,
     UPDATE_SUCCESS_STATUS, APPEND_SUCCESS_STATUS, REORDER_ISSUES, MOVE_ISSUES,
-    DELETE_ISSUE_FROM_STATUS, UPDATE_SUCCESS_STATUS_ORDER, DELETE_STATUS_BY_PROJECT
+    DELETE_ISSUE_FROM_STATUS, UPDATE_SUCCESS_STATUS_ORDER, DELETE_STATUS_BY_PROJECT,
+    CREATE_SUCCESS_MULTIPLE_STATUS
 } from "../Actions/status.actions"
 
 const status = new Map()
@@ -53,6 +54,10 @@ export default function StatusReducer(state = {
             newState = Object.assign({}, state, { loading: false, authenticated: true })
             newState.status.set(action.data._id, action.data)
             return newState
+
+        case CREATE_SUCCESS_MULTIPLE_STATUS:
+
+            return state
         case DELETE_SUCCESS_STATUS:
             //TODO remove it from the status order as well
             newState = Object.assign({}, state, { loading: false, authenticated: true })

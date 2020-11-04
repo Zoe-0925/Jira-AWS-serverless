@@ -4,15 +4,14 @@ export const LOADING_PROJECT = "LOADING_PROJECT"
 export const ERROR_PROJECT = "ERROR_PROJECT"
 export const CREATE_SUCCESS_PROJECT = "CREATE_SUCCESS_PROJECT"
 export const DELETE_SUCCESS_PROJECT = "DELETE_SUCCESS_PROJECT"
-export const UPDATE_SUCCESS_MEMBERS ="UPDATE_MEMBERS"
+export const UPDATE_SUCCESS_MEMBERS = "UPDATE_MEMBERS"
 export const UPDATE_SUCCESS_PROJECT = "UPDATE_SUCCESS_PROJECT"
 export const UPDATE_SUCCESS_PROJECT_NAME_AND_ASSIGNEE = "UPDATE_SUCCESS_PROJECT_NAME_AND_ASSIGNEE"
 export const APPEND_SUCCESS_PROJECTS = "APPEND_SUCCESS_PROJECTS"
 export const SET_CURRENT_PROJECT = "SET_CURRENT_PROJECT"
 export const APPEDN_CURRENT_PROJECT = "APPEDN_CURRENT_PROJECT"
-export const CREATE_PROJECT = "CREATE_PROJECT"
 export const LEAVE_PROJECT = "LEAVE_PROJECT"  //Remove a user from a project...
-export const UPDATE_STATUS_ORDER = "UPDATE_STATUS_ORDER"
+export const UPDATE_SUCCESS_STATUS_ORDER="UPDATE_SUCCESS_STATUS_ORDER"
 
 /***************** Actions  ***********************/
 export function updateSuccessfulMembers(data) {
@@ -22,12 +21,7 @@ export function updateSuccessfulMembers(data) {
     }
 }
 
-export function updateSuccessfulStatusOrder(data) {
-    return {
-        type: UPDATE_STATUS_ORDER,
-        data: data
-    }
-}
+
 
 export function createSuccessfulProject(data) {
     return {
@@ -71,6 +65,13 @@ export function setCurrentProject(data) {
     }
 }
 
+export const updateSuccessfulStatusOrder = (data) => {
+    return {
+        type: UPDATE_SUCCESS_STATUS_ORDER,
+        data: data
+    }
+}
+
 export function dispatchError(data) {
     return {
         type: ERROR_PROJECT,
@@ -82,9 +83,9 @@ export function dispatchError(data) {
 export const createProject = (newProject) => async  dispatch => {
     dispatch({ type: LOADING_PROJECT })
     try {
-        await API.post("ProjectApi", "/projects", {
-            body: newProject
-        })
+            await API.post("ProjectApi", "/projects", {
+                body: newProject
+            })
         dispatch(createSuccessfulProject(newProject))
     }
     catch (err) {
@@ -121,11 +122,26 @@ export const updateMembers = data => async  dispatch => {
     try {
         await API.put("ProjectApi", "/projects/members", data)
         //TODO
-       // dispatch(updateSuccessfulProjecMembers(data))
+        // dispatch(updateSuccessfulProjecMembers(data))
     } catch (err) {
         dispatch(dispatchError(err))
     }
 }
+
+export const updateStatusOrder = (data) => async  dispatch => {
+    dispatch({ type: LOADING_PROJECT })
+    try {
+        await API.put("ProjectApi", "/projects/update/statusOrder", {
+            body: { items: data }
+        })
+
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+    }
+}
+
+
 
 export const deleteProject = (id) => async  dispatch => {
     dispatch({ type: LOADING_PROJECT })

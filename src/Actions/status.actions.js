@@ -11,10 +11,18 @@ export const REORDER_ISSUES = "REORDER_ISSUES"
 export const MOVE_ISSUES = "MOVE_ISSUES"
 export const DELETE_ISSUE_FROM_STATUS = "DELETE_ISSUE_FROM_STATUS"
 export const DELETE_STATUS_BY_PROJECT = "DELETE_STATUS_BY_PROJECT"
+export const CREATE_SUCCESS_MULTIPLE_STATUS = "CREATE_SUCCESS_MULTIPLE_STATUS"
 
 export const createSuccessfulStatus = (data) => {
     return {
         type: CREATE_SUCCESS_STATUS,
+        data: data
+    }
+}
+
+export const createSuccessfulMultipleStatus = (data) => {
+    return {
+        type: CREATE_SUCCESS_MULTIPLE_STATUS,
         data: data
     }
 }
@@ -118,8 +126,8 @@ export const addStatusOrder = (projectId) => async (dispatch, getState) => {
     try {
         const projectReducer = getState().ProjectReducer
         const order = projectReducer.projects.find(project => project._id === projectReducer.currentProjectId).statusOrder
-       //TODO
-       // dispatch(updateStatusOrder(order))
+        //TODO
+        // dispatch(updateStatusOrder(order))
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -155,10 +163,25 @@ export const moveIssuesRequest = (id, source, destination, startIndex, endIndex)
 export const createStatus = (newStatus) => async  dispatch => {
     dispatch({ type: LOADING_STATUS })
     try {
-        await API.post("StatusApi", "/status", {
+        await API.put("StatusApi", "/status", {
             body: newStatus
         })
         dispatch(createSuccessfulStatus(newStatus))
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+    }
+}
+
+export const createMultipleStatus = (list) => async  dispatch => {
+    dispatch({ type: LOADING_STATUS })
+    try {
+        list.forEach(element => {
+            async () => await API.put("StatusApi", "/status/multiple", {
+                body: element
+            })
+        });
+        dispatch(createSuccessfulMultipleStatus(list))
     }
     catch (err) {
         dispatch(dispatchError(err))

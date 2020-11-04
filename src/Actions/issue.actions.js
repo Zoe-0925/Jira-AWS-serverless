@@ -1,11 +1,8 @@
-import axios from 'axios'
-import Util from "../Components/Util"
+
 import { createSuccessfulStatus, deleteSuccessfulIssueFromStatus } from "./status.actions"
 import { appendSuccessfulLabels } from "./label.actions"
 import { API } from 'aws-amplify';
 require('dotenv').config()
-
-const { post, put, jwtConfig } = Util
 
 export const CREATE_SUCCESS_SUB_TASK = "CREATE_SUCCESS_SUB_TASK"
 export const APPEND_SUCCESS_TASKS_PARENT = "APPEND_SUCCESS_TASKS_PARENT"

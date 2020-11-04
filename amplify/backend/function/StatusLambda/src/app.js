@@ -175,8 +175,7 @@ app.put(path, function (req, res) {
 * HTTP put method for insert multiple objects *
 *************************************/
 
-app.put(path, function (req, res) {
-
+app.put(path + "/multiple", function (req, res) {
   if (userIdPresent) {
     req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
   }

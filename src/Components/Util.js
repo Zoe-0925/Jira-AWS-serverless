@@ -1,44 +1,18 @@
-import axios from 'axios'
+import { v4 as uuidv4 } from 'uuid'
 
-const Util = {
-    jwtConfig: token => {
-        return {
-            headers: {
-                "Authorization": "Bearer " + token
-            }
-        }
-    },
-    post: (url, BASE, item, token) => {
-        if (token !== "") {
-            return axios({
-                method: 'post',
-                url: BASE + url,
-                data: item,
-                headers: {
-                    "Authorization": "Bearer " + token
-                }
-            });
-        }
-        else {
-            return axios({
-                method: 'post',
-                url: BASE + url,
-                data: item,
-            });
-        }
-    },
-    put: (url, BASE, item, token) => {
-        return axios({
-            method: 'post',
-            url: BASE + url,
-            data: item,
-            headers: {
-                "Authorization": "Bearer " + token
-            }
-        });
+export const initiateProjectAndStatus = (project) => {
+    const projectId = uuidv4()
+    const statusIds = [uuidv4(), uuidv4(), uuidv4(), uuidv4()]
+    const today = new Date()
+    const statusTemplate = {
+        project: projectId, issues: [], createdAt: JSON.stringify(today),
+        updatedAt: JSON.stringify(today)
+    }
+    return {
+        project: { ...project, _id: projectId, statusOrder: [statusIds] },
+        status: [{ ...statusTemplate, _id: statusIds[0], name: "TO DO" },
+        { ...statusTemplate, _id: statusIds[1], name: "IN PROGRESS" },
+        { ...statusTemplate, _id: statusIds[2], name: "TESTING" },
+        { ...statusTemplate, _id: statusIds[3], name: "DONE" }]
     }
 }
-
-
-
-export default Util

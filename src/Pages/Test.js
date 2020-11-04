@@ -5,7 +5,9 @@ import {
 } from '@material-ui/core';
 import { useDispatch, useSelector } from "react-redux"
 import { getCurrentUser } from "../Actions/user.actions"
+import { createMultipleStatus, createStatus } from "../Actions/status.actions"
 import API from '@aws-amplify/api';
+import {initiateProjectAndStatus} from "../Components/Util"
 
 const testIssue = new Map()
 testIssue.set("hdkahdjaskdh", {
@@ -14,24 +16,39 @@ testIssue.set("hdkahdjaskdh", {
     issueType: "task", flag: false, reportee: "testUserId", project: "test id"
 })
 
+const status = [{
+    _id: "test_id_1", name: "TO DO", project: "test_project_id", issues: []
+},
+{
+    _id: "test_id_2", name: "IN PROGRESS", project: "test_project_id", issues: []
+},
+{
+    _id: "test_id_3", name: "TEST", project: "test_project_id", issues: []
+},
+{
+    _id: "test_id_4", name: "DONE", project: "test_project_id", issues: []
+}
+]
+
 export default function Test() {
     const [open, setOpen] = useState(false)
     const dispatch = useDispatch()
 
 
-    const retrieveUser = async () => {
-         dispatch(getCurrentUser())
+    const putStatus = async (status) => {
+        initiateProjectAndStatus()
+        // dispatch(createMultipleStatus(status))
         console.log("clicked")
-      //  const date = new Date()
-      //  const user = API.get("UserApi", "/users/email/notAEmail")
+        //  const date = new Date()
+        //  const user = API.get("UserApi", "/users/email/notAEmail")
 
 
-            console.log("result")
+        console.log("result")
     }
 
 
     return (<div>
-        <Button onClick={() => retrieveUser()}>open</Button>
+        <Button onClick={() => putStatus(status)}>open</Button>
 
     </div>
     )
