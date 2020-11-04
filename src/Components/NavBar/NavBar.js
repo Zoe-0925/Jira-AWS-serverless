@@ -6,6 +6,7 @@ import { Auth } from 'aws-amplify';
 import {
     AppBar, Button, Tab, Menu, MenuItem, Badge, Divider, InputBase, Typography, IconButton, Toolbar,
 } from '@material-ui/core'
+
 import history from "../../history"
 import { selectAllProjects } from "../../Reducers/Selectors"
 /***** Icons ****/
@@ -298,6 +299,7 @@ export default function NavBar() {
                     <MenuItem onClick={handleSignOut}>Log Out</MenuItem>
                 </div>
             </Menu>
+            <ProjectCreateHOC open={isCreateProjectOpen} setOpen={setOpenCreateProject} />
         </div>
     );
 }

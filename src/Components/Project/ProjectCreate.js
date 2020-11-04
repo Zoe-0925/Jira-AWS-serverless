@@ -6,16 +6,18 @@ import { createSuccessfulProject } from "../../Actions/project.actions"
 import { Form, Field } from 'formik';
 import { withFormik } from 'formik';
 import {
-    Link, Typography, Breadcrumbs, Button, InputLabel, Divider, MenuItem,
+    Link, Typography, Breadcrumbs, Button, InputLabel, Divider, Dialog
 } from '@material-ui/core';
 import { TextField } from 'formik-material-ui';
 
 export const ProjecCreateForm = ({
     values,
     handleChange,
-    handleSubmit
+    handleSubmit,
+    handleClose
 }) => {
     return <Fragment>
+        <DialogCloseIcon handleClose={handleClose} />
         <Breadcrumbs aria-label="breadcrumb" className="bread-crumbs" >
             <Link color="inherit" href="/projects">
                 Projects</Link>
@@ -90,7 +92,7 @@ export const ProjectCreateWrapper = withFormik({
     displayName: 'BasicForm',
 })(ProjectCreateForm);
 
-export const ProjectCreateHOC = ({ handleSubmit }) => {
+export const ProjectCreateHOC = ({ open, setOpen }) => {
     const dispatch = useDispatch()
     const userId = useSelector(selectCurrentUserId)
 
@@ -98,10 +100,18 @@ export const ProjectCreateHOC = ({ handleSubmit }) => {
         const { project, statusList } = initiateProjectAndStatus(values, userId)
         dispatch(createSuccessfulProject(project))
         dispatch(createSuccessfulMultipleStatus(statusList))
-        handleSubmit()
+        // setOpen(false)
     }
 
-    return <ProjectCreateWrapper onContinue={submitForm} />
+    return <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        aria-labelledby="max-width-dialog-title"
+        maxWidth="lg"
+        className="dialog-container"
+    >
+        <ProjectCreateWrapper onContinue={submitForm} handleClose={() => setOpen(false)} />
+    </Dialog>
 }
 
 

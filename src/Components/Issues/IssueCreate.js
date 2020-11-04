@@ -21,6 +21,7 @@ import {
 } from 'formik-material-ui';
 import { selectProjects } from "../../Reducers/Selectors"
 import { createTask } from "../../Actions/mockIssueActions"
+import { DialogCloseIcon } from "../Shared/Tabs"
 
 const IssueForm = props => {
     const {
@@ -45,16 +46,7 @@ const IssueForm = props => {
     ]
 
     return <Fragment>
-        <MuiDialogTitle disableTypography className="title">
-            <Row>
-                <Col xs lg="11"></Col>
-                <Col xs lg="1">
-                    <IconButton aria-label="close" className="close-btn" onClick={handleClose}>
-                        <CloseIcon />
-                    </IconButton>
-                </Col>
-            </Row>
-        </MuiDialogTitle>
+        <DialogCloseIcon handleClose={handleClose} />
         <div className="issue-form-in-modal">
             <Container>
                 <p className="title">Create issue</p>

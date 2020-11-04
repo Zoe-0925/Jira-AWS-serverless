@@ -5,6 +5,8 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import {
     Typography, Link, Menu, ListItem, IconButton
 } from '@material-ui/core';
+import MuiDialogTitle from '@material-ui/core/DialogTitle';
+import CloseIcon from '@material-ui/icons/Close';
 
 export function AddTab({ operationName, handleClick, className }) {
     return (
@@ -72,5 +74,20 @@ export function DotIconMenu({ className, anchorEl, isOpen, anchorRef, handleMenu
                 {props.children}
             </Menu>
         </div>
+    )
+}
+
+export function DialogCloseIcon({handleClose}) {
+    return (
+        <MuiDialogTitle disableTypography className="title">
+        <Row>
+            <Col xs lg="11"></Col>
+            <Col xs lg="1">
+                <IconButton aria-label="close" className="close-btn" onClick={handleClose}>
+                    <CloseIcon />
+                </IconButton>
+            </Col>
+        </Row>
+    </MuiDialogTitle>
     )
 }
