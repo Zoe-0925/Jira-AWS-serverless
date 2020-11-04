@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from "react-redux"
 import FilterManager from "../Components/Filters/FilterManager"
-import Drawer from "../Components/SideDrawer/Drawer"
-import { DrawerInner } from "../Components/SideDrawer/DrawerInner"
+import Drawer from "../Components/Drawer/Drawer"
+import { DrawerInner } from "../Components/Drawer/DrawerInner"
 import { useEditText } from "../Components/Shared/CustomHooks"
 import { EditableText, Input } from "../Components/Shared/EditableText"
-import DragContext from "../Components/Column/DragContext"
+import DragContext from "../Components/DragDrop/DragContext"
 import NavBar from "../Components/NavBar/NavBar"
 import { selectCurrentProjectName, selectCurrentProjectId, selectCurrentUserId, selectProjectReducer } from '../Reducers/Selectors';
 import history from "../history"

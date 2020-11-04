@@ -1,4 +1,5 @@
 import API from '@aws-amplify/api';
+import history from "../history"
 
 export const LOADING_PROJECT = "LOADING_PROJECT"
 export const ERROR_PROJECT = "ERROR_PROJECT"

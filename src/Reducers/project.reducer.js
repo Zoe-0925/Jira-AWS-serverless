@@ -53,8 +53,8 @@ export default function ProjectReducer(state = {
             return newState
         case UPDATE_SUCCESS_STATUS_ORDER:
             newState = Object.assign({}, state, { loading: false, authenticated: true })
-            target = Object.assign({}, newState.projects.find(item => item._id === currentProjectId))
-            tempProjects = newState.projects.filter(item => item._id !== currentProjectId)
+            target = Object.assign({}, newState.projects.find(item => item._id === newState.currentProjectId))
+            tempProjects = newState.projects.filter(item => item._id !== newState.currentProjectId)
             newState.projects.push(target)
             return newState
         case UPDATE_SUCCESS_PROJECT_NAME_AND_ASSIGNEE:

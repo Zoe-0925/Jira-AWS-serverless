@@ -99,16 +99,6 @@ export default function NavBar() {
     const [isAccountMenuOpen, setAccountAnchorEl] = useState(false);
     const [isMobileMenuOpen, setMobileMoreAnchorEl] = useState(false);
 
-    //TODO
-    const projects = useSelector(selectAllProjects)
-
-    /**
-     *                            {projects.map(each => {
-                                    return <MenuItem onClick={() => { }}>{each}</MenuItem>
-                                })
-                                }
-     */
-
     const handleAccountMenuClose = () => {
         setAccountAnchorEl(false);
         handleMobileMenuClose();
