@@ -47,9 +47,7 @@ export const useIssueDetailModal = () => {
         setIssue(task)
         if (task.assignee === task._id && task.reportee === task._id) { return }
 
-        //TODO 
-        //change this
-        dispatch(getUserByIds([task.assignee, task.reportee]))
+        //TODO
     }
 
     return { open, setOpen, issueOpened, openTaskDetail }
