@@ -33,6 +33,7 @@ export const ProjectCreateForm = ({
                         margin="normal"
                         variant="outlined"
                         size="small"
+                        placeholder="Enter a project name"
                         onChange={handleChange}
                         value={values.name}
                     />
