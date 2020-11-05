@@ -147,26 +147,7 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
       cursor: pointer;
     }
     .navbar-create-btn {
-      font-weight: bold;
-      align-items: baseline;
-      box-sizing: border-box;
-      font-weight: 500;
-      width: 5rem;
-      text-align: center;
-      white-space: nowrap;
-      box-shadow: transparent 0px 0px 0px 2px;
-      background: $call-to-action-color;
-      height: 2.4em;
-      line-height: 2.28571em;
-      vertical-align: middle;
-      color: rgb(255, 255, 255);
-      border-radius: 3px;
-      padding: 3px 12px 6px 12px;
-      cursor: pointer;
-      transition: background 0.1s ease-out 0s, box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
-      transition-property: background, box-shadow;
-      transition-duration: 0.1s, 0.15s;
-      transition-timing-function: ease-out, cubic-bezier(0.47, 0.03, 0.49, 1.38);
+      @include call-to-action-button;
     }
   }
 

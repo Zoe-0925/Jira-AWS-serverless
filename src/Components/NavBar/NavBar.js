@@ -3,11 +3,11 @@ import { fade, makeStyles } from '@material-ui/core/styles';
 import { v4 as uuidv4 } from 'uuid'
 import { Auth } from 'aws-amplify';
 import {
-    AppBar, Button,  Menu, MenuItem, Badge, Divider, InputBase,  IconButton, Toolbar,
+    AppBar, Button, Menu, MenuItem, Badge, Divider, InputBase, IconButton, Toolbar,
 } from '@material-ui/core'
 
 import history from "../../history"
-import {ProjectCreateHOC} from "../Project/ProjectCreate"
+import { ProjectCreateHOC } from "../Project/ProjectCreate"
 /***** Icons ****/
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
@@ -91,6 +91,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NavBar() {
     const classes = useStyles();
+    const [isCreateIssueopen, setOpenCreateIssue] = useState(false)
     const [isCreateProjectOpen, setOpenCreateProject] = useState(false)
     const [isProfileMenuOpen, setProfileAnchorEl] = useState(false);
     const [isProjectMenuOpen, setProjectAnchorEl] = useState(false);
@@ -170,7 +171,7 @@ export default function NavBar() {
                     <Button onClick={() => history.push("/projects/")} className="nav-title">Jira Mock </Button>
                     <Button className="nav-tab" onClick={handleProjectMenuOpen}>Projects <ExpandMoreIcon /></Button>
                     {projectMenu}
-                    <IssueCreateDialogue />
+                    <IssueCreateDialogue/>
                     <div className={classes.grow} />
                     <div className={classes.sectionDesktop}>
                         <div className={classes.search}>
