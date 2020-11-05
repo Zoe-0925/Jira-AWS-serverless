@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux"
 import { useSelector } from "react-redux"
 import { Form, Field, withFormik } from 'formik';
 import Select from 'react-select';
-import { Container, Row } from 'reactstrap';
+import { Row } from 'reactstrap';
 import {
     Button,
     Divider,
@@ -45,10 +45,8 @@ const IssueForm = props => {
     return <Fragment>
         <DialogCloseIcon handleClose={handleClose} />
         <div className="issue-form-in-modal">
-            <Container>
                 <p className="title">Create issue</p>
-                <Row>
-                </Row>
+               <br/>
                 <Form onSubmit={handleSubmit}>
                     <InputLabel className="form-label" id="projectName">Project Name*</InputLabel>
                     <Select
@@ -104,7 +102,6 @@ const IssueForm = props => {
                         <Button className="navbar-create-btn" disabled={isSubmitting} onClick={handleSubmit}>Create</Button>
                     </DialogActions>
                 </Form>
-            </Container>
         </div>
     </Fragment>
 }
