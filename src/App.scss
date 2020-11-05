@@ -129,10 +129,6 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
   margin-left: 260px;
 }
 
-.drawer-open {
-  margin-left: 50px;
-}
-
 .main {
   padding-left: 3%;
   padding-right: 3%;
@@ -947,5 +943,14 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
     @include fieldLabel;
     padding: 0;
     margin: 0;
+  }
+}
+
+
+.body{
+  margin-top:4rem;
+
+  .create-pj-btn{
+    @include call-to-action-button;
   }
 }
