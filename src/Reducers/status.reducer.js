@@ -1,6 +1,6 @@
 import {
     LOADING_STATUS, ERROR_STATUS, CREATE_SUCCESS_STATUS, DELETE_SUCCESS_STATUS,
-    UPDATE_SUCCESS_STATUS, APPEND_SUCCESS_STATUS, REORDER_ISSUES, MOVE_ISSUES,
+    UPDATE_SUCCESS_STATUS, UPDATE_SUCCESS_STATUS_NAME, APPEND_SUCCESS_STATUS, REORDER_ISSUES, MOVE_ISSUES,
     DELETE_ISSUE_FROM_STATUS, DELETE_STATUS_BY_PROJECT,
     CREATE_SUCCESS_MULTIPLE_STATUS
 } from "../Actions/status.actions"
@@ -18,7 +18,7 @@ export default function StatusReducer(state = {
     status: status,
     errorMessage: ""
 }, action) {
-    let newState;
+    let newState = Object.assign({}, state, { loading: false, authenticated: true })
     let status
     switch (action.type) {
         case LOADING_STATUS:
@@ -27,7 +27,6 @@ export default function StatusReducer(state = {
             //TODO did not conduct validation: if index is invalid, do not change the state.
 
 
-            newState = Object.assign({}, state, { loading: false, authenticated: true })
             const statusId = newState.statusOrder[action.index]
             status = newState.status.get(statusId)
             let issues = status.issues
@@ -38,7 +37,6 @@ export default function StatusReducer(state = {
             //TODO did not conduct validation: if index is invalid, do not change the state.
 
 
-            newState = Object.assign({}, state, { loading: false, authenticated: true })
             const sourceStatusId = newState.statusOrder[action.sourceIndex]
             const destinationStatusId = newState.statusOrder[action.destinationIndex]
             let sourceIssues = newState.status.get(sourceStatusId).issues
@@ -50,7 +48,6 @@ export default function StatusReducer(state = {
             //TODO append it to the status order as well
 
 
-            newState = Object.assign({}, state, { loading: false, authenticated: true })
             newState.status.set(action.data._id, action.data)
             return newState
 
@@ -58,23 +55,28 @@ export default function StatusReducer(state = {
 
             return state
         case DELETE_SUCCESS_STATUS:
-            //TODO remove it from the status order as well
-            newState = Object.assign({}, state, { loading: false, authenticated: true })
             newState.status.detele(action.id)
             return newState
         case UPDATE_SUCCESS_STATUS:
-            newState = Object.assign({}, state, { loading: false, authenticated: true })
             newState.status.set(action.data._id, action.data)
             return newState
-       case APPEND_SUCCESS_STATUS:
+        case UPDATE_SUCCESS_STATUS_NAME:
+            status = newState.status.get(action.data._id)
+            status.name = action.data.name
+            newState.status.set(action.data._id, status)
+            return newState
+        case UPDATE_ISSUE_ORDER:
+            status = newState.status.get(action.data._id)
+            status.issues = action.data.issueOrder
+            newState.status.set(action.data._id, status)
+            return newState
+        case APPEND_SUCCESS_STATUS:
             return { ...state, loading: false, authenticated: true, status: action.data }
         case DELETE_ISSUE_FROM_STATUS:
-            newState = Object.assign({}, state, { loading: false, authenticated: true })
             const newIssueList = newState.status.get(action.statusId).issues.filter(id => id !== action.issueId)
             newState.status.get(action.statusId).issues = newIssueList
             return newState
         case DELETE_STATUS_BY_PROJECT:
-            newState = Object.assign({}, state, { loading: false, authenticated: true })
             newState.status.clear()
             return newState
         case ERROR_STATUS:

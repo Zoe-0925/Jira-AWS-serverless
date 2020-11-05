@@ -35,7 +35,7 @@ export const selectStatusById = (id) => createSelector(
 export const selectStatusByProject = (id) => createSelector(
     selectStatus,
     map => {
-        const status = map.
+       //TODO
     }
 )
 

@@ -4,7 +4,7 @@ import {
     APPEND_SUCCESS_TASKS_PARENT, APPEND_SUCCESS_TASKS_CHILDREN,
     ERROR_ISSUE, UPDATE_ISSUE_GROUP, TOGGLE_FLAG, CREATE_SUCCESS_SUB_TASK, APPEND_SUCCESS_SUBTASKS,
     DELETE_SUCCESS_SUB_TASK, ADD_TASK_TO_EPIC, REMOVE_TASK_FROM_EPIC, ADD_SUBTASK_TO_TASK, REMOVE_SUBTASK_FROM_TASK,
-    DELETE_ISSUE_BY_PROJECT
+    DELETE_ISSUE_BY_PROJECT, UPDATE_ISSUE_ORDER
 } from "../Actions/issue.actions"
 import { DELETE_SUCCESS_STATUS } from "../Actions/status.actions"
 
@@ -23,30 +23,25 @@ export default function IssueReducer(state = {
     authenticated: false,
     errorMessage: ""
 }, action) {
-    let newState;
+    let newState = newState = { ...state, authenticated: true, loading: false }
     let tempResult
     switch (action.type) {
         case LOADING_ISSUE:
             return { ...state, loading: true, authenticated: false }
         case CREATE_SUCCESS_TASK:
-            newState = { ...state, authenticated: true, loading: false }
             newState.tasks.set(action.data._id, action.data)
             return newState
         case CREATE_SUCCESS_EPIC:
-            newState = { ...state, authenticated: true, loading: false }
             newState.epics.push(action.data)
             return newState
         case CREATE_SUCCESS_SUB_TASK:
-            newState = { ...state, authenticated: true, loading: false }
             newState.subtasks.push(action.data)
             return newState
         case DELETE_SUCCESS_TASK:
-            newState = { ...state, authenticated: true, loading: false }
             newState.tasks.delete(action.id)
             newState.subtasks.filter(item => item.parent !== action.id)
             return newState
         case DELETE_SUCCESS_EPIC:
-            newState = { ...state, authenticated: true, loading: false }
             //delete the epic
             tempResult = newState.epics.filter(item => item._id !== action.id)
             newState.epics = tempResult
@@ -58,7 +53,6 @@ export default function IssueReducer(state = {
             })
             return newState
         case DELETE_SUCCESS_SUB_TASK:
-            newState = { ...state, authenticated: true, loading: false }
             //delete the subtask
             tempResult = newState.subtasks.filter(item => item._id !== action.id)
             newState.subtasks = tempResult
@@ -67,27 +61,22 @@ export default function IssueReducer(state = {
             parentEpic.filter(id => id !== action.id)
             return newState
         case UPDATE_SUCCESS_TASK:
-            newState = { ...state, authenticated: true, loading: false }
             newState.issues.set(action.data._id, action.data)
             return newState
         case ADD_TASK_TO_EPIC:
-            newState = { ...state, authenticated: true, loading: false }
-
             return newState
         case REMOVE_TASK_FROM_EPIC:
-            newState = { ...state, authenticated: true, loading: false }
 
 
             return newState
 
         case ADD_SUBTASK_TO_TASK:
-            newState = { ...state, authenticated: true, loading: false }
+
 
 
             return newState
 
         case REMOVE_SUBTASK_FROM_TASK:
-            newState = { ...state, authenticated: true, loading: false }
 
             //TODO update the issue and update the epic
             // task = newState.issues.get(action.id)
@@ -97,20 +86,20 @@ export default function IssueReducer(state = {
 
         case DELETE_SUCCESS_STATUS:
             //accpets a list of issueIds (issues) and a new status id (id)
-            newState = { ...state, authenticated: true, loading: false }
             let issuesToUpdate = newState.issues.filter(item => !action.issues.includes(item._id))
             issuesToUpdate.map(each => each.status = action.id)
             return newState
         case UPDATE_SUCCESS_EPIC:
-            newState = { ...state, authenticated: true, loading: false }
             let epic = newState.epics.find(item => item._id = action.data._id)
             epic = action.data
             return newState
         case UPDATE_ISSUE_GROUP:
-            newState = { ...state }
             const change = newState.issues.get(action.id)
             newState.splice(newState.indexOf(change), 1, action.data);
             return newState
+
+            
+            
         case APPEND_SUCCESS_TASKS_PARENT:
             return state;
         case APPEND_SUCCESS_TASKS_CHILDREN:
@@ -130,7 +119,7 @@ export default function IssueReducer(state = {
                     newState.delete(key)
                 }
             }
-            return newState 
+            return newState
         case ERROR_ISSUE:
             return { ...state, authenticated: false, loading: false, errorMessage: action.data }
         default:

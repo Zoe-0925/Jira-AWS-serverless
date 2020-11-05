@@ -13,6 +13,7 @@ export const SET_CURRENT_PROJECT = "SET_CURRENT_PROJECT"
 export const APPEDN_CURRENT_PROJECT = "APPEDN_CURRENT_PROJECT"
 export const LEAVE_PROJECT = "LEAVE_PROJECT"  //Remove a user from a project...
 export const UPDATE_SUCCESS_STATUS_ORDER = "UPDATE_SUCCESS_STATUS_ORDER"
+export const REMOVE_SUCCESS_STATUS_FROM_ORDER = "REMOVE_SUCCESS_STATUS_FROM_ORDER"
 
 /***************** Actions  ***********************/
 export function updateSuccessfulMembers(data) {
@@ -78,6 +79,7 @@ export function dispatchError(data) {
         data: data
     }
 }
+
 
 /*****************  Thunk Actions  ****************/
 export const createProject = (newProject) => async  dispatch => {
@@ -149,6 +151,22 @@ export const deleteProject = (id) => async  dispatch => {
     try {
         await API.del("ProjectApi", "/projects/" + id)
         dispatch(deleteSuccessfulProject(id))
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+    }
+}
+
+export const removeStatusFromOrder = (id) => async (dispatch, getState) => {
+    dispatch({ type: LOADING_PROJECT })
+    try {
+        const reducer = getState().ProjectReducer
+        const orderBefore = reducer.projects.find(item => item._id === reducer.currentProjectId).statusOrder
+        const orderUpdated = orderBefore.filter(item => item !== id)
+        await API.put("ProjectApi", "/projects/statusOrder", {
+            body: { statusOrder: orderUpdated }
+        })
+        dispatch(updateStatusOrder(orderUpdated))
     }
     catch (err) {
         dispatch(dispatchError(err))

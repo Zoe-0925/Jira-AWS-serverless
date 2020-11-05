@@ -5,6 +5,8 @@ export const ERROR_STATUS = "ERROR_STATUS"
 export const CREATE_SUCCESS_STATUS = "CREATE_SUCCESS_STATUS"
 export const DELETE_SUCCESS_STATUS = "DELETE_SUCCESS_STATUS"
 export const UPDATE_SUCCESS_STATUS = "UPDATE_SUCCESS_STATUS"
+export const UPDATE_SUCCESS_STATUS_NAME = "UPDATE_SUCCESS_STATUS_NAME"
+export const UPDATE_ISSUE_ORDER = "UPDATE_ISSUE_ORDER"
 export const APPEND_SUCCESS_STATUS = "APPEND_SUCCESS_STATUS"
 export const REORDER_ISSUES = "REORDER_ISSUES"
 export const MOVE_ISSUES = "MOVE_ISSUES"
@@ -33,9 +35,9 @@ export const updateSuccessfulStatus = (data) => {
     }
 }
 
-export const updateSuccessfulStatusOrder = (data) => {
+export const updateSuccessfulStatusName = (data) => {
     return {
-        type: UPDATE_SUCCESS_STATUS_ORDER,
+        type: UPDATE_SUCCESS_STATUS_NAME,
         data: data
     }
 }
@@ -73,6 +75,7 @@ export const moveIssues = (source, destination, startIndex, endIndex) => {
     }
 }
 
+//TODO extract this to util.
 export const reorderIssues = (source, startIndex, endIndex) => {
     return {
         type: REORDER_ISSUES,
@@ -99,34 +102,24 @@ export const deleteSuccessfulIssueFromStatus = (issueId, statusId) => {
     }
 }
 
-export function deleteSuccessStatusByProject(id) {
+export function deleteSuccessStatusByProject() {
     return {
-        type: DELETE_STATUS_BY_PROJECT,
-        id: id
+        type: DELETE_STATUS_BY_PROJECT
     }
 }
 
-
-
+export function updateSuccessfulIssueOrder(data) {
+    return {
+        type: UPDATE_ISSUE_ORDER,
+        data: data
+    }
+}
 /**************************** Thunk Actions ***************************/
 
 export const saveProjectStatus = (status) => async  dispatch => {
     dispatch({ type: LOADING_STATUS })
     try {
         dispatch(appendSuccessfulStatus(status))
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-    }
-}
-
-export const addStatusOrder = (projectId) => async (dispatch, getState) => {
-    dispatch({ type: LOADING_STATUS })
-    try {
-        const projectReducer = getState().ProjectReducer
-        const order = projectReducer.projects.find(project => project._id === projectReducer.currentProjectId).statusOrder
-        //TODO
-        // dispatch(updateStatusOrder(order))
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -189,10 +182,37 @@ export const createMultipleStatus = (list) => async  dispatch => {
     }
 }
 
+export const updateStatusName = (data) => async  dispatch => {
+    dispatch({ type: LOADING_STATUS })
+    try {
+        await API.put("StatusApi", "/status/name", {
+            body: data
+        })
+        dispatch(updateSuccessfulStatusName(data))
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+    }
+}
+
+export const updateIssueOrder = (data) => async  dispatch => {
+    dispatch({ type: LOADING_STATUS })
+    try {
+        await API.put("StatusApi", "/status/issueOrder", {
+            body: data
+        })
+        dispatch(updateSuccessfulIssueOrder(data))
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+    }
+}
+
+
 export const updateStatus = (data) => async  dispatch => {
     dispatch({ type: LOADING_STATUS })
     try {
-        await API.put("StatusApi", "/status", {
+        await API.put("StatusApi", "/status/update", {
             body: data
         })
         dispatch(updateSuccessfulStatus(data))

@@ -171,38 +171,6 @@ app.put(path, function (req, res) {
   });
 });
 
-/************************************
-* HTTP put method for insert multiple objects *
-*************************************/
-
-app.put(path + "/multiple", function (req, res) {
-  if (userIdPresent) {
-    req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
-  }
-
-  let error = ""
-  req.body.items.forEach(element => {
-    let putItemParams = {
-      TableName: tableName,
-      Item: element
-    }
-    dynamodb.put(putItemParams, (err, data) => {
-      if (err) {
-        error = err
-        break
-      }
-    });
-  })
-
-  if (error !== "") {
-    res.statusCode = 500;
-    res.json({ error: err, url: req.url, body: element });
-  } else {
-    res.json({ success: true })
-  }
-
-});
-
 /*****************************************
 * HTTP put method for updating user name *
 ******************************************/

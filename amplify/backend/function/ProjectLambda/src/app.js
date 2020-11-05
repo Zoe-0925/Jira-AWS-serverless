@@ -231,6 +231,36 @@ app.put(path + "/detail", function (req, res) {
 });
 
 /************************************
+* HTTP put method for updating project name and default assignee *
+*************************************/
+
+app.put(path + "/statusOrder", function (req, res) {
+
+  if (userIdPresent) {
+    req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
+  }
+
+  let putItemParams = {
+    TableName: tableName,
+    Key: {
+      "_id": req.body._id,
+    },
+    UpdateExpression: "set info.statusOrder = :statusOrder",
+    ExpressionAttributeValues: {
+      ":statusOrder": req.body.statusOrder
+    },
+  }
+  dynamodb.update(putItemParams, (err, data) => {
+    if (err) {
+      res.statusCode = 500;
+      res.json({ error: err, url: req.url, body: req.body });
+    } else {
+      res.json({ data: data })
+    }
+  });
+});
+
+/************************************
 * HTTP post method for insert object *
 *************************************/
 
