@@ -27,15 +27,18 @@ export const selectStatus = createSelector(
     statusReducer => statusReducer.status
 )
 
-export const selectStatusOrder = createSelector(
-    selectStatusReducer,
-    statusReducer => statusReducer.statusOrder
-)
-
 export const selectStatusById = (id) => createSelector(
     selectStatus,
     status => status.get(id)
 )
+
+export const selectStatusByProject = (id) => createSelector(
+    selectStatus,
+    map => {
+        const status = map.
+    }
+)
+
 
 /****************** Reselectors - Projects  *********************/
 export const selectProjectLoading = createSelector(
@@ -58,8 +61,14 @@ export const selectCurrentProject = createSelector(
     selectProjectReducer,
     selectCurrentProjectId,
     (reducer, id) => {
-        console.log("current project in selector", reducer.projects.find(item => item._id === id) )
-        reducer.projects.find(item => item._id === id)}
+        console.log("current project in selector", reducer.projects.find(item => item._id === id))
+        reducer.projects.find(item => item._id === id)
+    }
+)
+
+export const selectStatusOrder = createSelector(
+    selectCurrentProject,
+    project => project.statusOrder
 )
 
 export const selectAllProjects = createSelector(

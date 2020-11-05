@@ -1,7 +1,7 @@
 import {
     LOADING_STATUS, ERROR_STATUS, CREATE_SUCCESS_STATUS, DELETE_SUCCESS_STATUS,
     UPDATE_SUCCESS_STATUS, APPEND_SUCCESS_STATUS, REORDER_ISSUES, MOVE_ISSUES,
-    DELETE_ISSUE_FROM_STATUS, UPDATE_SUCCESS_STATUS_ORDER, DELETE_STATUS_BY_PROJECT,
+    DELETE_ISSUE_FROM_STATUS, DELETE_STATUS_BY_PROJECT,
     CREATE_SUCCESS_MULTIPLE_STATUS
 } from "../Actions/status.actions"
 
@@ -15,7 +15,6 @@ status.set("4", { _id: "4", name: "TEST", issues: [] })
 export default function StatusReducer(state = {
     loading: false,
     authenticated: false,
-    statusOrder: ["1", "2", "3", "4"], //TODO move to project
     status: status,
     errorMessage: ""
 }, action) {
@@ -67,9 +66,7 @@ export default function StatusReducer(state = {
             newState = Object.assign({}, state, { loading: false, authenticated: true })
             newState.status.set(action.data._id, action.data)
             return newState
-        case UPDATE_SUCCESS_STATUS_ORDER:
-            return { ...state, loading: false, authenticated: true, statusOrder: action.data }
-        case APPEND_SUCCESS_STATUS:
+       case APPEND_SUCCESS_STATUS:
             return { ...state, loading: false, authenticated: true, status: action.data }
         case DELETE_ISSUE_FROM_STATUS:
             newState = Object.assign({}, state, { loading: false, authenticated: true })
@@ -77,12 +74,8 @@ export default function StatusReducer(state = {
             newState.status.get(action.statusId).issues = newIssueList
             return newState
         case DELETE_STATUS_BY_PROJECT:
-            newState = { ...state, authenticated: true, loading: false }
-            for (let [key, value] of newState.status.entries()) {
-                if (value.project === action.id) {
-                    newState.status.delete(key)
-                }
-            }
+            newState = Object.assign({}, state, { loading: false, authenticated: true })
+            newState.status.clear()
             return newState
         case ERROR_STATUS:
             return Object.assign({}, state, { loading: false, authenticated: false, errorMessage: action.data })

@@ -3,7 +3,7 @@ import {
     LOADING_PROJECT, ERROR_PROJECT, CREATE_SUCCESS_PROJECT, DELETE_SUCCESS_PROJECT,
     UPDATE_SUCCESS_PROJECT, APPEND_SUCCESS_CURRENT_PROJECT, APPEND_SUCCESS_PROJECTS,
     SET_CURRENT_PROJECT, UPDATE_SUCCESS_PROJECT_NAME_AND_ASSIGNEE, UPDATE_SUCCESS_MEMBERS,
-    UPDATE_SUCCESS_STATUS_ORDER
+    UPDATE_SUCCESS_STATUS_ORDER, UPDATE_SUCCESS_STATUS_ORDER,
 } from "../Actions/project.actions"
 
 export default function ProjectReducer(state = {
@@ -24,7 +24,7 @@ export default function ProjectReducer(state = {
     errorMessage: "",
     currentProjectId: "test id"
 }, action) {
-    let newState
+    let newState = Object.assign({}, state, { loading: false, authenticated: true })
     let tempProjects
     let target
     switch (action.type) {
@@ -33,11 +33,9 @@ export default function ProjectReducer(state = {
         case SET_CURRENT_PROJECT:
             return { ...state, loading: false, authenticated: true, currentProjectId: action.data }
         case CREATE_SUCCESS_PROJECT:
-            newState = Object.assign({}, state, { loading: false, authenticated: true })
             newState.projects = newState.projects.push(action.data)
             return newState
         case DELETE_SUCCESS_PROJECT:
-            newState = Object.assign({}, state, { loading: false, authenticated: true })
             newState.projects = newState.projects.filter(item => item._id !== action.id)
             if (newState.currentProjectId === action.id) {
                 newState.currentProjectId = ""
@@ -46,19 +44,16 @@ export default function ProjectReducer(state = {
         case APPEND_SUCCESS_PROJECTS:
             return { ...state, projects: action.data, loading: false, authenticated: true }
         case UPDATE_SUCCESS_PROJECT:
-            newState = Object.assign({}, state, { loading: false, authenticated: true })
             tempProjects = newState.projects.filter(item => item._id !== action.data._id)
             tempProjects.push(action.data)
             newState.projects = tempProjects
             return newState
         case UPDATE_SUCCESS_STATUS_ORDER:
-            newState = Object.assign({}, state, { loading: false, authenticated: true })
             target = Object.assign({}, newState.projects.find(item => item._id === newState.currentProjectId))
             tempProjects = newState.projects.filter(item => item._id !== newState.currentProjectId)
             newState.projects.push(target)
             return newState
         case UPDATE_SUCCESS_PROJECT_NAME_AND_ASSIGNEE:
-            newState = Object.assign({}, state, { loading: false, authenticated: true })
             target = Object.assign({}, newState.projects.find(item => item._id === action.data._id))
             tempProjects = newState.projects.filter(item => item._id !== action.data._id)
             target.default_assignee = action.data.default_assignee
@@ -66,11 +61,16 @@ export default function ProjectReducer(state = {
             tempProjects.push(target)
             return newState
         case UPDATE_SUCCESS_MEMBERS:
-            newState = Object.assign({}, state, { loading: false, authenticated: true })
             target = Object.assign({}, newState.projects.find(item => item._id === action.data._id))
             tempProjects = newState.projects.filter(item => item._id !== action.data._id)
             target.members = action.data.members
             tempProjects.push(target)
+            //TODO
+            return newState
+        case UPDATE_SUCCESS_STATUS_ORDER:
+            target = newState.projects.find(item => item._id === currentProjectId)
+            target.statusOrder = action.data
+            return newState
         case ERROR_PROJECT:
             return Object.assign({}, state, { loading: false, authenticated: false, errorMessage: action.data })
         default:

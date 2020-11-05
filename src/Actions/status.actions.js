@@ -5,7 +5,6 @@ export const ERROR_STATUS = "ERROR_STATUS"
 export const CREATE_SUCCESS_STATUS = "CREATE_SUCCESS_STATUS"
 export const DELETE_SUCCESS_STATUS = "DELETE_SUCCESS_STATUS"
 export const UPDATE_SUCCESS_STATUS = "UPDATE_SUCCESS_STATUS"
-export const UPDATE_SUCCESS_STATUS_ORDER = "UPDATE_SUCCESS_STATUS_ORDER"
 export const APPEND_SUCCESS_STATUS = "APPEND_SUCCESS_STATUS"
 export const REORDER_ISSUES = "REORDER_ISSUES"
 export const MOVE_ISSUES = "MOVE_ISSUES"
@@ -226,11 +225,14 @@ export const getAllStatus = (projectId) => async  dispatch => {
     }
 }
 
-export const deleteStatusByProject = (projectId) => async  dispatch => {
+export const deleteStatusByProject = (projectId, statusIds) => async (dispatch) => {
     dispatch({ type: LOADING_STATUS })
     try {
-        //TODO
-        //update batch write item and update the api call
+        statusIds.foreach(statusId => {
+            API.del("StatusApi", "/status/object/" + statusId).catch(err => {
+                dispatch(dispatchError(err))
+            })
+        })
         dispatch(deleteSuccessStatusByProject(projectId))
     }
     catch (err) {
