@@ -109,7 +109,7 @@ export const getAllProjects = () => async (dispatch, getState) => {
     }
 }
 
-export const updateProjectNameAndAssignee = (data) => async  dispatch => {
+export const updateProjectNameKeyAndAssignee = (data) => async  dispatch => {
     dispatch({ type: LOADING_PROJECT })
     try {
         await API.put("ProjectApi", "/projects/detail", data)
@@ -143,7 +143,6 @@ export const updateStatusOrder = (data) => async  dispatch => {
         dispatch(dispatchError(err))
     }
 }
-
 
 
 export const deleteProject = (id) => async  dispatch => {

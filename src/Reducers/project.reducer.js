@@ -43,29 +43,18 @@ export default function ProjectReducer(state = {
             return newState
         case APPEND_SUCCESS_PROJECTS:
             return { ...state, projects: action.data, loading: false, authenticated: true }
-        case UPDATE_SUCCESS_PROJECT:
-            tempProjects = newState.projects.filter(item => item._id !== action.data._id)
-            tempProjects.push(action.data)
-            newState.projects = tempProjects
-            return newState
         case UPDATE_SUCCESS_STATUS_ORDER:
-            target = Object.assign({}, newState.projects.find(item => item._id === newState.currentProjectId))
-            tempProjects = newState.projects.filter(item => item._id !== newState.currentProjectId)
-            newState.projects.push(target)
+            newState.projects.find(item => item._id === action.data._id).statusOrder = action.data.statusOrder
             return newState
         case UPDATE_SUCCESS_PROJECT_NAME_AND_ASSIGNEE:
-            target = Object.assign({}, newState.projects.find(item => item._id === action.data._id))
-            tempProjects = newState.projects.filter(item => item._id !== action.data._id)
+            target = newState.projects.find(item => item._id === action.data._id)
             target.default_assignee = action.data.default_assignee
             target.name = action.data.name
-            tempProjects.push(target)
+            target.key = action.data.key
             return newState
         case UPDATE_SUCCESS_MEMBERS:
-            target = Object.assign({}, newState.projects.find(item => item._id === action.data._id))
-            tempProjects = newState.projects.filter(item => item._id !== action.data._id)
+            target = newState.projects.find(item => item._id === action.data._id)
             target.members = action.data.members
-            tempProjects.push(target)
-            //TODO
             return newState
         case UPDATE_SUCCESS_STATUS_ORDER:
             target = newState.projects.find(item => item._id === currentProjectId)

@@ -1,7 +1,7 @@
 import React, { useState, useEffect , Fragment} from 'react'
 import { useDispatch,useSelector } from "react-redux"
 import { selectCurrentProjectId, selectProjectReducer, selectUserReducer } from "../../Reducers/Selectors"
-import { updateProjectNameAndAssignee } from "../../Actions/project.actions"
+import { updateProjectNameKeyAndAssignee } from "../../Actions/project.actions"
 import { Form, Field } from 'formik';
 import { withFormik } from 'formik';
 import { DotIconMenu } from "../Shared/Tabs"
@@ -174,7 +174,7 @@ export const ProjectUpdateHOC = () => {
         //TODO
         //Use the date library to format the date.
         const formattedValues = { ...values, updatedAt: JSON.stringtify(updateDate), members: project.members }
-        dispatch(updateProjectNameAndAssignee(formattedValues))
+        dispatch(updateProjectNameKeyAndAssignee(formattedValues))
     }
 
     return (project === undefined ? <p>Loading</p> : <ProjectDetailWrapper members={members} project={project} onContinue={submitForm} />

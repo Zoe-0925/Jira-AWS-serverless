@@ -213,11 +213,12 @@ app.put(path + "/detail", function (req, res) {
     Key: {
       "_id": req.body._id,
     },
-    UpdateExpression: "set info.name = :name, info.default_assignee=:default_assignee",
+    UpdateExpression: "set info.name = :name, info.default_assignee=:default_assignee, info.key =:key, info.updatedAt=:updatedAt",
     ExpressionAttributeValues: {
       ":name": req.body.name,
       ":default_assignee": req.body.default_assignee,
-
+      ":key": req.body.key,
+      "updatedAt": req.body.updatedAt,
     },
   }
   dynamodb.update(putItemParams, (err, data) => {
@@ -245,11 +246,9 @@ app.put(path + "/statusOrder", function (req, res) {
     Key: {
       "_id": req.body._id,
     },
-    UpdateExpression: "set info.name = :name, set info.key = :key, set info.default_assignee = :default_assignee",
+    UpdateExpression: "set info.statusOrder = :statusOrder",
     ExpressionAttributeValues: {
-      ":name": req.body.name,
-      ":key": req.body.key,
-      "default_assignee": req.body.default_assignee
+      ":statusOrder": req.body.statusOrder
     },
   }
   dynamodb.update(putItemParams, (err, data) => {
