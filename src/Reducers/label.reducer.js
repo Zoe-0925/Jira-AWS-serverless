@@ -12,30 +12,26 @@ export default function LabelReducer(state = {
     errorMessage: "",
     labels: [{ _id: "xxx", name: "test label1" }]
 }, action) {
-    let newState
+    let newState = { ...state, loading: false, authenticated: true }
     let newLabels
     switch (action.type) {
         case LOADING_LABEL:
             return { ...state, loading: true, authenticated: false }
         case CREATE_SUCCESS_LABEL:
-            newState = { ...state, loading: false, authenticated: true }
-            newLabels = [...newState.labels, action.data]
-            newState.labels = newLabels
+            newState.labels = [...newState.labels, action.data]
             return newState
         case DELETE_SUCCESS_LABEL:
-            newState = { ...state, loading: false, authenticated: true }
             newLabels = newState.labels.filter(item => item._id !== action.id)
             newState.labels = newLabels
             return newState
         case APPEND_SUCCESS_LABELS:
-            newState = { ...state, loading: false, authenticated: true }
             newLabels = newState.labels.concat(action.data)
             newState.labels = newLabels
             return newState
         case DELETE_LABEL_BY_PROJECT:
             return { ...state, loading: false, authenticated: true, labels: [] }
         case ERROR_LABEL:
-            return Object.assign({}, state, { loading: false, authenticated: false, errorMessage: action.data })
+            return { ...state,  loading: false, authenticated: false, errorMessage: action.data }
         default:
             return state;
     }
