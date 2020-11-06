@@ -15,6 +15,10 @@ export const DELETE_SUCCESS_TASK = "DELETE_SUCCESS_TASK"
 export const DELETE_SUCCESS_EPIC = "DELETE_SUCCESS_EPIC"
 export const DELETE_ISSUE_BY_PROJECT = "DELETE_ISSUE_BY_PROJECT"
 export const UPDATE_SUCCESS_TASK = "UPDATE_SUCCESS_TASK"
+export const UPDATE_SUCCESS_TASK_SUMMARY = "UPDATE_SUCCESS_TASK_SUMMARY"
+export const UPDATE_SUCCESS_TASK_DESCRIPTION = "UPDATE_SUCCESS_TASK_DESCRIPTION"
+export const UPDATE_SUCCESS_TASK_ASIGNEE = "UPDATE_SUCCESS_TASK_ASIGNEE"
+export const UPDATE_SUCCESS_TASK_REPORTER = "UPDATE_SUCCESS_TASK_REPORTER"
 export const UPDATE_SUCCESS_EPIC = "UPDATE_SUCCESS_EPIC"
 export const APPEND_SUCCESS_TASKS = "APPEND_SUCCESS_TASKS"
 export const APPEND_SUCCESS_EPICS = "APPEND_SUCCESS_EPICS"
@@ -50,13 +54,6 @@ export function appendSuccessfulSubtasks(data) {
     }
 }
 
-export function appendCurrentTask(data) { //Append the issue to be opened in a page or modal
-    return {
-        type: APPEND_SUCCESS_CURRENT_TASK,
-        data: data
-    }
-}
-
 export function createSuccessfulTask(data) {
     return {
         type: CREATE_SUCCESS_TASK,
@@ -88,6 +85,34 @@ export function deleteSuccessfulEpic(id) {
 export function updateSuccessfulTask(data) {
     return {
         type: UPDATE_SUCCESS_TASK,
+        data: data
+    }
+}
+
+export function updateSuccessfulTaskSummary(data) {
+    return {
+        type: UPDATE_SUCCESS_TASK_SUMMARY,
+        data: data
+    }
+}
+
+export function updateSuccessfulTaskDescription(data) {
+    return {
+        type: UPDATE_SUCCESS_TASK_DESCRIPTION,
+        data: data
+    }
+}
+
+export function updateSuccessfulTaskAssignee(data) {
+    return {
+        type: UPDATE_SUCCESS_TASK_ASSIGNEE,
+        data: data
+    }
+}
+
+export function updateSuccessfulTaskReporter(data) {
+    return {
+        type: UPDATE_SUCCESS_TASK_REPORTER,
         data: data
     }
 }
@@ -132,7 +157,7 @@ export function deleteSuccessIssueByProject(id) {
 export const getLabelsAndIssuesGroupByStatus = (projectId, token) => async  dispatch => {
     dispatch({ type: LOADING_ISSUE })
     try {
- 
+
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -148,7 +173,7 @@ export const saveProjectIssues = (issues) => async  dispatch => {
         if (tasks.length > 0) { dispatch(appendSuccessfulTasks(tasks)) }
         if (epics.length > 0) { dispatch(appendSuccessfulEpics(epics)) }
         //TODO
-      //  if (subTasks.length > 0) { dispatch(appendSuccessfulSubTasks(subTasks)) }
+        //  if (subTasks.length > 0) { dispatch(appendSuccessfulSubTasks(subTasks)) }
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -159,7 +184,7 @@ export const saveProjectIssues = (issues) => async  dispatch => {
 export const createTask = (data) => async  dispatch => {
     dispatch({ type: LOADING_ISSUE })
     try {
-  
+
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -169,7 +194,7 @@ export const createTask = (data) => async  dispatch => {
 export const createEpic = (data) => async  dispatch => {
     dispatch({ type: LOADING_ISSUE })
     try {
-      
+
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -179,7 +204,7 @@ export const createEpic = (data) => async  dispatch => {
 export const getASingleIssue = (id) => async  dispatch => {
     dispatch({ type: LOADING_ISSUE })
     try {
-     
+
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -192,7 +217,7 @@ export const getASingleIssue = (id) => async  dispatch => {
 export const getIssueByProjectAndType = (id, type) => async  dispatch => {
     dispatch({ type: LOADING_ISSUE })
     try {
-       
+
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -203,17 +228,73 @@ export const getIssueByProjectAndType = (id, type) => async  dispatch => {
 export const updateIssue = (data) => async  dispatch => {
     dispatch({ type: LOADING_ISSUE })
     try {
-        
+        await API.put("IssueApi", "/issues/update", {
+            body: data
+        })
+        dispatch(updateSuccessfulTask(data))
     }
     catch (err) {
         dispatch(dispatchError(err))
     }
 }
 
-export const deleteIssue = (issueId, statusId) => async  dispatch => {
+export const updateIssueSummary = (data) => async  dispatch => {
     dispatch({ type: LOADING_ISSUE })
     try {
-       
+        await API.put("IssueApi", "/issues/update/summary", {
+            body: data
+        })
+        dispatch(updateSuccessfulTaskSummary(data))
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+    }
+}
+
+export const updateIssueDescription = (data) => async  dispatch => {
+    dispatch({ type: LOADING_ISSUE })
+    try {
+        await API.put("IssueApi", "/issues/update/description", {
+            body: data
+        })
+        dispatch(updateSuccessfulTaskDescription(data))
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+    }
+}
+
+export const updateIssueAssignee = (data) => async  dispatch => {
+    dispatch({ type: LOADING_ISSUE })
+    try {
+        await API.put("IssueApi", "/issues/update/assignee", {
+            body: data
+        })
+        dispatch(updateSuccessfulTaskAssignee(data))
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+    }
+}
+
+export const updateIssueReporter = (data) => async  dispatch => {
+    dispatch({ type: LOADING_ISSUE })
+    try {
+        await API.put("IssueApi", "/issues/update/reporter", {
+            body: data
+        })
+        dispatch(updateSuccessfulTaskReporter(data))
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+    }
+}
+
+export const deleteTask = (issueId) => async  dispatch => {
+    dispatch({ type: LOADING_ISSUE })
+    try {
+        await API.del("IssueApi", "/issues/object/" + issueId)
+        dispatch(deleteSuccessfulTask(issueId))
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -223,7 +304,7 @@ export const deleteIssue = (issueId, statusId) => async  dispatch => {
 export const toggleFlag = (id) => async  dispatch => {
     dispatch({ type: LOADING_ISSUE })
     try {
-       
+
 
     }
     catch (err) {
@@ -248,6 +329,4 @@ export const deleteIssueByProject = (projectId) => async (dispatch, getState) =>
         dispatch(dispatchError(err))
     }
 }
-
-/**********************************  API Call Actions  ******************************************/
 

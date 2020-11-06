@@ -242,3 +242,19 @@ export const deleteStatusByProject = (projectId, statusIds) => async (dispatch) 
         dispatch(dispatchError(err))
     }
 }
+
+export const deleteIssueFromStatus = (issueId, statusId) => async (dispatch, getState) => {
+    dispatch({ type: LOADING_STATUS })
+    try {
+        let status = getState().StatusReducer.status.get(statusId)
+        let statusCopy = { ...status }
+        let issuesUpdated = statusCopy.issues.filter(item => item !== issueId)
+        await API.put("StatusApi", "/status/issueOrder", {
+            body: issuesUpdated
+        })
+        dispatch(deleteSuccessfulIssueFromStatus(issueId, statusId))
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+    }
+}

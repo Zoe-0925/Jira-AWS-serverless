@@ -292,6 +292,7 @@ app.put(path, function (req, res) {
 * HTTP put method for updating status *
 *************************************/
 
+//TODO wrong
 app.put(path + "/update", function (req, res) {
 
   if (userIdPresent) {
