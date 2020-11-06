@@ -20,9 +20,7 @@ export const UPDATE_SUCCESS_TASK_DESCRIPTION = "UPDATE_SUCCESS_TASK_DESCRIPTION"
 export const UPDATE_SUCCESS_TASK_ASIGNEE = "UPDATE_SUCCESS_TASK_ASIGNEE"
 export const UPDATE_SUCCESS_TASK_REPORTER = "UPDATE_SUCCESS_TASK_REPORTER"
 export const UPDATE_SUCCESS_EPIC = "UPDATE_SUCCESS_EPIC"
-export const APPEND_SUCCESS_TASKS = "APPEND_SUCCESS_TASKS"
-export const APPEND_SUCCESS_EPICS = "APPEND_SUCCESS_EPICS"
-export const APPEND_SUCCESS_SUBTASKS = "APPEND_SUCCESS_SUBTASKS"
+export const APPEND_SUCCESS_ISSUES = "APPEND_SUCCESS_ISSUES"
 export const APPEND_SUCCESS_CURRENT_TASK = "APPEND_SUCCESS_CURRENT_TASK"
 export const APPEND_SUCCESS_CURRENT_EPIC = "APPEND_SUCCESS_CURRENT_EPIC"
 export const DELETE_SUCCESS_SUB_TASK = "DELETE_SUCCESS_SUB_TASK"
@@ -33,23 +31,9 @@ export const REMOVE_SUBTASK_FROM_TASK = "REMOVE_SUBTASK_FROM_TASK"
 export const UPDATE_ISSUE_GROUP = "UPDATE_ISSUE_GROUP"
 export const TOGGLE_FLAG = "TOGGLE_FLAG"
 /**********************************  Actions  ******************************************/
-export function appendSuccessfulTasks(data) {
+export function appendProjectIssues(data){
     return {
-        type: APPEND_SUCCESS_TASKS,
-        data: data
-    }
-}
-
-export function appendSuccessfulEpics(data) {
-    return {
-        type: APPEND_SUCCESS_EPICS,
-        data: data
-    }
-}
-
-export function appendSuccessfulSubtasks(data) {
-    return {
-        type: APPEND_SUCCESS_SUBTASKS,
+        type: APPEND_SUCCESS_ISSUES,
         data: data
     }
 }
@@ -164,22 +148,6 @@ export const getLabelsAndIssuesGroupByStatus = (projectId, token) => async  disp
     }
 }
 
-export const saveProjectIssues = (issues) => async  dispatch => {
-    dispatch({ type: LOADING_ISSUE })
-    const tasks = issues.filter(item => item.issueType === "task")
-    const epics = issues.filter(item => item.issueType === "epic")
-    const subTasks = issues.filter(item => item.issueType === "subtask")
-    try {
-        if (tasks.length > 0) { dispatch(appendSuccessfulTasks(tasks)) }
-        if (epics.length > 0) { dispatch(appendSuccessfulEpics(epics)) }
-        //TODO
-        //  if (subTasks.length > 0) { dispatch(appendSuccessfulSubTasks(subTasks)) }
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-    }
-}
-
 
 export const createTask = (data) => async  dispatch => {
     dispatch({ type: LOADING_ISSUE })
@@ -211,19 +179,34 @@ export const getASingleIssue = (id) => async  dispatch => {
     }
 }
 
-
-//TODO need to think about the flow.
-//Where to store in the store, and where does the client take it
-export const getIssueByProjectAndType = (id, type) => async  dispatch => {
+export const saveProjectIssues = (issues) => async  dispatch => {
     dispatch({ type: LOADING_ISSUE })
     try {
-
+        let tasks = []
+        let epics = []
+        let subtasks = []
+        const result = issues.map(each => {
+            if (each.issueType === "task") {
+                tasks.push(each)
+                return
+            }
+            if (each.issueType === "epic") {
+                epics.push(each)
+                return
+            }
+            if (each.issueType === "subtask") {
+                subtasks.push(each)
+                return
+            }
+        })
+        dispatch(appendProjectIssues({
+            tasks: tasks, epics: epics, subtasks: subtasks
+        }))
     }
     catch (err) {
         dispatch(dispatchError(err))
     }
 }
-
 
 export const updateIssue = (data) => async  dispatch => {
     dispatch({ type: LOADING_ISSUE })
@@ -290,22 +273,36 @@ export const updateIssueReporter = (data) => async  dispatch => {
     }
 }
 
-export const deleteTask = (issueId) => async  dispatch => {
+export const toggleFlag = (id, flag) => async dispatch => {
     dispatch({ type: LOADING_ISSUE })
     try {
-        await API.del("IssueApi", "/issues/object/" + issueId)
-        dispatch(deleteSuccessfulTask(issueId))
+        await API.put("IssueApi", "/issues/update/flag", {
+            body: {
+                _id: id,
+                flag: flag
+            }
+        })
+        dispatch(toggleSuccessfulFlag(id))
     }
     catch (err) {
         dispatch(dispatchError(err))
     }
 }
 
-export const toggleFlag = (id) => async  dispatch => {
+export const deleteIssue = (issueId, issueType) => async  dispatch => {
     dispatch({ type: LOADING_ISSUE })
     try {
-
-
+        await API.del("IssueApi", "/issues/object/" + issueId)
+        switch (issueType) {
+            case "task":
+                return dispatch(deleteSuccessfulTask(issueId))
+            case "epic":
+                return dispatch(deleteSuccessfulEpic(issueId))
+            case "subtask":
+                return dispatch(deleteSuccessfulSubtask(issueId))
+            default:
+                return
+        }
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -315,14 +312,14 @@ export const toggleFlag = (id) => async  dispatch => {
 export const deleteIssueByProject = (projectId) => async (dispatch, getState) => {
     dispatch({ type: LOADING_ISSUE })
     try {
-        //TODO
-        //TODO: get all the keys of all issues to be deleted.
-        // Then paginate the keys into sets of 25.
-        // for each set, call the API's batch delete.
-
-
-        //update batch write item and update the api call
-        // await API.del("IssueApi", "/issues/project/" + projectId)
+        const reducer = getState.IssueReducer
+        const tasksToDelete = reducer.tasks.filter(item => item.project === projectId).map(each => each._id)
+        const epicsToDelete = reducer.epics.filter(item => item.project === projectId).map(each => each._id)
+        const subtasksToDelete = reducer.subtasks.filter(item => item.project === projectId).map(each => each._id)
+        tasksToDelete.concat(epicsToDelete).concat(subtasksToDelete)
+            .foreach(item =>
+                API.del("IssueApi", "/issues/object/" + item).catch(err => dispatchError(err))
+            )
         dispatch(deleteSuccessIssueByProject(projectId))
     }
     catch (err) {

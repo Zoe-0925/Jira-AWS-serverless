@@ -4,7 +4,7 @@ import {
     APPEND_SUCCESS_TASKS_PARENT, APPEND_SUCCESS_TASKS_CHILDREN,
     ERROR_ISSUE, UPDATE_ISSUE_GROUP, TOGGLE_FLAG, CREATE_SUCCESS_SUB_TASK, APPEND_SUCCESS_SUBTASKS,
     DELETE_SUCCESS_SUB_TASK, ADD_TASK_TO_EPIC, REMOVE_TASK_FROM_EPIC, ADD_SUBTASK_TO_TASK, REMOVE_SUBTASK_FROM_TASK,
-    DELETE_ISSUE_BY_PROJECT, UPDATE_ISSUE_ORDER
+    DELETE_ISSUE_BY_PROJECT, APPEND_SUCCESS_ISSUES
 } from "../Actions/issue.actions"
 import { DELETE_SUCCESS_STATUS } from "../Actions/status.actions"
 
@@ -28,6 +28,11 @@ export default function IssueReducer(state = {
     switch (action.type) {
         case LOADING_ISSUE:
             return { ...state, loading: true, authenticated: false }
+        case APPEND_SUCCESS_ISSUES:
+            return {
+                ...state, loading: true, authenticated: false, tasks: action.data.tasks,
+                epics: action.data.epics, subtasks: action.data.subtasks
+            }
         case CREATE_SUCCESS_TASK:
             newState.tasks.set(action.data._id, action.data)
             return newState
@@ -98,13 +103,11 @@ export default function IssueReducer(state = {
             newState.splice(newState.indexOf(change), 1, action.data);
             return newState
 
-            
-            
+
+
         case APPEND_SUCCESS_TASKS_PARENT:
             return state;
         case APPEND_SUCCESS_TASKS_CHILDREN:
-            return state;
-        case APPEND_SUCCESS_SUBTASKS: //
             return state;
         case TOGGLE_FLAG:
             newState = { ...state, authenticated: true, loading: false }
