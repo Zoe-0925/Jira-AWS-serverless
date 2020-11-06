@@ -24,3 +24,19 @@ export const addCreateAndUpdateDate = data => {
         updatedAt: JSON.stringify(today)
     }
 }
+
+export const reorder = (list, startIndex, endIndex) => {
+    //Move the item at the start index to the end index
+    if (typeof list === Array && startIndex <= list.length && endIndex <= list.length &&
+        startIndex >= -1 * list.length && endIndex >= -1 * list.length) {
+        const [removedToReorder] = list.splice(startIndex, 1);
+        list.splice(endIndex, 0, removedToReorder)
+    }
+    return list
+}
+
+export const changeColumn = (source, destination, startIndex, endIndex) => {
+    const [removedToMove] = source.splice(action.startIndex, 1);
+    destination.splice(action.endIndex, 0, removedToMove);
+    return { source, destination }
+}

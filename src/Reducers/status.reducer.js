@@ -1,8 +1,7 @@
 import {
     LOADING_STATUS, ERROR_STATUS, CREATE_SUCCESS_STATUS, DELETE_SUCCESS_STATUS,
-    UPDATE_SUCCESS_STATUS, UPDATE_SUCCESS_STATUS_NAME, APPEND_SUCCESS_STATUS, REORDER_ISSUES, MOVE_ISSUES,
+    UPDATE_SUCCESS_STATUS, UPDATE_SUCCESS_STATUS_NAME, APPEND_SUCCESS_STATUS, MOVE_ISSUES,
     DELETE_ISSUE_FROM_STATUS, DELETE_STATUS_BY_PROJECT,
-    CREATE_SUCCESS_MULTIPLE_STATUS
 } from "../Actions/status.actions"
 
 const status = new Map()
@@ -23,37 +22,9 @@ export default function StatusReducer(state = {
     switch (action.type) {
         case LOADING_STATUS:
             return Object.assign({}, state, { loading: true, authenticated: false })
-        case REORDER_ISSUES: //Move the item at the start index to the end index
-            //TODO did not conduct validation: if index is invalid, do not change the state.
-
-
-            const statusId = newState.statusOrder[action.index]
-            status = newState.status.get(statusId)
-            let issues = status.issues
-            const [removedToReorder] = issues.splice(action.startIndex, 1);
-            issues.splice(action.endIndex, 0, removedToReorder);
-            return newState
-        case MOVE_ISSUES:
-            //TODO did not conduct validation: if index is invalid, do not change the state.
-
-
-            const sourceStatusId = newState.statusOrder[action.sourceIndex]
-            const destinationStatusId = newState.statusOrder[action.destinationIndex]
-            let sourceIssues = newState.status.get(sourceStatusId).issues
-            let destinationIssues = newState.status.get(destinationStatusId).issues
-            const [removedToMove] = sourceIssues.splice(action.startIndex, 1);
-            destinationIssues.splice(action.endIndex, 0, removedToMove);
-            return newState
         case CREATE_SUCCESS_STATUS:
-            //TODO append it to the status order as well
-
-
             newState.status.set(action.data._id, action.data)
             return newState
-
-        case CREATE_SUCCESS_MULTIPLE_STATUS:
-
-            return state
         case DELETE_SUCCESS_STATUS:
             newState.status.detele(action.id)
             return newState
@@ -66,9 +37,17 @@ export default function StatusReducer(state = {
             newState.status.set(action.data._id, status)
             return newState
         case UPDATE_ISSUE_ORDER:
-            status = newState.status.get(action.data._id)
-            status.issues = action.data.issueOrder
-            newState.status.set(action.data._id, status)
+            status = newState.status.get(action._id)
+            status.issues = action.issueOrder
+            newState.status.set(action._id, status)
+            return newState
+        case MOVE_ISSUES:
+            let sourceStatus = newState.status.get(action.source._id)
+            sourceStatus.issues = action.source.issueOrder
+            let destinationStatus = newState.status.get(action.destination._id)
+            destinationStatus.issues = action.destination.issueOrder
+            newState.status.set(action.source._id, sourceStatus)
+            newState.status.set(action.destination._id, destinationStatus)
             return newState
         case APPEND_SUCCESS_STATUS:
             return { ...state, loading: false, authenticated: true, status: action.data }
@@ -80,7 +59,7 @@ export default function StatusReducer(state = {
             newState.status.clear()
             return newState
         case ERROR_STATUS:
-            return Object.assign({}, state, { loading: false, authenticated: false, errorMessage: action.data })
+            return { ...state, loading: false, authenticated: false, errorMessage: action.data }
         default:
             return state;
     }

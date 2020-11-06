@@ -12,18 +12,10 @@ export const REORDER_ISSUES = "REORDER_ISSUES"
 export const MOVE_ISSUES = "MOVE_ISSUES"
 export const DELETE_ISSUE_FROM_STATUS = "DELETE_ISSUE_FROM_STATUS"
 export const DELETE_STATUS_BY_PROJECT = "DELETE_STATUS_BY_PROJECT"
-export const CREATE_SUCCESS_MULTIPLE_STATUS = "CREATE_SUCCESS_MULTIPLE_STATUS"
 
 export const createSuccessfulStatus = (data) => {
     return {
         type: CREATE_SUCCESS_STATUS,
-        data: data
-    }
-}
-
-export const createSuccessfulMultipleStatus = (data) => {
-    return {
-        type: CREATE_SUCCESS_MULTIPLE_STATUS,
         data: data
     }
 }
@@ -50,38 +42,10 @@ export const deleteSuccessfulStatus = (id, issues) => {
     }
 }
 
-export const appendSuccessfulStatus = (data, order) => {
-    return {
-        type: APPEND_SUCCESS_STATUS,
-        data: data,
-        order: order
-    }
-}
-
 export function dispatchError(data) {
     return {
         type: ERROR_STATUS,
         data: data
-    }
-}
-
-export const moveIssues = (source, destination, startIndex, endIndex) => {
-    return {
-        type: MOVE_ISSUES,
-        sourceIndex: source,
-        destinationIndex: destination,
-        startIndex: startIndex,
-        endIndex: endIndex
-    }
-}
-
-//TODO extract this to util.
-export const reorderIssues = (source, startIndex, endIndex) => {
-    return {
-        type: REORDER_ISSUES,
-        index: source,
-        startIndex: startIndex,
-        endIndex: endIndex
     }
 }
 
@@ -114,41 +78,74 @@ export function updateSuccessfulIssueOrder(data) {
         data: data
     }
 }
+
+export function appendSuccessStatus(data) {
+    return {
+        type: APPEND_SUCCESS_STATUS,
+        data: data
+    }
+}
+
 /**************************** Thunk Actions ***************************/
 
-export const saveProjectStatus = (status) => async  dispatch => {
+export const moveIssues = (source, destination, startIndex, endIndex) => async (dispatch, getState) => {
     dispatch({ type: LOADING_STATUS })
     try {
-        dispatch(appendSuccessfulStatus(status))
+        const status = getState().StatusReducer.status
+        let sourceStatus = { ...status.get(source) }
+        let destinationStatus = { ...status.get(destination) }
+        const { sourceIssueorder, destinationIssueorder } = changeColumn(sourceStatus.issues, destinationStatus.issues, startIndex, endIndex)
+        const sourceUpdated = { _id: sourceStatus._id, issueOrder: sourceIssueorder }
+        const destinationUpdated = { _id: estinationStatus._id, issueOrder: destinationIssueorder }
+        await API.put("StatusApi", "/status/issueOrder", {
+            body: {
+                sourceUpdated
+            }
+        })
+        await API.put("StatusApi", "/status/issueOrder", {
+            body: {
+                destinationUpdated
+            }
+        })
+        dispatch({
+            type: MOVE_ISSUES,
+            source: sourceUpdated,
+            destination: destinationUpdated
+        })
     }
     catch (err) {
         dispatch(dispatchError(err))
     }
 }
 
-//TODO
-//To be updated
-export const moveIssuesRequest = (id, source, destination, startIndex, endIndex) => async  dispatch => {
+export const reorderIssues = (source, startIndex, endIndex) => {
     dispatch({ type: LOADING_STATUS })
     try {
-        //  const call = source === destination
-        //      ? fetchUpdateIssueOrders(process.env.BASE, id, source, startIndex, endIndex, token)
-        //      : fetchUpdateMultipleIssueOrders(process.env.BASE, source, destination, startIndex, endIndex, token)
-        //    const response = await dispatch(call)
-
-        //  dispatch(reorderIssues(source, startIndex, endIndex))
-
-        //   else if (response.success && source !== destination) {
-        //      dispatch(moveIssues(source, destination, startIndex, endIndex))
-        //   }
-
+        const status = getState().StatusReducer.status
+        let sourceStatus = { ...status.get(source) }
+        const issueOrder = reorder(sourceStatus.issues, startIndex, endIndex)
+        const orderUpdated = { _id: sourceStatus._id, issueOrder: issueOrder }
+        await API.put("StatusApi", "/status/issueOrder", {
+            body: orderUpdated
+        })
+        dispatch({
+            type: UPDATE_ISSUE_ORDER,
+            _id: sourceStatus._id,
+            issueOrder: issueOrder
+        })
     }
     catch (err) {
         dispatch(dispatchError(err))
-        //TODO
-        //dispatch undo
-        // Something happened in setting up the request that triggered an Error
-        console.log('Error', err);
+    }
+}
+
+export const saveProjectStatus = (status) => async  dispatch => {
+    dispatch({ type: LOADING_STATUS })
+    try {
+        dispatch(createSuccessfulMultipleStatus(status))
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
     }
 }
 
@@ -175,7 +172,7 @@ export const createMultipleStatus = (list) => async  dispatch => {
                 dispatch(dispatchError(err))
             })
         });
-        dispatch(createSuccessfulMultipleStatus(list))
+        dispatch(appendSuccessStatus(list))
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -194,20 +191,6 @@ export const updateStatusName = (data) => async  dispatch => {
         dispatch(dispatchError(err))
     }
 }
-
-export const updateIssueOrder = (data) => async  dispatch => {
-    dispatch({ type: LOADING_STATUS })
-    try {
-        await API.put("StatusApi", "/status/issueOrder", {
-            body: data
-        })
-        dispatch(updateSuccessfulIssueOrder(data))
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-    }
-}
-
 
 export const updateStatus = (data) => async  dispatch => {
     dispatch({ type: LOADING_STATUS })

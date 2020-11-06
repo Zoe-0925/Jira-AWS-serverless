@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 import API from '@aws-amplify/api';
-import { v4 as uuidv4 } from 'uuid'
 import { useDispatch, useSelector } from "react-redux"
 import AddBoxRoundedIcon from '@material-ui/icons/AddBoxRounded';
 import Column from "./Column"
 import {
-    selectStatus, selectStatusOrder, selectTasks, selectNoneFilter, selectCurrentProject,
+    selectStatus, selectStatusOrder, selectTasks, selectNoneFilter, 
     selectFilterByEpic, selectFilterByLabel, selectFilterByAssignee, selectGroupBy, selectProjectReducer
 } from "../../Reducers/Selectors"
-import { useIssueDetailModal, useCreateStatus } from "./CustomHooks"
+import { useIssueDetailModal } from "./CustomHooks"
 import IssueCard from "../Issues/IssueCard"
 import IssueDetail from "../Issues/IssueDetail"
 import { saveProjectIssues } from "../../Actions/issue.actions"
@@ -56,8 +55,10 @@ export default function DragAndDrop() {
     const filterByAssignee = useSelector(selectFilterByAssignee)
     const filterByLabel = useSelector(selectFilterByLabel)
 
+    //TODO 
+    //Haven't tested this yet
     useEffect(async () => {
-        if (columnOrder.length === 0) {
+        if (status.length === 0) {
             const [issues, status, labels] = await Promise.all(
                 API.get("IssueApi", "/issues/project/" + projectId),
                 API.get("StatusApi", "/status/project/" + projectId),
@@ -65,9 +66,7 @@ export default function DragAndDrop() {
             )
             await Promise.all([
                 dispatch(saveProjectIssues(issues)),
-
-                //TODO where do we get the statusOrder from? Project object?
-                dispatch(saveProjectStatus(status)), //TODO need status order from the project object,
+                dispatch(saveProjectStatus(status)),
                 dispatch(saveProjectLabels(labels))
             ]);
         }
