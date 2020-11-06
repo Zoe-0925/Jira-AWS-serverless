@@ -1,9 +1,8 @@
 import {
-    LOADING_ISSUE, CREATE_SUCCESS_TASK, CREATE_SUCCESS_EPIC, DELETE_SUCCESS_TASK,
-    UPDATE_SUCCESS_TASK, DELETE_SUCCESS_EPIC, UPDATE_SUCCESS_EPIC,
-    APPEND_SUCCESS_TASKS_PARENT, APPEND_SUCCESS_TASKS_CHILDREN,
-    ERROR_ISSUE, UPDATE_ISSUE_GROUP, TOGGLE_FLAG, CREATE_SUCCESS_SUB_TASK, APPEND_SUCCESS_SUBTASKS,
-    DELETE_SUCCESS_SUB_TASK, ADD_TASK_TO_EPIC, REMOVE_TASK_FROM_EPIC, ADD_SUBTASK_TO_TASK, REMOVE_SUBTASK_FROM_TASK,
+    LOADING_ISSUE,  DELETE_SUCCESS_TASK, UPDATE_SUCCESS_TASK, DELETE_SUCCESS_EPIC, 
+    UPDATE_SUCCESS_EPIC, APPEND_SUCCESS_TASKS_PARENT, APPEND_SUCCESS_TASKS_CHILDREN,
+    ERROR_ISSUE, UPDATE_ISSUE_GROUP, TOGGLE_FLAG, DELETE_SUCCESS_SUB_TASK, 
+    ADD_TASK_TO_EPIC, REMOVE_TASK_FROM_EPIC, ADD_SUBTASK_TO_TASK, REMOVE_SUBTASK_FROM_TASK,
     DELETE_ISSUE_BY_PROJECT, APPEND_SUCCESS_ISSUES
 } from "../Actions/issue.actions"
 import { DELETE_SUCCESS_STATUS } from "../Actions/status.actions"
@@ -14,15 +13,16 @@ issues.set("hdkahdjaskdh", {
     issueType: "task", flag: false, reportee: "testUserId", project: "test id", status: "1"
 })
 
-
-export default function IssueReducer(state = {
+const initialState = {
     loading: false,
     tasks: issues, //Map()
     epics: [],
     subtasks: [],
     authenticated: false,
     errorMessage: ""
-}, action) {
+}
+
+export default function IssueReducer(state = initialState, action) {
     let newState = newState = { ...state, authenticated: true, loading: false }
     let tempResult
     switch (action.type) {
@@ -33,14 +33,10 @@ export default function IssueReducer(state = {
                 ...state, loading: true, authenticated: false, tasks: action.data.tasks,
                 epics: action.data.epics, subtasks: action.data.subtasks
             }
-        case CREATE_SUCCESS_TASK:
-            newState.tasks.set(action.data._id, action.data)
-            return newState
-        case CREATE_SUCCESS_EPIC:
-            newState.epics.push(action.data)
-            return newState
-        case CREATE_SUCCESS_SUB_TASK:
-            newState.subtasks.push(action.data)
+        case CREATE_SUCCESS_ISSUE:
+            if (action.data.issueType === "task") { newState.tasks.set(action.data._id, action.data) }
+            if (action.data.issueType === "epic") { newState.epics.push(action.data) }
+            if (action.data.issueType === "subtask") { newState.subtasks.push(action.data) }
             return newState
         case DELETE_SUCCESS_TASK:
             newState.tasks.delete(action.id)
@@ -110,19 +106,11 @@ export default function IssueReducer(state = {
         case APPEND_SUCCESS_TASKS_CHILDREN:
             return state;
         case TOGGLE_FLAG:
-            newState = { ...state, authenticated: true, loading: false }
             let issue = newState.issues.get(action.id)
-            console.log("action.id", action.id, "issue", issue)
             issue.flag = !issue.flag
             return newState
         case DELETE_ISSUE_BY_PROJECT:
-            newState = { ...state, authenticated: true, loading: false }
-            for (let [key, value] of newState.entries()) {
-                if (value.project === action.id) {
-                    newState.delete(key)
-                }
-            }
-            return newState
+            return initialState
         case ERROR_ISSUE:
             return { ...state, authenticated: false, loading: false, errorMessage: action.data }
         default:

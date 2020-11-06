@@ -37,7 +37,7 @@ AWS.config.update({ region: process.env.TABLE_REGION });
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 let tableName = "Issue";
-if(process.env.ENV && process.env.ENV !== "NONE") {
+if (process.env.ENV && process.env.ENV !== "NONE") {
   tableName = tableName + '-' + process.env.ENV;
 }
 
@@ -57,7 +57,7 @@ app.use(bodyParser.json())
 app.use(awsServerlessExpressMiddleware.eventContext())
 
 // Enable CORS for all methods
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*")
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
   next()
@@ -65,7 +65,7 @@ app.use(function(req, res, next) {
 
 // convert url string param to expected Type
 const convertUrlType = (param, type) => {
-  switch(type) {
+  switch (type) {
     case "N":
       return Number.parseInt(param);
     default:
@@ -289,11 +289,10 @@ app.put(path, function (req, res) {
 });
 
 /************************************
-* HTTP put method for updating status *
+* HTTP put method for updating issue summary *
 *************************************/
 
-//TODO wrong
-app.put(path + "/update", function (req, res) {
+app.put(path + "/update/summary", function (req, res) {
 
   if (userIdPresent) {
     req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
@@ -304,7 +303,7 @@ app.put(path + "/update", function (req, res) {
     Key: {
       "_id": req.body._id,
     },
-    UpdateExpression: "set info." + req.body.key + " = :value",
+    UpdateExpression: "set info.summary" + " = :value",
     ExpressionAttributeValues: {
       ":value": req.body.value
     },
@@ -318,6 +317,128 @@ app.put(path + "/update", function (req, res) {
     }
   });
 });
+
+/************************************
+* HTTP put method for updating issue description *
+*************************************/
+
+app.put(path + "/update/description", function (req, res) {
+
+  if (userIdPresent) {
+    req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
+  }
+
+  let putItemParams = {
+    TableName: tableName,
+    Key: {
+      "_id": req.body._id,
+    },
+    UpdateExpression: "set info.description" + " = :value",
+    ExpressionAttributeValues: {
+      ":value": req.body.value
+    },
+  }
+  dynamodb.update(putItemParams, (err, data) => {
+    if (err) {
+      res.statusCode = 500;
+      res.json({ error: err, url: req.url, body: req.body });
+    } else {
+      res.json({ data: data })
+    }
+  });
+});
+
+/************************************
+* HTTP put method for updating issue assignee *
+*************************************/
+
+app.put(path + "/update/assignee", function (req, res) {
+
+  if (userIdPresent) {
+    req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
+  }
+
+  let putItemParams = {
+    TableName: tableName,
+    Key: {
+      "_id": req.body._id,
+    },
+    UpdateExpression: "set info.assignee" + " = :value",
+    ExpressionAttributeValues: {
+      ":value": req.body.value
+    },
+  }
+  dynamodb.update(putItemParams, (err, data) => {
+    if (err) {
+      res.statusCode = 500;
+      res.json({ error: err, url: req.url, body: req.body });
+    } else {
+      res.json({ data: data })
+    }
+  });
+});
+
+/************************************
+* HTTP put method for updating issue reporter *
+*************************************/
+
+app.put(path + "/update/reporter", function (req, res) {
+
+  if (userIdPresent) {
+    req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
+  }
+
+  let putItemParams = {
+    TableName: tableName,
+    Key: {
+      "_id": req.body._id,
+    },
+    UpdateExpression: "set info.reporter" + " = :value",
+    ExpressionAttributeValues: {
+      ":value": req.body.value
+    },
+  }
+  dynamodb.update(putItemParams, (err, data) => {
+    if (err) {
+      res.statusCode = 500;
+      res.json({ error: err, url: req.url, body: req.body });
+    } else {
+      res.json({ data: data })
+    }
+  });
+});
+
+/************************************
+* HTTP put method for updating issue flag *
+*************************************/
+
+app.put(path + "/update/flag", function (req, res) {
+
+  if (userIdPresent) {
+    req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
+  }
+
+  let putItemParams = {
+    TableName: tableName,
+    Key: {
+      "_id": req.body._id,
+    },
+    UpdateExpression: "set info.flag" + " = :value",
+    ExpressionAttributeValues: {
+      ":value": req.body.value
+    },
+  }
+  dynamodb.update(putItemParams, (err, data) => {
+    if (err) {
+      res.statusCode = 500;
+      res.json({ error: err, url: req.url, body: req.body });
+    } else {
+      res.json({ data: data })
+    }
+  });
+});
+
+
 
 /************************************
 * HTTP post method for insert object *

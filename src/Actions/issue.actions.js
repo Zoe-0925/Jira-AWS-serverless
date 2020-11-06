@@ -7,10 +7,8 @@ export const APPEND_SUCCESS_TASKS_PARENT = "APPEND_SUCCESS_TASKS_PARENT"
 export const APPEND_SUCCESS_TASKS_CHILDREN = "APPEND_SUCCESS_TASKS_CHILDREN"
 export const LOADING_ISSUE = "LOADING_ISSUE"
 export const ERROR_ISSUE = "ERROR_ISSUE"
-export const CREATE_SUCCESS_TASK = "CREATE_SUCCESS_TASK"
-export const CREATE_SUCCESS_EPIC = "CREATE_SUCCESS_EPIC"
-export const DELETE_SUCCESS_TASK = "DELETE_SUCCESS_TASK"
-export const DELETE_SUCCESS_EPIC = "DELETE_SUCCESS_EPIC"
+export const CREATE_SUCCESS_ISSUE = "CREATE_SUCCESS_ISSUE"
+export const DELETE_SUCCESS_ISSUE = "DELETE_SUCCESS_ISSUE"
 export const DELETE_ISSUE_BY_PROJECT = "DELETE_ISSUE_BY_PROJECT"
 export const UPDATE_SUCCESS_TASK = "UPDATE_SUCCESS_TASK"
 export const UPDATE_SUCCESS_TASK_SUMMARY = "UPDATE_SUCCESS_TASK_SUMMARY"
@@ -29,31 +27,17 @@ export const REMOVE_SUBTASK_FROM_TASK = "REMOVE_SUBTASK_FROM_TASK"
 export const UPDATE_ISSUE_GROUP = "UPDATE_ISSUE_GROUP"
 export const TOGGLE_FLAG = "TOGGLE_FLAG"
 /**********************************  Actions  ******************************************/
-export function appendProjectIssues(data){
+export function appendProjectIssues(data) {
     return {
         type: APPEND_SUCCESS_ISSUES,
         data: data
     }
 }
 
-export function createSuccessfulTask(data) {
+export function createSuccessfulIssue(data) {
     return {
-        type: CREATE_SUCCESS_TASK,
+        type: CREATE_SUCCESS_ISSUE,
         data: data
-    }
-}
-
-export function createSuccessfulEpic(data) {
-    return {
-        type: CREATE_SUCCESS_EPIC,
-        data: data
-    }
-}
-
-export function deleteSuccessfulTask(id) {
-    return {
-        type: DELETE_SUCCESS_TASK,
-        id: id
     }
 }
 
@@ -146,21 +130,11 @@ export const getLabelsAndIssuesGroupByStatus = (projectId, token) => async  disp
     }
 }
 
-
-export const createTask = (data) => async  dispatch => {
+export const createIssue = (data) => async  dispatch => {
     dispatch({ type: LOADING_ISSUE })
     try {
-
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-    }
-}
-
-export const createEpic = (data) => async  dispatch => {
-    dispatch({ type: LOADING_ISSUE })
-    try {
-
+        await API.post("IssueApi", "/issues/", { body: data })
+        dispatch(createSuccessfulIssue(data))
     }
     catch (err) {
         dispatch(dispatchError(err))
