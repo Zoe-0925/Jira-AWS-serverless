@@ -180,19 +180,6 @@ export const saveProjectIssues = (issues) => async  dispatch => {
     }
 }
 
-export const updateIssue = (data) => async  dispatch => {
-    dispatch({ type: LOADING_ISSUE })
-    try {
-        await API.put("IssueApi", "/issues/update", {
-            body: data
-        })
-        dispatch(updateSuccessfulTask(data))
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-    }
-}
-
 export const updateIssueSummary = (data) => async  dispatch => {
     dispatch({ type: LOADING_ISSUE })
     try {

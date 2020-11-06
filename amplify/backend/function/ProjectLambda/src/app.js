@@ -29,7 +29,7 @@ AWS.config.update({ region: process.env.TABLE_REGION });
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 let tableName = "Project";
-if(process.env.ENV && process.env.ENV !== "NONE") {
+if (process.env.ENV && process.env.ENV !== "NONE") {
   tableName = tableName + '-' + process.env.ENV;
 }
 
@@ -49,7 +49,7 @@ app.use(bodyParser.json())
 app.use(awsServerlessExpressMiddleware.eventContext())
 
 // Enable CORS for all methods
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*")
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
   next()
@@ -57,7 +57,7 @@ app.use(function(req, res, next) {
 
 // convert url string param to expected Type
 const convertUrlType = (param, type) => {
-  switch(type) {
+  switch (type) {
     case "N":
       return Number.parseInt(param);
     default:
@@ -245,9 +245,11 @@ app.put(path + "/statusOrder", function (req, res) {
     Key: {
       "_id": req.body._id,
     },
-    UpdateExpression: "set info.statusOrder = :statusOrder",
+    UpdateExpression: "set info.name = :name, set info.key = :key, set info.default_assignee = :default_assignee",
     ExpressionAttributeValues: {
-      ":statusOrder": req.body.statusOrder
+      ":name": req.body.name,
+      ":key": req.body.key,
+      "default_assignee": req.body.default_assignee
     },
   }
   dynamodb.update(putItemParams, (err, data) => {
