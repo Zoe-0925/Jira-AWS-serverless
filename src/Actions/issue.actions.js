@@ -1,6 +1,4 @@
 
-import { createSuccessfulStatus, deleteSuccessfulIssueFromStatus } from "./status.actions"
-import { appendSuccessfulLabels } from "./label.actions"
 import { API } from 'aws-amplify';
 require('dotenv').config()
 
