@@ -1,9 +1,8 @@
 
 import {
     LOADING_PROJECT, ERROR_PROJECT, CREATE_SUCCESS_PROJECT, DELETE_SUCCESS_PROJECT,
-    UPDATE_SUCCESS_PROJECT, APPEND_SUCCESS_CURRENT_PROJECT, APPEND_SUCCESS_PROJECTS,
-    SET_CURRENT_PROJECT, UPDATE_SUCCESS_PROJECT_NAME_AND_ASSIGNEE, UPDATE_SUCCESS_MEMBERS,
-    UPDATE_SUCCESS_STATUS_ORDER, UPDATE_SUCCESS_STATUS_ORDER,
+    APPEND_SUCCESS_PROJECTS, SET_CURRENT_PROJECT, UPDATE_SUCCESS_PROJECT_NAME_AND_ASSIGNEE,
+    UPDATE_SUCCESS_MEMBERS, UPDATE_SUCCESS_STATUS_ORDER,
 } from "../Actions/project.actions"
 
 export default function ProjectReducer(state = {
@@ -25,7 +24,6 @@ export default function ProjectReducer(state = {
     currentProjectId: "test id"
 }, action) {
     let newState = Object.assign({}, state, { loading: false, authenticated: true })
-    let tempProjects
     let target
     switch (action.type) {
         case LOADING_PROJECT:

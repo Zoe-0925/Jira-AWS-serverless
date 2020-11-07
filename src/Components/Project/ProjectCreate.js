@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { selectCurrentUserId } from "../../Reducers/Selectors"
-import { createSuccessfulMultipleStatus } from "../../Actions/status.actions"
+import { appendSuccessStatus } from "../../Actions/status.actions"
 import { createSuccessfulProject } from "../../Actions/project.actions"
 import { Form, Field } from 'formik';
 import { withFormik } from 'formik';
@@ -94,7 +94,7 @@ export const ProjectCreateHOC = ({ open, setOpen }) => {
     const submitForm = values => {
         const { project, statusList } = initiateProjectAndStatus(values, userId)
         dispatch(createSuccessfulProject(project))
-        dispatch(createSuccessfulMultipleStatus(statusList))
+        dispatch(appendSuccessStatus(statusList))
         // setOpen(false)
     }
 

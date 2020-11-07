@@ -118,7 +118,7 @@ export const moveIssues = (source, destination, startIndex, endIndex) => async (
     }
 }
 
-export const reorderIssues = (source, startIndex, endIndex) => {
+export const reorderIssues = async (source, startIndex, endIndex) => {
     dispatch({ type: LOADING_STATUS })
     try {
         const status = getState().StatusReducer.status
@@ -142,7 +142,7 @@ export const reorderIssues = (source, startIndex, endIndex) => {
 export const saveProjectStatus = (status) => async  dispatch => {
     dispatch({ type: LOADING_STATUS })
     try {
-        dispatch(createSuccessfulMultipleStatus(status))
+        dispatch(appendSuccessStatus(status))
     }
     catch (err) {
         dispatch(dispatchError(err))
