@@ -35,20 +35,15 @@ export default function Test() {
     const dispatch = useDispatch()
 
 
-    const putStatus = async (status) => {
-        initiateProjectAndStatus()
-        // dispatch(createMultipleStatus(status))
-        console.log("clicked")
-        //  const date = new Date()
-        //  const user = API.get("UserApi", "/users/email/notAEmail")
-
-
-        console.log("result")
+    const putStatus = async () => {
+        const projects = await API.get("ProjectApi","/projects")
+        const status = await API.get("StatusApi","/status")
+        console.log("projects", projects ,status )
     }
 
 
     return (<div>
-        <Button onClick={() => putStatus(status)}>open</Button>
+        <Button onClick={() => putStatus()}>open</Button>
 
     </div>
     )

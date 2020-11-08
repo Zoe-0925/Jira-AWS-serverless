@@ -31,7 +31,6 @@ const App = () => {
           <Route path="/signup" exact component={Signup} />
           <Route path="/confirmSignup" exact component={App} />
           <Route path="/projects" exact component={ProjectList} />
-          <Route path="/projects/create" exact component={App} />
           <Route path="/projects/roadmap" component={App} />
           <Route path="/projects/board" exact component={Board} />
           <Route path="/projects/settings/details" exact component={ProjectDetail} />

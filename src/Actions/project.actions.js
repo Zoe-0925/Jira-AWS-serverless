@@ -88,8 +88,7 @@ export const createProject = (newProject) => async  dispatch => {
         const response = await API.post("ProjectApi", "/projects", {
             body: newProject
         })
-        console.log("create project response", response)
-        if (!response.error) {
+        if (response && !response.error) {
             dispatch(createSuccessfulProject(newProject))
         }
     }
