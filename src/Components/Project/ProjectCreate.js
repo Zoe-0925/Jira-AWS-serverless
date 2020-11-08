@@ -9,6 +9,7 @@ import { Typography, Button, InputLabel, Dialog } from '@material-ui/core';
 import { TextField } from 'formik-material-ui';
 import { DialogCloseIcon } from "../Shared/Tabs"
 import { initiateProjectAndStatus } from "../Util"
+import history from "../../history"
 
 export const ProjectCreateForm = ({
     values,
@@ -96,7 +97,6 @@ export const ProjectCreateHOC = ({ open, setOpen }) => {
         dispatch(createSuccessfulProject(project))
         dispatch(createMultipleStatus(statusList))
         setOpen(false)
-        history.pushState("/projects")
     }
 
     return <Dialog

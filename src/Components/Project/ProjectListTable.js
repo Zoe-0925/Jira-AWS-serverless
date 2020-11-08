@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { getAllProjects, setCurrentProject, deleteProject } from "../../Actions/project.actions"
-import { selectAllProjects, selectAllUsers } from "../../Reducers/Selectors"
+import { selectProjectReducer, selectAllProjects, selectAllUsers } from "../../Reducers/Selectors"
 import {
     Table, TableBody, TableCell, TableContainer, TableHead,
     TableRow, Paper, MenuItem
@@ -11,13 +11,14 @@ import { DotIconMenu } from "../Shared/Tabs"
 import history from "../../history"
 
 export default function ProjectListTable() {
+    const projects = useSelector(selectProjectReducer).projects
     const dispatch = useDispatch()
-    const projects = useSelector(selectAllProjects)
     const users = useSelector(selectAllUsers)
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const isOpen = Boolean(anchorEl);
     const anchorRef = React.useRef(null);
+
 
     const handleMenuClose = () => {
         setAnchorEl(false);
@@ -60,7 +61,7 @@ export default function ProjectListTable() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {projects.lenghth > 0 && projects.map(project => (
+                        {projects.map(project => (
                             <TableRow key={project._id} className="table-body">
                                 <TableCell className="project-name" component="th" scope="row" onClick={() => goToBoardPage(project._id)}>
                                     {project.name}

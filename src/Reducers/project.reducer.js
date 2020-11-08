@@ -42,7 +42,7 @@ export default function ProjectReducer(state = initialState, action) {
         case SET_CURRENT_PROJECT:
             return { ...state, loading: false, authenticated: true, currentProjectId: action.data }
         case CREATE_SUCCESS_PROJECT:
-            newState.projects = newState.projects.push(action.data)
+            newState.projects.push(action.data)
             return newState
         case DELETE_SUCCESS_PROJECT:
             newState.projects = newState.projects.filter(item => item._id !== action.id)
