@@ -166,7 +166,7 @@ export const createMultipleStatus = (list) => async  dispatch => {
     dispatch({ type: LOADING_STATUS })
     try {
         list.forEach(element => {
-            API.put("StatusApi", "/status/multiple", {
+            API.post("StatusApi", "/status", {
                 body: element
             }).catch(err => {
                 dispatch(dispatchError(err))
