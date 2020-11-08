@@ -5,7 +5,7 @@ import {
     UPDATE_SUCCESS_MEMBERS, UPDATE_SUCCESS_STATUS_ORDER,
 } from "../Actions/project.actions"
 
-export default function ProjectReducer(state = {
+const testState = {
     loading: false,
     authenticated: false,
     projects: [{
@@ -22,12 +22,23 @@ export default function ProjectReducer(state = {
     }],
     errorMessage: "",
     currentProjectId: "test id"
-}, action) {
-    let newState = Object.assign({}, state, { loading: false, authenticated: true })
+}
+
+const initialState = {
+    loading: false,
+    authenticated: false,
+    projects: [],
+    errorMessage: "",
+    currentProjectId: ""
+}
+
+
+export default function ProjectReducer(state = initialState, action) {
+    let newState = { ...state, loading: false, authenticated: true }
     let target
     switch (action.type) {
         case LOADING_PROJECT:
-            return Object.assign({}, state, { loading: true, errorMessage: "", authenticated: false })
+            return { ...state, loading: true, errorMessage: "", authenticated: false }
         case SET_CURRENT_PROJECT:
             return { ...state, loading: false, authenticated: true, currentProjectId: action.data }
         case CREATE_SUCCESS_PROJECT:
@@ -59,7 +70,7 @@ export default function ProjectReducer(state = {
             target.statusOrder = action.data
             return newState
         case ERROR_PROJECT:
-            return Object.assign({}, state, { loading: false, authenticated: false, errorMessage: action.data })
+            return { ...state, loading: false, authenticated: false, errorMessage: action.data }
         default:
             return state
     }
