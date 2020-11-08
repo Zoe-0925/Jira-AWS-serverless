@@ -7,13 +7,22 @@ import {
 	ADD_OTHER_USERS,
 } from "../Actions/user.actions"
 
-const UserReducer = (state = {
+const testState = {
 	loading: false,
 	authenticated: false,
 	currentUserId: "testUserId",
 	users: [{ _id: "testUserId", name: "userName", email: "test email", projects: [] }],
 	errorMessage: ""
-}, action) => {
+}
+const initialState = {
+	loading: false,
+	authenticated: false,
+	currentUserId: "",
+	users: [],
+	errorMessage: ""
+}
+
+const UserReducer = (state = initialState, action) => {
 	let newState
 	let tempUsers
 	switch (action.type) {

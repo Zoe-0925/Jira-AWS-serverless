@@ -94,6 +94,8 @@ export const ProjectCreateHOC = ({ open, setOpen }) => {
 
     const submitForm = values => {
         const { project, statusList } = initiateProjectAndStatus(values, userId)
+        //TODO 
+        //This does not work:  dispatch(createSuccessfulProject(project))
         dispatch(createSuccessfulProject(project))
         dispatch(createMultipleStatus(statusList))
         setOpen(false)

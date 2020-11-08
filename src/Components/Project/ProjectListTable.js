@@ -1,7 +1,7 @@
-import React, {  useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { getAllProjects, setCurrentProject, deleteProject } from "../../Actions/project.actions"
-import { selectProjectReducer, selectAllUsers } from "../../Reducers/Selectors"
+import { selectProjectReducer, selectAllUsers, selectUserReducer } from "../../Reducers/Selectors"
 import {
     Table, TableBody, TableCell, TableContainer, TableHead,
     TableRow, Paper, MenuItem
@@ -14,6 +14,7 @@ export default function ProjectListTable() {
     const projects = useSelector(selectProjectReducer).projects
     const dispatch = useDispatch()
     const users = useSelector(selectAllUsers)
+    const currentUser = useSelector(selectUserReducer).currentUser
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const isOpen = Boolean(anchorEl);
@@ -40,6 +41,13 @@ export default function ProjectListTable() {
 
     useEffect(() => {
         if (projects.length === 0) {
+            dispatch(getAllProjects())
+        }
+    }, [currentUser]
+    )
+
+    useEffect(() => {
+        if (currentUser !== "" && projects.length === 0) {
             dispatch(getAllProjects())
         }
     }, []

@@ -82,19 +82,18 @@ export function dispatchError(data) {
 
 
 /*****************  Thunk Actions  ****************/
-export const createProject = (newProject) => async  dispatch => {
+
+//TODO 
+//No idea why the API is not working here......
+export const createProject = (newProject) => dispatch => {
     dispatch({ type: LOADING_PROJECT })
-    try {
-        const response = await API.post("ProjectApi", "/projects", {
-            body: newProject
-        })
-        if (response && !response.error) {
-            dispatch(createSuccessfulProject(newProject))
-        }
-    }
-    catch (err) {
+    API.post("StatusApi", "/status", {
+        body: element
+    }).catch(err => {
         dispatch(dispatchError(err))
-    }
+        return
+    })
+    dispatch(createSuccessfulProject(newProject))
 }
 
 //Get all projects of the user
@@ -103,7 +102,7 @@ export const getAllProjects = () => async (dispatch, getState) => {
     try {
         const userReducer = getState().UserReducer
         const user = userReducer.users.find(item => item._id === userReducer.currentUserId)
-        if (user.projects.length === 0) {
+        if (user===undefined || user.projects.length === 0) {
             return
         }
         const projects = user.projects.map(projectId =>

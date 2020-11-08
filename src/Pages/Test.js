@@ -36,21 +36,35 @@ export default function Test() {
 
 
     const putStatus = async () => {
-      /**  const projects= await API.post("ProjectApi", "/projects", {
-            body: {
-                _id: "test id",
-                name: "test project name",
-                key: "test key",
-                lead: "testUserId",
-                members: ["testUserId"],
-                image: "",
-                issues: [],
-                default_assignee: "Project Lead",
-                start_date: "",
-                statusOrder: ["1", "2", "3", "4"]
-            }
+        /**  const projects= await API.post("ProjectApi", "/projects", {
+              body: {
+                  _id: "test id",
+                  name: "test project name",
+                  key: "test key",
+                  lead: "testUserId",
+                  members: ["testUserId"],
+                  image: "",
+                  issues: [],
+                  default_assignee: "Project Lead",
+                  start_date: "",
+                  statusOrder: ["1", "2", "3", "4"]
+              }
+          }
+          )*/
+
+        const testProject = {
+            createdAt: "2020-11-08T05:59:49.358Z",
+            default_assignee: "Project Lead",
+            image: "",
+            key: "TestProject1Key",
+            lead: "testUserId",
+            members: ["testUserId"],
+            name: "TestProject1",
+            statusOrder: [],
+            updatedAt: "2020-11 - 08T05: 59: 49.358Z",
+            _id: "b5d64095-24fa-48cc-8288-2dc6fae20ec6"
         }
-        )*/
+     //   const projects = await API.post("ProjectApi", "/projects", {     body: testProject   })
         const projects = await API.get("ProjectApi", "/projects")
         console.log("projects", projects)
     }

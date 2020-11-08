@@ -171,14 +171,10 @@ export const getCurrentUser = () => async  dispatch => {
             const accessToken = credential.signInUserSession.accessToken
             const refreshToken = credential.signInUserSession.refreshToken.token //The token String
             dispatch(saveTokens(accessToken, refreshToken))
-
-            //TODO update
-
-            //  const userInfo = await API.get("UserApi", "/users/email/" + credential.email)
-            //   dispatch(updateUser(user))
-            //   if (userInfo.error) {
-            //       dispatch(dispatchError(data.error))
-            //   }
+            const userInfo = await API.get("UserApi", "/users/email/" + credential.username)
+            if (!userInfo.error) {
+                dispatch(updateUser(userInfo))
+            }
         }
     }
     catch (err) {
