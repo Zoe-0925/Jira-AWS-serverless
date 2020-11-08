@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, {  useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { getAllProjects, setCurrentProject, deleteProject } from "../../Actions/project.actions"
-import { selectProjectReducer, selectAllProjects, selectAllUsers } from "../../Reducers/Selectors"
+import { selectProjectReducer, selectAllUsers } from "../../Reducers/Selectors"
 import {
     Table, TableBody, TableCell, TableContainer, TableHead,
     TableRow, Paper, MenuItem
