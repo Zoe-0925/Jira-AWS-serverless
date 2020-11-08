@@ -1,7 +1,7 @@
 import {
     LOADING_STATUS, ERROR_STATUS, CREATE_SUCCESS_STATUS, DELETE_SUCCESS_STATUS,
     UPDATE_SUCCESS_STATUS, UPDATE_SUCCESS_STATUS_NAME, APPEND_SUCCESS_STATUS, MOVE_ISSUES,
-    DELETE_ISSUE_FROM_STATUS, DELETE_STATUS_BY_PROJECT,UPDATE_ISSUE_ORDER
+    DELETE_ISSUE_FROM_STATUS, DELETE_STATUS_BY_PROJECT, UPDATE_ISSUE_ORDER
 } from "../Actions/status.actions"
 
 const status = new Map()
@@ -10,13 +10,20 @@ status.set("2", { _id: "2", name: "IN PROGRESS", issues: [] })
 status.set("3", { _id: "3", name: "DONE", issues: [] })
 status.set("4", { _id: "4", name: "TEST", issues: [] })
 
-
-export default function StatusReducer(state = {
+const testState = {
     loading: false,
     authenticated: false,
     status: status,
     errorMessage: ""
-}, action) {
+}
+
+const initialState = {
+    loading: false,
+    authenticated: false,
+    status: [],
+    errorMessage: ""
+}
+export default function StatusReducer(state = initialState, action) {
     let newState = Object.assign({}, state, { loading: false, authenticated: true })
     let status
     switch (action.type) {

@@ -36,13 +36,9 @@ if (process.env.ENV && process.env.ENV !== "NONE") {
 const userIdPresent = false; // TODO: update in case is required to use that definition
 const partitionKeyName = "_id";
 const partitionKeyType = "S";
-const sortKeyName = "";
-const sortKeyType = "";
-const hasSortKey = sortKeyName !== "";
 const path = "/projects";
 const UNAUTH = 'UNAUTH';
 const hashKeyPath = '/:' + partitionKeyName;
-const sortKeyPath = hasSortKey ? '/:' + sortKeyName : '';
 // declare a new express app
 var app = express()
 app.use(bodyParser.json())
@@ -97,35 +93,42 @@ app.get(path, function (req, res) {
   });
 });
 
+
 /********************************
  * HTTP Get method for list objects *
  ********************************/
 
 //TODO update
 
-app.get(path + "/id/:queryString", function (req, res) {
-  let condition = {}
+app.get(path + '/object' + hashKeyPath, function (req, res) {
+  var params = {};
   if (userIdPresent && req.apiGateway) {
-    condition[partitionKeyName]['AttributeValueList'] = [req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH];
+    params[partitionKeyName] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
   } else {
+    params[partitionKeyName] = req.params[partitionKeyName];
     try {
-      condition[partitionKeyName]['AttributeValueList'] = [convertUrlType(req.params[partitionKeyName], partitionKeyType)];
+      params[partitionKeyName] = convertUrlType(req.params[partitionKeyName], partitionKeyType);
     } catch (err) {
       res.statusCode = 500;
       res.json({ error: 'Wrong column type ' + err });
     }
   }
 
-  //TODO decode query string
+  let getItemParams = {
+    TableName: tableName,
+    Key: params
+  }
 
-
-  dynamodb.scan(queryParams, (err, data) => {
+  dynamodb.get(getItemParams, (err, data) => {
     if (err) {
       res.statusCode = 500;
-      res.json({ error: 'Could not load items: ' + err });
+      res.json({ error: 'Could not load items: ' + err.message });
     } else {
-      const result = [...data.Items].filter(item => !queryParams.ids.includes(item._id))
-      res.json(result);
+      if (data.Item) {
+        res.json(data.Item);
+      } else {
+        res.json(data);
+      }
     }
   });
 });

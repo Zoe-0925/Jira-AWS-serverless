@@ -83,6 +83,7 @@ export default function ProjectListTable() {
                                 </TableCell>
                             </TableRow>
                         ))}
+                        {projects.length === 0 && <p>There is no project.</p>}
                     </TableBody>
                 </Table>
             </TableContainer>

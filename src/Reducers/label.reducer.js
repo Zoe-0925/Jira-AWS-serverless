@@ -6,12 +6,21 @@ import {
     ERROR_LABEL, DELETE_LABEL_BY_PROJECT
 } from "../Actions/label.actions"
 
-export default function LabelReducer(state = {
+const testState = {
     loading: false,
     authenticated: false,
     errorMessage: "",
     labels: [{ _id: "xxx", name: "test label1" }]
-}, action) {
+}
+
+const initialState = {
+    loading: false,
+    authenticated: false,
+    errorMessage: "",
+    labels: []
+}
+
+export default function LabelReducer(state = initialState, action) {
     let newState = { ...state, loading: false, authenticated: true }
     let newLabels
     switch (action.type) {

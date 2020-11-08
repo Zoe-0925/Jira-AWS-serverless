@@ -100,9 +100,20 @@ export const createProject = (newProject) => async  dispatch => {
 export const getAllProjects = () => async (dispatch, getState) => {
     dispatch({ type: LOADING_PROJECT })
     try {
-        //const userId = getState().UserReducer.user._id
-        const data = await API.get("ProjectApi", "projects")
-        dispatch(appendSuccessfulProject(data))
+        const userReducer = getState().UserReducer
+        const user = userReducer.users.find(item => item._id === userReducer.currentUserId)
+        if (user.projects.length === 0) {
+            return
+        }
+        const projects = user.projects.map(projectId =>
+            API.get("ProjectApi", "/projects/object/" + projectId).then(
+                project => {
+                    console.log("project got", project)
+                    return project
+                }
+            ).catch(err => dispatch(dispatchError(err)))
+        )
+        dispatch(appendSuccessfulProject(projects))
     }
     catch (err) {
         dispatch(dispatchError(err))

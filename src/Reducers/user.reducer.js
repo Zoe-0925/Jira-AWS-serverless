@@ -11,7 +11,7 @@ const UserReducer = (state = {
 	loading: false,
 	authenticated: false,
 	currentUserId: "testUserId",
-	users: [{ _id: "testUserId", name: "userName", email: "test email" }],
+	users: [{ _id: "testUserId", name: "userName", email: "test email", projects: ["test id"] }],
 	errorMessage: ""
 }, action) => {
 	let newState

@@ -2,7 +2,7 @@ import {
     LOADING_ISSUE, DELETE_SUCCESS_TASK, UPDATE_SUCCESS_TASK, DELETE_SUCCESS_EPIC,
     UPDATE_SUCCESS_EPIC, ERROR_ISSUE, UPDATE_ISSUE_GROUP, TOGGLE_FLAG, DELETE_SUCCESS_SUB_TASK,
     ADD_TASK_TO_EPIC, REMOVE_TASK_FROM_EPIC, ADD_SUBTASK_TO_TASK, REMOVE_SUBTASK_FROM_TASK,
-    DELETE_ISSUE_BY_PROJECT, APPEND_SUCCESS_ISSUES,CREATE_SUCCESS_ISSUE
+    DELETE_ISSUE_BY_PROJECT, APPEND_SUCCESS_ISSUES, CREATE_SUCCESS_ISSUE
 } from "../Actions/issue.actions"
 import { DELETE_SUCCESS_STATUS } from "../Actions/status.actions"
 
@@ -12,9 +12,18 @@ issues.set("hdkahdjaskdh", {
     issueType: "task", flag: false, reportee: "testUserId", project: "test id", status: "1"
 })
 
-const initialState = {
+const testState = {
     loading: false,
     tasks: issues, //Map()
+    epics: [],
+    subtasks: [],
+    authenticated: false,
+    errorMessage: ""
+}
+
+const initialState = {
+    loading: false,
+    tasks: [], //Map()
     epics: [],
     subtasks: [],
     authenticated: false,
