@@ -60,7 +60,7 @@ export default function ProjectListTable() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {projects.map(project => (
+                        {projects.lenghth > 0 && projects.map(project => (
                             <TableRow key={project._id} className="table-body">
                                 <TableCell className="project-name" component="th" scope="row" onClick={() => goToBoardPage(project._id)}>
                                     {project.name}
@@ -83,9 +83,9 @@ export default function ProjectListTable() {
                                 </TableCell>
                             </TableRow>
                         ))}
-                        {projects.length === 0 && <p>There is no project.</p>}
                     </TableBody>
                 </Table>
+                {projects.length === 0 && <p>Currently, there is no project.</p>}
             </TableContainer>
         </div>
     )

@@ -85,11 +85,13 @@ export function dispatchError(data) {
 export const createProject = (newProject) => async  dispatch => {
     dispatch({ type: LOADING_PROJECT })
     try {
-        await API.post("ProjectApi", "/projects", {
+        const response = await API.post("ProjectApi", "/projects", {
             body: newProject
         })
-        dispatch(createSuccessfulProject(newProject))
-        history.pushState("/projects")
+        console.log("create project response", response)
+        if (!response.error) {
+            dispatch(createSuccessfulProject(newProject))
+        }
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -107,13 +109,10 @@ export const getAllProjects = () => async (dispatch, getState) => {
         }
         const projects = user.projects.map(projectId =>
             API.get("ProjectApi", "/projects/object/" + projectId).then(
-                project => {
-                    console.log("project got", project)
-                    return project
-                }
-            ).catch(err => dispatch(dispatchError(err)))
-        )
-        dispatch(appendSuccessfulProject(projects))
+                project => project).catch(err => dispatch(dispatchError(err))))
+        if (typeof projects === Array) {
+            dispatch(appendSuccessfulProject(projects))
+        }
     }
     catch (err) {
         dispatch(dispatchError(err))

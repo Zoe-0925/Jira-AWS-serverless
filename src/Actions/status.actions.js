@@ -170,6 +170,7 @@ export const createMultipleStatus = (list) => async  dispatch => {
                 body: element
             }).catch(err => {
                 dispatch(dispatchError(err))
+                return
             })
         });
         dispatch(appendSuccessStatus(list))

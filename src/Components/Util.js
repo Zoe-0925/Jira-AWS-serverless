@@ -3,18 +3,15 @@ import { v4 as uuidv4 } from 'uuid'
 export const initiateProjectAndStatus = (projectData, currentUserId) => {
     const projectId = uuidv4()
     const statusIds = [uuidv4(), uuidv4(), uuidv4(), uuidv4()]
-    const statusTemplate = addCreateAndUpdateDate({
-        project: projectId, issues: []
-    })
     const project = {
         ...addCreateAndUpdateDate(projectData), _id: projectId, statusOrder: [statusIds],
         lead: currentUserId
     }
-    const status = [{ ...statusTemplate, _id: statusIds[0], name: "TO DO" },
-    { ...statusTemplate, _id: statusIds[1], name: "IN PROGRESS" },
-    { ...statusTemplate, _id: statusIds[2], name: "TESTING" },
-    { ...statusTemplate, _id: statusIds[3], name: "DONE" }]
-    return { project, status }
+    const statusList = [{ ...addCreateAndUpdateDate({ project: projectId, issues: [] }), _id: statusIds[0], name: "TO DO" },
+    { ...addCreateAndUpdateDate({ project: projectId, issues: [] }), _id: statusIds[1], name: "IN PROGRESS" },
+    { ...addCreateAndUpdateDate({ project: projectId, issues: [] }), _id: statusIds[2], name: "TESTING" },
+    { ...addCreateAndUpdateDate({ project: projectId, issues: [] }), _id: statusIds[3], name: "DONE" }]
+    return { project, statusList }
 }
 
 export const addCreateAndUpdateDate = data => {
