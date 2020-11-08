@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { getCurrentUser } from "../Actions/user.actions"
 import { createMultipleStatus, createStatus } from "../Actions/status.actions"
 import API from '@aws-amplify/api';
-import {initiateProjectAndStatus} from "../Components/Util"
+import { initiateProjectAndStatus } from "../Components/Util"
 
 const testIssue = new Map()
 testIssue.set("hdkahdjaskdh", {
@@ -36,9 +36,23 @@ export default function Test() {
 
 
     const putStatus = async () => {
-        const projects = await API.get("ProjectApi","/projects")
-        const status = await API.get("StatusApi","/status")
-        console.log("projects", projects ,status )
+      /**  const projects= await API.post("ProjectApi", "/projects", {
+            body: {
+                _id: "test id",
+                name: "test project name",
+                key: "test key",
+                lead: "testUserId",
+                members: ["testUserId"],
+                image: "",
+                issues: [],
+                default_assignee: "Project Lead",
+                start_date: "",
+                statusOrder: ["1", "2", "3", "4"]
+            }
+        }
+        )*/
+        const projects = await API.get("ProjectApi", "/projects")
+        console.log("projects", projects)
     }
 
 

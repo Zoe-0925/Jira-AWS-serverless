@@ -15,7 +15,6 @@ const testState = {
         lead: "testUserId",
         members: ["testUserId"],
         image: "",
-        issues: [],
         default_assignee: "Project Lead",
         start_date: "",
         statusOrder: ["1", "2", "3", "4"]
