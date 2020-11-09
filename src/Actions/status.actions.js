@@ -139,9 +139,10 @@ export const reorderIssues = async (source, startIndex, endIndex) => {
     }
 }
 
-export const saveProjectStatus = (status) => async  dispatch => {
+export const getProjectStatus = (projectId) => async  dispatch => {
     dispatch({ type: LOADING_STATUS })
     try {
+        const status = await API.get("StatusApi", "/status/project/" + projectId)
         dispatch(appendSuccessStatus(status))
     }
     catch (err) {

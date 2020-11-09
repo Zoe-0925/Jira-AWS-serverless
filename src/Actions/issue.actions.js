@@ -119,16 +119,6 @@ export function deleteSuccessIssueByProject(id) {
 
 
 /**********************************  Thunk Actions  ******************************************/
-export const getLabelsAndIssuesGroupByStatus = (projectId, token) => async  dispatch => {
-    dispatch({ type: LOADING_ISSUE })
-    try {
-
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-    }
-}
-
 export const createIssue = (data) => async  dispatch => {
     dispatch({ type: LOADING_ISSUE })
     try {
@@ -150,13 +140,14 @@ export const getASingleIssue = (id) => async  dispatch => {
     }
 }
 
-export const saveProjectIssues = (issues) => async  dispatch => {
+export const getProjectIssues = (projectId) => async  dispatch => {
     dispatch({ type: LOADING_ISSUE })
     try {
+        const issues = await API.get("IssueApi", "/issues/project/" + projectId)
         let tasks = []
         let epics = []
         let subtasks = []
-        const result = issues.map(each => {
+        issues.map(each => {
             if (each.issueType === "task") {
                 tasks.push(each)
                 return

@@ -1,7 +1,9 @@
 import API from '@aws-amplify/api';
-import { createMultipleStatus } from "./status.actions.js"
-import { addProjectToUser } from "./user.actions.js"
-import history from "../history"
+import { createMultipleStatus, getProjectStatus } from "./status.actions"
+import { addProjectToUser } from "./user.actions"
+import {getProjectIssues} from "./issues.actions"
+import {getProjectComments} from "./comments.actions"
+import {getProjectLabels} from "./labels.actions"
 
 export const LOADING_PROJECT = "LOADING_PROJECT"
 export const ERROR_PROJECT = "ERROR_PROJECT"
@@ -88,8 +90,16 @@ export const chainCreactProject = (project, status) => async dispatch => {
     await Promise.all([
         dispatch(createProject(project)),
         dispatch(createMultipleStatus(status)),
+        dispatch(addProjectToUser(project._id))
     ])
-    dispatch(addProjectToUser(project._id))
+}
+
+export const chainGetProjectData = (id) => async dispatch => {
+    await Promise.all([
+        dispatch(getProjectStatus(id)),
+        dispatch(getProjectIssues(id)),
+        dispatch(getProjectLabels(id))
+    ])
 }
 
 export const createProject = (newProject) => dispatch => {

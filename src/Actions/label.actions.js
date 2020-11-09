@@ -5,7 +5,7 @@ export const ERROR_LABEL = "ERROR_LABEL"
 export const CREATE_SUCCESS_LABEL = "CREATE_SUCCESS_LABEL"
 export const DELETE_SUCCESS_LABEL = "DELETE_SUCCESS_LABEL"
 export const APPEND_SUCCESS_LABELS = "APPEND_SUCCESS_LABELS"
-export const DELETE_LABEL_BY_PROJECT="DELETE_LABEL_BY_PROJECT"
+export const DELETE_LABEL_BY_PROJECT = "DELETE_LABEL_BY_PROJECT"
 
 /********************** Actions *******************/
 
@@ -39,7 +39,7 @@ export function dispatchError(data) {
     }
 }
 
-export function deleteSuccessLabelByProject(id){
+export function deleteSuccessLabelByProject(id) {
     return {
         type: DELETE_LABEL_BY_PROJECT,
         id: id
@@ -47,10 +47,10 @@ export function deleteSuccessLabelByProject(id){
 }
 
 /******************************** Thunk Actions ****************************************/
-
-export const saveProjectLabels = labels => async  dispatch => {
+export const getProjectLabels = (projectId) => async  dispatch => {
     dispatch({ type: LOADING_LABEL })
     try {
+        const labels = await API.get("LabelApi", "/labels/project/" + projectId)
         dispatch(appendSuccessfulLabels(labels))
     }
     catch (err) {
