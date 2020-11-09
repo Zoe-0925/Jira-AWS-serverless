@@ -94,7 +94,8 @@ export const addProjectToUser = projectId => async (dispatch, getState) => {
     dispatch({ type: LOADING_USER })
     const reducer = getState().UserReducer
     let projects = reducer.users.find(user => user._id === reducer.currentUserId).projects
-    const projectsUpdated = projects.slice().push(projectId)
+    let projectsUpdated = [...projects]
+    projectsUpdated.push(projectId)
     try {
         await API.put("UserApi", "/users/projects/", {
             body: {
@@ -110,7 +111,6 @@ export const addProjectToUser = projectId => async (dispatch, getState) => {
 }
 
 /********************* API calls *************************/
-
 
 export async function getSessionAndRefreshToken() {
     Auth.currentSession()

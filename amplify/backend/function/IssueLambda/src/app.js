@@ -335,7 +335,7 @@ app.put(path + "/update/summary", function (req, res) {
     Key: {
       "_id": req.body._id,
     },
-    UpdateExpression: "set info.summary" + " = :value",
+    UpdateExpression: "set summary" + " = :value",
     ExpressionAttributeValues: {
       ":value": req.body.value
     },
@@ -365,7 +365,7 @@ app.put(path + "/update/description", function (req, res) {
     Key: {
       "_id": req.body._id,
     },
-    UpdateExpression: "set info.description" + " = :value",
+    UpdateExpression: "set description" + " = :value",
     ExpressionAttributeValues: {
       ":value": req.body.value
     },
@@ -395,7 +395,7 @@ app.put(path + "/update/assignee", function (req, res) {
     Key: {
       "_id": req.body._id,
     },
-    UpdateExpression: "set info.assignee" + " = :value",
+    UpdateExpression: "set assignee" + " = :value",
     ExpressionAttributeValues: {
       ":value": req.body.value
     },
@@ -425,7 +425,7 @@ app.put(path + "/update/reporter", function (req, res) {
     Key: {
       "_id": req.body._id,
     },
-    UpdateExpression: "set info.reporter" + " = :value",
+    UpdateExpression: "set reporter" + " = :value",
     ExpressionAttributeValues: {
       ":value": req.body.value
     },
@@ -455,7 +455,7 @@ app.put(path + "/update/flag", function (req, res) {
     Key: {
       "_id": req.body._id,
     },
-    UpdateExpression: "set info.flag" + " = :value",
+    UpdateExpression: "set flag" + " = :value",
     ExpressionAttributeValues: {
       ":value": req.body.value
     },

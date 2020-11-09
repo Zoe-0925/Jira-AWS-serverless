@@ -186,7 +186,7 @@ app.put(path + "/members", function (req, res) {
     Key: {
       "_id": req.body._id,
     },
-    UpdateExpression: "set info.members = :members",
+    UpdateExpression: "set members = :members",
     ExpressionAttributeValues: {
       ":members": req.body.members
     },
@@ -216,7 +216,7 @@ app.put(path + "/detail", function (req, res) {
     Key: {
       "_id": req.body._id,
     },
-    UpdateExpression: "set info.name = :name, info.default_assignee=:default_assignee, info.key =:key, info.updatedAt=:updatedAt",
+    UpdateExpression: "set name = :name, default_assignee=:default_assignee, key =:key, updatedAt=:updatedAt",
     ExpressionAttributeValues: {
       ":name": req.body.name,
       ":default_assignee": req.body.default_assignee,
@@ -249,7 +249,7 @@ app.put(path + "/statusOrder", function (req, res) {
     Key: {
       "_id": req.body._id,
     },
-    UpdateExpression: "set info.statusOrder = :statusOrder",
+    UpdateExpression: "set statusOrder = :statusOrder",
     ExpressionAttributeValues: {
       ":statusOrder": req.body.statusOrder
     },

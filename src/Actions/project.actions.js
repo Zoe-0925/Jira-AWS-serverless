@@ -86,7 +86,7 @@ export function dispatchError(data) {
 /*****************  Thunk Actions  ****************/
 export const chainCreactProject = (project, status) => async dispatch => {
     await Promise.all([
-        dispatch(createSuccessfulProject(project)),
+        dispatch(createProject(project)),
         dispatch(createMultipleStatus(status)),
     ])
     dispatch(addProjectToUser(project._id))
@@ -95,7 +95,7 @@ export const chainCreactProject = (project, status) => async dispatch => {
 export const createProject = (newProject) => dispatch => {
     dispatch({ type: LOADING_PROJECT })
     API.post("ProjectApi", "/projects", {
-        body: element
+        body: newProject
     }).catch(err => {
         dispatch(dispatchError(err))
         return
@@ -109,12 +109,6 @@ export const getAllProjects = () => async (dispatch, getState) => {
     try {
         const userReducer = getState().UserReducer
         const user = userReducer.users.find(item => item._id === userReducer.currentUserId)
-
-
-
-        //TODO update the user's projects
-        //And try again.
-
         if (user === undefined || user.projects.length === 0) {
             return
         }

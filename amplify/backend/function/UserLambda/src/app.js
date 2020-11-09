@@ -137,7 +137,7 @@ app.put(path + "/name", function (req, res) {
     Key: {
       "_id": req.body._id,
     },
-    UpdateExpression: "set info.name = :name",
+    UpdateExpression: "set name = :name",
     ExpressionAttributeValues: {
       ":name": req.body.name
     },
@@ -167,10 +167,11 @@ app.put(path + "/projects", function (req, res) {
     Key: {
       "_id": req.body._id,
     },
-    UpdateExpression: "set info.projects = :projects",
-    ExpressionAttributeValues: {
+    UpdateExpression: "set projects = :projects",
+    ExpressionAttributeValues:{
       ":projects": req.body.projects
     },
+    ReturnValues:"UPDATED_NEW"
   }
   dynamodb.update(putItemParams, (err, data) => {
     if (err) {
@@ -229,7 +230,6 @@ app.post(path, function (req, res) {
   if (userIdPresent) {
     req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
   }
-  console.log("req.body", req.body)
   let putItemParams = {
     TableName: tableName,
     Item: req.body
