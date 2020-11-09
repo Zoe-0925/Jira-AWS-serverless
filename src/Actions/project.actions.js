@@ -1,4 +1,6 @@
 import API from '@aws-amplify/api';
+import {createMultipleStatus} from "./status.actions.js"
+import {addProjectToUser} from "./user.actions.js"
 import history from "../history"
 
 export const LOADING_PROJECT = "LOADING_PROJECT"
@@ -82,10 +84,13 @@ export function dispatchError(data) {
 
 
 /*****************  Thunk Actions  ****************/
-
-
-
-
+export const chainCreactProject = (project, status) => async dispatch => {
+    await Promise.all([
+        dispatch(createSuccessfulProject(project)),
+        dispatch(createMultipleStatus(status)),
+        dispatch(addProjectToUser(project._id))
+    ])
+}
 
 export const createProject = (newProject) => dispatch => {
     dispatch({ type: LOADING_PROJECT })
@@ -109,8 +114,8 @@ export const getAllProjects = () => async (dispatch, getState) => {
 
         //TODO update the user's projects
         //And try again.
-        
-        if (user===undefined || user.projects.length === 0) {
+
+        if (user === undefined || user.projects.length === 0) {
             return
         }
         const projects = user.projects.map(projectId =>
