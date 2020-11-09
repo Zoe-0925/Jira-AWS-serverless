@@ -1,10 +1,8 @@
 import {
 	LOADING_USER,
-	LOGIN_SUCCESS_USER,
 	ERROR_USER,
-	LOGOUT_SUCCESS_USER,
-	UPDATE_USER,
-	ADD_OTHER_USERS,
+	UPDATE_USER, LOGIN, LOGOUT,
+	ADD_OTHER_USERS, UPDATE_PROJECTS, CANCEL_LOADING_USER
 } from "../Actions/user.actions"
 
 const testState = {
@@ -23,32 +21,31 @@ const initialState = {
 }
 
 const UserReducer = (state = initialState, action) => {
-	let newState
-	let tempUsers
+	let newState = Object.assign({}, state, { loading: false, authenticated: true })
 	switch (action.type) {
 		case LOADING_USER:
-			newState = Object.assign({}, state, { loading: true, authenticated: false })
-			return newState
-		case LOGIN_SUCCESS_USER:
-			return Object.assign({}, state, { loading: false, authenticated: true, currentUser: action.data._id, users: [action.data] })
-		case LOGOUT_SUCCESS_USER:
-			return Object.assign({}, state, {
-				loading: false, authenticated: false, currentUser: {}, users: []
-			})
-		case UPDATE_USER:
-			newState = Object.assign({}, state, { loading: false, authenticated: true })
-			tempUsers = newState.users.filter(item => item._id === action.data._id)
-			tempUsers.push(action.data)
-			newState.users = tempUsers
-			return newState
+			return Object.assign({}, state, { loading: true, authenticated: false })
 		case ADD_OTHER_USERS:
-			newState = Object.assign({}, state, { loading: false, authenticated: true })
 			newState.users = newState.users.concat(action.data)
+			return newState
+		case UPDATE_PROJECTS:
+			newState.users.find(user => user._id === newState.currentUserId).projects = action.data
+			return newState
+		case LOGIN:
+			newState.currentUserId = action.data._id
+			newState.users.push(action.data)
+			return newState
+		case LOGOUT:
+			return initialState
+		case CANCEL_LOADING_USER:
 			return newState
 		case ERROR_USER:
 			return Object.assign({}, state, { loading: false, authenticated: false, errorMessage: action.data })
-		case "CANCEL_LOADING_USER":
-			return Object.assign({}, state, { loading: false, authenticated: true })
+		case UPDATE_USER:
+			let tempUsers = newState.users.filter(item => item._id === action.data._id)
+			tempUsers.push(action.data)
+			newState.users = tempUsers
+			return newState
 		default:
 			return state
 	}

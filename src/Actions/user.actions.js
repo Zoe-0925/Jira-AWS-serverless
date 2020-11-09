@@ -6,13 +6,15 @@ require('dotenv').config()
 
 export const ERROR_USER = "ERROR_USER"
 export const LOADING_USER = "LOADING_USER"
-export const LOGIN_SUCCESS_USER = "LOGIN_SUCCESS_USER"
-export const LOGOUT_SUCCESS_USER = "LOGOUT_SUCCESS_USER"
+export const LOGIN = "LOGIN"
+export const LOGOUT = "LOGOUT"
 export const UPDATE_USER = "UPDATE_USER"
 export const ADD_OTHER_USERS = "ADD_OTHER_USERS"
-export const DELETE_USER = "UPDATE_USER"
+export const DELETE_USER = "DELETE_USER"
 export const SAVE_TOKENS = "SAVE_TOKENS"
 export const FINISH_LOADING = "FINISH_LOADING"
+export const UPDATE_PROJECTS = "UPDATE_PROJECTS"
+export const CANCEL_LOADING_USER = "CANCEL_LOADING_USER"
 //export const CHECK_EMAIL_EXIST = "CHECK_EMAIL_EXIST"
 //-------------------------------------------------------
 
@@ -21,6 +23,19 @@ export function dispatchError(data) {
     return {
         type: ERROR_USER,
         data: data
+    }
+}
+
+export function login(data) {
+    return {
+        type: LOGIN,
+        data: data
+    }
+}
+
+export function logOut() {
+    return {
+        type: LOGOUT,
     }
 }
 
@@ -46,121 +61,14 @@ export function saveTokens(accessToken, refreshToken) {
     }
 }
 
-
-/******************* Thunk Actions  *****************************/
-export const signUp = (email, name, password) => async  dispatch => {
-    dispatch({ type: LOADING_USER })
-    try {
-        const authResponse = await Auth.signUp({
-            username: email,
-            password,
-            attributes: {
-                email: email,
-                fullname: name
-            }
-        })
-        if (authResponse.userConfirmed) {
-            dispatch({
-                type: FINISH_LOADING
-            })
-            history.push("/confirmSignup")
-        }
-    }
-    catch (err) {
-        dispatch(dispatchError(err.message))
+export function updateProjects(projects) {
+    return {
+        type: UPDATE_PROJECTS,
+        data: projects
     }
 }
 
 /******************* Thunk Actions  *****************************/
-export const confirmSignUp = (email, code) => async  dispatch => {
-    dispatch({ type: LOADING_USER })
-    try {
-        const authResponse = await Auth.confirmSignUp(email, code);
-        console.log("confirm sign up", authResponse)
-
-        //   if (authResponse.userConfirmed) {
-        //       await Auth.confirmSignUp(email, password);
-        //history.push
-        //cancel loading
-        //    }
-        //TODO
-        // If succeeded, show the feedback
-        //TODO add loading indiator and feedback
-        //
-        /** 
-        dispatch({
-            type: FINISH_LOADING
-        })
-        */
-        //And create a user object in dynamodb.
-    }
-    catch (err) {
-        dispatch(dispatchError(err.message))
-
-
-    }
-    //Create a user object in DynamoDB
-
-
-}
-
-export const signIn = (email, password) => async  dispatch => {
-    dispatch({ type: LOADING_USER })
-    try {
-        const { user } = await Auth.signIn(email, password);
-        if (!user.confirmed) {
-            dispatch(dispatchError("Invalid user name or password."))
-            console.log("error at cognito sign up")
-            return
-        }
-        console.log("Succeeded at cognito sign up")
-        const userInformation = await API.get('UserApi', `/users/email/${email}`, {})
-        if (userInformation.error) {
-            console.log("error at Dynamodb create user")
-            dispatch(dispatchError(userInformation.error))
-            return
-        }
-        const data = { email: user.email, name: user.name, projects: JSON.parse(userInformation).projects }
-        dispatch({ type: LOGIN_SUCCESS_USER, data: data })
-        history.push("/projects/")
-
-    } catch (err) {
-        dispatch(dispatchError(err))
-    }
-}
-
-export const signOut = () => async  dispatch => {
-    dispatch({ type: LOADING_USER })
-    try {
-        const response = await Auth.signOut()
-        if (response.error) {
-            dispatch(dispatchError(response.error))
-            return
-        }
-        dispatch({
-            type: LOGOUT_SUCCESS_USER
-        })
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-    }
-}
-
-export const updatePassword = (oldPassword, newPassword) => async  dispatch => {
-    dispatch({ type: LOADING_USER })
-    try {
-        const user = await Auth.currentAuthenticatedUser()
-        const data = await Auth.changePassword(user, oldPassword, newPassword);
-        if (data.error) {
-            dispatch(dispatchError(data.error))
-            return
-        }
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-    }
-}
-
 export const getCurrentUser = () => async  dispatch => {
     dispatch({ type: LOADING_USER })
     try {
@@ -173,7 +81,7 @@ export const getCurrentUser = () => async  dispatch => {
             dispatch(saveTokens(accessToken, refreshToken))
             const userInfo = await API.get("UserApi", "/users/email/" + credential.username)
             if (!userInfo.error) {
-                dispatch(updateUser(userInfo))
+                dispatch(login(userInfo))
             }
         }
     }
@@ -182,19 +90,23 @@ export const getCurrentUser = () => async  dispatch => {
     }
 }
 
-//TODO 
-//bug
-export const getUserNameAndProjects = (name) => async  dispatch => {
+export const addProjectToUser = projectId => async (dispatch, getState) => {
     dispatch({ type: LOADING_USER })
-    const user = await Auth.currentAuthenticatedUser()
-    if (user.name === undefined) {
-        await Auth.updateUserAttributes(user, {
-            'name': name,
-            'projects': []
-        });
+    const reducer = getState().UserReducer
+    const projects = reducer.users.find(user => user._id === reducer.currentUserId).projects
+    const projectsUpdated = [...projects, projectId]
+    try {
+        await API.put("UserApi", "/users/projects/", {
+            body: {
+                _id: reducer.currentUserId,
+                projects: projectsUpdated
+            }
+        })
+        dispatch(updateProjects(projectsUpdated))
     }
-
-
+    catch (err) {
+        dispatch(dispatchError(err))
+    }
 }
 
 /********************* API calls *************************/

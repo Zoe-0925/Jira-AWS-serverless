@@ -153,6 +153,36 @@ app.put(path + "/name", function (req, res) {
 });
 
 /*****************************************
+* HTTP put method for updating projects *
+******************************************/
+
+app.put(path + "/projects", function (req, res) {
+
+  if (userIdPresent) {
+    req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
+  }
+
+  let putItemParams = {
+    TableName: tableName,
+    Key: {
+      "_id": req.body._id,
+    },
+    UpdateExpression: "set info.projects = :projects",
+    ExpressionAttributeValues: {
+      ":projects": req.body.projects
+    },
+  }
+  dynamodb.update(putItemParams, (err, data) => {
+    if (err) {
+      res.statusCode = 500;
+      res.json({ error: err, url: req.url, body: req.body });
+    } else {
+      res.json({ data: data })
+    }
+  });
+});
+
+/*****************************************
  * HTTP Get method for get single object *
  *****************************************/
 

@@ -102,6 +102,12 @@ export const getAllProjects = () => async (dispatch, getState) => {
     try {
         const userReducer = getState().UserReducer
         const user = userReducer.users.find(item => item._id === userReducer.currentUserId)
+
+
+
+        //TODO update the user's projects
+        //And try again.
+        
         if (user===undefined || user.projects.length === 0) {
             return
         }
