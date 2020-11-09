@@ -83,11 +83,13 @@ export function dispatchError(data) {
 
 /*****************  Thunk Actions  ****************/
 
-//TODO 
-//No idea why the API is not working here......
+
+
+
+
 export const createProject = (newProject) => dispatch => {
     dispatch({ type: LOADING_PROJECT })
-    API.post("StatusApi", "/status", {
+    API.post("ProjectApi", "/projects", {
         body: element
     }).catch(err => {
         dispatch(dispatchError(err))

@@ -4,22 +4,182 @@
   background-color: white;
 }
 
+.nav-title {
+  font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 400;
+  text-decoration-skip-ink: auto;
+  text-align: center;
+  width: auto;
+  height: auto;
+}
+
+.nav-tab {
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 400;
+  text-decoration-skip-ink: auto;
+  text-align: center;
+  width: auto;
+  height: auto;
+}
+
+.drawer-close {
+  margin-left: 260px;
+}
+
 .main {
-  position: relative;
-  margin-right: 50px;
-  margin-top: 50px;
-  display: -ms-grid;
-  display: grid;
-  grid-auto-flow: row;
-  margin-left: 300px;
+  padding-left: 3%;
+  padding-right: 3%;
 }
 
-.main .drawer-open {
-  margin-left: 300px;
+.main .nav-bar {
+  font-size: 1rem;
+  font-family: Roboto, sans-serif;
+  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-.main .drawer-close {
-  margin-left: 50px;
+.main .nav-bar .dot-icon {
+  display: none;
+}
+
+.main .nav-bar .dot-icon:hover {
+  display: block;
+  height: 100%;
+  cursor: pointer;
+}
+
+.main .nav-bar .navbar-create-btn {
+  -webkit-box-align: baseline;
+      -ms-flex-align: baseline;
+          align-items: baseline;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  font-weight: 500;
+  max-width: 100%;
+  text-align: center;
+  white-space: nowrap;
+  -webkit-box-shadow: transparent 0px 0px 0px 2px;
+          box-shadow: transparent 0px 0px 0px 2px;
+  background: #0052cc;
+  height: 2.28571em;
+  line-height: 2.28571em;
+  vertical-align: middle;
+  width: auto;
+  border-width: 0px;
+  color: white;
+  border-radius: 3px;
+  padding: 3px 12px 6px 12px;
+  margin: 0px;
+  cursor: pointer;
+  -webkit-transition: background 0.1s ease-out 0s, -webkit-box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
+  transition: background 0.1s ease-out 0s, -webkit-box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
+  transition: background 0.1s ease-out 0s, box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
+  transition: background 0.1s ease-out 0s, box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s, -webkit-box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
+  -webkit-transition-property: background, -webkit-box-shadow;
+  transition-property: background, -webkit-box-shadow;
+  transition-property: background, box-shadow;
+  transition-property: background, box-shadow, -webkit-box-shadow;
+  -webkit-transition-duration: 0.1s, 0.15s;
+          transition-duration: 0.1s, 0.15s;
+  -webkit-transition-timing-function: ease-out, cubic-bezier(0.47, 0.03, 0.49, 1.38);
+          transition-timing-function: ease-out, cubic-bezier(0.47, 0.03, 0.49, 1.38);
+  -webkit-transition-delay: 0s, 0s;
+          transition-delay: 0s, 0s;
+}
+
+.main #button-file {
+  width: 11rem;
+}
+
+.main .input-container {
+  width: 21.875rem;
+}
+
+.main .field {
+  width: inherit;
+  background-color: #f4f5f7;
+  height: 2.5rem;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.main #key-field {
+  width: 40%;
+}
+
+.main .navbar-create-btn {
+  -webkit-box-align: baseline;
+      -ms-flex-align: baseline;
+          align-items: baseline;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  font-weight: 500;
+  max-width: 100%;
+  text-align: center;
+  white-space: nowrap;
+  -webkit-box-shadow: transparent 0px 0px 0px 2px;
+          box-shadow: transparent 0px 0px 0px 2px;
+  background: #0052cc;
+  height: 2.28571em;
+  line-height: 2.28571em;
+  vertical-align: middle;
+  width: auto;
+  border-width: 0px;
+  color: white;
+  border-radius: 3px;
+  padding: 3px 12px 6px 12px;
+  margin: 0px;
+  cursor: pointer;
+  -webkit-transition: background 0.1s ease-out 0s, -webkit-box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
+  transition: background 0.1s ease-out 0s, -webkit-box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
+  transition: background 0.1s ease-out 0s, box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
+  transition: background 0.1s ease-out 0s, box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s, -webkit-box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
+  -webkit-transition-property: background, -webkit-box-shadow;
+  transition-property: background, -webkit-box-shadow;
+  transition-property: background, box-shadow;
+  transition-property: background, box-shadow, -webkit-box-shadow;
+  -webkit-transition-duration: 0.1s, 0.15s;
+          transition-duration: 0.1s, 0.15s;
+  -webkit-transition-timing-function: ease-out, cubic-bezier(0.47, 0.03, 0.49, 1.38);
+          transition-timing-function: ease-out, cubic-bezier(0.47, 0.03, 0.49, 1.38);
+  -webkit-transition-delay: 0s, 0s;
+          transition-delay: 0s, 0s;
+  margin-top: 1rem;
+}
+
+.main .field-label {
+  float: left;
+  color: #6b778c;
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.33333;
+  margin-top: 0;
+  padding-top: 0.4rem;
+  margin-bottom: 0;
+  padding-bottom: 0.2rem;
+}
+
+.main .project-icon {
+  width: 150px;
+  height: 150px;
+  margin-left: 42%;
+}
+
+.main .button {
+  margin-left: 43%;
+  background-color: #f4f5f7;
+  margin-top: 10px;
+}
+
+.main .project-detail-dot {
+  padding: 0;
+}
+
+.main .bread-crumbs {
+  margin-top: 5rem;
 }
 
 .main .board-name {
@@ -90,18 +250,7 @@
   font-weight: 600;
 }
 
-.login-wrapper .form form .row {
-  margin-top: 1rem;
-  width: 100%;
-}
-
 .login-wrapper .form form .full {
-  width: 100%;
-}
-
-.login-wrapper .form form .select {
-  height: 40px;
-  background-color: #f4f5f7;
   width: 100%;
 }
 
@@ -165,156 +314,6 @@
           box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 1px 2px 0 rgba(0, 0, 0, 0.19);
   font-weight: 600;
   font-size: 0.875rem;
-}
-
-.nav-bar {
-  width: 100%;
-  top: 0;
-  position: fixed;
-  background-color: white;
-  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  margin-left: 300px;
-  z-index: 1;
-}
-
-.nav-bar .desktop {
-  width: 100%;
-  font-size: 1rem;
-  font-family: Roboto, sans-serif;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  position: absolute;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  z-index: 1;
-}
-
-@media (min-width: 401px) {
-  .nav-bar .desktop {
-    display: block;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: start;
-        -ms-flex-align: start;
-            align-items: flex-start;
-  }
-}
-
-@media (max-width: 400px) {
-  .nav-bar .desktop {
-    display: none;
-  }
-}
-
-.nav-bar .desktop .dot-icon {
-  display: none;
-}
-
-.nav-bar .desktop .dot-icon:hover {
-  display: block;
-  height: 100%;
-  cursor: pointer;
-}
-
-.nav-bar .desktop .navbar-create-btn {
-  font-weight: bold;
-  -webkit-box-align: baseline;
-      -ms-flex-align: baseline;
-          align-items: baseline;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  font-weight: 500;
-  width: 6.25rem;
-  text-align: center;
-  white-space: nowrap;
-  -webkit-box-shadow: transparent 0px 0px 0px 2px;
-          box-shadow: transparent 0px 0px 0px 2px;
-  background: #0052cc;
-  height: 2.28571em;
-  line-height: 2.28571em;
-  vertical-align: middle;
-  color: white;
-  border-radius: 3px;
-  padding: 3px 12px 6px 12px;
-  cursor: pointer;
-  -webkit-transition: background 0.1s ease-out 0s, -webkit-box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
-  transition: background 0.1s ease-out 0s, -webkit-box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
-  transition: background 0.1s ease-out 0s, box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
-  transition: background 0.1s ease-out 0s, box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s, -webkit-box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
-  -webkit-transition-property: background, -webkit-box-shadow;
-  transition-property: background, -webkit-box-shadow;
-  transition-property: background, box-shadow;
-  transition-property: background, box-shadow, -webkit-box-shadow;
-  -webkit-transition-duration: 0.1s, 0.15s;
-          transition-duration: 0.1s, 0.15s;
-  -webkit-transition-timing-function: ease-out, cubic-bezier(0.47, 0.03, 0.49, 1.38);
-          transition-timing-function: ease-out, cubic-bezier(0.47, 0.03, 0.49, 1.38);
-}
-
-.nav-bar .mobile {
-  width: 100%;
-  font-size: 1rem;
-  font-family: Roboto, sans-serif;
-}
-
-@media (min-width: 401px) {
-  .nav-bar .mobile {
-    display: none;
-  }
-}
-
-@media (max-width: 400px) {
-  .nav-bar .mobile {
-    display: block;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-  }
-}
-
-.nav-bar .mobile .navbar-create-btn {
-  font-weight: bold;
-  -webkit-box-align: baseline;
-      -ms-flex-align: baseline;
-          align-items: baseline;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  font-weight: 500;
-  max-width: 100%;
-  text-align: center;
-  white-space: nowrap;
-  -webkit-box-shadow: transparent 0px 0px 0px 2px;
-          box-shadow: transparent 0px 0px 0px 2px;
-  background: #0052cc;
-  cursor: default;
-  height: 2.28571em;
-  line-height: 2.28571em;
-  vertical-align: middle;
-  width: auto;
-  border-width: 0px;
-  color: white;
-  border-radius: 3px;
-  padding: 3px 12px 6px 12px;
-  margin: 0px;
-  cursor: pointer;
-  -webkit-transition: background 0.1s ease-out 0s, -webkit-box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
-  transition: background 0.1s ease-out 0s, -webkit-box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
-  transition: background 0.1s ease-out 0s, box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
-  transition: background 0.1s ease-out 0s, box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s, -webkit-box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
-  -webkit-transition-property: background, -webkit-box-shadow;
-  transition-property: background, -webkit-box-shadow;
-  transition-property: background, box-shadow;
-  transition-property: background, box-shadow, -webkit-box-shadow;
-  -webkit-transition-duration: 0.1s, 0.15s;
-          transition-duration: 0.1s, 0.15s;
-  -webkit-transition-timing-function: ease-out, cubic-bezier(0.47, 0.03, 0.49, 1.38);
-          transition-timing-function: ease-out, cubic-bezier(0.47, 0.03, 0.49, 1.38);
-  -webkit-transition-delay: 0s, 0s;
-          transition-delay: 0s, 0s;
 }
 
 .search-box {
@@ -417,10 +416,6 @@
   height: 100%;
 }
 
-.Issue-form .row {
-  width: 100%;
-}
-
 .Issue-form .form-title {
   font-family: "Roboto", sans-serif;
   margin-left: 5%;
@@ -444,18 +439,6 @@
 
 .Issue-form .summary {
   width: 700px;
-}
-
-.Issue-form .cancel-btn {
-  color: #0052cc;
-  cursor: pointer;
-  font-family: "Roboto", sans-serif;
-  margin-left: 15px;
-  margin-right: 15px;
-}
-
-.Issue-form .cancel-btn:hover {
-  text-decoration: underline;
 }
 
 .Issue-form .btn-row {
@@ -547,70 +530,6 @@
   margin-left: 10%;
 }
 
-.project-detail-form {
-  width: 100%;
-  margin-top: 100px;
-}
-
-.project-detail-form .row {
-  width: 100%;
-}
-
-.project-detail-form #button-file {
-  width: 11rem;
-}
-
-.project-detail-form .project-icon {
-  width: 150px;
-  height: 150px;
-  margin-left: 42%;
-}
-
-.project-detail-form .button {
-  margin-left: 43%;
-  background-color: #f4f5f7;
-  margin-top: 10px;
-}
-
-.project-detail-form .navbar-create-btn {
-  -webkit-box-align: baseline;
-      -ms-flex-align: baseline;
-          align-items: baseline;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  font-weight: 500;
-  max-width: 100%;
-  text-align: center;
-  white-space: nowrap;
-  -webkit-box-shadow: transparent 0px 0px 0px 2px;
-          box-shadow: transparent 0px 0px 0px 2px;
-  background: #0052cc;
-  height: 2.28571em;
-  line-height: 2.28571em;
-  vertical-align: middle;
-  width: auto;
-  border-width: 0px;
-  color: white;
-  border-radius: 3px;
-  padding: 3px 12px 6px 12px;
-  margin: 0px;
-  cursor: pointer;
-  -webkit-transition: background 0.1s ease-out 0s, -webkit-box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
-  transition: background 0.1s ease-out 0s, -webkit-box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
-  transition: background 0.1s ease-out 0s, box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
-  transition: background 0.1s ease-out 0s, box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s, -webkit-box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
-  -webkit-transition-property: background, -webkit-box-shadow;
-  transition-property: background, -webkit-box-shadow;
-  transition-property: background, box-shadow;
-  transition-property: background, box-shadow, -webkit-box-shadow;
-  -webkit-transition-duration: 0.1s, 0.15s;
-          transition-duration: 0.1s, 0.15s;
-  -webkit-transition-timing-function: ease-out, cubic-bezier(0.47, 0.03, 0.49, 1.38);
-          transition-timing-function: ease-out, cubic-bezier(0.47, 0.03, 0.49, 1.38);
-  -webkit-transition-delay: 0s, 0s;
-          transition-delay: 0s, 0s;
-}
-
 .drawer-img {
   width: 50px;
   height: 50px;
@@ -623,6 +542,10 @@
   width: 100%;
 }
 
+.board-container {
+  padding: 2.5rem;
+}
+
 .epic-list {
   display: -ms-grid;
   display: grid;
@@ -632,7 +555,6 @@
   min-height: 9rem;
   color: #5e6c84;
   font-size: 0.75rem;
-  z-index: 0.2;
 }
 
 .epic-list .column {
@@ -648,8 +570,11 @@
       -ms-flex-direction: row;
           flex-direction: row;
   cursor: pointer;
-  z-index: 1;
   background-color: white;
+  padding-top: 0.7rem;
+  padding-bottom: 0.7rem;
+  margin: 0.3rem;
+  border-radius: 3%;
 }
 
 .epic-list .epic-body .col {
@@ -658,7 +583,6 @@
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  z-index: 100;
 }
 
 .epic-list .flagged {
@@ -701,6 +625,7 @@
 
 .epic-list .epic-title:hover .dot-icon {
   display: block;
+  padding: 0.5rem;
 }
 
 .epic-list .epic-box {
@@ -793,5 +718,479 @@
 
 .hide {
   display: none;
+}
+
+.menu-container {
+  width: 300px;
+  padding: 1rem;
+  color: #172b4d;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-size: 0.8rem;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.menu-container .menu-title {
+  font-size: 0.7rem;
+  line-height: 1.45455;
+  font-weight: 700;
+  color: #6b778c;
+  padding: 0px 20px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+@media (max-width: 400px) {
+  .issue-form-in-modal {
+    width: 100%;
+  }
+}
+
+@media (min-width: 401px) {
+  .issue-form-in-modal {
+    width: 750px;
+    padding: 1.5rem;
+    text-align: left;
+  }
+  .issue-form-in-modal .field {
+    width: 100%;
+    background-color: #f4f5f7;
+  }
+  .issue-form-in-modal .select {
+    width: 100%;
+    background-color: #f4f5f7;
+  }
+  .issue-form-in-modal .form-label {
+    font-family: "Segoe UI", Roboto, Oxygen, Ubuntu, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    color: #5e6c84;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 16px;
+    float: none;
+    display: block;
+    text-align: left;
+    width: auto;
+    margin: 0;
+  }
+  .issue-form-in-modal .navbar-create-btn {
+    -webkit-box-align: baseline;
+        -ms-flex-align: baseline;
+            align-items: baseline;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    font-weight: 500;
+    max-width: 100%;
+    text-align: center;
+    white-space: nowrap;
+    -webkit-box-shadow: transparent 0px 0px 0px 2px;
+            box-shadow: transparent 0px 0px 0px 2px;
+    background: #0052cc;
+    height: 2.28571em;
+    line-height: 2.28571em;
+    vertical-align: middle;
+    width: auto;
+    border-width: 0px;
+    color: white;
+    border-radius: 3px;
+    padding: 3px 12px 6px 12px;
+    margin: 0px;
+    cursor: pointer;
+    -webkit-transition: background 0.1s ease-out 0s, -webkit-box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
+    transition: background 0.1s ease-out 0s, -webkit-box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
+    transition: background 0.1s ease-out 0s, box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
+    transition: background 0.1s ease-out 0s, box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s, -webkit-box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
+    -webkit-transition-property: background, -webkit-box-shadow;
+    transition-property: background, -webkit-box-shadow;
+    transition-property: background, box-shadow;
+    transition-property: background, box-shadow, -webkit-box-shadow;
+    -webkit-transition-duration: 0.1s, 0.15s;
+            transition-duration: 0.1s, 0.15s;
+    -webkit-transition-timing-function: ease-out, cubic-bezier(0.47, 0.03, 0.49, 1.38);
+            transition-timing-function: ease-out, cubic-bezier(0.47, 0.03, 0.49, 1.38);
+    -webkit-transition-delay: 0s, 0s;
+            transition-delay: 0s, 0s;
+  }
+  .issue-form-in-modal .title {
+    color: #333;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 1.5;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.cancel-btn {
+  color: #0052cc;
+  cursor: pointer;
+  font-family: "Roboto", sans-serif;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.cancel-btn:hover {
+  text-decoration: underline;
+}
+
+.add-epic-btn {
+  width: 7rem;
+  font-size: 0.7rem;
+}
+
+.issue-detail-form {
+  width: 100%;
+}
+
+.issue-detail-form .issue-title {
+  font-size: 2rem;
+}
+
+.issue-detail-form .select {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+@media (max-width: 400px) {
+  .issue-detail-form {
+    width: 100%;
+  }
+}
+
+@media (min-width: 401px) {
+  .issue-detail-form {
+    width: 600px;
+    padding: 1.5rem;
+    text-align: left;
+    max-height: 700px;
+  }
+  .issue-detail-form .navbar-create-btn {
+    -webkit-box-align: baseline;
+        -ms-flex-align: baseline;
+            align-items: baseline;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    font-weight: 500;
+    max-width: 100%;
+    text-align: center;
+    white-space: nowrap;
+    -webkit-box-shadow: transparent 0px 0px 0px 2px;
+            box-shadow: transparent 0px 0px 0px 2px;
+    background: #0052cc;
+    height: 2.28571em;
+    line-height: 2.28571em;
+    vertical-align: middle;
+    width: auto;
+    border-width: 0px;
+    color: white;
+    border-radius: 3px;
+    padding: 3px 12px 6px 12px;
+    margin: 0px;
+    cursor: pointer;
+    -webkit-transition: background 0.1s ease-out 0s, -webkit-box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
+    transition: background 0.1s ease-out 0s, -webkit-box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
+    transition: background 0.1s ease-out 0s, box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
+    transition: background 0.1s ease-out 0s, box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s, -webkit-box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
+    -webkit-transition-property: background, -webkit-box-shadow;
+    transition-property: background, -webkit-box-shadow;
+    transition-property: background, box-shadow;
+    transition-property: background, box-shadow, -webkit-box-shadow;
+    -webkit-transition-duration: 0.1s, 0.15s;
+            transition-duration: 0.1s, 0.15s;
+    -webkit-transition-timing-function: ease-out, cubic-bezier(0.47, 0.03, 0.49, 1.38);
+            transition-timing-function: ease-out, cubic-bezier(0.47, 0.03, 0.49, 1.38);
+    -webkit-transition-delay: 0s, 0s;
+            transition-delay: 0s, 0s;
+  }
+  .issue-detail-form .editable-input {
+    height: 2rem;
+    font-size: 1.8rem;
+  }
+  .issue-detail-form .summary {
+    color: #333;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 1.5;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .issue-detail-form .label {
+    font-family: "Segoe UI", Roboto, Oxygen, Ubuntu, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    color: #5e6c84;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 16px;
+    float: none;
+    display: block;
+    text-align: left;
+    width: auto;
+    margin: 0;
+  }
+  .issue-detail-form .time {
+    color: #6b778c;
+    padding-top: 2px;
+    white-space: nowrap;
+    margin-top: 0px;
+    font-size: 12px;
+    line-height: 1.33333;
+  }
+}
+
+.CommentBox .title {
+  font-family: "Segoe UI", Roboto, Oxygen, Ubuntu, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  color: #5e6c84;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
+  float: none;
+  display: block;
+  text-align: left;
+  width: auto;
+  margin: 0;
+}
+
+.CommentBox .CommentContent {
+  width: 100%;
+}
+
+.CommentBox .CommentContent .primary {
+  margin-left: 0.1rem;
+}
+
+.CommentBox .CommentContent .author {
+  display: inline;
+  cursor: pointer;
+}
+
+.CommentBox .CommentContent .author:hover {
+  color: grey;
+}
+
+.CommentBox .CommentContent .date {
+  color: grey;
+}
+
+.CommentBox .CommentInput .container {
+  padding: 0;
+  margin: 0;
+}
+
+.CommentBox .CommentInput .container .action-btns {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  float: left;
+}
+
+.CommentBox .CommentInput .container .action-btns .cancel-btn {
+  margin-right: 0.5rem;
+}
+
+.CommentBox .CommentInput .container .action-btns .navbar-create-btn {
+  -webkit-box-align: baseline;
+      -ms-flex-align: baseline;
+          align-items: baseline;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  font-weight: 500;
+  max-width: 100%;
+  text-align: center;
+  white-space: nowrap;
+  -webkit-box-shadow: transparent 0px 0px 0px 2px;
+          box-shadow: transparent 0px 0px 0px 2px;
+  background: #0052cc;
+  height: 2.28571em;
+  line-height: 2.28571em;
+  vertical-align: middle;
+  width: auto;
+  border-width: 0px;
+  color: white;
+  border-radius: 3px;
+  padding: 3px 12px 6px 12px;
+  margin: 0px;
+  cursor: pointer;
+  -webkit-transition: background 0.1s ease-out 0s, -webkit-box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
+  transition: background 0.1s ease-out 0s, -webkit-box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
+  transition: background 0.1s ease-out 0s, box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
+  transition: background 0.1s ease-out 0s, box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s, -webkit-box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
+  -webkit-transition-property: background, -webkit-box-shadow;
+  transition-property: background, -webkit-box-shadow;
+  transition-property: background, box-shadow;
+  transition-property: background, box-shadow, -webkit-box-shadow;
+  -webkit-transition-duration: 0.1s, 0.15s;
+          transition-duration: 0.1s, 0.15s;
+  -webkit-transition-timing-function: ease-out, cubic-bezier(0.47, 0.03, 0.49, 1.38);
+          transition-timing-function: ease-out, cubic-bezier(0.47, 0.03, 0.49, 1.38);
+  -webkit-transition-delay: 0s, 0s;
+          transition-delay: 0s, 0s;
+}
+
+.container {
+  margin: 0;
+  padding: 0;
+}
+
+.input-form {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.issue-detail-dialogue .close-btn {
+  position: absolute;
+  padding-right: 1rem;
+  padding-top: 1rem;
+  color: grey;
+}
+
+.project-list-title {
+  font-size: 1.71429em;
+  font-style: inherit;
+  color: #172b4d;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 32px;
+  margin-top: 2.5rem;
+}
+
+.project-list-table .table-body {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.project-list-table table-body:hover {
+  background-color: #f4f5f7;
+}
+
+.project-list-table th {
+  font-family: BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-size: 14px;
+  color: #172b4d;
+}
+
+.project-list-table .project-name {
+  cursor: pointer;
+  color: #0c47be;
+}
+
+.project-create-form {
+  width: 100%;
+}
+
+.project-create-form .navbar-create-btn {
+  -webkit-box-align: baseline;
+      -ms-flex-align: baseline;
+          align-items: baseline;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  font-weight: 500;
+  max-width: 100%;
+  text-align: center;
+  white-space: nowrap;
+  -webkit-box-shadow: transparent 0px 0px 0px 2px;
+          box-shadow: transparent 0px 0px 0px 2px;
+  background: #0052cc;
+  height: 2.28571em;
+  line-height: 2.28571em;
+  vertical-align: middle;
+  width: auto;
+  border-width: 0px;
+  color: white;
+  border-radius: 3px;
+  padding: 3px 12px 6px 12px;
+  margin: 0px;
+  cursor: pointer;
+  -webkit-transition: background 0.1s ease-out 0s, -webkit-box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
+  transition: background 0.1s ease-out 0s, -webkit-box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
+  transition: background 0.1s ease-out 0s, box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
+  transition: background 0.1s ease-out 0s, box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s, -webkit-box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
+  -webkit-transition-property: background, -webkit-box-shadow;
+  transition-property: background, -webkit-box-shadow;
+  transition-property: background, box-shadow;
+  transition-property: background, box-shadow, -webkit-box-shadow;
+  -webkit-transition-duration: 0.1s, 0.15s;
+          transition-duration: 0.1s, 0.15s;
+  -webkit-transition-timing-function: ease-out, cubic-bezier(0.47, 0.03, 0.49, 1.38);
+          transition-timing-function: ease-out, cubic-bezier(0.47, 0.03, 0.49, 1.38);
+  -webkit-transition-delay: 0s, 0s;
+          transition-delay: 0s, 0s;
+}
+
+.project-create-form .input-container {
+  width: 21.875rem;
+}
+
+.project-create-form .field {
+  width: 100%;
+  background-color: #f4f5f7;
+}
+
+.project-create-form .field-label {
+  float: left;
+  color: #6b778c;
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.33333;
+  margin-top: 0;
+  padding-top: 0.4rem;
+  margin-bottom: 0;
+  padding-bottom: 0.2rem;
+  padding: 0;
+  margin: 0;
+}
+
+.body {
+  margin-top: 4rem;
+}
+
+.body .create-pj-btn {
+  -webkit-box-align: baseline;
+      -ms-flex-align: baseline;
+          align-items: baseline;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  font-weight: 500;
+  max-width: 100%;
+  text-align: center;
+  white-space: nowrap;
+  -webkit-box-shadow: transparent 0px 0px 0px 2px;
+          box-shadow: transparent 0px 0px 0px 2px;
+  background: #0052cc;
+  height: 2.28571em;
+  line-height: 2.28571em;
+  vertical-align: middle;
+  width: auto;
+  border-width: 0px;
+  color: white;
+  border-radius: 3px;
+  padding: 3px 12px 6px 12px;
+  margin: 0px;
+  cursor: pointer;
+  -webkit-transition: background 0.1s ease-out 0s, -webkit-box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
+  transition: background 0.1s ease-out 0s, -webkit-box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
+  transition: background 0.1s ease-out 0s, box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
+  transition: background 0.1s ease-out 0s, box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s, -webkit-box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
+  -webkit-transition-property: background, -webkit-box-shadow;
+  transition-property: background, -webkit-box-shadow;
+  transition-property: background, box-shadow;
+  transition-property: background, box-shadow, -webkit-box-shadow;
+  -webkit-transition-duration: 0.1s, 0.15s;
+          transition-duration: 0.1s, 0.15s;
+  -webkit-transition-timing-function: ease-out, cubic-bezier(0.47, 0.03, 0.49, 1.38);
+          transition-timing-function: ease-out, cubic-bezier(0.47, 0.03, 0.49, 1.38);
+  -webkit-transition-delay: 0s, 0s;
+          transition-delay: 0s, 0s;
 }
 /*# sourceMappingURL=App.css.map */

@@ -3,13 +3,13 @@ import { useDispatch, useSelector } from "react-redux"
 import { selectCurrentUserId } from "../../Reducers/Selectors"
 import { createMultipleStatus } from "../../Actions/status.actions"
 import { createSuccessfulProject } from "../../Actions/project.actions"
+import { addProjectToUser } from "../../Actions/user.actions"
 import { Form, Field } from 'formik';
 import { withFormik } from 'formik';
 import { Typography, Button, InputLabel, Dialog } from '@material-ui/core';
 import { TextField } from 'formik-material-ui';
 import { DialogCloseIcon } from "../Shared/Tabs"
 import { initiateProjectAndStatus } from "../Util"
-import history from "../../history"
 
 export const ProjectCreateForm = ({
     values,
@@ -96,8 +96,11 @@ export const ProjectCreateHOC = ({ open, setOpen }) => {
         const { project, statusList } = initiateProjectAndStatus(values, userId)
         //TODO 
         //This does not work:  dispatch(createSuccessfulProject(project))
+        
+        
         dispatch(createSuccessfulProject(project))
         dispatch(createMultipleStatus(statusList))
+        dispatch(addProjectToUser(project._id))
         setOpen(false)
     }
 
