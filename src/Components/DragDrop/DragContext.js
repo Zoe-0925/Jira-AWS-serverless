@@ -1,5 +1,5 @@
 import React from 'react'
-import { useDispatch } from "react-redux"
+import { useSelector,useDispatch } from "react-redux"
 import { DragDropContext } from 'react-beautiful-dnd';
 import DragAndDrop from "./DragAndDrop"
 import { moveIssues } from "../../Actions/status.actions"
