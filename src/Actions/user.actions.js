@@ -80,8 +80,8 @@ export const getCurrentUser = () => async  dispatch => {
             const refreshToken = credential.signInUserSession.refreshToken.token //The token String
             dispatch(saveTokens(accessToken, refreshToken))
             const userInfo = await API.get("UserApi", "/users/email/" + credential.username)
-            if (!userInfo.error) {
-                dispatch(login(userInfo))
+            if (!userInfo.error && userInfo.length > 0) {
+                dispatch(login(userInfo[0]))
             }
         }
     }
@@ -93,8 +93,8 @@ export const getCurrentUser = () => async  dispatch => {
 export const addProjectToUser = projectId => async (dispatch, getState) => {
     dispatch({ type: LOADING_USER })
     const reducer = getState().UserReducer
-    const projects = reducer.users.find(user => user._id === reducer.currentUserId).projects
-    const projectsUpdated = [...projects, projectId]
+    let projects = reducer.users.find(user => user._id === reducer.currentUserId).projects
+    const projectsUpdated = projects.slice().push(projectId)
     try {
         await API.put("UserApi", "/users/projects/", {
             body: {

@@ -88,8 +88,8 @@ export const chainCreactProject = (project, status) => async dispatch => {
     await Promise.all([
         dispatch(createSuccessfulProject(project)),
         dispatch(createMultipleStatus(status)),
-        dispatch(addProjectToUser(project._id))
     ])
+    dispatch(addProjectToUser(project._id))
 }
 
 export const createProject = (newProject) => dispatch => {

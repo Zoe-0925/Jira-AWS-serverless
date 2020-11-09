@@ -64,9 +64,15 @@ export default function Test() {
             updatedAt: "2020-11 - 08T05: 59: 49.358Z",
             _id: "b5d64095-24fa-48cc-8288-2dc6fae20ec6"
         }
-     //   const projects = await API.post("ProjectApi", "/projects", {     body: testProject   })
-        const projects = await API.get("ProjectApi", "/projects")
-        console.log("projects", projects)
+        //   const projects = await API.post("ProjectApi", "/projects", {     body: testProject   })
+        await API.post("UserApi", "/users", {
+            body: {
+                _id: "tsidadsjkdhiueiurt",
+                name: "Zoe Zhang",
+                email: "jin0925aki@gmail.com",
+                projects: []
+            }
+        })
     }
 
 

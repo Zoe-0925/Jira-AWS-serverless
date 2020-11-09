@@ -32,6 +32,7 @@ const UserReducer = (state = initialState, action) => {
 			newState.users.find(user => user._id === newState.currentUserId).projects = action.data
 			return newState
 		case LOGIN:
+			if (typeof action.data === Array) { return newState }
 			newState.currentUserId = action.data._id
 			newState.users.push(action.data)
 			return newState
