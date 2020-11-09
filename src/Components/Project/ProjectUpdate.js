@@ -24,7 +24,9 @@ export const ProjectDetailForm = ({
 }) => {
     const { anchorEl, isOpen, anchorRef, handleMenuClose, handleMenuOpen } = useDotIconMenu()
 
-    console.log("values", values)
+    const leadOptions = values.memberObjects.map(each => { return { value: each._id, label: each.name } })
+    const assigneeOptions = [{value:"lead", label:"Project Lead"}, {value:"", label:"None"}]
+
     return <Fragment>
         <Breadcrumbs aria-label="breadcrumb" className="bread-crumbs" >
             <Link color="inherit" href="/projects">
@@ -79,46 +81,25 @@ export const ProjectDetailForm = ({
                 </div>
                 <div className="input-container">
                     <InputLabel className="field-label" id="lead-label">Project Lead</InputLabel>
-                    <Field
-                        id="lead"
-                        select
-                        label="Project Lead"
+                    <Select
                         className="field"
-                        component={Select}
-                        value={values.lead}
-                        variant="outlined"
-                        size="small"
                         name="lead"
-                    >
-                        <Select
-                            className="select"
-                            classNamePrefix="select"
-                            name="issueType"
-                            defaultValue={projectOptions[0]}
-                            options={projectOptions}
-                            onChange={(e) => setFieldValue("project", e.value)}
-                        />
-                        {values.memberObjects.map(each => <MenuItem onClick={handleChange("lead")} key="lead" value={each._id}>
-                            <AccountCircleIcon />{each.name}</MenuItem>)}
-                    </Field>
-
+                        defaultValue={leadOptions[0]}
+                        options={leadOptions}
+                        onChange={(e) => setFieldValue("lead", e.value)}
+                    />
                 </div>
+                <Row>
+                </Row>
                 <div className="input-container">
                     <InputLabel className="field-label">Default Assignee</InputLabel>
-                    <Field
-                        id="default_assignee"
-                        initialvalues={{ default_assignee: values.default_assignee }}
+                    <Select
                         className="field"
-                        component={Select}
                         name="default_assignee"
-                        variant="outlined"
-                        size="small"
-                        onChange={handleChange}
-                        value="Project Lead"
-                    >
-                        <MenuItem>Project Lead</MenuItem>
-                        <MenuItem>None</MenuItem>
-                    </Field>
+                        defaultValue={assigneeOptions[0]}
+                        options={assigneeOptions}
+                        onChange={(e) => setFieldValue("default_assignee", e.value)}
+                    />
                 </div>
                 <Divider />
                 <Button
