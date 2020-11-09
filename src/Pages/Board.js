@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useSelector, useDispatch } from "react-redux"
 import FilterManager from "../Components/Filters/FilterManager"
 import Drawer from "../Components/Drawer/Drawer"
@@ -7,37 +7,13 @@ import { useEditText } from "../Components/Shared/CustomHooks"
 import { EditableText, Input } from "../Components/Shared/EditableText"
 import DragContext from "../Components/DragDrop/DragContext"
 import NavBar from "../Components/NavBar/NavBar"
-import { selectCurrentProjectName, selectCurrentProjectId, selectCurrentUserId, selectProjectReducer } from '../Reducers/Selectors';
-import history from "../history"
+import { selectCurrentProjectName, selectCurrentProjectId, selectCurrentUserId } from '../Reducers/Selectors';
 import { Typography, Link, Breadcrumbs } from "@material-ui/core"
 
 export default function Board() {
-    const dispatch = useDispatch()
-
-    const currentUserId = useSelector(selectCurrentUserId)
-    const currentProjectId = useSelector(selectCurrentProjectId)
-    const projectReducer = useSelector(selectProjectReducer)
-
-    //TODO
-    //Wnat if the project does not exist
-    const projectName = currentProjectId !== undefined ? projectReducer.projects.find(item => item._id === currentProjectId).name : ""
-    const { state, setState, edit, setEdit } = useEditText(projectName || "")//project name
+   const projectName = useSelector(selectCurrentProjectName)
+   const { state, setState, edit, setEdit } = useEditText(projectName || "")//project name
     const [open, setOpen] = React.useState(true);
-
-    useEffect(() => {
-        if (currentUserId === undefined || currentUserId === "") {
-            history.push("/")
-        } else if (projectName === undefined) {
-            //TODO
-            //fetch project resources of the project id.
-        } else {
-
-        }
-    }, [])
-
-    useEffect(() => {
-
-    }, [currentProjectId])
 
     return (
         <div className={open ? "main drawer-close" : "main drawer-open"}>

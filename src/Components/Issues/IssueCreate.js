@@ -2,6 +2,7 @@ import React, { Fragment, useState } from 'react';
 import { useDispatch } from "react-redux"
 import { useSelector } from "react-redux"
 import { Form, Field, withFormik } from 'formik';
+import { v4 as uuidv4 } from 'uuid'
 import Select from 'react-select';
 import { Row } from 'reactstrap';
 import {
@@ -17,8 +18,10 @@ import {
     TextField,
 } from 'formik-material-ui';
 import { selectProjects } from "../../Reducers/Selectors"
-import { createTask } from "../../Actions/mockIssueActions"
+import { createIssue } from "../../Actions/issue.actions"
 import { DialogCloseIcon } from "../Shared/Tabs"
+import { addCreateAndUpdateDate } from "../Util"
+import SuccessfulFeedback from "../Shared/SuccessfulFeedback"
 
 const IssueForm = props => {
     const {
@@ -45,63 +48,63 @@ const IssueForm = props => {
     return <Fragment>
         <DialogCloseIcon handleClose={handleClose} />
         <div className="issue-form-in-modal">
-                <p className="title">Create issue</p>
-               <br/>
-                <Form onSubmit={handleSubmit}>
-                    <InputLabel className="form-label" id="projectName">Project Name*</InputLabel>
-                    <Select
-                        className="select"
-                        classNamePrefix="select"
-                        name="issueType"
-                        defaultValue={projectOptions[0]}
-                        options={projectOptions}
-                        onChange={(e) => setFieldValue("projectName", e.value)}
-                    />
-                    <Row>
-                    </Row>
-                    <InputLabel className="form-label" id="issueType">Issue Type*</InputLabel>
-                    <Select
-                        className="select"
-                        classNamePrefix="select"
-                        name="issueType"
-                        defaultValue={issueTypeOptions[0]}
-                        options={issueTypeOptions}
-                        onChange={(e) => setFieldValue("issueType", e.value)}
-                    />
-                    <Typography variant="caption">Some issue types are unavailable due to incompatible field configuration and/or workflow associations.</Typography>
-                    <Row>
-                    </Row>
-                    <Divider />
-                    <Row>
-                    </Row>
-                    <InputLabel className="form-label" id="summary">Summary*</InputLabel>
-                    <Field
-                        className="field"
-                        component={TextField}
-                        name="summary"
-                        type="text"
-                        variant="outlined"
-                        size="small"
-                        onChange={handleChange}
-                        value={values.summary}
-                        margin="normal"
-                    />
-                    <InputLabel className="form-label" id="state">description*</InputLabel>
-                    <TextareaAutosize
-                        className="field"
-                        name="description"
-                        type="text"
-                        variant="outlined"
-                        size="small"
-                        onChange={(e) => setFieldValue("issueType", e.target.value)}
-                        margin="normal"
-                        aria-label="minimum height" rowsMin={15}
-                    />
-                    <DialogActions>
-                        <Button className="cancel-btn" disabled={isSubmitting} onClick={handleClose}>Cancel</Button>
-                        <Button className="navbar-create-btn" disabled={isSubmitting} onClick={handleSubmit}>Create</Button>
-                    </DialogActions>
-                </Form>
+            <p className="title">Create issue</p>
+            <br />
+            <Form onSubmit={handleSubmit}>
+                <InputLabel className="form-label" id="project">Project Name*</InputLabel>
+                <Select
+                    className="select"
+                    classNamePrefix="select"
+                    name="issueType"
+                    defaultValue={projectOptions[0]}
+                    options={projectOptions}
+                    onChange={(e) => setFieldValue("project", e.value)}
+                />
+                <Row>
+                </Row>
+                <InputLabel className="form-label" id="issueType">Issue Type*</InputLabel>
+                <Select
+                    className="select"
+                    classNamePrefix="select"
+                    name="issueType"
+                    defaultValue={issueTypeOptions[0]}
+                    options={issueTypeOptions}
+                    onChange={(e) => setFieldValue("issueType", e.value)}
+                />
+                <Typography variant="caption">Some issue types are unavailable due to incompatible field configuration and/or workflow associations.</Typography>
+                <Row>
+                </Row>
+                <Divider />
+                <Row>
+                </Row>
+                <InputLabel className="form-label" id="summary">Summary*</InputLabel>
+                <Field
+                    className="field"
+                    component={TextField}
+                    name="summary"
+                    type="text"
+                    variant="outlined"
+                    size="small"
+                    onChange={handleChange}
+                    value={values.summary}
+                    margin="normal"
+                />
+                <InputLabel className="form-label" id="state">description*</InputLabel>
+                <TextareaAutosize
+                    className="field"
+                    name="description"
+                    type="text"
+                    variant="outlined"
+                    size="small"
+                    onChange={(e) => setFieldValue("issueType", e.target.value)}
+                    margin="normal"
+                    aria-label="minimum height" rowsMin={15}
+                />
+                <DialogActions>
+                    <Button className="cancel-btn" disabled={isSubmitting} onClick={handleClose}>Cancel</Button>
+                    <Button className="navbar-create-btn" disabled={isSubmitting} onClick={handleSubmit}>Create</Button>
+                </DialogActions>
+            </Form>
         </div>
     </Fragment>
 }
@@ -112,7 +115,7 @@ const IssueCreateContent = withFormik({
             .required('Summary is required!')
     }),
     mapPropsToValues: () => ({
-        projectName: "",
+        project: "",
         issueType: "task",
         summary: "",
         description: ""
@@ -126,9 +129,13 @@ const IssueCreateContent = withFormik({
 const IssueCreate = () => {
     const dispatch = useDispatch()
     const [open, setOpen] = useState(false)
+    const [sucessful, setSuccessful] = useState(false)
 
     const submitCreateIssue = (value) => {
-        dispatch(createTask(value))
+        let issue = { ...addCreateAndUpdateDate({ value }), _id: uuidv4() }
+        dispatch(createIssue(issue)).then(result => {
+            if (result) { setSuccessful(true) }
+        })
         setOpen(false)
     }
 
@@ -144,6 +151,7 @@ const IssueCreate = () => {
             >
                 <IssueCreateContent onContinue={submitCreateIssue} handleClose={() => setOpen(false)} />
             </Dialog>
+            {sucessful && <SuccessfulFeedback open={sucessful} message="Issue created successfully!" />}
         </Fragment>
     )
 }

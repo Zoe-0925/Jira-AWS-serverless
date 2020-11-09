@@ -94,7 +94,10 @@ export const selectMemberNames = createSelector(
 
 export const selectCurrentProjectName = createSelector(
     selectCurrentProject,
-    project => project.name
+    project => {
+        if (project !== undefined) { return project.name }
+        return ""
+    }
 )
 
 /****************** Reselectors - Users  *********************/

@@ -24,7 +24,7 @@ export const ProjectDetailForm = ({
 }) => {
     const { anchorEl, isOpen, anchorRef, handleMenuClose, handleMenuOpen } = useDotIconMenu()
 
-    console.log("values",values)
+    console.log("values", values)
     return <Fragment>
         <Breadcrumbs aria-label="breadcrumb" className="bread-crumbs" >
             <Link color="inherit" href="/projects">
@@ -90,6 +90,14 @@ export const ProjectDetailForm = ({
                         size="small"
                         name="lead"
                     >
+                        <Select
+                            className="select"
+                            classNamePrefix="select"
+                            name="issueType"
+                            defaultValue={projectOptions[0]}
+                            options={projectOptions}
+                            onChange={(e) => setFieldValue("project", e.value)}
+                        />
                         {values.memberObjects.map(each => <MenuItem onClick={handleChange("lead")} key="lead" value={each._id}>
                             <AccountCircleIcon />{each.name}</MenuItem>)}
                     </Field>

@@ -5,7 +5,7 @@ export const initiateProjectAndStatus = (projectData, currentUserId) => {
     const statusIds = [uuidv4(), uuidv4(), uuidv4(), uuidv4()]
     const project = {
         ...addCreateAndUpdateDate(projectData), _id: projectId, statusOrder: [statusIds],
-        lead: currentUserId, default_assignee: "Project Lead",image: "", members:[currentUserId]
+        lead: currentUserId, default_assignee: "Project Lead", image: "", members: [currentUserId]
     }
     const statusList = [{ ...addCreateAndUpdateDate({ project: projectId, issues: [] }), _id: statusIds[0], name: "TO DO" },
     { ...addCreateAndUpdateDate({ project: projectId, issues: [] }), _id: statusIds[1], name: "IN PROGRESS" },

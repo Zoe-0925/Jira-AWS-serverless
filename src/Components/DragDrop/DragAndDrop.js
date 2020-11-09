@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
+import {useStore} from "react-redux"
 import { Droppable, Draggable } from "react-beautiful-dnd";
 import { useDispatch, useSelector } from "react-redux"
 import AddBoxRoundedIcon from '@material-ui/icons/AddBoxRounded';
 import Column from "./Column"
 import {
-    selectStatus, selectStatusOrder, selectTasks, selectNoneFilter, 
+    selectStatusOrder, selectTasks, selectNoneFilter, selectStatusReducer,
     selectFilterByEpic, selectFilterByLabel, selectFilterByAssignee, selectGroupBy, selectProjectReducer
 } from "../../Reducers/Selectors"
 import { useIssueDetailModal } from "./CustomHooks"
@@ -34,13 +35,12 @@ export const MyDraggable = (task, index, openTaskDetail) => {
 
 
 export default function DragAndDrop() {
-    const columnOrder = useSelector(selectStatusOrder) // droppableId = the index of each column in order
-    const status = useSelector(selectStatus)
-    const columnsFromStore = columnOrder.map(each => status.get(each))
+    const status = useSelector(selectStatusReducer).status
     const tasks = useSelector(selectTasks)
     const projectId = useSelector(selectProjectReducer).currentProjectId
+    const columnOrder = useSelector(selectProjectReducer).projects.find(item => item._id === projectId).statusOrder
 
-    const [columns, setColumns] = useState(columnsFromStore)
+    const [columns, setColumns] = useState([])
 
     //  const { createNewColumn } = useCreateStatus(initialStatus._id)
     const [showNewEditable, setShowEditable] = useState(false)
@@ -51,8 +51,14 @@ export default function DragAndDrop() {
     const filterByLabel = useSelector(selectFilterByLabel)
 
     useEffect(() => {
-        setColumns(columnOrder.map(each => status.get(each)))
+        const value = columnOrder.map(each => status.get(each))
+        setColumns(value)
     }, [columnOrder])
+
+    useEffect(() => {
+        const value = columnOrder.map(each => status.get(each))
+        setColumns(value)
+    }, [status])
 
     //----------Filters----------------------
     const groupBy = useSelector(selectGroupBy)

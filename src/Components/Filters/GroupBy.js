@@ -11,6 +11,7 @@ export default function GroupBy() {
         dispatch(groupBy(value))
     }
 
+    return <div></div>
     //TODO
     //Edit the Tooltip
 

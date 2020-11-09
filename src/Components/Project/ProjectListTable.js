@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector, useStore } from "react-redux"
-import {  setCurrentProject, deleteProject } from "../../Actions/project.actions"
+import { setCurrentProject, deleteProject } from "../../Actions/project.actions"
 import { selectProjectReducer, selectAllUsers, selectUserReducer } from "../../Reducers/Selectors"
 import {
     Table, TableBody, TableCell, TableContainer, TableHead,
@@ -11,11 +11,8 @@ import { DotIconMenu } from "../Shared/Tabs"
 import history from "../../history"
 
 export default function ProjectListTable() {
-
-    //TODO
-    //Just not rerendering
     const store = useStore().getState()
-    let projects = store.ProjectReducer.projects
+    let projects = useSelector(selectProjectReducer).projects
 
     const dispatch = useDispatch()
     const users = useSelector(selectAllUsers)
@@ -23,12 +20,6 @@ export default function ProjectListTable() {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const isOpen = Boolean(anchorEl);
     const anchorRef = React.useRef(null);
-
-    useEffect(() => {
-        const newProject = store.ProjectReducer.projects
-        console.log("projects", newProject)
-    }, [store])
-
 
     const handleMenuClose = () => {
         setAnchorEl(false);

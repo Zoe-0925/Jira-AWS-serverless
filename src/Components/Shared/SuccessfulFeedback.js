@@ -9,8 +9,8 @@ const SuccessfulFeedback = ({ open, message }) => {
     }
 
     return (
-        <Snackbar open={open} autoHideDuration={3000}>
-            <Alert autoHideDuration={3000} severity="success">
+        <Snackbar open={open} autohideduration={3000}>
+            <Alert autohideduration={3000} severity="success">
                 {message}
             </Alert>
         </Snackbar>

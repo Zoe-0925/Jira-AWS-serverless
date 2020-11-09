@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState , useEffect} from 'react'
 import IssueDetail from "../Components/Issues/IssueDetail"
 import {
     Button,
@@ -8,6 +8,7 @@ import { getCurrentUser } from "../Actions/user.actions"
 import { createMultipleStatus, createStatus } from "../Actions/status.actions"
 import API from '@aws-amplify/api';
 import { initiateProjectAndStatus } from "../Components/Util"
+import { selectCurrentProject } from "../Reducers/Selectors"
 
 const testIssue = new Map()
 testIssue.set("hdkahdjaskdh", {
@@ -31,41 +32,12 @@ const status = [{
 ]
 
 export default function Test() {
-   const dispatch = useDispatch()
+    const dispatch = useDispatch()
+    const status = useSelector(selectCurrentProject)
 
-
-    const putStatus = async () => {
-        /**  const projects= await API.post("ProjectApi", "/projects", {
-              body: {
-                  _id: "test id",
-                  name: "test project name",
-                  key: "test key",
-                  lead: "testUserId",
-                  members: ["testUserId"],
-                  image: "",
-                  issues: [],
-                  default_assignee: "Project Lead",
-                  start_date: "",
-                  statusOrder: ["1", "2", "3", "4"]
-              }
-          }
-          )*/
-
-        const testProject = {
-            createdAt: "2020-11-08T05:59:49.358Z",
-            default_assignee: "Project Lead",
-            image: "",
-            key: "TestProject1Key",
-            lead: "testUserId",
-            members: ["testUserId"],
-            name: "TestProject1",
-            statusOrder: [],
-            updatedAt: "2020-11 - 08T05: 59: 49.358Z",
-            _id: "b5d64095-24fa-48cc-8288-2dc6fae20ec6"
-        }
-        //   const projects = await API.post("ProjectApi", "/projects", {     body: testProject   })
-        dispatch(getCurrentUser())
-    }
+    useEffect(() => {
+        console.log("status", status)
+    }, [status])
 
 
     return (<div>

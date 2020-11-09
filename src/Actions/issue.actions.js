@@ -124,6 +124,7 @@ export const createIssue = (data) => async  dispatch => {
     try {
         await API.post("IssueApi", "/issues/", { body: data })
         dispatch(createSuccessfulIssue(data))
+        return true
     }
     catch (err) {
         dispatch(dispatchError(err))
