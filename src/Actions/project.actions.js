@@ -1,9 +1,8 @@
 import API from '@aws-amplify/api';
 import { createMultipleStatus, getProjectStatus } from "./status.actions"
 import { addProjectToUser } from "./user.actions"
-import {getProjectIssues} from "./issues.actions"
-import {getProjectComments} from "./comments.actions"
-import {getProjectLabels} from "./labels.actions"
+import {getProjectIssues} from "./issue.actions"
+import {getProjectLabels} from "./label.actions"
 
 export const LOADING_PROJECT = "LOADING_PROJECT"
 export const ERROR_PROJECT = "ERROR_PROJECT"
