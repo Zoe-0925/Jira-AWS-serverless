@@ -4,6 +4,7 @@ import { DragDropContext } from 'react-beautiful-dnd';
 import DragAndDrop from "./DragAndDrop"
 import { moveIssues } from "../../Actions/status.actions"
 import { chainGetProjectData } from "../../Actions/project.actions"
+import {selectCurrentProjectId} from "../../Reducers/Selectors"
 
 export default function DragContext() {
     const dispatch = useDispatch()
