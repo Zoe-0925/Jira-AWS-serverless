@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Droppable, Draggable } from "react-beautiful-dnd";
-import API from '@aws-amplify/api';
 import { useDispatch, useSelector } from "react-redux"
 import AddBoxRoundedIcon from '@material-ui/icons/AddBoxRounded';
 import Column from "./Column"
@@ -11,9 +10,6 @@ import {
 import { useIssueDetailModal } from "./CustomHooks"
 import IssueCard from "../Issues/IssueCard"
 import IssueDetail from "../Issues/IssueDetail"
-import { saveProjectIssues } from "../../Actions/issue.actions"
-import { saveProjectStatus } from "../../Actions/status.actions"
-import { saveProjectLabels } from "../../Actions/label.actions"
 
 
 export const MyDraggable = (task, index, openTaskDetail) => {
@@ -38,39 +34,21 @@ export const MyDraggable = (task, index, openTaskDetail) => {
 
 
 export default function DragAndDrop() {
-    const dispatch = useDispatch()
     const columnOrder = useSelector(selectStatusOrder) // droppableId = the index of each column in order
     const status = useSelector(selectStatus)
     const columnsFromStore = columnOrder.map(each => status.get(each))
     const tasks = useSelector(selectTasks)
-    const projectReducer = useSelector(selectProjectReducer)
-    const projectId = projectReducer.currentProjectId
+    const projectId = useSelector(selectProjectReducer).currentProjectId
 
     const [columns, setColumns] = useState(columnsFromStore)
 
     //  const { createNewColumn } = useCreateStatus(initialStatus._id)
     const [showNewEditable, setShowEditable] = useState(false)
     const noneFilter = useSelector(selectNoneFilter)
+
     const filterByEpic = useSelector(selectFilterByEpic)
     const filterByAssignee = useSelector(selectFilterByAssignee)
     const filterByLabel = useSelector(selectFilterByLabel)
-
-    //TODO 
-    //Haven't tested this yet
-    useEffect(async () => {
-        if (status.length === 0) {
-            const [issues, status, labels] = await Promise.all(
-                API.get("IssueApi", "/issues/project/" + projectId),
-                API.get("StatusApi", "/status/project/" + projectId),
-                API.get("LabelApi", "/labels/project/" + projectId)
-            )
-            await Promise.all([
-                dispatch(saveProjectIssues(issues)),
-                dispatch(saveProjectStatus(status)),
-                dispatch(saveProjectLabels(labels))
-            ]);
-        }
-    }, [])
 
     useEffect(() => {
         setColumns(columnOrder.map(each => status.get(each)))

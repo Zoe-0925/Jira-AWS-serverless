@@ -1,5 +1,5 @@
-import React, { useState, useEffect , Fragment} from 'react'
-import { useDispatch,useSelector } from "react-redux"
+import React, { useState, useEffect, Fragment } from 'react'
+import { useDispatch, useSelector } from "react-redux"
 import { selectCurrentProjectId, selectProjectReducer, selectUserReducer } from "../../Reducers/Selectors"
 import { updateProjectNameKeyAndAssignee } from "../../Actions/project.actions"
 import { Form, Field } from 'formik';
@@ -21,13 +21,10 @@ export const ProjectDetailForm = ({
     handleChange,
     handleSubmit,
     removeProject,
-    memberObjects
 }) => {
-
-    console.log("memberObjects", memberObjects)
-    //  const leadOptions = memberObjects.map(each => <MenuItem><AccountCircleIcon />{each.name}</MenuItem>)
     const { anchorEl, isOpen, anchorRef, handleMenuClose, handleMenuOpen } = useDotIconMenu()
 
+    console.log("values",values)
     return <Fragment>
         <Breadcrumbs aria-label="breadcrumb" className="bread-crumbs" >
             <Link color="inherit" href="/projects">
@@ -51,7 +48,7 @@ export const ProjectDetailForm = ({
         <div align="center" className="form">
             <Form onSubmit={handleSubmit}>
                 <div className="input-container">
-                    <InputLabel className="field-label" for="name">Name</InputLabel>
+                    <InputLabel className="field-label">Name</InputLabel>
                     <Field
                         id="name"
                         className="field"
@@ -66,7 +63,7 @@ export const ProjectDetailForm = ({
                     />
                 </div>
                 <div className="input-container">
-                    <InputLabel className="field-label" for="key">Key</InputLabel>
+                    <InputLabel className="field-label">Key</InputLabel>
                     <Field
                         id="key-field"
                         className="field"
@@ -81,30 +78,31 @@ export const ProjectDetailForm = ({
                     />
                 </div>
                 <div className="input-container">
-                    <InputLabel className="field-label" for="default_assignee">Project Lead</InputLabel>
+                    <InputLabel className="field-label" id="lead-label">Project Lead</InputLabel>
                     <Field
-                        id="default_assignee"
-                        initialvalues={{ default_assignee: values.lead }}
+                        id="lead"
+                        select
+                        label="Project Lead"
                         className="field"
                         component={Select}
-                        labelId="default_assignee" id="default_assignee" name="default_assignee"
+                        value={values.lead}
                         variant="outlined"
                         size="small"
-                        onChange={handleChange}
-                        value="Project Lead"
+                        name="lead"
                     >
-                        <MenuItem>Project Lead</MenuItem>
-                        <MenuItem>None</MenuItem>
+                        {values.memberObjects.map(each => <MenuItem onClick={handleChange("lead")} key="lead" value={each._id}>
+                            <AccountCircleIcon />{each.name}</MenuItem>)}
                     </Field>
+
                 </div>
                 <div className="input-container">
-                    <InputLabel className="field-label" for="default_assignee">Default Assignee</InputLabel>
+                    <InputLabel className="field-label">Default Assignee</InputLabel>
                     <Field
                         id="default_assignee"
                         initialvalues={{ default_assignee: values.default_assignee }}
                         className="field"
                         component={Select}
-                        labelId="default_assignee" id="default_assignee" name="default_assignee"
+                        name="default_assignee"
                         variant="outlined"
                         size="small"
                         onChange={handleChange}
@@ -157,22 +155,13 @@ export const ProjectDetailWrapper = withFormik({
 
 export const ProjectUpdateHOC = () => {
     const dispatch = useDispatch()
-    const [project, setProject] = useState()
-    const [members, setMembers] = useState([])
-    const currentProjectId = useSelector(selectCurrentProjectId)
-    const projectReducer = useSelector(selectProjectReducer)
-    const userReducer = useSelector(selectUserReducer)
+    const members = useSelector(selectUserReducer).users
+    const project = useSelector(selectProjectReducer).projects
 
-    useEffect(() => {
-        const projectToUpdate = projectReducer.projects.find(item => item._id === currentProjectId)
-        setProject(projectToUpdate)
-        setMembers(userReducer.users.filter(user => !projectToUpdate.members.includes(user._id)))
-    }, [currentProjectId])
+
 
     const submitForm = values => {
         const updateDate = new Date()
-        //TODO
-        //Use the date library to format the date.
         const formattedValues = { ...values, updatedAt: JSON.stringtify(updateDate), members: project.members }
         dispatch(updateProjectNameKeyAndAssignee(formattedValues))
     }

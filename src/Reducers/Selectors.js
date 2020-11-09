@@ -35,7 +35,7 @@ export const selectStatusById = (id) => createSelector(
 export const selectStatusByProject = (id) => createSelector(
     selectStatus,
     map => {
-       //TODO
+        //TODO
     }
 )
 
@@ -62,7 +62,7 @@ export const selectCurrentProject = createSelector(
     selectCurrentProjectId,
     (reducer, id) => {
         console.log("current project in selector", reducer.projects.find(item => item._id === id))
-        reducer.projects.find(item => item._id === id)
+        return reducer.projects.find(item => item._id === id)
     }
 )
 

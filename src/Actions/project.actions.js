@@ -1,6 +1,6 @@
 import API from '@aws-amplify/api';
-import {createMultipleStatus} from "./status.actions.js"
-import {addProjectToUser} from "./user.actions.js"
+import { createMultipleStatus } from "./status.actions.js"
+import { addProjectToUser } from "./user.actions.js"
 import history from "../history"
 
 export const LOADING_PROJECT = "LOADING_PROJECT"
@@ -103,21 +103,13 @@ export const createProject = (newProject) => dispatch => {
     dispatch(createSuccessfulProject(newProject))
 }
 
-//Get all projects of the user
-export const getAllProjects = () => async (dispatch, getState) => {
+export const getAllProjects = (idList) => async (dispatch, getState) => {
     dispatch({ type: LOADING_PROJECT })
     try {
-        const userReducer = getState().UserReducer
-        const user = userReducer.users.find(item => item._id === userReducer.currentUserId)
-        if (user === undefined || user.projects.length === 0) {
-            return
-        }
-        const projects = user.projects.map(projectId =>
-            API.get("ProjectApi", "/projects/object/" + projectId).then(
-                project => project).catch(err => dispatch(dispatchError(err))))
-        if (typeof projects === Array) {
-            dispatch(appendSuccessfulProject(projects))
-        }
+        let projects = []
+        idList.map(projectId => API.get("ProjectApi", "/projects/object/" + projectId)
+            .then(project => projects.push(project.Item)).catch(err => dispatch(dispatchError(err))))
+        dispatch(appendSuccessfulProject(projects))
     }
     catch (err) {
         dispatch(dispatchError(err))

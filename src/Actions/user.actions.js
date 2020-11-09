@@ -1,8 +1,7 @@
 import { Auth } from 'aws-amplify';
 import { Cache } from 'aws-amplify';
 import API from '@aws-amplify/api';
-import history from "../history"
-require('dotenv').config()
+import { getAllProjects } from "./project.actions"
 
 export const ERROR_USER = "ERROR_USER"
 export const LOADING_USER = "LOADING_USER"
@@ -69,6 +68,20 @@ export function updateProjects(projects) {
 }
 
 /******************* Thunk Actions  *****************************/
+export const getUserAndProjects = () => async dispatch => {
+    dispatch({ type: LOADING_USER })
+    try {
+        const user = await dispatch(getCurrentUser())
+        await Promise.all([
+            dispatch(login(user)),
+            dispatch(getAllProjects(user.projects))
+        ])
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+    }
+}
+
 export const getCurrentUser = () => async  dispatch => {
     dispatch({ type: LOADING_USER })
     try {
@@ -76,13 +89,7 @@ export const getCurrentUser = () => async  dispatch => {
             bypassCache: true  // Optional, By default is false. If set to true, this call will send a request to Cognito to get the latest user data
         })
         if (credential) {
-            const accessToken = credential.signInUserSession.accessToken
-            const refreshToken = credential.signInUserSession.refreshToken.token //The token String
-            dispatch(saveTokens(accessToken, refreshToken))
-            const userInfo = await API.get("UserApi", "/users/email/" + credential.username)
-            if (!userInfo.error) {
-                dispatch(login(userInfo))
-            }
+            return await API.get("UserApi", "/users/email/" + credential.username)
         }
     }
     catch (err) {

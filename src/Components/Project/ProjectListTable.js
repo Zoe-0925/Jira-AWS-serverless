@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from "react-redux"
-import { getAllProjects, setCurrentProject, deleteProject } from "../../Actions/project.actions"
+import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector, useStore } from "react-redux"
+import {  setCurrentProject, deleteProject } from "../../Actions/project.actions"
 import { selectProjectReducer, selectAllUsers, selectUserReducer } from "../../Reducers/Selectors"
 import {
     Table, TableBody, TableCell, TableContainer, TableHead,
@@ -11,14 +11,23 @@ import { DotIconMenu } from "../Shared/Tabs"
 import history from "../../history"
 
 export default function ProjectListTable() {
-    const projects = useSelector(selectProjectReducer).projects
+
+    //TODO
+    //Just not rerendering
+    const store = useStore().getState()
+    let projects = store.ProjectReducer.projects
+
     const dispatch = useDispatch()
     const users = useSelector(selectAllUsers)
-    const currentUser = useSelector(selectUserReducer).currentUser
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const isOpen = Boolean(anchorEl);
     const anchorRef = React.useRef(null);
+
+    useEffect(() => {
+        const newProject = store.ProjectReducer.projects
+        console.log("projects", newProject)
+    }, [store])
 
 
     const handleMenuClose = () => {
@@ -39,20 +48,6 @@ export default function ProjectListTable() {
         history.push("/projects/settings/details")
     }
 
-    useEffect(() => {
-        if (currentUser !== "" && projects.length === 0) {
-            dispatch(getAllProjects())
-        }
-    }, [currentUser]
-    )
-
-    useEffect(() => {
-        if (currentUser !== "" && projects.length === 0) {
-            dispatch(getAllProjects())
-        }
-    }, []
-    )
-
     //TODO sort name, key, lead
 
     return (
@@ -69,7 +64,7 @@ export default function ProjectListTable() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {projects.map(project => (
+                        {users.length > 0 && projects.map(project => (
                             <TableRow key={project._id} className="table-body">
                                 <TableCell className="project-name" component="th" scope="row" onClick={() => goToBoardPage(project._id)}>
                                     {project.name}
