@@ -30,14 +30,13 @@ const App = () => {
     if (currentUserId === "") {
       dispatch(getCurrentUser())
     }
-
   }, [])
 
   return (
     <div className="App">
       <Router history={history}>
         <Switch>
-          <Route path="/" exact component={ProjectList} />
+          <Route path="/" exact component={Test} />
           <Route path="/projects" exact component={ProjectList} />
           <Route path="/projects/roadmap" component={App} />
           <Route path="/projects/board" exact component={Board} />

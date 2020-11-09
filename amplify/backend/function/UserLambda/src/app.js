@@ -23,7 +23,7 @@ AWS.config.update({ region: process.env.TABLE_REGION });
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 let tableName = "User";
-if(process.env.ENV && process.env.ENV !== "NONE") {
+if (process.env.ENV && process.env.ENV !== "NONE") {
   tableName = tableName + '-' + process.env.ENV;
 }
 
@@ -43,7 +43,7 @@ app.use(bodyParser.json())
 app.use(awsServerlessExpressMiddleware.eventContext())
 
 // Enable CORS for all methods
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*")
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
   next()
@@ -51,7 +51,7 @@ app.use(function(req, res, next) {
 
 // convert url string param to expected Type
 const convertUrlType = (param, type) => {
-  switch(type) {
+  switch (type) {
     case "N":
       return Number.parseInt(param);
     default:
@@ -113,10 +113,10 @@ app.get(path + "/email/:email", function (req, res) {
       res.statusCode = 500;
       res.json({ error: 'Could not load items: ' + err.message });
     } else {
-      if(data.Item){
-        res.json(data.Item);
-      }else{
-        res.json(data);
+      if (data.Items && data.Items.length > 0) {
+        res.json(data.Items[0]);
+      } else {
+        res.json({ error: 'The user does not exist.' })
       }
     }
   });
@@ -210,8 +210,8 @@ app.get(path + '/object' + hashKeyPath, function (req, res) {
       res.statusCode = 500;
       res.json({ error: 'Could not load items: ' + err.message });
     } else {
-      if (data.Item) {
-        res.json(data.Item);
+      if (data.Items) {
+        res.json(data.Items);
       } else {
         res.json(data);
       }

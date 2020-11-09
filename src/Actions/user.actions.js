@@ -80,8 +80,8 @@ export const getCurrentUser = () => async  dispatch => {
             const refreshToken = credential.signInUserSession.refreshToken.token //The token String
             dispatch(saveTokens(accessToken, refreshToken))
             const userInfo = await API.get("UserApi", "/users/email/" + credential.username)
-            if (!userInfo.error && userInfo.length > 0) {
-                dispatch(login(userInfo[0]))
+            if (!userInfo.error) {
+                dispatch(login(userInfo))
             }
         }
     }

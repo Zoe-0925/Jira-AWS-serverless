@@ -40,7 +40,7 @@ export default function ProjectListTable() {
     }
 
     useEffect(() => {
-        if (projects.length === 0) {
+        if (currentUser !== "" && projects.length === 0) {
             dispatch(getAllProjects())
         }
     }, [currentUser]

@@ -31,8 +31,7 @@ const status = [{
 ]
 
 export default function Test() {
-    const [open, setOpen] = useState(false)
-    const dispatch = useDispatch()
+   const dispatch = useDispatch()
 
 
     const putStatus = async () => {
@@ -65,14 +64,7 @@ export default function Test() {
             _id: "b5d64095-24fa-48cc-8288-2dc6fae20ec6"
         }
         //   const projects = await API.post("ProjectApi", "/projects", {     body: testProject   })
-        await API.post("UserApi", "/users", {
-            body: {
-                _id: "tsidadsjkdhiueiurt",
-                name: "Zoe Zhang",
-                email: "jin0925aki@gmail.com",
-                projects: []
-            }
-        })
+        dispatch(getCurrentUser())
     }
 
 
