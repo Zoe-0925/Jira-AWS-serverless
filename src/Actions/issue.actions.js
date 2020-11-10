@@ -11,10 +11,7 @@ export const DELETE_SUCCESS_EPIC = "DELETE_SUCCESS_EPIC"
 export const DELETE_SUCCESS_SUB_TASK = "DELETE_SUCCESS_SUB_TASK"
 export const DELETE_ISSUE_BY_PROJECT = "DELETE_ISSUE_BY_PROJECT"
 export const UPDATE_SUCCESS_TASK = "UPDATE_SUCCESS_TASK"
-export const UPDATE_SUCCESS_TASK_SUMMARY = "UPDATE_SUCCESS_TASK_SUMMARY"
-export const UPDATE_SUCCESS_TASK_DESCRIPTION = "UPDATE_SUCCESS_TASK_DESCRIPTION"
-export const UPDATE_SUCCESS_TASK_ASIGNEE = "UPDATE_SUCCESS_TASK_ASIGNEE"
-export const UPDATE_SUCCESS_TASK_REPORTER = "UPDATE_SUCCESS_TASK_REPORTER"
+export const UPDATE_SUCCESS_TASK_ATTRIBUTE = "UPDATE_SUCCESS_TASK_ATTRIBUTE"
 export const UPDATE_SUCCESS_EPIC = "UPDATE_SUCCESS_EPIC"
 export const APPEND_SUCCESS_ISSUES = "APPEND_SUCCESS_ISSUES"
 export const APPEND_SUCCESS_CURRENT_TASK = "APPEND_SUCCESS_CURRENT_TASK"
@@ -54,31 +51,12 @@ export function updateSuccessfulTask(data) {
     }
 }
 
-export function updateSuccessfulTaskSummary(data) {
+export function updateSuccessfulTaskAttribute(id, key, value) {
     return {
-        type: UPDATE_SUCCESS_TASK_SUMMARY,
-        data: data
-    }
-}
-
-export function updateSuccessfulTaskDescription(data) {
-    return {
-        type: UPDATE_SUCCESS_TASK_DESCRIPTION,
-        data: data
-    }
-}
-
-export function updateSuccessfulTaskAssignee(data) {
-    return {
-        type: UPDATE_SUCCESS_TASK_ASSIGNEE,
-        data: data
-    }
-}
-
-export function updateSuccessfulTaskReporter(data) {
-    return {
-        type: UPDATE_SUCCESS_TASK_REPORTER,
-        data: data
+        type: UPDATE_SUCCESS_TASK_ATTRIBUTE,
+        id: id,
+        key: key,
+        value: value
     }
 }
 
@@ -178,7 +156,7 @@ export const updateIssueSummary = (data) => async  dispatch => {
         await API.put("IssueApi", "/issues/update/summary", {
             body: data
         })
-        dispatch(updateSuccessfulTaskSummary(data))
+        dispatch(updateSuccessfulTaskAttribute(data._id, "summary", data.value))
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -191,7 +169,7 @@ export const updateIssueDescription = (data) => async  dispatch => {
         await API.put("IssueApi", "/issues/update/description", {
             body: data
         })
-        dispatch(updateSuccessfulTaskDescription(data))
+        dispatch(updateSuccessfulTaskAttribute(data._id, "description", data.value))
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -204,7 +182,7 @@ export const updateIssueAssignee = (data) => async  dispatch => {
         await API.put("IssueApi", "/issues/update/assignee", {
             body: data
         })
-        dispatch(updateSuccessfulTaskAssignee(data))
+        dispatch(updateSuccessfulTaskAttribute(data._id, "assignee", data.value))
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -217,7 +195,20 @@ export const updateIssueReporter = (data) => async  dispatch => {
         await API.put("IssueApi", "/issues/update/reporter", {
             body: data
         })
-        dispatch(updateSuccessfulTaskReporter(data))
+        dispatch(updateSuccessfulTaskAttribute(data._id, "reporter", data.value))
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+    }
+}
+
+export const updateIssueLabel = (data) => async  dispatch => {
+    dispatch({ type: LOADING_ISSUE })
+    try {
+        await API.put("IssueApi", "/issues/update/label", {
+            body: data
+        })
+        dispatch(updateSuccessfulTaskAttribute(data._id, "labels", data.value))
     }
     catch (err) {
         dispatch(dispatchError(err))

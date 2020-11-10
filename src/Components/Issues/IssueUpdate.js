@@ -14,6 +14,7 @@ import {
     selectStatusById, selectStatus, selectLabels,
     selectMemberNames, selectLabelNames, selectUserById
 } from "../../Reducers/Selectors"
+import { updateSuccessfulTaskAttribute } from "../../Actions/issue.actions"
 import CommentHOC from "../Comment/CommentHOC"
 import CloseIcon from '@material-ui/icons/Close';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
@@ -34,19 +35,29 @@ const IssueDetail = ({ issue, open, handleClose }) => {
 }
 
 const IssueDetailForm = ({ issue, handleClose }) => {
-    const [clicked, setClicked] = useState({ assignee: false, labels: false, reportee: false })
-  const assignee = useSelector(selectUserById(issue.assignee))
+    const dispatch = useDispatch()
+    //TODO
+    //add loading reducer
+    //disable buttons when loading.
+
+    const assignee = useSelector(selectUserById(issue.assignee))
     const reportee = useSelector(selectUserById(issue.reportee))
     const currentLabels = []
+    const defaultStatus = useSelector(selectStatusById(statusId))
+    const allStatus = useSelector(selectStatus)
+    let statusOptions = allStatus.map(each => { return { label: each.name, value: each._id } })
+
 
     //TODO call the thunk to get all users, and save to the store
-    const assigneeOptions = []
-
-    const labelOptions = useSelector(selectLabels).map(each => {
-        return { label: each.name, value: each }
+    const assigneeOptions = useSelector(selectProjectMembers).map(each => {
+        return { label: each.name, value: each._id }
     })
 
-    const reporteeOptions = ["Jira Outlook", "Jira Service Desk Widget",
+    const labelOptions = useSelector(selectLabels).map(each => {
+        return { label: each.name, value: each._id }
+    })
+
+    const reporterOptions = ["Jira Outlook", "Jira Service Desk Widget",
         "Jira Spreadsheets", "Statuspage for Jira", "Trello"].map(each => {
             return { label: each, value: each }
         })
@@ -57,25 +68,6 @@ const IssueDetailForm = ({ issue, handleClose }) => {
     const projectMembers = []
 
     function showEpic() {
-
-        //TODO
-        //If there's no epic,
-        //Pop the dialogue
-
-    }
-
-    const updateAssignee = (value) => {
-
-    }
-
-    const updateReportee = (value) => {
-
-    }
-
-    const updateLabel = () => {
-        //TODO
-        // Dunno how to update the multple labels
-
     }
 
 
@@ -120,7 +112,14 @@ const IssueDetailForm = ({ issue, handleClose }) => {
                         <CommentHOC />
                     </Col>
                     <Col sm="12" md="5">
-                        <StatusSelect statusId={issue.status} />
+                        <Select
+                            className="select"
+                            classNamePrefix="select"
+                            name="issueType"
+                            defaultValue={{ label: defaultStatus.name, value: issue.status }}
+                            options={statusOptions}
+                            onChange={(e) => updateStatus(e.value)}
+                        />
                         <Row></Row>
                         <p className="label">Assignee</p>
                         <Select
@@ -129,7 +128,7 @@ const IssueDetailForm = ({ issue, handleClose }) => {
                             name="assignee"
                             defaultValue={{ label: assignee.name, value: assignee }}
                             options={assigneeOptions}
-                            onChange={(e) => updateAssignee(e.value)}
+                            onChange={(e) => dispatch(updateIssueAssignee({ _id: issue._id, value: e.value }))}
                             isClearable={true}
                         />
                         <Row></Row>
@@ -141,7 +140,7 @@ const IssueDetailForm = ({ issue, handleClose }) => {
                             name="labels"
                             defaultValue={currentLabels}
                             options={labelOptions}
-                            onChange={(e) => updateLabel(e.value)}
+                            onChange={(e) => dispatch(updateIssueLabel({ _id: issue._id, value: e.value }))}
                             isClearable={true}
                         />
                         <Row></Row>
@@ -151,8 +150,8 @@ const IssueDetailForm = ({ issue, handleClose }) => {
                             classNamePrefix="select"
                             name="reportee"
                             defaultValue={{ label: reportee.name, value: reportee }}
-                            options={reporteeOptions}
-                            onChange={(e) => updateReportee(e.value)}
+                            options={reporterOptions}
+                            onChange={(e) => dispatch(updateIssueReporter({ _id: issue._id, value: value }))}
                         />
                         <Row></Row>
                         <Divider />
@@ -166,29 +165,6 @@ const IssueDetailForm = ({ issue, handleClose }) => {
     </Fragment>
 }
 
-const StatusSelect = ({ statusId }) => {
-    const defaultStatus = useSelector(selectStatusById(statusId))
-    const allStatus = useSelector(selectStatus)
-    const currentOption = { label: defaultStatus.name, value: defaultStatus }
-    let statusOptions = []
-    allStatus.forEach(each => statusOptions.push({ label: each.name, value: each }))
-
-    const updateStatus = (status) => {
-        //TODO
-        //call the thunk to update the store and also call the api call
-    }
-
-
-
-    return <Select
-        className="select"
-        classNamePrefix="select"
-        name="issueType"
-        defaultValue={currentOption}
-        options={statusOptions}
-        onChange={(e) => updateStatus(e.value)}
-    />
-}
 
 export default IssueDetail
 

@@ -2,7 +2,9 @@ import {
     LOADING_ISSUE, DELETE_SUCCESS_TASK, UPDATE_SUCCESS_TASK, DELETE_SUCCESS_EPIC,
     UPDATE_SUCCESS_EPIC, ERROR_ISSUE, UPDATE_ISSUE_GROUP, TOGGLE_FLAG, DELETE_SUCCESS_SUB_TASK,
     ADD_TASK_TO_EPIC, REMOVE_TASK_FROM_EPIC, ADD_SUBTASK_TO_TASK, REMOVE_SUBTASK_FROM_TASK,
-    DELETE_ISSUE_BY_PROJECT, APPEND_SUCCESS_ISSUES, CREATE_SUCCESS_ISSUE
+    DELETE_ISSUE_BY_PROJECT, APPEND_SUCCESS_ISSUES, CREATE_SUCCESS_ISSUE,
+    UPDATE_SUCCESS_TASK_ATTRIBUTE
+
 } from "../Actions/issue.actions"
 import { DELETE_SUCCESS_STATUS } from "../Actions/status.actions"
 
@@ -32,6 +34,7 @@ const initialState = {
 
 export default function IssueReducer(state = initialState, action) {
     let newState = { ...state, authenticated: true, loading: false }
+    let task
     switch (action.type) {
         case LOADING_ISSUE:
             return { ...state, loading: true, authenticated: false }
@@ -62,6 +65,11 @@ export default function IssueReducer(state = initialState, action) {
             return newState
         case UPDATE_SUCCESS_TASK:
             newState.issues.set(action.data._id, action.data)
+            return newState
+        case UPDATE_SUCCESS_TASK_ATTRIBUTE:
+            task = newState.issues.get(action._id)
+            task[action.key] = action.value
+            newState.issues.set(action._id, task)
             return newState
         case ADD_TASK_TO_EPIC:
 

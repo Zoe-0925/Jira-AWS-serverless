@@ -10,7 +10,7 @@ import {
 } from "../../Reducers/Selectors"
 import { useIssueDetailModal } from "./CustomHooks"
 import IssueCard from "../Issues/IssueCard"
-import IssueDetail from "../Issues/IssueDetail"
+import IssueDetail from "../Issues/IssueUpdate"
 
 
 export const MyDraggable = (task, index, openTaskDetail) => {
