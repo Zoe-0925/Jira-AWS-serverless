@@ -34,6 +34,7 @@ const IssueForm = props => {
     } = props
 
     const projects = useSelector(selectProjects)
+
     const projectOptions = projects.map(each => {
         return {
             value: each._id, label: each.name
@@ -56,7 +57,6 @@ const IssueForm = props => {
                     className="select"
                     classNamePrefix="select"
                     name="issueType"
-                    defaultValue={projectOptions[0]}
                     options={projectOptions}
                     onChange={(e) => setFieldValue("project", e.value)}
                 />
@@ -96,9 +96,9 @@ const IssueForm = props => {
                     type="text"
                     variant="outlined"
                     size="small"
-                    onChange={(e) => setFieldValue("issueType", e.target.value)}
+                    onChange={(e) => setFieldValue("description", e.target.value)}
                     margin="normal"
-                    aria-label="minimum height" rowsMin={15}
+                    aria-label="minimum height" rowsMin={12}
                 />
                 <DialogActions>
                     <Button className="cancel-btn" disabled={isSubmitting} onClick={handleClose}>Cancel</Button>
@@ -112,7 +112,9 @@ const IssueForm = props => {
 const IssueCreateContent = withFormik({
     validationSchema: Yup.object().shape({
         summary: Yup.string()
-            .required('Summary is required!')
+            .required('Summary is required!'),
+        description: Yup.string()
+            .required('Description is required!'),
     }),
     mapPropsToValues: () => ({
         project: "",
@@ -130,9 +132,11 @@ const IssueCreate = () => {
     const dispatch = useDispatch()
     const [open, setOpen] = useState(false)
     const [sucessful, setSuccessful] = useState(false)
+    const projects = useSelector(selectProjects)
 
     const submitCreateIssue = (value) => {
-        let issue = { ...addCreateAndUpdateDate({ value }), _id: uuidv4() }
+        let issue = { ...addCreateAndUpdateDate({ _id: uuidv4() }), ...value }
+        if (issue.project === "") { issue.project = projects[0]._id }
         dispatch(createIssue(issue)).then(result => {
             if (result) { setSuccessful(true) }
         })
@@ -141,8 +145,8 @@ const IssueCreate = () => {
 
     return (
         <Fragment>
-            <Button className="navbar-create-btn" onClick={() => setOpen(true)}>Create</Button>
-            <Dialog
+            {projects && <Button className="navbar-create-btn" onClick={() => setOpen(true)}>Create</Button>}
+            {projects && <Dialog
                 open={open}
                 onClose={() => setOpen(false)}
                 aria-labelledby="max-width-dialog-title"
@@ -150,7 +154,7 @@ const IssueCreate = () => {
                 className="dialog-container"
             >
                 <IssueCreateContent onContinue={submitCreateIssue} handleClose={() => setOpen(false)} />
-            </Dialog>
+            </Dialog>}
             {sucessful && <SuccessfulFeedback open={sucessful} message="Issue created successfully!" />}
         </Fragment>
     )

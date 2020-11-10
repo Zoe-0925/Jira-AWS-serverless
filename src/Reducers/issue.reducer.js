@@ -23,7 +23,7 @@ const testState = {
 
 const initialState = {
     loading: false,
-    tasks: [], //Map()
+    tasks: new Map(), //Map()
     epics: [],
     subtasks: [],
     authenticated: false,

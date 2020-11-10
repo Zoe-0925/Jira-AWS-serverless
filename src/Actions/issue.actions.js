@@ -104,9 +104,10 @@ export function toggleSuccessfulFlag(id) {
     }
 }
 
-export function dispatchError() {
+export function dispatchError(data) {
     return {
-        type: ERROR_ISSUE
+        type: ERROR_ISSUE,
+        data: data
     }
 }
 
