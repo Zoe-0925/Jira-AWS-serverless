@@ -205,7 +205,7 @@ export const updateIssueReporter = (data) => async  dispatch => {
 export const updateIssueLabel = (data) => async  dispatch => {
     dispatch({ type: LOADING_ISSUE })
     try {
-        await API.put("IssueApi", "/issues/update/label", {
+        await API.put("IssueApi", "/issues/update/labels", {
             body: data
         })
         dispatch(updateSuccessfulTaskAttribute(data._id, "labels", data.value))

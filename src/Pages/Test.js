@@ -1,8 +1,5 @@
 import React, { useState , useEffect} from 'react'
-import IssueDetail from "../Components/Issues/IssueDetail"
-import {
-    Button,
-} from '@material-ui/core';
+import {  Button} from '@material-ui/core';
 import { useDispatch, useSelector } from "react-redux"
 import { getCurrentUser } from "../Actions/user.actions"
 import { createMultipleStatus, createStatus } from "../Actions/status.actions"

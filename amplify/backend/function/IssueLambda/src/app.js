@@ -330,14 +330,17 @@ app.put(path + "/update/summary", function (req, res) {
     req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
   }
 
+  const now = JSON.stringify(new Date())
+
   let putItemParams = {
     TableName: tableName,
     Key: {
       "_id": req.body._id,
     },
-    UpdateExpression: "set summary" + " = :value",
+    UpdateExpression: "set summary" + " = :value, updatedAt" + " = :now",
     ExpressionAttributeValues: {
-      ":value": req.body.value
+      ":value": req.body.value,
+      ":now": now
     },
   }
   dynamodb.update(putItemParams, (err, data) => {
@@ -345,7 +348,7 @@ app.put(path + "/update/summary", function (req, res) {
       res.statusCode = 500;
       res.json({ error: err, url: req.url, body: req.body });
     } else {
-      res.json({ data: data })
+      res.json({ updatedAt: now })
     }
   });
 });
@@ -360,22 +363,26 @@ app.put(path + "/update/description", function (req, res) {
     req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
   }
 
+  const now = JSON.stringify(new Date())
+
   let putItemParams = {
     TableName: tableName,
     Key: {
       "_id": req.body._id,
     },
-    UpdateExpression: "set description" + " = :value",
+    UpdateExpression: "set description" + " = :value, updatedAt" + " = :now",
     ExpressionAttributeValues: {
-      ":value": req.body.value
+      ":value": req.body.value,
+      ":now": now
     },
   }
+
   dynamodb.update(putItemParams, (err, data) => {
     if (err) {
       res.statusCode = 500;
       res.json({ error: err, url: req.url, body: req.body });
     } else {
-      res.json({ data: data })
+      res.json({ updatedAt: now })
     }
   });
 });
@@ -390,14 +397,17 @@ app.put(path + "/update/assignee", function (req, res) {
     req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
   }
 
+  const now = JSON.stringify(new Date())
+
   let putItemParams = {
     TableName: tableName,
     Key: {
       "_id": req.body._id,
     },
-    UpdateExpression: "set assignee" + " = :value",
+    UpdateExpression: "set assignee" + " = :value, updatedAt" + " = :now",
     ExpressionAttributeValues: {
-      ":value": req.body.value
+      ":value": req.body.value,
+      ":now": now
     },
   }
   dynamodb.update(putItemParams, (err, data) => {
@@ -405,7 +415,7 @@ app.put(path + "/update/assignee", function (req, res) {
       res.statusCode = 500;
       res.json({ error: err, url: req.url, body: req.body });
     } else {
-      res.json({ data: data })
+      res.json({ updatedAt: now })
     }
   });
 });
@@ -419,15 +429,51 @@ app.put(path + "/update/reporter", function (req, res) {
   if (userIdPresent) {
     req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
   }
+  const now = JSON.stringify(new Date())
 
   let putItemParams = {
     TableName: tableName,
     Key: {
       "_id": req.body._id,
     },
-    UpdateExpression: "set reporter" + " = :value",
+    UpdateExpression: "set reporter" + " = :value, updatedAt" + " = :now",
     ExpressionAttributeValues: {
-      ":value": req.body.value
+      ":value": req.body.value,
+      ":now": now
+    },
+  }
+
+  dynamodb.update(putItemParams, (err, data) => {
+    if (err) {
+      res.statusCode = 500;
+      res.json({ error: err, url: req.url, body: req.body });
+    } else {
+      res.json({ updatedAt: now })
+    }
+  });
+});
+
+/************************************
+* HTTP put method for updating issue labels *
+*************************************/
+
+app.put(path + "/update/labels", function (req, res) {
+
+  if (userIdPresent) {
+    req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
+  }
+
+  const now = JSON.stringify(new Date())
+
+  let putItemParams = {
+    TableName: tableName,
+    Key: {
+      "_id": req.body._id,
+    },
+    UpdateExpression: "set labels" + " = :value, updatedAt" + " = :now",
+    ExpressionAttributeValues: {
+      ":value": req.body.value,
+      ":now": now
     },
   }
   dynamodb.update(putItemParams, (err, data) => {
@@ -435,10 +481,11 @@ app.put(path + "/update/reporter", function (req, res) {
       res.statusCode = 500;
       res.json({ error: err, url: req.url, body: req.body });
     } else {
-      res.json({ data: data })
+      res.json({ updatedAt: now })
     }
   });
 });
+
 
 /************************************
 * HTTP put method for updating issue flag *
@@ -450,14 +497,17 @@ app.put(path + "/update/flag", function (req, res) {
     req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
   }
 
+  const now = JSON.stringify(new Date())
+
   let putItemParams = {
     TableName: tableName,
     Key: {
       "_id": req.body._id,
     },
-    UpdateExpression: "set flag" + " = :value",
+    UpdateExpression: "set flag" + " = :value, updatedAt" + " = :now",
     ExpressionAttributeValues: {
-      ":value": req.body.value
+      ":value": req.body.value,
+      ":now": now
     },
   }
   dynamodb.update(putItemParams, (err, data) => {
@@ -465,7 +515,7 @@ app.put(path + "/update/flag", function (req, res) {
       res.statusCode = 500;
       res.json({ error: err, url: req.url, body: req.body });
     } else {
-      res.json({ data: data })
+      res.json({ updatedAt: now })
     }
   });
 });
