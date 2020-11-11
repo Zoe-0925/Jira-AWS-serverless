@@ -1,9 +1,4 @@
 import { useState, useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from "react-redux"
-import { v4 as uuidv4 } from 'uuid'
-import { CREATE_SUCCESS_TASK } from "../../Actions/mockIssueActions"
-import { selectCurrentProject, selectCurrentUserId } from "../../Reducers/Selectors"
-//import {createTask} from "../../Actions/IssueActions"
 
 export function useSimpleState() {
     const [value, setValue] = useState(false)
@@ -83,39 +78,6 @@ export function useOnClickOutside(ref, handler) {
         [ref, handler]
     );
 }
-
-
-export function useCreateIssue(statusId) {
-    const dispatch = useDispatch()
-    const currentProject = useSelector(selectCurrentProject)
-    const currentUserId = useSelector(selectCurrentUserId)
-
-    const createNewTask = (issueName) => {
-        const issue = {
-            _id: uuidv4(),
-            project: currentProject,
-            summary: issueName,
-            description: "",
-            issueType: 'task',
-            status: statusId,
-            assignee: currentUserId,
-            labels: [],
-            flag: false,
-            startDate: (new Date()).toJSON(),
-            reporter: "",
-            parent: "",
-            chilren: [],
-            comments: []
-        }
-        dispatch({
-            type: CREATE_SUCCESS_TASK,
-            data: issue
-        })
-    }
-
-    return { createNewTask }
-}
-
 
 export function useEditText(value) {
     const [state, setState] = useState({

@@ -6,7 +6,7 @@ import { updateSuccessfulStatus, deleteSuccessfulStatus } from "../../Actions/st
 /**--------------Editable Textfiled-------------- */
 import { EditableText, Input, Textarea } from "../Shared/EditableText"
 /**--------------Icons-------------- */
-import { useEditText, useCreateIssue , useDotIconMenu} from '../Shared/CustomHooks';
+import { useEditText,  useDotIconMenu} from '../Shared/CustomHooks';
 
 /**
  * If there's no task yet, the user has to add from the "TO DO/ the 1st" column 
@@ -49,9 +49,13 @@ export function ColumnTitle({ status }) {
 export default function Column({ initialStatus, ...props }) {
     const [statusName, setStatusName] = useState(initialStatus.name)
     const { state, setState, setEdit } = useEditText("") //for Creating the new issue
-    const { createNewTask } = useCreateIssue(initialStatus._id)
+   
     const [showCreateTaskTab, setShowEditable] = useState(false)
     const dispatch = useDispatch()
+
+    const createNewTask= ()=>{
+        dispatch(chainCreateIssueAndUpdateIssueOrder())
+    }
 
     useEffect(() => {
         setStatusName(initialStatus)
