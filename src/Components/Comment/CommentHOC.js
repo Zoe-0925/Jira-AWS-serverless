@@ -19,7 +19,6 @@ export default function CommentHOC() {
 
         const channel = pusher.subscribe('comments');
 
-
         channel.bind('new-comment', data => {
             setState(prevState => {
                 const { commentList } = prevState;

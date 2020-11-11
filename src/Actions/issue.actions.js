@@ -1,6 +1,6 @@
 
 import { API } from 'aws-amplify';
-require('dotenv').config()
+import {addIssueToTail} from "./status/actions"
 
 export const CREATE_SUCCESS_SUB_TASK = "CREATE_SUCCESS_SUB_TASK"
 export const CREATE_SUCCESS_ISSUE = "CREATE_SUCCESS_ISSUE"
@@ -98,12 +98,26 @@ export function deleteSuccessIssueByProject(id) {
 
 
 /**********************************  Thunk Actions  ******************************************/
+export const chainCreateIssueAndUpdateIssueOrder = (data) => async dispatch => {
+    dispatch({ type: LOADING_ISSUE })
+    try {
+        await Promise.all(
+            dispatch(createIssue(data)),
+            dispatch(addIssueToTail(data.status, data.id)),
+        )
+        return true
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+    }
+
+}
+
 export const createIssue = (data) => async  dispatch => {
     dispatch({ type: LOADING_ISSUE })
     try {
         await API.post("IssueApi", "/issues/", { body: data })
         dispatch(createSuccessfulIssue(data))
-        return true
     }
     catch (err) {
         dispatch(dispatchError(err))

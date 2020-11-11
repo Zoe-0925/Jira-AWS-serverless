@@ -1,5 +1,6 @@
 import API from '@aws-amplify/api';
 
+export const ADD_ISSUE_TO_TAIL = "ADD_ISSUE_TO_TAIL"
 export const LOADING_STATUS = "LOADING_STATUS"
 export const ERROR_STATUS = "ERROR_STATUS"
 export const CREATE_SUCCESS_STATUS = "CREATE_SUCCESS_STATUS"
@@ -86,6 +87,14 @@ export function appendSuccessStatus(data) {
     }
 }
 
+export function addSuccessIssueToTail(statusId, issueId) {
+    return {
+        type: ADD_ISSUE_TO_TAIL,
+        statusId: statusId,
+        issueId: issueId
+    }
+}
+
 /**************************** Thunk Actions ***************************/
 
 export const moveIssues = (source, destination, startIndex, endIndex) => async (dispatch, getState) => {
@@ -118,19 +127,37 @@ export const moveIssues = (source, destination, startIndex, endIndex) => async (
     }
 }
 
-export const reorderIssues = async (source, startIndex, endIndex) => {
+export const addSuccessIssueToTail = (statusId, issueId) => async (dispatch, getState) => {
+    dispatch({ type: LOADING_STATUS })
+    try {
+        const issueOrder = [getState().statusReducer.status.get(statusId).issues].push(issueId)
+        dispatch(updateIssueOrder(statusId, issueOrder))
+    } catch (err) {
+        dispatch(dispatchError(err))
+    }
+}
+
+export const reorderIssues = (source, startIndex, endIndex) => async  dispatch => {
     dispatch({ type: LOADING_STATUS })
     try {
         const status = getState().StatusReducer.status
         let sourceStatus = { ...status.get(source) }
         const issueOrder = reorder(sourceStatus.issues, startIndex, endIndex)
-        const orderUpdated = { _id: sourceStatus._id, issueOrder: issueOrder }
+        dispatch(updateIssueOrder(sourceStatus._id, issueOrder))
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+    }
+}
+
+export const updateIssueOrder = (id, issueOrder) => async  dispatch => {
+    try {
         await API.put("StatusApi", "/status/issueOrder", {
-            body: orderUpdated
+            body: { _id: id, value: issueOrder }
         })
         dispatch({
             type: UPDATE_ISSUE_ORDER,
-            _id: sourceStatus._id,
+            _id: id,
             issueOrder: issueOrder
         })
     }
