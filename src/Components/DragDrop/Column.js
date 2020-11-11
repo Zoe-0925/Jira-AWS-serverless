@@ -6,7 +6,7 @@ import { updateSuccessfulStatus, deleteSuccessfulStatus } from "../../Actions/st
 /**--------------Editable Textfiled-------------- */
 import { EditableText, Input, Textarea } from "../Shared/EditableText"
 /**--------------Icons-------------- */
-import { useEditText,  useDotIconMenu} from '../Shared/CustomHooks';
+import { useEditText, useDotIconMenu } from '../Shared/CustomHooks';
 
 /**
  * If there's no task yet, the user has to add from the "TO DO/ the 1st" column 
@@ -15,7 +15,7 @@ import { useEditText,  useDotIconMenu} from '../Shared/CustomHooks';
 export function ColumnTitle({ status }) {
     const { state, setState, edit, setEdit } = useEditText(status.name)
     const dispatch = useDispatch()
-    
+
     const [anchorEl, setAnchorEl] = React.useState(null);
     const isOpen = Boolean(anchorEl);
     const anchorRef = React.useRef(null);
@@ -38,28 +38,24 @@ export function ColumnTitle({ status }) {
             </EditableText>
             <DotIconMenu className="dot-icon" anchorEl={anchorEl} isOpen={isOpen} anchorRef={anchorRef}
                 handleMenuClose={handleMenuClose} handleMenuOpen={handleMenuOpen}>
-            <MenuItem>Set column limit</MenuItem>
-            <MenuItem onClick={() => dispatch(deleteSuccessfulStatus(status.id))}>Delete</MenuItem>
+                <MenuItem>Set column limit</MenuItem>
+                <MenuItem onClick={() => dispatch(deleteSuccessfulStatus(status.id))}>Delete</MenuItem>
             </DotIconMenu>
         </div>
     )
 }
 
-//Need the status id
 export default function Column({ initialStatus, ...props }) {
+    const dispatch = useDispatch()
     const [statusName, setStatusName] = useState(initialStatus.name)
     const { state, setState, setEdit } = useEditText("") //for Creating the new issue
-   
+
     const [showCreateTaskTab, setShowEditable] = useState(false)
-    const dispatch = useDispatch()
 
-    const createNewTask= ()=>{
-        dispatch(chainCreateIssueAndUpdateIssueOrder())
+    const createNewTask = (value) => {
+        let issue = { ...addCreateAndUpdateDate({ _id: uuidv4(), description: "", status: initialStatus._id, project: initialStatus.project }), ...value }
+        dispatch(chainCreateIssueAndUpdateIssueOrder(issue))
     }
-
-    useEffect(() => {
-        setStatusName(initialStatus)
-    }, [])
 
     return (<div className="epic-box">
         <ColumnTitle status={statusName} />
@@ -68,12 +64,10 @@ export default function Column({ initialStatus, ...props }) {
         {showCreateTaskTab && <EditableText name="creare-new-task" className="editable-create-issue" edit={true}
             text={state.value || statusName} setEdit={setEdit}>
             <Input state={state} name="create-task-input" setState={setState} setEdit={setEdit} handleSubmit={() => {
-                dispatch(createNewTask(state.value))
+                createNewTask(state.value)
             }} />
-        </EditableText>
-        }
-    </div>
-    )
+        </EditableText>}
+    </div>)
 }
 
 /**
