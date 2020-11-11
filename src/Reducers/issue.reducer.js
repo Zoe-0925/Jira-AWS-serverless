@@ -1,6 +1,6 @@
 import {
-    LOADING_ISSUE, DELETE_SUCCESS_TASK, UPDATE_SUCCESS_TASK, DELETE_SUCCESS_EPIC,
-    UPDATE_SUCCESS_EPIC, ERROR_ISSUE, UPDATE_ISSUE_GROUP, TOGGLE_FLAG, DELETE_SUCCESS_SUB_TASK,
+    DELETE_SUCCESS_TASK, UPDATE_SUCCESS_TASK, DELETE_SUCCESS_EPIC,
+    UPDATE_SUCCESS_EPIC,  UPDATE_ISSUE_GROUP, TOGGLE_FLAG, DELETE_SUCCESS_SUB_TASK,
     ADD_TASK_TO_EPIC, REMOVE_TASK_FROM_EPIC, ADD_SUBTASK_TO_TASK, REMOVE_SUBTASK_FROM_TASK,
     DELETE_ISSUE_BY_PROJECT, APPEND_SUCCESS_ISSUES, CREATE_SUCCESS_ISSUE,
     UPDATE_SUCCESS_TASK_ATTRIBUTE
@@ -36,8 +36,6 @@ export default function IssueReducer(state = initialState, action) {
     let newState = { ...state, authenticated: true, loading: false }
     let task
     switch (action.type) {
-        case LOADING_ISSUE:
-            return { ...state, loading: true, authenticated: false }
         case APPEND_SUCCESS_ISSUES:
             return {
                 ...state, loading: true, authenticated: false, tasks: action.data.tasks,
@@ -118,8 +116,6 @@ export default function IssueReducer(state = initialState, action) {
             return newState
         case DELETE_ISSUE_BY_PROJECT:
             return initialState
-        case ERROR_ISSUE:
-            return { ...state, authenticated: false, loading: false, errorMessage: action.data }
         default:
             return state;
     }

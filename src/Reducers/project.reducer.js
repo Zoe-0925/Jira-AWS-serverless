@@ -1,6 +1,6 @@
 
 import {
-    LOADING_PROJECT, ERROR_PROJECT, CREATE_SUCCESS_PROJECT, DELETE_SUCCESS_PROJECT,
+     CREATE_SUCCESS_PROJECT, DELETE_SUCCESS_PROJECT,
     APPEND_SUCCESS_PROJECTS, SET_CURRENT_PROJECT, UPDATE_SUCCESS_PROJECT_NAME_AND_ASSIGNEE,
     UPDATE_SUCCESS_MEMBERS, UPDATE_SUCCESS_STATUS_ORDER,
 } from "../Actions/project.actions"
@@ -51,9 +51,7 @@ export default function ProjectReducer(state = initialState, action) {
     let newState = { ...state, loading: false, authenticated: true }
     let target
     switch (action.type) {
-        case LOADING_PROJECT:
-            return { ...state, loading: true, errorMessage: "", authenticated: false }
-        case SET_CURRENT_PROJECT:
+       case SET_CURRENT_PROJECT:
             return { ...state, loading: false, authenticated: true, currentProjectId: action.data }
         case CREATE_SUCCESS_PROJECT:
             newState.projects.push(action.data)
@@ -83,9 +81,7 @@ export default function ProjectReducer(state = initialState, action) {
             target = newState.projects.find(item => item._id === currentProjectId)
             target.statusOrder = action.data
             return newState
-        case ERROR_PROJECT:
-            return { ...state, loading: false, authenticated: false, errorMessage: action.data }
-        default:
+       default:
             return state
     }
 

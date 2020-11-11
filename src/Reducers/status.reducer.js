@@ -1,5 +1,5 @@
 import {
-    LOADING_STATUS, ERROR_STATUS, CREATE_SUCCESS_STATUS, DELETE_SUCCESS_STATUS,
+     CREATE_SUCCESS_STATUS, DELETE_SUCCESS_STATUS,
     UPDATE_SUCCESS_STATUS, UPDATE_SUCCESS_STATUS_NAME, APPEND_SUCCESS_STATUS, MOVE_ISSUES,
     DELETE_ISSUE_FROM_STATUS, DELETE_STATUS_BY_PROJECT, UPDATE_ISSUE_ORDER
 } from "../Actions/status.actions"
@@ -27,8 +27,6 @@ export default function StatusReducer(state = initialState, action) {
     let newState = Object.assign({}, state, { loading: false, authenticated: true })
     let status
     switch (action.type) {
-        case LOADING_STATUS:
-            return Object.assign({}, state, { loading: true, authenticated: false })
         case CREATE_SUCCESS_STATUS:
             newState.status.set(action.data._id, action.data)
             return newState
@@ -65,8 +63,6 @@ export default function StatusReducer(state = initialState, action) {
         case DELETE_STATUS_BY_PROJECT:
             newState.status.clear()
             return newState
-        case ERROR_STATUS:
-            return { ...state, loading: false, authenticated: false, errorMessage: action.data }
         default:
             return state;
     }

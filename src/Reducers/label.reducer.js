@@ -2,8 +2,7 @@ import {
     CREATE_SUCCESS_LABEL,
     DELETE_SUCCESS_LABEL,
     APPEND_SUCCESS_LABELS,
-    LOADING_LABEL,
-    ERROR_LABEL, DELETE_LABEL_BY_PROJECT
+    DELETE_LABEL_BY_PROJECT
 } from "../Actions/label.actions"
 
 const testState = {
@@ -24,8 +23,6 @@ export default function LabelReducer(state = initialState, action) {
     let newState = { ...state, loading: false, authenticated: true }
     let newLabels
     switch (action.type) {
-        case LOADING_LABEL:
-            return { ...state, loading: true, authenticated: false }
         case CREATE_SUCCESS_LABEL:
             newState.labels = [...newState.labels, action.data]
             return newState
@@ -39,8 +36,6 @@ export default function LabelReducer(state = initialState, action) {
             return newState
         case DELETE_LABEL_BY_PROJECT:
             return { ...state, loading: false, authenticated: true, labels: [] }
-        case ERROR_LABEL:
-            return { ...state,  loading: false, authenticated: false, errorMessage: action.data }
         default:
             return state;
     }

@@ -3,9 +3,8 @@ import { createMultipleStatus, getProjectStatus } from "./status.actions"
 import { addProjectToUser } from "./user.actions"
 import {getProjectIssues} from "./issue.actions"
 import {getProjectLabels} from "./label.actions"
+import { dispatchError, LOADING } from "./loading.actions"
 
-export const LOADING_PROJECT = "LOADING_PROJECT"
-export const ERROR_PROJECT = "ERROR_PROJECT"
 export const CREATE_SUCCESS_PROJECT = "CREATE_SUCCESS_PROJECT"
 export const DELETE_SUCCESS_PROJECT = "DELETE_SUCCESS_PROJECT"
 export const UPDATE_SUCCESS_MEMBERS = "UPDATE_MEMBERS"
@@ -76,14 +75,6 @@ export const updateSuccessfulStatusOrder = (data) => {
     }
 }
 
-export function dispatchError(data) {
-    return {
-        type: ERROR_PROJECT,
-        data: data
-    }
-}
-
-
 /*****************  Thunk Actions  ****************/
 export const chainCreactProject = (project, status) => async dispatch => {
     await Promise.all([
@@ -102,7 +93,7 @@ export const chainGetProjectData = (id) => async dispatch => {
 }
 
 export const createProject = (newProject) => dispatch => {
-    dispatch({ type: LOADING_PROJECT })
+    dispatch({ type: LOADING })
     API.post("ProjectApi", "/projects", {
         body: newProject
     }).catch(err => {
@@ -113,7 +104,7 @@ export const createProject = (newProject) => dispatch => {
 }
 
 export const getAllProjects = (idList) => async (dispatch, getState) => {
-    dispatch({ type: LOADING_PROJECT })
+    dispatch({ type: LOADING })
     try {
         let projects = []
         idList.map(projectId => API.get("ProjectApi", "/projects/object/" + projectId)
@@ -126,7 +117,7 @@ export const getAllProjects = (idList) => async (dispatch, getState) => {
 }
 
 export const updateProjectNameKeyAndAssignee = (data) => async  dispatch => {
-    dispatch({ type: LOADING_PROJECT })
+    dispatch({ type: LOADING })
     try {
         await API.put("ProjectApi", "/projects/detail", data)
         dispatch(updateSuccessfulProjectNameAndAssignee(data))
@@ -137,7 +128,7 @@ export const updateProjectNameKeyAndAssignee = (data) => async  dispatch => {
 }
 
 export const updateMembers = data => async  dispatch => {
-    dispatch({ type: LOADING_PROJECT })
+    dispatch({ type: LOADING })
     try {
         await API.put("ProjectApi", "/projects/members", data)
         //TODO
@@ -148,7 +139,7 @@ export const updateMembers = data => async  dispatch => {
 }
 
 export const updateStatusOrder = (data) => async  dispatch => {
-    dispatch({ type: LOADING_PROJECT })
+    dispatch({ type: LOADING })
     try {
         await API.put("ProjectApi", "/projects/update/statusOrder", {
             body: { items: data }
@@ -162,7 +153,7 @@ export const updateStatusOrder = (data) => async  dispatch => {
 
 
 export const deleteProject = (id) => async  dispatch => {
-    dispatch({ type: LOADING_PROJECT })
+    dispatch({ type: LOADING })
     try {
         await API.del("ProjectApi", "/projects/" + id)
         dispatch(deleteSuccessfulProject(id))
@@ -173,7 +164,7 @@ export const deleteProject = (id) => async  dispatch => {
 }
 
 export const removeStatusFromOrder = (id) => async (dispatch, getState) => {
-    dispatch({ type: LOADING_PROJECT })
+    dispatch({ type: LOADING })
     try {
         const reducer = getState().ProjectReducer
         const orderBefore = reducer.projects.find(item => item._id === reducer.currentProjectId).statusOrder

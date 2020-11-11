@@ -1,11 +1,10 @@
 
 import { API } from 'aws-amplify';
 import {addIssueToTail} from "./status/actions"
+import { dispatchError, LOADING } from "./loading.actions"
 
 export const CREATE_SUCCESS_SUB_TASK = "CREATE_SUCCESS_SUB_TASK"
 export const CREATE_SUCCESS_ISSUE = "CREATE_SUCCESS_ISSUE"
-export const LOADING_ISSUE = "LOADING_ISSUE"
-export const ERROR_ISSUE = "ERROR_ISSUE"
 export const DELETE_SUCCESS_TASK = "DELETE_SUCCESS_TASK"
 export const DELETE_SUCCESS_EPIC = "DELETE_SUCCESS_EPIC"
 export const DELETE_SUCCESS_SUB_TASK = "DELETE_SUCCESS_SUB_TASK"
@@ -82,13 +81,6 @@ export function toggleSuccessfulFlag(id) {
     }
 }
 
-export function dispatchError(data) {
-    return {
-        type: ERROR_ISSUE,
-        data: data
-    }
-}
-
 export function deleteSuccessIssueByProject(id) {
     return {
         type: DELETE_ISSUE_BY_PROJECT,
@@ -99,7 +91,7 @@ export function deleteSuccessIssueByProject(id) {
 
 /**********************************  Thunk Actions  ******************************************/
 export const chainCreateIssueAndUpdateIssueOrder = (data) => async dispatch => {
-    dispatch({ type: LOADING_ISSUE })
+    dispatch({ type: LOADING })
     try {
         await Promise.all(
             dispatch(createIssue(data)),
@@ -114,7 +106,7 @@ export const chainCreateIssueAndUpdateIssueOrder = (data) => async dispatch => {
 }
 
 export const createIssue = (data) => async  dispatch => {
-    dispatch({ type: LOADING_ISSUE })
+    dispatch({ type: LOADING })
     try {
         await API.post("IssueApi", "/issues/", { body: data })
         dispatch(createSuccessfulIssue(data))
@@ -125,7 +117,7 @@ export const createIssue = (data) => async  dispatch => {
 }
 
 export const getASingleIssue = (id) => async  dispatch => {
-    dispatch({ type: LOADING_ISSUE })
+    dispatch({ type: LOADING })
     try {
 
     }
@@ -135,7 +127,7 @@ export const getASingleIssue = (id) => async  dispatch => {
 }
 
 export const getProjectIssues = (projectId) => async  dispatch => {
-    dispatch({ type: LOADING_ISSUE })
+    dispatch({ type: LOADING })
     try {
         const issues = await API.get("IssueApi", "/issues/project/" + projectId)
         let tasks = []
@@ -165,7 +157,7 @@ export const getProjectIssues = (projectId) => async  dispatch => {
 }
 
 export const updateIssueSummary = (data) => async  dispatch => {
-    dispatch({ type: LOADING_ISSUE })
+    dispatch({ type: LOADING })
     try {
         await API.put("IssueApi", "/issues/update/summary", {
             body: data
@@ -178,7 +170,7 @@ export const updateIssueSummary = (data) => async  dispatch => {
 }
 
 export const updateIssueDescription = (data) => async  dispatch => {
-    dispatch({ type: LOADING_ISSUE })
+    dispatch({ type: LOADING })
     try {
         await API.put("IssueApi", "/issues/update/description", {
             body: data
@@ -191,7 +183,7 @@ export const updateIssueDescription = (data) => async  dispatch => {
 }
 
 export const updateIssueAssignee = (data) => async  dispatch => {
-    dispatch({ type: LOADING_ISSUE })
+    dispatch({ type: LOADING })
     try {
         await API.put("IssueApi", "/issues/update/assignee", {
             body: data
@@ -204,7 +196,7 @@ export const updateIssueAssignee = (data) => async  dispatch => {
 }
 
 export const updateIssueReporter = (data) => async  dispatch => {
-    dispatch({ type: LOADING_ISSUE })
+    dispatch({ type: LOADING })
     try {
         await API.put("IssueApi", "/issues/update/reporter", {
             body: data
@@ -217,7 +209,7 @@ export const updateIssueReporter = (data) => async  dispatch => {
 }
 
 export const updateIssueLabel = (data) => async  dispatch => {
-    dispatch({ type: LOADING_ISSUE })
+    dispatch({ type: LOADING })
     try {
         await API.put("IssueApi", "/issues/update/labels", {
             body: data
@@ -230,7 +222,7 @@ export const updateIssueLabel = (data) => async  dispatch => {
 }
 
 export const toggleFlag = (id, flag) => async dispatch => {
-    dispatch({ type: LOADING_ISSUE })
+    dispatch({ type: LOADING })
     try {
         await API.put("IssueApi", "/issues/update/flag", {
             body: {
@@ -246,7 +238,7 @@ export const toggleFlag = (id, flag) => async dispatch => {
 }
 
 export const deleteIssue = (issueId, issueType) => async  dispatch => {
-    dispatch({ type: LOADING_ISSUE })
+    dispatch({ type: LOADING })
     try {
         await API.del("IssueApi", "/issues/object/" + issueId)
         switch (issueType) {
@@ -266,7 +258,7 @@ export const deleteIssue = (issueId, issueType) => async  dispatch => {
 }
 
 export const deleteIssueByProject = (projectId) => async (dispatch, getState) => {
-    dispatch({ type: LOADING_ISSUE })
+    dispatch({ type: LOADING })
     try {
         const reducer = getState.IssueReducer
         const tasksToDelete = reducer.tasks.filter(item => item.project === projectId).map(each => each._id)

@@ -1,8 +1,5 @@
 import {
-	LOADING_USER,
-	ERROR_USER,
-	UPDATE_USER, LOGIN, LOGOUT,
-	ADD_OTHER_USERS, UPDATE_PROJECTS, CANCEL_LOADING_USER
+	UPDATE_USER, LOGIN, LOGOUT,ADD_OTHER_USERS, UPDATE_PROJECTS
 } from "../Actions/user.actions"
 
 const testState = {
@@ -23,8 +20,6 @@ const initialState = {
 const UserReducer = (state = initialState, action) => {
 	let newState = Object.assign({}, state, { loading: false, authenticated: true })
 	switch (action.type) {
-		case LOADING_USER:
-			return Object.assign({}, state, { loading: true, authenticated: false })
 		case ADD_OTHER_USERS:
 			newState.users = newState.users.concat(action.data)
 			return newState
@@ -38,10 +33,6 @@ const UserReducer = (state = initialState, action) => {
 			return newState
 		case LOGOUT:
 			return initialState
-		case CANCEL_LOADING_USER:
-			return newState
-		case ERROR_USER:
-			return Object.assign({}, state, { loading: false, authenticated: false, errorMessage: action.data })
 		case UPDATE_USER:
 			let tempUsers = newState.users.filter(item => item._id === action.data._id)
 			tempUsers.push(action.data)

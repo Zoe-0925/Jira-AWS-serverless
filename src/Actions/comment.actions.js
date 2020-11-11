@@ -1,7 +1,6 @@
 import API from '@aws-amplify/api';
+import { dispatchError, LOADING } from "./loading.actions"
 
-export const LOADING_COMMENT = "LOADING_COMMENT"
-export const ERROR_COMMENT = "ERROR_COMMENT"
 export const CREATE_SUCCESS_COMMENT = "CREATE_SUCCESS_COMMENT"
 export const DELETE_SUCCESS_COMMENT = "DELETE_SUCCESS_COMMENT"
 export const UPDATE_SUCCESS_COMMENT = "UPDATE_SUCCESS_COMMENT"
@@ -45,12 +44,6 @@ export function updateSuccessfulComment(data) {
     }
 }
 
-export function dispatchError() {
-    return {
-        type: ERROR_COMMENT
-    }
-}
-
 export function deleteSuccessCommentByProject(id) {
     return {
         type: DELETE_COMMENT_BY_PROJECT,
@@ -68,7 +61,7 @@ export function deleteSuccessCommentByIssue(id) {
 
 /**********************************  Thunk Actions  ******************************************/
 export const getCommentsForIssue = (issueId) => async  dispatch => {
-    dispatch({ type: LOADING_COMMENT })
+    dispatch({ type: LOADING })
     try {
         const data = await API.get("CommentApi", "/comments/issue/" + issueId)
         dispatch(appendSuccessfulComments(data))
@@ -79,7 +72,7 @@ export const getCommentsForIssue = (issueId) => async  dispatch => {
 }
 
 export const createComment = (newComment) => async  dispatch => {
-    dispatch({ type: LOADING_COMMENT })
+    dispatch({ type: LOADING })
     try {
         await API.post("CommentApi", "/comments", {
             body: newComment
@@ -92,7 +85,7 @@ export const createComment = (newComment) => async  dispatch => {
 }
 
 export const updateComment = (comment) => async  dispatch => {
-    dispatch({ type: LOADING_COMMENT })
+    dispatch({ type: LOADING })
     try {
         await API.put("CommentApi", "/comments", {
             body: comment
@@ -105,7 +98,7 @@ export const updateComment = (comment) => async  dispatch => {
 }
 
 export const deleteComment = (id) => async  dispatch => {
-    dispatch({ type: LOADING_COMMENT })
+    dispatch({ type: LOADING })
     try {
         await API.del("CommentApi", "/comments/" + id)
         dispatch(deleteSuccessfulComment(id))
@@ -120,7 +113,7 @@ export const deleteCommentByProject = (projectId) => async  dispatch => {
 }
 
 export const deleteCommentByIssue = (issueId) => async  dispatch => {
-    dispatch({ type: LOADING_COMMENT })
+    dispatch({ type: LOADING })
     try {
         //TODO
         //update batch write item and update the api call

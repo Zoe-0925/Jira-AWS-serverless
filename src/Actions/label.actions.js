@@ -1,7 +1,6 @@
 import API from '@aws-amplify/api';
+import { dispatchError, LOADING } from "./loading.actions"
 
-export const LOADING_LABEL = "LOADING_LABEL"
-export const ERROR_LABEL = "ERROR_LABEL"
 export const CREATE_SUCCESS_LABEL = "CREATE_SUCCESS_LABEL"
 export const DELETE_SUCCESS_LABEL = "DELETE_SUCCESS_LABEL"
 export const APPEND_SUCCESS_LABELS = "APPEND_SUCCESS_LABELS"
@@ -31,14 +30,6 @@ export function deleteSuccessfulLabel(data) {
     }
 }
 
-
-export function dispatchError(data) {
-    return {
-        type: ERROR_LABEL,
-        data: data
-    }
-}
-
 export function deleteSuccessLabelByProject(id) {
     return {
         type: DELETE_LABEL_BY_PROJECT,
@@ -48,7 +39,7 @@ export function deleteSuccessLabelByProject(id) {
 
 /******************************** Thunk Actions ****************************************/
 export const getProjectLabels = (projectId) => async  dispatch => {
-    dispatch({ type: LOADING_LABEL })
+    dispatch({ type: LOADING })
     try {
         const labels = await API.get("LabelApi", "/labels/project/" + projectId)
         dispatch(appendSuccessfulLabels(labels))
@@ -59,7 +50,7 @@ export const getProjectLabels = (projectId) => async  dispatch => {
 }
 
 export const createLabel = (newLabel) => async  dispatch => {
-    dispatch({ type: LOADING_LABEL })
+    dispatch({ type: LOADING })
     try {
         await API.post("LabelApi", "/labels", {
             body: newLabel
@@ -72,7 +63,7 @@ export const createLabel = (newLabel) => async  dispatch => {
 }
 
 export const deleteLabel = (id) => async  dispatch => {
-    dispatch({ type: LOADING_LABEL })
+    dispatch({ type: LOADING })
     try {
         await API.del("LabelApi", "/labels/" + id)
         dispatch(deleteSuccessfulLabel(id))
@@ -83,7 +74,7 @@ export const deleteLabel = (id) => async  dispatch => {
 }
 
 export const getAllLabels = (projectId) => async  dispatch => {
-    dispatch({ type: LOADING_LABEL })
+    dispatch({ type: LOADING })
     try {
         const data = await API.get("LabelApi", "/labels/project" + projectId)
         dispatch(appendSuccessfulLabels(data))
@@ -94,7 +85,7 @@ export const getAllLabels = (projectId) => async  dispatch => {
 }
 
 export const deleteLabelByProject = (projectId) => async  dispatch => {
-    dispatch({ type: LOADING_LABEL })
+    dispatch({ type: LOADING })
     try {
         //TODO
         //update batch write item and update the api call
