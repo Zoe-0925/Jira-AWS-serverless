@@ -1,6 +1,6 @@
 import {
     DELETE_SUCCESS_TASK, UPDATE_SUCCESS_TASK, DELETE_SUCCESS_EPIC,
-    UPDATE_SUCCESS_EPIC,  UPDATE_ISSUE_GROUP, TOGGLE_FLAG, DELETE_SUCCESS_SUB_TASK,
+    UPDATE_SUCCESS_EPIC, UPDATE_ISSUE_GROUP, TOGGLE_FLAG, DELETE_SUCCESS_SUB_TASK,
     ADD_TASK_TO_EPIC, REMOVE_TASK_FROM_EPIC, ADD_SUBTASK_TO_TASK, REMOVE_SUBTASK_FROM_TASK,
     DELETE_ISSUE_BY_PROJECT, APPEND_SUCCESS_ISSUES, CREATE_SUCCESS_ISSUE,
     UPDATE_SUCCESS_TASK_ATTRIBUTE
@@ -15,32 +15,26 @@ issues.set("hdkahdjaskdh", {
 })
 
 const testState = {
-    loading: false,
     tasks: issues, //Map()
     epics: [],
     subtasks: [],
-    authenticated: false,
-    errorMessage: ""
 }
 
 const initialState = {
-    loading: false,
     tasks: new Map(), //Map()
     epics: [],
     subtasks: [],
-    authenticated: false,
-    errorMessage: ""
 }
 
 export default function IssueReducer(state = initialState, action) {
-    let newState = { ...state, authenticated: true, loading: false }
+    let newState = { ...state }
     let task
+    let tasks
     switch (action.type) {
         case APPEND_SUCCESS_ISSUES:
-            return {
-                ...state, loading: true, authenticated: false, tasks: action.data.tasks,
-                epics: action.data.epics, subtasks: action.data.subtasks
-            }
+            tasks = new Map()
+            if (action.data.tasks.length > 0) { action.data.tasks.map(each => tasks.set(each._id, each)) }
+            return { ...state, tasks: tasks, epics: action.data.epics, subtasks: action.data.subtasks }
         case CREATE_SUCCESS_ISSUE:
             if (action.data.issueType === "task") { newState.tasks.set(action.data._id, action.data) }
             if (action.data.issueType === "epic") { newState.epics.push(action.data) }

@@ -3,22 +3,15 @@ import {
 } from "../Actions/user.actions"
 
 const testState = {
-	loading: false,
-	authenticated: false,
 	currentUserId: "testUserId",
 	users: [{ _id: "testUserId", name: "userName", email: "test email", projects: [] }],
-	errorMessage: ""
 }
 const initialState = {
-	loading: false,
-	authenticated: false,
 	currentUserId: "",
-	users: [],
-	errorMessage: ""
-}
+	users: []}
 
 const UserReducer = (state = initialState, action) => {
-	let newState = Object.assign({}, state, { loading: false, authenticated: true })
+	let newState = Object.assign({}, state)
 	switch (action.type) {
 		case ADD_OTHER_USERS:
 			newState.users = newState.users.concat(action.data)

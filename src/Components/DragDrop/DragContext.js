@@ -1,20 +1,11 @@
-import React, {useEffect} from 'react'
-import { useSelector,useDispatch } from "react-redux"
+import React from 'react'
+import { useDispatch } from "react-redux"
 import { DragDropContext } from 'react-beautiful-dnd';
 import DragAndDrop from "./DragAndDrop"
 import { moveIssues } from "../../Actions/status.actions"
-import { chainGetProjectData } from "../../Actions/project.actions"
-import {selectCurrentProjectId} from "../../Reducers/Selectors"
 
 export default function DragContext() {
     const dispatch = useDispatch()
-    const projectId =  useSelector(selectCurrentProjectId)
-
-    useEffect(async () => {
-        if (status.length === 0) {
-            dispatch(chainGetProjectData(projectId))
-        }
-    }, [])
 
     function onDragEnd(result) {
         const { source, destination } = result;

@@ -1,6 +1,6 @@
 import API from '@aws-amplify/api';
 import { dispatchError, LOADING } from "./loading.actions"
-
+import { changeColumn, reorder } from "../Components/Util"
 
 export const ADD_ISSUE_TO_TAIL = "ADD_ISSUE_TO_TAIL"
 export const CREATE_SUCCESS_STATUS = "CREATE_SUCCESS_STATUS"
@@ -98,7 +98,7 @@ export const moveIssues = (source, destination, startIndex, endIndex) => async (
         let destinationStatus = { ...status.get(destination) }
         const { sourceIssueorder, destinationIssueorder } = changeColumn(sourceStatus.issues, destinationStatus.issues, startIndex, endIndex)
         const sourceUpdated = { _id: sourceStatus._id, issueOrder: sourceIssueorder }
-        const destinationUpdated = { _id: estinationStatus._id, issueOrder: destinationIssueorder }
+        const destinationUpdated = { _id: destinationStatus._id, issueOrder: destinationIssueorder }
         await API.put("StatusApi", "/status/issueOrder", {
             body: {
                 sourceUpdated
@@ -120,17 +120,17 @@ export const moveIssues = (source, destination, startIndex, endIndex) => async (
     }
 }
 
-export const addSuccessIssueToTail = (statusId, issueId) => async (dispatch, getState) => {
-    dispatch({ type: LOADING })
+export const addIssueToTail = (statusId, issueId) => async (dispatch, getState) => {
     try {
-        const issueOrder = [getState().statusReducer.status.get(statusId).issues].push(issueId)
+        const issueOrder = [...getState().StatusReducer.status.get(statusId).issues, issueId]
+        //TODO server returns 500
         dispatch(updateIssueOrder(statusId, issueOrder))
     } catch (err) {
         dispatch(dispatchError(err))
     }
 }
 
-export const reorderIssues = (source, startIndex, endIndex) => async  dispatch => {
+export const reorderIssues = (source, startIndex, endIndex) => async (dispatch, getState) => {
     dispatch({ type: LOADING })
     try {
         const status = getState().StatusReducer.status
@@ -145,9 +145,11 @@ export const reorderIssues = (source, startIndex, endIndex) => async  dispatch =
 
 export const updateIssueOrder = (id, issueOrder) => async  dispatch => {
     try {
+        //TODO server returns 500
         await API.put("StatusApi", "/status/issueOrder", {
             body: { _id: id, value: issueOrder }
         })
+
         dispatch({
             type: UPDATE_ISSUE_ORDER,
             _id: id,
@@ -159,8 +161,30 @@ export const updateIssueOrder = (id, issueOrder) => async  dispatch => {
     }
 }
 
+export const updateStatusForIssue = (source, destination, issueId) => async (dispatch, getState) => {
+    try {
+        const allStatus = getState().StatusReducer.status
+        const sourceUpdated = [allStatus.get(source).issues].filter(item => item._id === issueId)
+        const destinationUpdated = [allStatus.get(destination).issues].push(issueId)
+
+        await API.put("StatusApi", "/status/issueOrder", {
+            body: { _id: source, value: sourceUpdated }
+        })
+        await API.put("StatusApi", "/status/issueOrder", {
+            body: { _id: destination, value: destinationUpdated }
+        })
+        dispatch({
+            type: MOVE_ISSUES,
+            source: sourceUpdated,
+            destination: destinationUpdated
+        })
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+    }
+}
+
 export const getProjectStatus = (projectId) => async  dispatch => {
-    dispatch({ type: LOADING })
     try {
         const status = await API.get("StatusApi", "/status/project/" + projectId)
         dispatch(appendSuccessStatus(status))
@@ -184,7 +208,6 @@ export const createStatus = (newStatus) => async  dispatch => {
 }
 
 export const createMultipleStatus = (list) => async  dispatch => {
-    dispatch({ type: LOADING })
     try {
         list.forEach(element => {
             API.post("StatusApi", "/status", {

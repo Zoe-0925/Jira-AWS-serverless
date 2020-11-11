@@ -170,6 +170,36 @@ app.get(path + '/object' + hashKeyPath, function (req, res) {
   });
 });
 
+/************************************
+* HTTP put method for updating project name *
+*************************************/
+
+app.put(path + "/name", function (req, res) {
+
+  if (userIdPresent) {
+    req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
+  }
+
+  let putItemParams = {
+    TableName: tableName,
+    Key: {
+      "_id": req.body._id,
+    },
+    UpdateExpression: "set name = :name",
+    ExpressionAttributeValues: {
+      ":name": req.body.value
+    },
+  }
+  dynamodb.update(putItemParams, (err, data) => {
+    if (err) {
+      res.statusCode = 500;
+      res.json({ error: err, url: req.url, body: req.body });
+    } else {
+      res.json({ data: data })
+    }
+  });
+});
+
 
 /************************************
 * HTTP put method for updating members *
@@ -188,7 +218,7 @@ app.put(path + "/members", function (req, res) {
     },
     UpdateExpression: "set members = :members",
     ExpressionAttributeValues: {
-      ":members": req.body.members
+      ":members": req.body.value
     },
   }
   dynamodb.update(putItemParams, (err, data) => {
@@ -251,7 +281,7 @@ app.put(path + "/statusOrder", function (req, res) {
     },
     UpdateExpression: "set statusOrder = :statusOrder",
     ExpressionAttributeValues: {
-      ":statusOrder": req.body.statusOrder
+      ":statusOrder": req.body.value
     },
   }
   dynamodb.update(putItemParams, (err, data) => {

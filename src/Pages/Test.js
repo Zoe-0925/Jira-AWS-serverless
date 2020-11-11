@@ -38,7 +38,7 @@ export default function Test() {
 
 
     return (<div>
-        <Button onClick={() => putStatus()}>open</Button>
+        <Button>open</Button>
 
     </div>
     )

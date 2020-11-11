@@ -1,7 +1,10 @@
 import { Auth } from 'aws-amplify';
 import API from '@aws-amplify/api';
-import { getAllProjects } from "./project.actions"
-import { dispatchError, LOADING } from "./loading.actions"
+import { getAllProjects, mockgetAllProjects, setCurrentProject } from "./project.actions"
+import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
+import { getProjectIssues } from "./issue.actions"
+import { getProjectLabels } from "./label.actions"
+import { getProjectStatus,appendSuccessStatus} from "./status.actions"
 
 export const LOGIN = "LOGIN"
 export const LOGOUT = "LOGOUT"
@@ -56,13 +59,58 @@ export function updateProjects(projects) {
 
 /******************* Thunk Actions  *****************************/
 export const getUserAndProjects = () => async dispatch => {
-    dispatch({ type: LOADING })
     try {
+        dispatch({ type: LOADING })
         const user = await dispatch(getCurrentUser())
         await Promise.all([
             dispatch(login(user)),
             dispatch(getAllProjects(user.projects))
         ])
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+    }
+}
+
+export const getUserAndProjectData = () => async (dispatch, getState) => {
+    try {
+        dispatch({ type: LOADING })
+        const user = await dispatch(getCurrentUser())
+        await Promise.all([
+            dispatch(login(user)),
+            dispatch(getAllProjects(user.projects))
+        ])
+        const id = getState().ProjectReducer.currentProjectId
+        await Promise.all([
+            dispatch(getProjectStatus(id)),
+            dispatch(getProjectIssues(id)),
+            dispatch(getProjectLabels(id))
+        ])
+        dispatch({ type: AUTHENTICATED })
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+    }
+}
+
+export const mockgetUserAndProjectData = () => async (dispatch) => {
+    try {
+        dispatch({ type: LOADING })
+        const user = { _id: "tsidadsjkdhiueiurt", name: "Zoe Zhang", email: "jin0925aki@gmail.com", projects: ["7c1f9838-dbd7-4432-b52c-aae87022d578"] }
+        await Promise.all([
+            dispatch(login(user)),
+            dispatch(mockgetAllProjects(user.projects))
+        ])
+        //TODO:
+        //check if I forgot to set the currentProjectId
+        dispatch(setCurrentProject("7c1f9838-dbd7-4432-b52c-aae87022d578"))
+        await Promise.all([
+            dispatch(appendSuccessStatus([{ _id: "9729f490-fd5f-43ab-8efb-40e8d132bc68", issues: [], name: "DONE", project: "7c1f9838-dbd7-4432-b52c-aae87022d578" },
+            { _id: "efe83b13-9255-4339-a8f5-d5703beb9ffc", issues: [], name: "IN PROGRESS", project: "7c1f9838-dbd7-4432-b52c-aae87022d578" },
+            { _id: "439c3d96-30eb-497d-b336-228873048bc3", issues: [], name: "TESTING", project: "7c1f9838-dbd7-4432-b52c-aae87022d578" },
+            { _id: "f3a0e59f-635a-4b75-826f-b0f5bf24b5c4", issues: [], name: "TO DO", project: "7c1f9838-dbd7-4432-b52c-aae87022d578" }])),
+        ])
+        dispatch({ type: AUTHENTICATED })
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -85,7 +133,6 @@ export const getCurrentUser = () => async  dispatch => {
 }
 
 export const addProjectToUser = projectId => async (dispatch, getState) => {
-    dispatch({ type: LOADING })
     const reducer = getState().UserReducer
     let projects = reducer.users.find(user => user._id === reducer.currentUserId).projects
     let projectsUpdated = [...projects]

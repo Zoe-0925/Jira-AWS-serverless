@@ -1,8 +1,6 @@
 import { hot } from 'react-hot-loader/root';
 import { Auth } from 'aws-amplify';
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from "react-redux"
-import { getUserAndProjects } from "./Actions/user.actions"
+import React from 'react';
 /**     Router    */
 import { Router } from 'react-router-dom';
 import { Switch, Route } from "react-router-dom";
@@ -16,27 +14,18 @@ import './App.scss';
 import Amplify from 'aws-amplify';
 import aws_exports from './aws-exports';
 import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react'
-import { selectCurrentUserId } from "./Reducers/Selectors"
 import history from "./history"
 import Test from "./Pages/Test"
 
 Amplify.configure(aws_exports);
 
 const App = () => {
-  const dispatch = useDispatch()
-  const currentUserId = useSelector(selectCurrentUserId)
-
-  useEffect(() => {
-    if (currentUserId === "") {
-      dispatch(getUserAndProjects())
-    }
-  }, [])
 
   return (
     <div className="App">
       <Router history={history}>
         <Switch>
-          <Route path="/" exact component={ProjectList} />
+          <Route path="/" exact component={Board} />
           <Route path="/projects" exact component={ProjectList} />
           <Route path="/projects/roadmap" component={App} />
           <Route path="/projects/board" exact component={Board} />

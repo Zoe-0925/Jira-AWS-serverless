@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
-import { useDispatch, useSelector, useStore } from "react-redux"
+import React from 'react'
+import { useDispatch, useSelector } from "react-redux"
 import { setCurrentProject, deleteProject } from "../../Actions/project.actions"
-import { selectProjectReducer, selectAllUsers, selectUserReducer } from "../../Reducers/Selectors"
+import {  selectAllUsers, selectAllProjects } from "../../Reducers/Selectors"
 import {
     Table, TableBody, TableCell, TableContainer, TableHead,
     TableRow, Paper, MenuItem
@@ -11,8 +11,7 @@ import { DotIconMenu } from "../Shared/Tabs"
 import history from "../../history"
 
 export default function ProjectListTable() {
-    const store = useStore().getState()
-    let projects = useSelector(selectProjectReducer).projects
+    let projects = useSelector(selectAllProjects)
 
     const dispatch = useDispatch()
     const users = useSelector(selectAllUsers)
@@ -31,6 +30,7 @@ export default function ProjectListTable() {
 
     const goToBoardPage = (projectId) => {
         dispatch(setCurrentProject(projectId))
+        
         history.push("/projects/board")
     }
 

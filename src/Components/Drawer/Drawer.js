@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useSelector } from "react-redux"
-import { selectProjectReducer, selectCurrentProjectId } from "../../Reducers/Selectors"
+import { selectCurrentProjectName } from "../../Reducers/Selectors"
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Drawer, IconButton, Hidden } from '@material-ui/core';
 import { ProjectHeaderTab } from "../Shared/Tabs"
@@ -46,13 +46,7 @@ export default function SideDrawer({ handleClick, open, ...props }) {
     const theme = useTheme();
     const classes = useStyles();
     const [mobileOpen, setMobileOpen] = React.useState(false);
-    const [title, setTitle] = useState("")
-    const currentProjectId = useSelector(selectCurrentProjectId)
-    const projectReducer = useSelector(selectProjectReducer)
-
-    useEffect(() => {
-        setTitle(projectReducer.projects.find(item => item._id === currentProjectId).name)
-    }, [currentProjectId])
+    const title = useSelector(selectCurrentProjectName)
 
     function handleDrawerToggle() {
         setMobileOpen(!mobileOpen)

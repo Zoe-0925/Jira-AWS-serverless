@@ -11,71 +11,47 @@ export const selectFilterReducer = state => state.FilterReducer
 export const selectLabelReducer = state => state.LabelReducer
 
 export const selectUserReducer = state => state.UserReducer
+
+export const selectLoadingReducer = state => state.LoadingReducer
+
+export const selectLoading = state => state.LoadingReducer.loading
+
+export const selectAuthenticated = state => state.LoadingReducer.authenticated
+
+export const selectErrorMessage = state => state.LoadingReducer.errorMessage
+
+/****************** Selectors - Status  *********************/
+export const selectAllStatus = state => selectStatusReducer(state).status
+
+export const selectStatus = state => selectStatusOrder(state).map(each => selectAllStatus(state).get(each))
+
+/****************** Selectors - Project  *********************/
+export const selectAllProjects = state => selectProjectReducer(state).projects
+
+export const selectCurrentProjectId = state => selectProjectReducer(state).currentProjectId
+
+export const selectStatusOrder = state => {
+    const currentProject = selectAllProjects(state).find(item => item._id === selectProjectReducer(state).currentProjectId)
+    return currentProject ? currentProject.statusOrder : []
+}
+export const selectCurrentProject = state => selectAllProjects(state).find(item => item._id === selectCurrentProjectId(state))
+
+export const selectFirstStatus = state => {
+    return selectCurrentProject(state) ? selectStatusOrder(state)[0] : ""
+}
+
+export const selectCurrentProjectName = state => {
+    const currentProject = selectCurrentProject(state)
+    return currentProject ? currentProject.name : ""
+}
+
 /****************** Reselectors - Status  *********************/
-export const selectStatusLoading = createSelector(
-    selectStatusReducer,
-    statusReducer => statusReducer.loading
-)
-
-export const selectStatusAuthenticated = createSelector(
-    selectStatusReducer,
-    statusReducer => statusReducer.authenticated
-)
-
-export const selectStatus = createSelector(
-    selectStatusReducer,
-    statusReducer => statusReducer.status
-)
-
 export const selectStatusById = (id) => createSelector(
     selectStatus,
     status => status.get(id)
 )
 
-export const selectStatusByProject = (id) => createSelector(
-    selectStatus,
-    map => {
-        //TODO
-    }
-)
-
-
 /****************** Reselectors - Projects  *********************/
-export const selectProjectLoading = createSelector(
-    selectProjectReducer,
-    reducer => reducer.loading
-)
-
-export const selectProjectAuthenticated = createSelector(
-    selectProjectReducer,
-    reducer => reducer.authenticated
-)
-
-export const selectCurrentProjectId = createSelector(
-    selectProjectReducer,
-    reducer => reducer.currentProjectId
-)
-
-
-export const selectCurrentProject = createSelector(
-    selectProjectReducer,
-    selectCurrentProjectId,
-    (reducer, id) => {
-        console.log("current project in selector", reducer.projects.find(item => item._id === id))
-        return reducer.projects.find(item => item._id === id)
-    }
-)
-
-export const selectStatusOrder = createSelector(
-    selectCurrentProject,
-    project => project.statusOrder
-)
-
-export const selectAllProjects = createSelector(
-    selectProjectReducer,
-    reducer => reducer.projects
-)
-
 export const selectProjectMembers = createSelector(
     selectCurrentProject,
     currentProject => currentProject.members
@@ -92,26 +68,7 @@ export const selectMemberNames = createSelector(
     }
 )
 
-export const selectCurrentProjectName = createSelector(
-    selectCurrentProject,
-    project => {
-        if (project !== undefined) { return project.name }
-        return ""
-    }
-)
-
 /****************** Reselectors - Users  *********************/
-
-export const selectUserLoading = createSelector(
-    selectUserReducer,
-    reducer => reducer.loading
-)
-
-export const selectUserAuthenticated = createSelector(
-    selectUserReducer,
-    reducer => reducer.authenticated
-)
-
 export const selectCurrentUserId = createSelector(
     selectUserReducer,
     reducer => reducer.currentUserId
@@ -139,17 +96,6 @@ export const selectUserError = () => createSelector(
 )
 
 /****************** Reselectors - Issues  *********************/
-export const selectIssueLoading = createSelector(
-    selectIssueReducer,
-    reducer => reducer.loading
-)
-
-export const selectIssueAuthenticated = createSelector(
-    selectIssueReducer,
-    reducer => reducer.authenticated
-)
-
-
 export const selectEpics = createSelector(
     selectIssueReducer,
     reducer => reducer.epics
@@ -162,23 +108,11 @@ export const selectTasks = createSelector(
     issueReducer => issueReducer.tasks
 )
 
-export const selectProjects = createSelector(
-    selectProjectReducer,
-    reducer => reducer.projects
+export const selectIssueById = issueId => createSelector(
+    selectTasks,
+    tasks => tasks.get(issueId)
 )
-
 /****************** Reselectors - Labels  *********************/
-
-export const selectLabelLoading = createSelector(
-    selectLabelReducer,
-    reducer => reducer.loading
-)
-
-export const selectLabelAuthenticated = createSelector(
-    selectLabelReducer,
-    reducer => reducer.authenticated
-)
-
 export const selectLabels = createSelector(
     selectLabelReducer,
     reducer => reducer.labels

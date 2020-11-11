@@ -1,5 +1,5 @@
 import {
-     CREATE_SUCCESS_STATUS, DELETE_SUCCESS_STATUS,
+    CREATE_SUCCESS_STATUS, DELETE_SUCCESS_STATUS,
     UPDATE_SUCCESS_STATUS, UPDATE_SUCCESS_STATUS_NAME, APPEND_SUCCESS_STATUS, MOVE_ISSUES,
     DELETE_ISSUE_FROM_STATUS, DELETE_STATUS_BY_PROJECT, UPDATE_ISSUE_ORDER
 } from "../Actions/status.actions"
@@ -11,20 +11,15 @@ status.set("3", { _id: "3", name: "DONE", issues: [] })
 status.set("4", { _id: "4", name: "TEST", issues: [] })
 
 const testState = {
-    loading: false,
-    authenticated: false,
     status: status,
-    errorMessage: ""
 }
 
 const initialState = {
-    loading: false,
-    authenticated: false,
-    status: [],
-    errorMessage: ""
+    status: new Map(),
 }
+
 export default function StatusReducer(state = initialState, action) {
-    let newState = Object.assign({}, state, { loading: false, authenticated: true })
+    let newState = Object.assign({}, state)
     let status
     switch (action.type) {
         case CREATE_SUCCESS_STATUS:
@@ -55,7 +50,8 @@ export default function StatusReducer(state = initialState, action) {
             newState.status.set(action.destination._id, destinationStatus)
             return newState
         case APPEND_SUCCESS_STATUS:
-            return { ...state, loading: false, authenticated: true, status: action.data }
+            action.data.map(each => newState.status.set(each._id, each))
+            return newState
         case DELETE_ISSUE_FROM_STATUS:
             const newIssueList = newState.status.get(action.statusId).issues.filter(id => id !== action.issueId)
             newState.status.get(action.statusId).issues = newIssueList

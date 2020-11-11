@@ -17,7 +17,7 @@ import * as Yup from 'yup';
 import {
     TextField,
 } from 'formik-material-ui';
-import { selectProjects, selectCurrentProject } from "../../Reducers/Selectors"
+import { selectAllProjects, selectCurrentProject,selectFirstStatus } from "../../Reducers/Selectors"
 import { chainCreateIssueAndUpdateIssueOrder } from "../../Actions/issue.actions"
 import { DialogCloseIcon } from "../Shared/Tabs"
 import { addCreateAndUpdateDate } from "../Util"
@@ -33,7 +33,7 @@ const IssueForm = props => {
         isSubmitting,
     } = props
 
-    const projects = useSelector(selectProjects)
+    const projects = useSelector(selectAllProjects)
 
     const projectOptions = projects.map(each => {
         return {
@@ -130,10 +130,11 @@ const IssueCreateContent = withFormik({
 
 const IssueCreate = () => {
     const dispatch = useDispatch()
+    const defaultStatusId = useSelector(selectFirstStatus)
     const [open, setOpen] = useState(false)
     const [sucessful, setSuccessful] = useState(false)
-    const projects = useSelector(selectProjects)
-    const defaultStatusId = useSelector(selectCurrentProject).status[0]
+    const projects = useSelector(selectAllProjects)
+    const currentProject = useSelector(selectCurrentProject)
 
     const submitCreateIssue = (value) => {
         let issue = { ...addCreateAndUpdateDate({ _id: uuidv4(), status: defaultStatusId }), ...value }

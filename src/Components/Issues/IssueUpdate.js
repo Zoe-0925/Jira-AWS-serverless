@@ -11,10 +11,13 @@ import {
 } from '@material-ui/core';
 import CreateIcon from '@material-ui/icons/Create';
 import {
-    selectStatusById, selectStatus, selectLabels,
-    selectMemberNames, selectLabelNames, selectUserById
+    selectStatusById, selectStatus, selectLabels, selectProjectMembers,
+    selectMemberNames, selectLabelNames, selectUserById,
 } from "../../Reducers/Selectors"
-import { updateSuccessfulTaskAttribute } from "../../Actions/issue.actions"
+import {
+    updateIssueLabel, chainUpdateIssueStatus,
+    updateIssueSummary, updateIssueDescription, updateIssueAssignee, updateIssueReporter
+} from "../../Actions/issue.actions"
 import CommentHOC from "../Comment/CommentHOC"
 import CloseIcon from '@material-ui/icons/Close';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
@@ -43,7 +46,7 @@ const IssueDetailForm = ({ issue, handleClose }) => {
     const assignee = useSelector(selectUserById(issue.assignee))
     const reportee = useSelector(selectUserById(issue.reportee))
     const currentLabels = []
-    const defaultStatus = useSelector(selectStatusById(statusId))
+    const defaultStatus = useSelector(selectStatusById(issue.status))
     const allStatus = useSelector(selectStatus)
     let statusOptions = allStatus.map(each => { return { label: each.name, value: each._id } })
 
@@ -118,7 +121,7 @@ const IssueDetailForm = ({ issue, handleClose }) => {
                             name="issueType"
                             defaultValue={{ label: defaultStatus.name, value: issue.status }}
                             options={statusOptions}
-                            onChange={(e) => updateStatus(e.value)}
+                            onChange={(e) => chainUpdateIssueStatus({ _id: issue._id, value: e.value }, issue.status)}
                         />
                         <Row></Row>
                         <p className="label">Assignee</p>
@@ -151,7 +154,7 @@ const IssueDetailForm = ({ issue, handleClose }) => {
                             name="reportee"
                             defaultValue={{ label: reportee.name, value: reportee }}
                             options={reporterOptions}
-                            onChange={(e) => dispatch(updateIssueReporter({ _id: issue._id, value: value }))}
+                            onChange={(e) => dispatch(updateIssueReporter({ _id: issue._id, value: e.value }))}
                         />
                         <Row></Row>
                         <Divider />

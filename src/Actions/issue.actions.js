@@ -1,6 +1,6 @@
 
 import { API } from 'aws-amplify';
-import {addIssueToTail} from "./status/actions"
+import { addIssueToTail, updateStatusForIssue } from "./status.actions"
 import { dispatchError, LOADING } from "./loading.actions"
 
 export const CREATE_SUCCESS_SUB_TASK = "CREATE_SUCCESS_SUB_TASK"
@@ -88,15 +88,29 @@ export function deleteSuccessIssueByProject(id) {
     }
 }
 
+export function deleteSuccessfulTask(id) {
+    return {
+        type: DELETE_SUCCESS_TASK,
+        id: id
+    }
+}
+
+export function deleteSuccessfulSubtask(id) {
+    return {
+        type: DELETE_SUCCESS_SUB_TASK,
+        id: id
+    }
+}
+
 
 /**********************************  Thunk Actions  ******************************************/
 export const chainCreateIssueAndUpdateIssueOrder = (data) => async dispatch => {
-    dispatch({ type: LOADING })
     try {
-        await Promise.all(
-            dispatch(createIssue(data)),
-            dispatch(addIssueToTail(data.status, data.id)),
-        )
+        dispatch({ type: LOADING })
+        dispatch(createIssue(data))
+        //TODO failed
+        dispatch(addIssueToTail(data.status, data._id))
+
         return true
     }
     catch (err) {
@@ -105,8 +119,19 @@ export const chainCreateIssueAndUpdateIssueOrder = (data) => async dispatch => {
 
 }
 
+export const chainUpdateIssueStatus = (data, previousState) => async (dispatch, getState) => {
+    try {
+        await Promise.all([
+            dispatch(updateIssueStatus(data)),
+            dispatch(updateStatusForIssue(previousState, data._status, data._id))])
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+    }
+}
+
+
 export const createIssue = (data) => async  dispatch => {
-    dispatch({ type: LOADING })
     try {
         await API.post("IssueApi", "/issues/", { body: data })
         dispatch(createSuccessfulIssue(data))
@@ -127,7 +152,6 @@ export const getASingleIssue = (id) => async  dispatch => {
 }
 
 export const getProjectIssues = (projectId) => async  dispatch => {
-    dispatch({ type: LOADING })
     try {
         const issues = await API.get("IssueApi", "/issues/project/" + projectId)
         let tasks = []
@@ -215,6 +239,18 @@ export const updateIssueLabel = (data) => async  dispatch => {
             body: data
         })
         dispatch(updateSuccessfulTaskAttribute(data._id, "labels", data.value))
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+    }
+}
+
+export const updateIssueStatus = (data) => async  dispatch => {
+    try {
+        await API.put("IssueApi", "/issues/update/status", {
+            body: data
+        })
+        dispatch(updateSuccessfulTaskAttribute(data._id, "status", data.value))
     }
     catch (err) {
         dispatch(dispatchError(err))

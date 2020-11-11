@@ -1,12 +1,23 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from "react-redux"
 import ProjectListTable from "../Components/Project/ProjectListTable"
 import NavBar from "../Components/NavBar/NavBar"
 import { ProjectCreateHOC } from "../Components/Project/ProjectCreate"
 import { Button } from '@material-ui/core'
 import { Row, Col } from "reactstrap"
+import { selectCurrentUserId } from "../Reducers/Selectors"
+import {getUserAndProjects} from "../Actions/user.actions"
 
 const ProjectList = () => {
+    const dispatch = useDispatch()
     const [isCreateProjectOpen, setOpenCreateProject] = useState(false)
+    const currentUserId = useSelector(selectCurrentUserId)
+
+    useEffect(() => {
+        if (currentUserId === "") {
+            dispatch(getUserAndProjects())
+        }
+    }, [])
 
     return (<div className="main">
         <NavBar />

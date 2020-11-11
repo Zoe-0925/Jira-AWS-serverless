@@ -33,7 +33,7 @@ export const reorder = (list, startIndex, endIndex) => {
 }
 
 export const changeColumn = (source, destination, startIndex, endIndex) => {
-    const [removedToMove] = source.splice(action.startIndex, 1);
-    destination.splice(action.endIndex, 0, removedToMove);
+    const [removedToMove] = source.splice(startIndex, 1);
+    destination.splice(endIndex, 0, removedToMove);
     return { source, destination }
 }

@@ -1,17 +1,17 @@
 import React from "react";
 import { v4 as uuidv4 } from 'uuid'
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { Tooltip, MenuItem, Box } from '@material-ui/core';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import { Container, Row, Col } from 'reactstrap';
 import { DotIconMenu } from "../Shared/Tabs"
 import { deleteIssue, toggleFlag } from "../../Actions/issue.actions"
+import {selectIssueById} from "../../Reducers/Selectors"
 
-
-const IssueCard = ({ task, openTaskDetail }) => {
+const IssueCard = ({ issueId, openTaskDetail }) => {
     const dispatch = useDispatch()
-
+    const task = useSelector(selectIssueById(issueId))
     const [anchorEl, setAnchorEl] = React.useState(null);
     const isOpen = Boolean(anchorEl);
     const anchorRef = React.useRef(null);

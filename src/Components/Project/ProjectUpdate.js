@@ -1,6 +1,6 @@
-import React, { useState, useEffect, Fragment } from 'react'
+import React, {  Fragment } from 'react'
 import { useDispatch, useSelector } from "react-redux"
-import { selectCurrentProjectId, selectProjectReducer, selectUserReducer } from "../../Reducers/Selectors"
+import {  selectProjectReducer, selectUserReducer } from "../../Reducers/Selectors"
 import { updateProjectNameKeyAndAssignee } from "../../Actions/project.actions"
 import { Form, Field } from 'formik';
 import { withFormik } from 'formik';
@@ -21,6 +21,7 @@ export const ProjectDetailForm = ({
     handleChange,
     handleSubmit,
     removeProject,
+    setFieldValue
 }) => {
     const { anchorEl, isOpen, anchorRef, handleMenuClose, handleMenuOpen } = useDotIconMenu()
 

@@ -46,10 +46,12 @@ AWS.config.update({ region: process.env.TABLE_REGION });
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
-let tableName = "Status";
+let tableName = "Status-dev";
+/**
 if (process.env.ENV && process.env.ENV !== "NONE") {
   tableName = tableName + '-' + process.env.ENV;
 }
+ */
 
 const userIdPresent = false; // TODO: update in case is required to use that definition
 const partitionKeyName = "_id";
@@ -222,7 +224,7 @@ app.put(path + "/name", function (req, res) {
     },
     UpdateExpression: "set description = :name",
     ExpressionAttributeValues: {
-      ":name": req.body.name
+      ":name": req.body.value
     },
   }
   dynamodb.update(putItemParams, (err, data) => {
@@ -254,7 +256,7 @@ app.put(path + "/issueOrder", function (req, res) {
     },
     UpdateExpression: "set issues = :issues",
     ExpressionAttributeValues: {
-      ":name": req.body.issues
+      ":issues": req.body.value
     },
   }
   dynamodb.update(putItemParams, (err, data) => {

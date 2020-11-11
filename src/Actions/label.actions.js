@@ -39,7 +39,6 @@ export function deleteSuccessLabelByProject(id) {
 
 /******************************** Thunk Actions ****************************************/
 export const getProjectLabels = (projectId) => async  dispatch => {
-    dispatch({ type: LOADING })
     try {
         const labels = await API.get("LabelApi", "/labels/project/" + projectId)
         dispatch(appendSuccessfulLabels(labels))

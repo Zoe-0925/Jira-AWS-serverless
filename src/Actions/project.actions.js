@@ -1,15 +1,16 @@
 import API from '@aws-amplify/api';
 import { createMultipleStatus, getProjectStatus } from "./status.actions"
 import { addProjectToUser } from "./user.actions"
-import {getProjectIssues} from "./issue.actions"
-import {getProjectLabels} from "./label.actions"
-import { dispatchError, LOADING } from "./loading.actions"
+import { getProjectIssues } from "./issue.actions"
+import { getProjectLabels } from "./label.actions"
+import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
 
 export const CREATE_SUCCESS_PROJECT = "CREATE_SUCCESS_PROJECT"
 export const DELETE_SUCCESS_PROJECT = "DELETE_SUCCESS_PROJECT"
 export const UPDATE_SUCCESS_MEMBERS = "UPDATE_MEMBERS"
 export const UPDATE_SUCCESS_PROJECT = "UPDATE_SUCCESS_PROJECT"
-export const UPDATE_SUCCESS_PROJECT_NAME_AND_ASSIGNEE = "UPDATE_SUCCESS_PROJECT_NAME_AND_ASSIGNEE"
+export const UPDATE_SUCCESS_PROJECT_DETAIL = "UPDATE_SUCCESS_PROJECT_DETAIL"
+export const UPDATE_SUCCESS_PROJECT_NAME = "UPDATE_SUCCESS_PROJECT_NAME"
 export const APPEND_SUCCESS_PROJECTS = "APPEND_SUCCESS_PROJECTS"
 export const SET_CURRENT_PROJECT = "SET_CURRENT_PROJECT"
 export const APPEDN_CURRENT_PROJECT = "APPEDN_CURRENT_PROJECT"
@@ -47,9 +48,16 @@ export function updateSuccessfulProject(data) {
     }
 }
 
-export function updateSuccessfulProjectNameAndAssignee(data) {
+export function updateSuccessfulProjectName(data) {
     return {
-        type: UPDATE_SUCCESS_PROJECT_NAME_AND_ASSIGNEE,
+        type: UPDATE_SUCCESS_PROJECT_NAME,
+        data: data
+    }
+}
+
+export function updateSuccessfulProjectDetail(data) {
+    return {
+        type: UPDATE_SUCCESS_PROJECT_DETAIL,
         data: data
     }
 }
@@ -78,22 +86,25 @@ export const updateSuccessfulStatusOrder = (data) => {
 /*****************  Thunk Actions  ****************/
 export const chainCreactProject = (project, status) => async dispatch => {
     await Promise.all([
+        dispatch({ type: LOADING }),
         dispatch(createProject(project)),
         dispatch(createMultipleStatus(status)),
         dispatch(addProjectToUser(project._id))
     ])
+    dispatch({ type: AUTHENTICATED })
 }
 
 export const chainGetProjectData = (id) => async dispatch => {
     await Promise.all([
+        dispatch({ type: LOADING }),
         dispatch(getProjectStatus(id)),
         dispatch(getProjectIssues(id)),
         dispatch(getProjectLabels(id))
     ])
+    dispatch({ type: AUTHENTICATED })
 }
 
 export const createProject = (newProject) => dispatch => {
-    dispatch({ type: LOADING })
     API.post("ProjectApi", "/projects", {
         body: newProject
     }).catch(err => {
@@ -103,8 +114,7 @@ export const createProject = (newProject) => dispatch => {
     dispatch(createSuccessfulProject(newProject))
 }
 
-export const getAllProjects = (idList) => async (dispatch, getState) => {
-    dispatch({ type: LOADING })
+export const getAllProjects = (idList) => async dispatch => {
     try {
         let projects = []
         idList.map(projectId => API.get("ProjectApi", "/projects/object/" + projectId)
@@ -116,11 +126,37 @@ export const getAllProjects = (idList) => async (dispatch, getState) => {
     }
 }
 
+export const mockgetAllProjects = () => async dispatch => {
+    try {
+        let projects = [{
+            _id: "7c1f9838-dbd7-4432-b52c-aae87022d578", default_assignee: "Project Lead",
+            image: "", key: "TestProject1", lead: "tsidadsjkdhiueiurt", members: ["tsidadsjkdhiueiurt"], name: "TestProject1",
+            statusOrder: ["9729f490-fd5f-43ab-8efb-40e8d132bc68", "efe83b13-9255-4339-a8f5-d5703beb9ffc", "439c3d96-30eb-497d-b336-228873048bc3", "f3a0e59f-635a-4b75-826f-b0f5bf24b5c4"]
+        }]
+        dispatch(appendSuccessfulProject(projects))
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+    }
+}
+
+export const updateProjectName = (data) => async  dispatch => {
+    dispatch({ type: LOADING })
+    try {
+        await API.put("ProjectApi", "/projects/name", data)
+        dispatch(updateSuccessfulProjectName(data))
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+    }
+}
+
+
 export const updateProjectNameKeyAndAssignee = (data) => async  dispatch => {
     dispatch({ type: LOADING })
     try {
         await API.put("ProjectApi", "/projects/detail", data)
-        dispatch(updateSuccessfulProjectNameAndAssignee(data))
+        dispatch(updateSuccessfulProjectDetail(data))
     }
     catch (err) {
         dispatch(dispatchError(err))
