@@ -593,6 +593,10 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
     .create-issue-tab {
       display: none;
     }
+
+    .editable-input{
+      height:2rem;
+    }
   }
 
   .epic-box:hover {
