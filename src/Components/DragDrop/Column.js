@@ -66,8 +66,3 @@ export default function Column({ initialStatus, ...props }) {
         {loading && <CircularProgress className="editable-input" />}
     </div>)
 }
-
-/**
- *         <Textarea state={state} setState={setState} setEdit={setEdit}
-                handleSubmit={() => { createNewTask(state) }} />
- */
