@@ -1,7 +1,7 @@
 
 import { API } from 'aws-amplify';
 import { addIssueToTail, updateStatusForIssue } from "./status.actions"
-import { dispatchError, LOADING } from "./loading.actions"
+import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
 
 export const CREATE_SUCCESS_SUB_TASK = "CREATE_SUCCESS_SUB_TASK"
 export const CREATE_SUCCESS_ISSUE = "CREATE_SUCCESS_ISSUE"
@@ -108,9 +108,8 @@ export const chainCreateIssueAndUpdateIssueOrder = (data) => async dispatch => {
     try {
         dispatch({ type: LOADING })
         dispatch(createIssue(data))
-        //TODO failed
         dispatch(addIssueToTail(data.status, data._id))
-
+        dispatch({ type: AUTHENTICATED })
         return true
     }
     catch (err) {

@@ -1,15 +1,17 @@
 import React from 'react'
-import { useDispatch } from "react-redux"
-import { MenuItem } from '@material-ui/core';
-import { AddTab, DotIconMenu } from "../Shared/Tabs"
+/**--------------Redux-------------- */
+import { useDispatch, useSelector } from "react-redux"
 import { updateSuccessfulStatus, deleteSuccessfulStatus } from "../../Actions/status.actions"
 import { chainCreateIssueAndUpdateIssueOrder } from "../../Actions/issue.actions"
+import { selectLoading } from '../../Reducers/Selectors';
+/**--------------UI-------------- */
+import { MenuItem, CircularProgress } from '@material-ui/core';
+import { AddTab, DotIconMenu } from "../Shared/Tabs"
+import { EditableText, Input } from "../Shared/EditableText"
+/**--------------Util-------------- */
+import { useEditText } from '../Shared/CustomHooks';
 import { addCreateAndUpdateDate } from "../Util"
 import { v4 as uuidv4 } from 'uuid'
-/**--------------Editable Textfiled-------------- */
-import { EditableText, Input, Textarea } from "../Shared/EditableText"
-/**--------------Icons-------------- */
-import { useEditText, useDotIconMenu } from '../Shared/CustomHooks';
 
 //ColumnTitle tracks the "Status" model
 export function ColumnTitle({ status }) {
@@ -48,6 +50,7 @@ export function ColumnTitle({ status }) {
 export default function Column({ initialStatus, ...props }) {
     const dispatch = useDispatch()
     const { state, setState, edit, setEdit } = useEditText("")
+    const loading = useSelector(selectLoading)
 
     const handleSubmit = (value) => {
         let issue = { ...addCreateAndUpdateDate({ _id: uuidv4(), description: "", status: initialStatus._id, project: initialStatus.project, summary: value }) }
@@ -60,6 +63,7 @@ export default function Column({ initialStatus, ...props }) {
         {props.children}
         {!edit ? <AddTab operationName="Create issue" handleClick={() => { setEdit(true) }} className="create-issue-tab" />
             : <Input state={state} name="create-task-input" setState={setState} setEdit={setEdit} handleSubmit={() => handleSubmit(state.value)} />}
+        {loading && <CircularProgress className="editable-input" />}
     </div>)
 }
 

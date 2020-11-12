@@ -16,8 +16,7 @@ export default function Board() {
     const dispatch = useDispatch()
     const projectName = useSelector(selectCurrentProjectName)
     const currentUserId = useSelector(selectCurrentUserId)
-    const projectId = useSelector(selectCurrentProjectId)
-
+ 
     const { state, setState, edit, setEdit } = useEditText(projectName || "")
     const [open, setOpen] = React.useState(true);
 
