@@ -11,13 +11,8 @@ import { EditableText, Input, Textarea } from "../Shared/EditableText"
 /**--------------Icons-------------- */
 import { useEditText, useDotIconMenu } from '../Shared/CustomHooks';
 
-/**
- * If there's no task yet, the user has to add from the "TO DO/ the 1st" column 
- */
 //ColumnTitle tracks the "Status" model
 export function ColumnTitle({ status }) {
-
-    //TODO
     const { state, setState, edit, setEdit } = useEditText(status.name || "")
     const dispatch = useDispatch()
 
@@ -52,25 +47,19 @@ export function ColumnTitle({ status }) {
 
 export default function Column({ initialStatus, ...props }) {
     const dispatch = useDispatch()
-    const { state, setState, setEdit } = useEditText("") //for Creating the new issue
+    const { state, setState, edit, setEdit } = useEditText("")
 
-    const [showCreateTaskTab, setShowEditable] = useState(false)
-
-    const createNewTask = (value) => {
+    const handleSubmit = (value) => {
         let issue = { ...addCreateAndUpdateDate({ _id: uuidv4(), description: "", status: initialStatus._id, project: initialStatus.project, summary: value }) }
         dispatch(chainCreateIssueAndUpdateIssueOrder(issue))
+        setEdit(false)
     }
 
     return (<div className="epic-box">
         {initialStatus && <ColumnTitle status={initialStatus} />}
         {props.children}
-        {!showCreateTaskTab && <AddTab operationName="Create issue" handleClick={() => { setShowEditable(true) }} className="create-issue-tab" />}
-        {showCreateTaskTab && <EditableText name="creare-new-task" className="editable-create-issue" edit={true}
-            text={state.value || ""} setEdit={setEdit}>
-            <Input state={state} name="create-task-input" setState={setState} setEdit={setEdit} handleSubmit={() => {
-                createNewTask(state.value)
-            }} />
-        </EditableText>}
+        {!edit ? <AddTab operationName="Create issue" handleClick={() => { setEdit(true) }} className="create-issue-tab" />
+            : <Input state={state} name="create-task-input" setState={setState} setEdit={setEdit} handleSubmit={() => handleSubmit(state.value)} />}
     </div>)
 }
 
