@@ -1,7 +1,7 @@
 import React from 'react'
 /**--------------Redux-------------- */
 import { useDispatch, useSelector } from "react-redux"
-import { updateSuccessfulStatus, deleteSuccessfulStatus } from "../../Actions/status.actions"
+import { updateStatusName, deleteStatus } from "../../Actions/status.actions"
 import { chainCreateIssueAndUpdateIssueOrder } from "../../Actions/issue.actions"
 import { selectLoading } from '../../Reducers/Selectors';
 /**--------------UI-------------- */
@@ -13,7 +13,6 @@ import { useEditText } from '../Shared/CustomHooks';
 import { addCreateAndUpdateDate } from "../Util"
 import { v4 as uuidv4 } from 'uuid'
 
-//ColumnTitle tracks the "Status" model
 export function ColumnTitle({ status }) {
     const { state, setState, edit, setEdit } = useEditText(status.name || "")
     const dispatch = useDispatch()
@@ -35,13 +34,13 @@ export function ColumnTitle({ status }) {
             <EditableText name="epic-summary" className="epic-summary"
                 edit={edit} text={state.value || status.name} setEdit={setEdit}>
                 <Input name="status-title-input" state={state} setState={setState} setEdit={setEdit} handleSubmit={() => {
-                    dispatch(updateSuccessfulStatus(state.value))
+                    dispatch(updateStatusName({ _id: status._id, value: state.value }))
                 }} />
             </EditableText>
             <DotIconMenu className="dot-icon" anchorEl={anchorEl} isOpen={isOpen} anchorRef={anchorRef}
                 handleMenuClose={handleMenuClose} handleMenuOpen={handleMenuOpen}>
                 <MenuItem>Set column limit</MenuItem>
-                <MenuItem onClick={() => dispatch(deleteSuccessfulStatus(status.id))}>Delete</MenuItem>
+                <MenuItem onClick={() => dispatch(deleteStatus(status.id))}>Delete</MenuItem>
             </DotIconMenu>
         </div>
     )
@@ -55,7 +54,7 @@ export default function Column({ initialStatus, ...props }) {
     const handleSubmit = (value) => {
         let issue = {
             ...addCreateAndUpdateDate({
-                _id: uuidv4(), description: "", issueType: "task", labels: [],assignee:"", reporter:"",
+                _id: uuidv4(), description: "", issueType: "task", labels: [], assignee: "", reporter: "",
                 status: initialStatus._id, project: initialStatus.project, summary: value
             })
         }

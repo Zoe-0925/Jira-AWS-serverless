@@ -6,7 +6,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import { Container, Row, Col } from 'reactstrap';
 import { DotIconMenu } from "../Shared/Tabs"
-import { deleteIssue, toggleFlag } from "../../Actions/issue.actions"
+import { chainDeleteIssue, toggleFlag } from "../../Actions/issue.actions"
 import { selectTaskById } from "../../Reducers/Selectors"
 
 const IssueCard = ({ issueId, openTaskDetail }) => {
@@ -24,15 +24,19 @@ const IssueCard = ({ issueId, openTaskDetail }) => {
         setAnchorEl(event.currentTarget);
     };
 
-    const reorderToBotttom = (e, id) => {
+    const reorderToBotttom = (e, id, status) => {
         e.preventDefault()
+
+        //TODO
+        //reorder to bottom
+
+        
         handleMenuClose()
-        // maybe need the status id as well
     }
 
     const handleDeleteTask = (e, id, status) => {
         e.preventDefault()
-        dispatch(deleteIssue(id, "task"))
+        dispatch(chainDeleteIssue(id, status, "task"))
         handleMenuClose()
     }
 
@@ -54,7 +58,7 @@ const IssueCard = ({ issueId, openTaskDetail }) => {
                             <MenuItem >Add parent</MenuItem>
                             <MenuItem >Add label</MenuItem>
                             <MenuItem onClick={e => handleDeleteTask(e, task._id, task.status)}>Delete</MenuItem>
-                            <MenuItem onClick={e => reorderToBotttom(e, task._id)} >Bottom of column</MenuItem>
+                            <MenuItem onClick={e => reorderToBotttom(e, task._id, task.status)} >Bottom of column</MenuItem>
                         </DotIconMenu>
                     </Col>
                 </Row>

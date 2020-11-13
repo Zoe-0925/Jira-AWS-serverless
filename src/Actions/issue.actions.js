@@ -106,42 +106,48 @@ export function deleteSuccessfulSubtask(id) {
 /**********************************  Thunk Actions  ******************************************/
 export const chainCreateIssueAndUpdateIssueOrder = (data) => async dispatch => {
     try {
-        dispatch({ type: LOADING })
-        await Promise.all([dispatch(createIssue(data)), dispatch(addIssueToTail(data.status, data._id))])
+        await Promise.all([
+            dispatch({ type: LOADING }),
+            dispatch(createIssue(data)),
+            dispatch(addIssueToTail(data.status, data._id))])
         dispatch({ type: AUTHENTICATED })
     }
     catch (err) {
         dispatch(dispatchError(err))
     }
-
 }
 
-export const chainUpdateIssueStatus = (data, previousState) => async (dispatch, getState) => {
+export const chainUpdateIssueStatus = (data, previousState) => async (dispatch) => {
     try {
         await Promise.all([
+            dispatch({ type: LOADING }),
             dispatch(updateIssueStatus(data)),
             dispatch(updateStatusForIssue(previousState, data._status, data._id))])
+        dispatch({ type: AUTHENTICATED })
     }
     catch (err) {
         dispatch(dispatchError(err))
     }
 }
 
+export const chainDeleteIssue = (issueId, statusId, issueType) => async (dispatch) => {
+    try {
+        await Promise.all([
+            dispatch({ type: LOADING }),
+            dispatch(deleteIssue(issueId, issueType)),
+            deleteIssueFromStatus(issueId, statusId)
+        ])
+        dispatch({ type: AUTHENTICATED })
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+    }
+}
 
 export const createIssue = (data) => async  dispatch => {
     try {
         await API.post("IssueApi", "/issues/", { body: data })
         dispatch(createSuccessfulIssue(data))
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-    }
-}
-
-export const getASingleIssue = (id) => async  dispatch => {
-    dispatch({ type: LOADING })
-    try {
-
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -183,7 +189,8 @@ export const updateIssueSummary = (data) => async  dispatch => {
         await API.put("IssueApi", "/issues/update/summary", {
             body: data
         })
-        dispatch(updateSuccessfulTaskAttribute(data._id, "summary", data.value))
+        await dispatch(updateSuccessfulTaskAttribute(data._id, "summary", data.value))
+        dispatch({ type: AUTHENTICATED })
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -196,7 +203,8 @@ export const updateIssueDescription = (data) => async  dispatch => {
         await API.put("IssueApi", "/issues/update/description", {
             body: data
         })
-        dispatch(updateSuccessfulTaskAttribute(data._id, "description", data.value))
+        await dispatch(updateSuccessfulTaskAttribute(data._id, "description", data.value))
+        dispatch({ type: AUTHENTICATED })
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -209,7 +217,8 @@ export const updateIssueAssignee = (data) => async  dispatch => {
         await API.put("IssueApi", "/issues/update/assignee", {
             body: data
         })
-        dispatch(updateSuccessfulTaskAttribute(data._id, "assignee", data.value))
+        await dispatch(updateSuccessfulTaskAttribute(data._id, "assignee", data.value))
+        dispatch({ type: AUTHENTICATED })
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -222,7 +231,8 @@ export const updateIssueReporter = (data) => async  dispatch => {
         await API.put("IssueApi", "/issues/update/reporter", {
             body: data
         })
-        dispatch(updateSuccessfulTaskAttribute(data._id, "reporter", data.value))
+        await dispatch(updateSuccessfulTaskAttribute(data._id, "reporter", data.value))
+        dispatch({ type: AUTHENTICATED })
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -235,7 +245,8 @@ export const updateIssueLabel = (data) => async  dispatch => {
         await API.put("IssueApi", "/issues/update/labels", {
             body: data
         })
-        dispatch(updateSuccessfulTaskAttribute(data._id, "labels", data.value))
+        await dispatch(updateSuccessfulTaskAttribute(data._id, "labels", data.value))
+        dispatch({ type: AUTHENTICATED })
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -247,7 +258,8 @@ export const updateIssueStatus = (data) => async  dispatch => {
         await API.put("IssueApi", "/issues/update/status", {
             body: data
         })
-        dispatch(updateSuccessfulTaskAttribute(data._id, "status", data.value))
+        await dispatch(updateSuccessfulTaskAttribute(data._id, "status", data.value))
+        dispatch({ type: AUTHENTICATED })
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -263,7 +275,8 @@ export const toggleFlag = (id, flag) => async dispatch => {
                 flag: flag
             }
         })
-        dispatch(toggleSuccessfulFlag(id))
+        await dispatch(toggleSuccessfulFlag(id))
+        dispatch({ type: AUTHENTICATED })
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -290,17 +303,12 @@ export const deleteIssue = (issueId, issueType) => async  dispatch => {
     }
 }
 
-export const deleteIssueByProject = (projectId) => async (dispatch, getState) => {
-    dispatch({ type: LOADING })
+export const deleteIssueByProject = (projectId, issueIds) => async (dispatch) => {
     try {
-        const reducer = getState.IssueReducer
-        const tasksToDelete = reducer.tasks.filter(item => item.project === projectId).map(each => each._id)
-        const epicsToDelete = reducer.epics.filter(item => item.project === projectId).map(each => each._id)
-        const subtasksToDelete = reducer.subtasks.filter(item => item.project === projectId).map(each => each._id)
-        tasksToDelete.concat(epicsToDelete).concat(subtasksToDelete)
-            .foreach(item =>
-                API.del("IssueApi", "/issues/object/" + item).catch(err => dispatchError(err))
-            )
+        if (issueIds.length === 0) { return }
+        issueIds.foreach(item =>
+            API.del("IssueApi", "/issues/object/" + item).catch(err => { return dispatchError(err) })
+        )
         dispatch(deleteSuccessIssueByProject(projectId))
     }
     catch (err) {

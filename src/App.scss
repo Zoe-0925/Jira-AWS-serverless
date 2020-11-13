@@ -518,7 +518,6 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
   grid-gap: 1rem;
-  min-height: 9rem;
   color: $card-color;
   font-size: $card-font-size;
 
@@ -535,6 +534,7 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
     padding-bottom: 0.7rem;
     margin: 0.3rem;
     border-radius: 3%;
+    min-height: 10rem;
 
     .col {
       width: 50%;
@@ -589,13 +589,16 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
   }
 
   .epic-box {
+    min-height: 10rem;
+    max-height: auto;
+
     background-color: $bgc;
     .create-issue-tab {
       display: none;
     }
 
-    .editable-input{
-      height:2rem;
+    .editable-input {
+      height: 2rem;
     }
   }
 
@@ -931,11 +934,10 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
   }
 }
 
+.body {
+  margin-top: 4rem;
 
-.body{
-  margin-top:4rem;
-
-  .create-pj-btn{
+  .create-pj-btn {
     @include call-to-action-button;
   }
 }

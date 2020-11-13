@@ -1,5 +1,5 @@
 import API from '@aws-amplify/api';
-import { dispatchError, LOADING } from "./loading.actions"
+import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
 import { changeColumn, reorder } from "../Components/Util"
 
 export const ADD_ISSUE_TO_TAIL = "ADD_ISSUE_TO_TAIL"
@@ -136,7 +136,8 @@ export const reorderIssues = (source, startIndex, endIndex) => async (dispatch, 
         const status = getState().StatusReducer.status
         let sourceStatus = { ...status.get(source) }
         const issueOrder = reorder(sourceStatus.issues, startIndex, endIndex)
-        dispatch(updateIssueOrder(sourceStatus._id, issueOrder))
+        await dispatch(updateIssueOrder(sourceStatus._id, issueOrder))
+        dispatch({ type: AUTHENTICATED })
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -150,11 +151,12 @@ export const updateIssueOrder = (id, issueOrder) => async  dispatch => {
             body: { _id: id, value: issueOrder }
         })
 
-        dispatch({
+        await dispatch({
             type: UPDATE_ISSUE_ORDER,
             _id: id,
             issueOrder: issueOrder
         })
+        dispatch({ type: AUTHENTICATED })
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -173,11 +175,12 @@ export const updateStatusForIssue = (source, destination, issueId) => async (dis
         await API.put("StatusApi", "/status/issueOrder", {
             body: { _id: destination, value: destinationUpdated }
         })
-        dispatch({
+        await dispatch({
             type: MOVE_ISSUES,
             source: sourceUpdated,
             destination: destinationUpdated
         })
+        dispatch({ type: AUTHENTICATED })
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -187,7 +190,8 @@ export const updateStatusForIssue = (source, destination, issueId) => async (dis
 export const getProjectStatus = (projectId) => async  dispatch => {
     try {
         const status = await API.get("StatusApi", "/status/project/" + projectId)
-        dispatch(appendSuccessStatus(status))
+        await dispatch(appendSuccessStatus(status))
+        dispatch({ type: AUTHENTICATED })
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -200,7 +204,8 @@ export const createStatus = (newStatus) => async  dispatch => {
         await API.put("StatusApi", "/status", {
             body: newStatus
         })
-        dispatch(createSuccessfulStatus(newStatus))
+        await dispatch(createSuccessfulStatus(newStatus))
+        dispatch({ type: AUTHENTICATED })
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -217,7 +222,7 @@ export const createMultipleStatus = (list) => async  dispatch => {
                 return
             })
         });
-        dispatch(appendSuccessStatus(list))
+        await dispatch(appendSuccessStatus(list))
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -230,20 +235,8 @@ export const updateStatusName = (data) => async  dispatch => {
         await API.put("StatusApi", "/status/name", {
             body: data
         })
-        dispatch(updateSuccessfulStatusName(data))
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-    }
-}
-
-export const updateStatus = (data) => async  dispatch => {
-    dispatch({ type: LOADING })
-    try {
-        await API.put("StatusApi", "/status/update", {
-            body: data
-        })
-        dispatch(updateSuccessfulStatus(data))
+        await dispatch(updateSuccessfulStatusName(data))
+        dispatch({ type: AUTHENTICATED })
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -255,18 +248,7 @@ export const deleteStatus = (id) => async  dispatch => {
     try {
         await API.del("StatusApi", "/status/" + id)
         dispatch(deleteSuccessfulStatus(id))
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-    }
-}
-
-export const getAllStatus = (projectId) => async  dispatch => {
-    dispatch({ type: LOADING })
-    try {
-        const data = await API.get("StatusApi", "/status/project/" + projectId)
-        dispatch(createSuccessfulStatus(data))
-
+        dispatch({ type: AUTHENTICATED })
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -274,8 +256,8 @@ export const getAllStatus = (projectId) => async  dispatch => {
 }
 
 export const deleteStatusByProject = (projectId, statusIds) => async (dispatch) => {
-    dispatch({ type: LOADING })
     try {
+        if (statusIds.length === 0) { return }
         statusIds.foreach(statusId => {
             API.del("StatusApi", "/status/object/" + statusId).catch(err => {
                 dispatch(dispatchError(err))
@@ -289,7 +271,6 @@ export const deleteStatusByProject = (projectId, statusIds) => async (dispatch) 
 }
 
 export const deleteIssueFromStatus = (issueId, statusId) => async (dispatch, getState) => {
-    dispatch({ type: LOADING })
     try {
         let status = getState().StatusReducer.status.get(statusId)
         let statusCopy = { ...status }
@@ -298,6 +279,7 @@ export const deleteIssueFromStatus = (issueId, statusId) => async (dispatch, get
             body: issuesUpdated
         })
         dispatch(deleteSuccessfulIssueFromStatus(issueId, statusId))
+        dispatch({ type: AUTHENTICATED })
     }
     catch (err) {
         dispatch(dispatchError(err))

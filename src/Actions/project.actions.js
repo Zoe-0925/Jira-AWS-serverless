@@ -1,8 +1,8 @@
 import API from '@aws-amplify/api';
-import { createMultipleStatus, getProjectStatus } from "./status.actions"
+import { createMultipleStatus, getProjectStatus, deleteStatusByProject } from "./status.actions"
 import { addProjectToUser } from "./user.actions"
-import { getProjectIssues } from "./issue.actions"
-import { getProjectLabels } from "./label.actions"
+import { getProjectIssues, deleteIssueByProject } from "./issue.actions"
+import { getProjectLabels, deleteLabelByProject } from "./label.actions"
 import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
 
 export const CREATE_SUCCESS_PROJECT = "CREATE_SUCCESS_PROJECT"
@@ -103,6 +103,17 @@ export const chainGetProjectData = (id) => async dispatch => {
     ])
     dispatch({ type: AUTHENTICATED })
 }
+
+export const chainDeleteProject = (projectId, issueIds, statusIds, labelIds) => async dispatch => {
+    await Promise.all([
+        dispatch({ type: LOADING }),
+        dispatch(deleteIssueByProject(projectId, issueIds)),
+        dispatch(deleteStatusByProject(projectId, statusIds)),
+        dispatch(deleteLabelByProject(projectId, labelIds))
+    ])
+    dispatch({ type: AUTHENTICATED })
+}
+
 
 export const createProject = (newProject) => dispatch => {
     API.post("ProjectApi", "/projects", {
