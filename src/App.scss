@@ -534,7 +534,7 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
     padding-bottom: 0.7rem;
     margin: 0.3rem;
     border-radius: 3%;
-    min-height: 10rem;
+    min-height:5rem;
 
     .col {
       width: 50%;
@@ -590,7 +590,6 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
 
   .epic-box {
     min-height: 10rem;
-    max-height: auto;
 
     background-color: $bgc;
     .create-issue-tab {

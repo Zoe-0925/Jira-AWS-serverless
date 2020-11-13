@@ -58,15 +58,14 @@ export default function Column({ initialStatus, ...props }) {
                 status: initialStatus._id, project: initialStatus.project, summary: value
             })
         }
-        dispatch(chainCreateIssueAndUpdateIssueOrder(issue))
+        dispatch(chainCreateIssueAndUpdateIssueOrder(issue, initialStatus.issues))
         setEdit(false)
     }
 
     return (<div className="epic-box">
         {initialStatus && <ColumnTitle status={initialStatus} />}
         {props.children}
-        {!edit ? <AddTab operationName="Create issue" handleClick={() => { setEdit(true) }} className="create-issue-tab" />
+        {loading ? <CircularProgress className="editable-input" /> : !edit ? <AddTab operationName="Create issue" handleClick={() => { setEdit(true) }} className="create-issue-tab" />
             : <Input state={state} name="create-task-input" setState={setState} setEdit={setEdit} handleSubmit={() => handleSubmit(state.value)} />}
-        {loading && <CircularProgress className="editable-input" />}
     </div>)
 }

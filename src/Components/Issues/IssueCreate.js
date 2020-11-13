@@ -17,7 +17,7 @@ import * as Yup from 'yup';
 import {
     TextField,
 } from 'formik-material-ui';
-import { selectAllProjects, selectCurrentProject, selectFirstStatus } from "../../Reducers/Selectors"
+import { selectAllProjects, selectDefaultIssueOrder, selectFirstStatus } from "../../Reducers/Selectors"
 import { chainCreateIssueAndUpdateIssueOrder } from "../../Actions/issue.actions"
 import { DialogCloseIcon } from "../Shared/Tabs"
 import { addCreateAndUpdateDate } from "../Util"
@@ -143,7 +143,7 @@ const IssueCreate = () => {
             }), ...value
         }
         if (issue.project === "") { issue.project = projects[0]._id }
-        dispatch(chainCreateIssueAndUpdateIssueOrder()).then(
+        dispatch(chainCreateIssueAndUpdateIssueOrder(issue)).then(
             result => {
                 if (result) {
                     setSuccessful(true)

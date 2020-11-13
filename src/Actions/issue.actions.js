@@ -104,12 +104,13 @@ export function deleteSuccessfulSubtask(id) {
 
 
 /**********************************  Thunk Actions  ******************************************/
-export const chainCreateIssueAndUpdateIssueOrder = (data) => async dispatch => {
+export const chainCreateIssueAndUpdateIssueOrder = (data) => async (dispatch, getState) => {
     try {
+        const issueOrder = getState().StatusReducer.status.get(data.status).issues
         await Promise.all([
             dispatch({ type: LOADING }),
             dispatch(createIssue(data)),
-            dispatch(addIssueToTail(data.status, data._id))])
+            dispatch(addIssueToTail(data.status, [...issueOrder, data._id]))])
         dispatch({ type: AUTHENTICATED })
     }
     catch (err) {

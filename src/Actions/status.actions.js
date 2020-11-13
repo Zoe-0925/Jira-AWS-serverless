@@ -127,10 +127,10 @@ export const moveIssues = (sourceStatus, destinationStatus, startIndex, endIndex
     }
 }
 
-export const addIssueToTail = (statusId, issueId) => async (dispatch, getState) => {
+export const addIssueToTail = (statusId, issueOrder) => async (dispatch) => {
     try {
-        const issueOrder = [...getState().StatusReducer.status.get(statusId).issues, issueId]
-        //TODO server returns 500
+        console.log("issueOrder in status",issueOrder)
+        //TODO
         await dispatch(updateIssueOrder(statusId, issueOrder))
     } catch (err) {
         dispatch(dispatchError(err))

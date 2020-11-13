@@ -27,6 +27,8 @@ export const selectStatus = state => selectStatusOrder(state).map(each => select
 
 export const selectStatusById = (id) => state => selectStatus(state).get(id)
 
+export const selectDefaultIssueOrder = state => selectAllStatus(state).get(selectFirstStatus(state)) !== undefined ? selectAllStatus(state).get(selectFirstStatus(state)).issues : []
+
 
 /****************** Selectors - Project  *********************/
 export const selectAllProjects = state => selectProjectReducer(state).projects
