@@ -129,8 +129,12 @@ export const moveIssues = (sourceStatus, destinationStatus, startIndex, endIndex
 
 export const addIssueToTail = (statusId, issueOrder) => async (dispatch) => {
     try {
-        console.log("issueOrder in status",issueOrder)
-        //TODO
+        await API.put("StatusApi", "/status/issueOrder", {
+            body: {
+                _id: statusId,
+                value: issueOrder
+            }
+        })
         await dispatch(updateIssueOrder(statusId, issueOrder))
     } catch (err) {
         dispatch(dispatchError(err))
