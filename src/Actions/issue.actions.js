@@ -1,6 +1,6 @@
 
 import { API } from 'aws-amplify';
-import { addIssueToTail, updateStatusForIssue } from "./status.actions"
+import { addIssueToTail, updateStatusForIssue,  deleteIssueFromStatus} from "./status.actions"
 import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
 
 export const CREATE_SUCCESS_SUB_TASK = "CREATE_SUCCESS_SUB_TASK"
@@ -133,6 +133,7 @@ export const chainUpdateIssueStatus = (data, previousState) => async (dispatch) 
 
 export const chainDeleteIssue = (issueId, statusId, issueType) => async (dispatch) => {
     try {
+        console.log("issueId",issueId, "statusId",statusId)
         await Promise.all([
             dispatch({ type: LOADING }),
             dispatch(deleteIssue(issueId, issueType)),
@@ -287,6 +288,7 @@ export const toggleFlag = (id, flag) => async dispatch => {
 export const deleteIssue = (issueId, issueType) => async  dispatch => {
     dispatch({ type: LOADING })
     try {
+        console.log("issueId in deleteIssue", issueId)
         await API.del("IssueApi", "/issues/object/" + issueId)
         switch (issueType) {
             case "task":
