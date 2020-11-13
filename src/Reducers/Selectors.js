@@ -25,7 +25,7 @@ export const selectAllStatus = state => selectStatusReducer(state).status
 
 export const selectStatus = state => selectStatusOrder(state).map(each => selectAllStatus(state).get(each))
 
-export const selectStatusById = (id) => state =>selectStatus(state).get(id)
+export const selectStatusById = (id) => state => selectStatus(state).get(id)
 
 
 /****************** Selectors - Project  *********************/
@@ -54,6 +54,11 @@ export const selectTasks = state => selectIssueReducer(state).tasks
 export const selectEpics = state => selectIssueReducer(state).epics
 
 export const selectTaskById = (issueId) => state => selectTasks(state).get(issueId)
+
+/****************** Selectors - Labels  *********************/
+export const selectLabels = state => selectLabelReducer(state).labels
+
+export const selectLabelNames = state => selectLabels(state).map(each => each.name)
 
 /****************** Reselectors - Projects  *********************/
 export const selectProjectMembers = createSelector(
@@ -93,23 +98,6 @@ export const selectUsersForProjectMember = createSelector(
     selectAllUsers,
     (memberIds, allUsers) => memberIds.map(each => allUsers.find(user => user._id === each))
 )
-
-export const selectUserError = () => createSelector(
-    selectUserReducer,
-    reducer => reducer.error
-)
-
-/****************** Reselectors - Labels  *********************/
-export const selectLabels = createSelector(
-    selectLabelReducer,
-    reducer => reducer.labels
-)
-
-export const selectLabelNames = createSelector(
-    selectLabels,
-    labels => labels.map(each => each.name)
-)
-
 /****************** Reselectors - Filters *********************/
 
 export const selectNoneFilter = createSelector(
