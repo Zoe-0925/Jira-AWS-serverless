@@ -222,7 +222,7 @@ app.put(path + "/name", function (req, res) {
     Key: {
       "_id": req.body._id,
     },
-    UpdateExpression: "set description = :name",
+    UpdateExpression: "set name = :name",
     ExpressionAttributeValues: {
       ":name": req.body.value
     },
