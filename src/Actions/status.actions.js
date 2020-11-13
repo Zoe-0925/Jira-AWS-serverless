@@ -124,7 +124,7 @@ export const addIssueToTail = (statusId, issueId) => async (dispatch, getState) 
     try {
         const issueOrder = [...getState().StatusReducer.status.get(statusId).issues, issueId]
         //TODO server returns 500
-        dispatch(updateIssueOrder(statusId, issueOrder))
+        await dispatch(updateIssueOrder(statusId, issueOrder))
     } catch (err) {
         dispatch(dispatchError(err))
     }

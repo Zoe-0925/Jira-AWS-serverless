@@ -107,8 +107,7 @@ export function deleteSuccessfulSubtask(id) {
 export const chainCreateIssueAndUpdateIssueOrder = (data) => async dispatch => {
     try {
         dispatch({ type: LOADING })
-        dispatch(createIssue(data))
-        dispatch(addIssueToTail(data.status, data._id))
+        await Promise.all([dispatch(createIssue(data)), dispatch(addIssueToTail(data.status, data._id))])
         dispatch({ type: AUTHENTICATED })
     }
     catch (err) {
