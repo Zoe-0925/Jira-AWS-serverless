@@ -17,7 +17,7 @@ import * as Yup from 'yup';
 import {
     TextField,
 } from 'formik-material-ui';
-import { selectAllProjects, selectCurrentProject,selectFirstStatus } from "../../Reducers/Selectors"
+import { selectAllProjects, selectCurrentProject, selectFirstStatus } from "../../Reducers/Selectors"
 import { chainCreateIssueAndUpdateIssueOrder } from "../../Actions/issue.actions"
 import { DialogCloseIcon } from "../Shared/Tabs"
 import { addCreateAndUpdateDate } from "../Util"
@@ -134,12 +134,16 @@ const IssueCreate = () => {
     const [open, setOpen] = useState(false)
     const [sucessful, setSuccessful] = useState(false)
     const projects = useSelector(selectAllProjects)
-    const currentProject = useSelector(selectCurrentProject)
 
     const submitCreateIssue = (value) => {
-        let issue = { ...addCreateAndUpdateDate({ _id: uuidv4(), status: defaultStatusId }), ...value }
+        let issue = {
+            ...addCreateAndUpdateDate({
+                _id: uuidv4(), status: defaultStatusId, issueType: "task",
+                labels: [], assignee: "", reporter: "",
+            }), ...value
+        }
         if (issue.project === "") { issue.project = projects[0]._id }
-        chainCreateIssueAndUpdateIssueOrder().then(
+        dispatch(chainCreateIssueAndUpdateIssueOrder()).then(
             result => {
                 if (result) {
                     setSuccessful(true)

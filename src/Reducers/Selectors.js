@@ -45,6 +45,13 @@ export const selectCurrentProjectName = state => {
     return currentProject ? currentProject.name : ""
 }
 
+/****************** Selectors - Issue  *********************/
+export const selectTasks = state => selectIssueReducer(state).tasks
+
+export const selectEpics = state => selectIssueReducer(state).epics
+
+export const selectTaskById = (issueId) => state => selectTasks(state).get(issueId)
+
 /****************** Reselectors - Status  *********************/
 export const selectStatusById = (id) => createSelector(
     selectStatus,
@@ -95,23 +102,6 @@ export const selectUserError = () => createSelector(
     reducer => reducer.error
 )
 
-/****************** Reselectors - Issues  *********************/
-export const selectEpics = createSelector(
-    selectIssueReducer,
-    reducer => reducer.epics
-)
-
-//TODO: This should select a wrong key/value array
-// Check usage and maybe use selectIssueA
-export const selectTasks = createSelector(
-    selectIssueReducer,
-    issueReducer => issueReducer.tasks
-)
-
-export const selectIssueById = issueId => createSelector(
-    selectTasks,
-    tasks => tasks.get(issueId)
-)
 /****************** Reselectors - Labels  *********************/
 export const selectLabels = createSelector(
     selectLabelReducer,

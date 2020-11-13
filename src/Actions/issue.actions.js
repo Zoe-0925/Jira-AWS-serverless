@@ -110,7 +110,6 @@ export const chainCreateIssueAndUpdateIssueOrder = (data) => async dispatch => {
         dispatch(createIssue(data))
         dispatch(addIssueToTail(data.status, data._id))
         dispatch({ type: AUTHENTICATED })
-        return true
     }
     catch (err) {
         dispatch(dispatchError(err))

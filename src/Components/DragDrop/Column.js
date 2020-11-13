@@ -53,7 +53,12 @@ export default function Column({ initialStatus, ...props }) {
     const loading = useSelector(selectLoading)
 
     const handleSubmit = (value) => {
-        let issue = { ...addCreateAndUpdateDate({ _id: uuidv4(), description: "", status: initialStatus._id, project: initialStatus.project, summary: value }) }
+        let issue = {
+            ...addCreateAndUpdateDate({
+                _id: uuidv4(), description: "", issueType: "task", labels: [],assignee:"", reporter:"",
+                status: initialStatus._id, project: initialStatus.project, summary: value
+            })
+        }
         dispatch(chainCreateIssueAndUpdateIssueOrder(issue))
         setEdit(false)
     }

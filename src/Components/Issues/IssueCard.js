@@ -7,11 +7,13 @@ import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import { Container, Row, Col } from 'reactstrap';
 import { DotIconMenu } from "../Shared/Tabs"
 import { deleteIssue, toggleFlag } from "../../Actions/issue.actions"
-import {selectIssueById} from "../../Reducers/Selectors"
+import { selectTaskById, selectTasks } from "../../Reducers/Selectors"
 
 const IssueCard = ({ issueId, openTaskDetail }) => {
     const dispatch = useDispatch()
-    const task = useSelector(selectIssueById(issueId))
+    const allTasks = useSelector(selectTasks)
+    const task = useSelector(selectTaskById(issueId))
+    console.log("task", task)
     const [anchorEl, setAnchorEl] = React.useState(null);
     const isOpen = Boolean(anchorEl);
     const anchorRef = React.useRef(null);
@@ -36,9 +38,12 @@ const IssueCard = ({ issueId, openTaskDetail }) => {
         handleMenuClose()
     }
 
-    return (
-        <Box boxShadow={1}
-            key={uuidv4()} className={!task.flag ? "epic-body" : "epic-body flagged"}>
+    if (!task) return <div></div>
+
+    if (task) {
+        return (<Box boxShadow={1}
+            key={uuidv4()} className={!task.flag ? "epic-body" : "epic-body flagged"
+            } >
             <Container>
                 <Row className="mt-0">
                     <Col sm="10" onClick={() => openTaskDetail(task)}>
@@ -73,8 +78,8 @@ const IssueCard = ({ issueId, openTaskDetail }) => {
                     </Col>
                 </Row>
             </Container>
-        </Box>
-    )
+        </Box>)
+    }
 }
 
 export default IssueCard

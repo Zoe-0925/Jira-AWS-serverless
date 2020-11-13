@@ -70,7 +70,7 @@ export const IssueDroppable = ({ columns, openTaskDetail }) => {
     return columns.length === 0 ? <div></div> : columns.map((el, ind) => {
         return <MyDroppable el={el} ind={ind}>
             <Column initialStatus={el}>
-                {columns.issues && el.issues.map((issueId, index) => <MyDraggable key={issueId} id={issueId} index={index}>
+                {el && el.issues && el.issues.map((issueId, index) => <MyDraggable key={issueId} id={issueId} index={index}>
                     <IssueCard issueId={issueId} openTaskDetail={openTaskDetail} />
                 </MyDraggable>)}
             </Column>
