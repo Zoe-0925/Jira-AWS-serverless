@@ -83,12 +83,9 @@ export const getAllLabels = (projectId) => async  dispatch => {
     }
 }
 
-export const deleteLabelByProject = (projectId, labelIds) => async dispatch => {
+export const deleteLabelByProject = (projectId) => async dispatch => {
     try {
-        if (labelIds.length === 0) { return }
-        labelIds.foreach(item =>
-            API.del("LabelApi", "/labels/object/" + item).catch(err => { return dispatchError(err) })
-        )
+        await API.del("LabelApi", "/labels/project/" + projectId)
         dispatch(deleteSuccessLabelByProject(projectId))
     }
     catch (err) {

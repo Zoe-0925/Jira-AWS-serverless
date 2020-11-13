@@ -93,8 +93,8 @@ export default function IssueReducer(state = initialState, action) {
             issuesToUpdate.map(each => each.status = action.id)
             return newState
         case UPDATE_SUCCESS_EPIC:
-            let epic = { ...newState.epics.find(item => item._id = action.data._id) }
-            epic = action.data
+            newState.epics.filter(item => item._id !== action.data._id)
+            newState.epics.push(action.data)
             return newState
         case UPDATE_ISSUE_GROUP:
             const change = newState.issues.get(action.id)

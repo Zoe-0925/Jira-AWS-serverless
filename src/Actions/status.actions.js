@@ -90,12 +90,19 @@ export function addSuccessIssueToTail(statusId, issueId) {
 
 /**************************** Thunk Actions ***************************/
 
-export const moveIssues = (source, destination, startIndex, endIndex) => async (dispatch, getState) => {
+export const chaninDeleteStatus = () => async (dispatch) => {
     dispatch({ type: LOADING })
     try {
-        const status = getState().StatusReducer.status
-        let sourceStatus = { ...status.get(source) }
-        let destinationStatus = { ...status.get(destination) }
+
+
+    } catch (err) {
+        dispatch(dispatchError(err))
+    }
+}
+
+export const moveIssues = (sourceStatus, destinationStatus, startIndex, endIndex) => async (dispatch) => {
+    dispatch({ type: LOADING })
+    try {
         const { sourceIssueorder, destinationIssueorder } = changeColumn(sourceStatus.issues, destinationStatus.issues, startIndex, endIndex)
         const sourceUpdated = { _id: sourceStatus._id, issueOrder: sourceIssueorder }
         const destinationUpdated = { _id: destinationStatus._id, issueOrder: destinationIssueorder }
@@ -255,14 +262,9 @@ export const deleteStatus = (id) => async  dispatch => {
     }
 }
 
-export const deleteStatusByProject = (projectId, statusIds) => async (dispatch) => {
+export const deleteStatusByProject = (projectId) => async (dispatch) => {
     try {
-        if (statusIds.length === 0) { return }
-        statusIds.foreach(statusId => {
-            API.del("StatusApi", "/status/object/" + statusId).catch(err => {
-                dispatch(dispatchError(err))
-            })
-        })
+        await API.del("StatusApi", "/status/project/" + projectId)
         dispatch(deleteSuccessStatusByProject(projectId))
     }
     catch (err) {

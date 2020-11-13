@@ -104,12 +104,12 @@ export const chainGetProjectData = (id) => async dispatch => {
     dispatch({ type: AUTHENTICATED })
 }
 
-export const chainDeleteProject = (projectId, issueIds, statusIds, labelIds) => async dispatch => {
+export const chainDeleteProject = (projectId) => async dispatch => {
     await Promise.all([
         dispatch({ type: LOADING }),
-        dispatch(deleteIssueByProject(projectId, issueIds)),
-        dispatch(deleteStatusByProject(projectId, statusIds)),
-        dispatch(deleteLabelByProject(projectId, labelIds))
+        dispatch(deleteIssueByProject(projectId)), //Query the items in the back end by project and then loop over to delete
+        dispatch(deleteStatusByProject(projectId)),
+        dispatch(deleteLabelByProject(projectId))
     ])
     dispatch({ type: AUTHENTICATED })
 }
@@ -155,7 +155,8 @@ export const updateProjectName = (data) => async  dispatch => {
     dispatch({ type: LOADING })
     try {
         await API.put("ProjectApi", "/projects/name", data)
-        dispatch(updateSuccessfulProjectName(data))
+        await dispatch(updateSuccessfulProjectName(data))
+        dispatch({ type: AUTHENTICATED })
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -163,11 +164,12 @@ export const updateProjectName = (data) => async  dispatch => {
 }
 
 
-export const updateProjectNameKeyAndAssignee = (data) => async  dispatch => {
+export const updateProjectDetail = (data) => async  dispatch => {
     dispatch({ type: LOADING })
     try {
         await API.put("ProjectApi", "/projects/detail", data)
-        dispatch(updateSuccessfulProjectDetail(data))
+        await dispatch(updateSuccessfulProjectDetail(data))
+        dispatch({ type: AUTHENTICATED })
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -180,6 +182,7 @@ export const updateMembers = data => async  dispatch => {
         await API.put("ProjectApi", "/projects/members", data)
         //TODO
         // dispatch(updateSuccessfulProjecMembers(data))
+        dispatch({ type: AUTHENTICATED })
     } catch (err) {
         dispatch(dispatchError(err))
     }
@@ -191,7 +194,7 @@ export const updateStatusOrder = (data) => async  dispatch => {
         await API.put("ProjectApi", "/projects/update/statusOrder", {
             body: { items: data }
         })
-
+        dispatch({ type: AUTHENTICATED })
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -200,7 +203,6 @@ export const updateStatusOrder = (data) => async  dispatch => {
 
 
 export const deleteProject = (id) => async  dispatch => {
-    dispatch({ type: LOADING })
     try {
         await API.del("ProjectApi", "/projects/" + id)
         dispatch(deleteSuccessfulProject(id))
@@ -211,7 +213,6 @@ export const deleteProject = (id) => async  dispatch => {
 }
 
 export const removeStatusFromOrder = (id) => async (dispatch, getState) => {
-    dispatch({ type: LOADING })
     try {
         const reducer = getState().ProjectReducer
         const orderBefore = reducer.projects.find(item => item._id === reducer.currentProjectId).statusOrder

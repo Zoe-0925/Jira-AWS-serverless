@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from "react-redux"
-import { setCurrentProject, deleteProject } from "../../Actions/project.actions"
-import {  selectAllUsers, selectAllProjects } from "../../Reducers/Selectors"
+import { setCurrentProject, chainDeleteProject } from "../../Actions/project.actions"
+import { selectAllUsers, selectAllProjects } from "../../Reducers/Selectors"
 import {
     Table, TableBody, TableCell, TableContainer, TableHead,
     TableRow, Paper, MenuItem
@@ -30,7 +30,6 @@ export default function ProjectListTable() {
 
     const goToBoardPage = (projectId) => {
         dispatch(setCurrentProject(projectId))
-        
         history.push("/projects/board")
     }
 
@@ -38,8 +37,6 @@ export default function ProjectListTable() {
         dispatch(setCurrentProject(projectId))
         history.push("/projects/settings/details")
     }
-
-    //TODO sort name, key, lead
 
     return (
         <div className="project-list-table">
@@ -73,7 +70,7 @@ export default function ProjectListTable() {
                                     <DotIconMenu className="dot-icon" anchorEl={anchorEl} isOpen={isOpen} anchorRef={anchorRef}
                                         handleMenuClose={handleMenuClose} handleMenuOpen={handleMenuOpen} >
                                         <MenuItem onClick={() => goToProjectDetail(project._id)}>Project settings</MenuItem>
-                                        <MenuItem onClick={() => dispatch(deleteProject(project._id))}>Move to trash</MenuItem>
+                                        <MenuItem onClick={() => dispatch(chainDeleteProject(project._id))}>Move to trash</MenuItem>
                                     </DotIconMenu>
                                 </TableCell>
                             </TableRow>

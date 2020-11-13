@@ -303,12 +303,9 @@ export const deleteIssue = (issueId, issueType) => async  dispatch => {
     }
 }
 
-export const deleteIssueByProject = (projectId, issueIds) => async (dispatch) => {
+export const deleteIssueByProject = (projectId) => async (dispatch) => {
     try {
-        if (issueIds.length === 0) { return }
-        issueIds.foreach(item =>
-            API.del("IssueApi", "/issues/object/" + item).catch(err => { return dispatchError(err) })
-        )
+        await API.del("IssueApi", "/issues/project/" + projectId)
         dispatch(deleteSuccessIssueByProject(projectId))
     }
     catch (err) {

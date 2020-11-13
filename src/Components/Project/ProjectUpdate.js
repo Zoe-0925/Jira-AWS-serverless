@@ -1,7 +1,7 @@
-import React, {  Fragment } from 'react'
+import React, { Fragment } from 'react'
 import { useDispatch, useSelector } from "react-redux"
-import {  selectProjectReducer, selectUserReducer } from "../../Reducers/Selectors"
-import { updateProjectNameKeyAndAssignee } from "../../Actions/project.actions"
+import { selectProjectReducer, selectUserReducer } from "../../Reducers/Selectors"
+import { updateProjectDetail } from "../../Actions/project.actions"
 import { Form, Field } from 'formik';
 import { withFormik } from 'formik';
 import { DotIconMenu } from "../Shared/Tabs"
@@ -26,7 +26,7 @@ export const ProjectDetailForm = ({
     const { anchorEl, isOpen, anchorRef, handleMenuClose, handleMenuOpen } = useDotIconMenu()
 
     const leadOptions = values.memberObjects.map(each => { return { value: each._id, label: each.name } })
-    const assigneeOptions = [{value:"lead", label:"Project Lead"}, {value:"", label:"None"}]
+    const assigneeOptions = [{ value: "lead", label: "Project Lead" }, { value: "", label: "None" }]
 
     return <Fragment>
         <Breadcrumbs aria-label="breadcrumb" className="bread-crumbs" >
@@ -153,7 +153,7 @@ export const ProjectUpdateHOC = () => {
     const submitForm = values => {
         const updateDate = new Date()
         const formattedValues = { ...values, updatedAt: JSON.stringtify(updateDate), members: project.members }
-        dispatch(updateProjectNameKeyAndAssignee(formattedValues))
+        dispatch(updateProjectDetail(formattedValues))
     }
 
     return (project === undefined ? <p>Loading</p> : <ProjectDetailWrapper members={members} project={project} onContinue={submitForm} />
