@@ -68,7 +68,7 @@ export const IssueDroppable = ({ columns, openTaskDetail }) => {
     //filters should be handled here
 
     return columns.length === 0 ? <div></div> : columns.map((el, ind) => {
-        return <MyDroppable el={el} ind={ind}>
+        return <MyDroppable key={ind} el={el} ind={ind}>
             <Column initialStatus={el}>
                 {el && el.issues && el.issues.map((issueId, index) => <MyDraggable key={issueId} id={issueId} index={index}>
                     <IssueCard issueId={issueId} openTaskDetail={openTaskDetail} />

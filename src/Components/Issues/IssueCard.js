@@ -7,13 +7,11 @@ import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import { Container, Row, Col } from 'reactstrap';
 import { DotIconMenu } from "../Shared/Tabs"
 import { deleteIssue, toggleFlag } from "../../Actions/issue.actions"
-import { selectTaskById, selectTasks } from "../../Reducers/Selectors"
+import { selectTaskById } from "../../Reducers/Selectors"
 
 const IssueCard = ({ issueId, openTaskDetail }) => {
     const dispatch = useDispatch()
-    const allTasks = useSelector(selectTasks)
     const task = useSelector(selectTaskById(issueId))
-    console.log("task", task)
     const [anchorEl, setAnchorEl] = React.useState(null);
     const isOpen = Boolean(anchorEl);
     const anchorRef = React.useRef(null);

@@ -25,6 +25,9 @@ export const selectAllStatus = state => selectStatusReducer(state).status
 
 export const selectStatus = state => selectStatusOrder(state).map(each => selectAllStatus(state).get(each))
 
+export const selectStatusById = (id) => state =>selectStatus(state).get(id)
+
+
 /****************** Selectors - Project  *********************/
 export const selectAllProjects = state => selectProjectReducer(state).projects
 
@@ -51,12 +54,6 @@ export const selectTasks = state => selectIssueReducer(state).tasks
 export const selectEpics = state => selectIssueReducer(state).epics
 
 export const selectTaskById = (issueId) => state => selectTasks(state).get(issueId)
-
-/****************** Reselectors - Status  *********************/
-export const selectStatusById = (id) => createSelector(
-    selectStatus,
-    status => status.get(id)
-)
 
 /****************** Reselectors - Projects  *********************/
 export const selectProjectMembers = createSelector(
