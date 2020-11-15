@@ -5,12 +5,12 @@ import { updateIssueAttribute, handleIssueAfterDeleteStatus } from "./issue.acti
 import { removeStatusFromOrder } from "./project.actions"
 
 export const ADD_ISSUE_TO_TAIL = "ADD_ISSUE_TO_TAIL"
-export const CREATE_SUCCESS_STATUS = "CREATE_SUCCESS_STATUS"
-export const DELETE_SUCCESS_STATUS = "DELETE_SUCCESS_STATUS"
-export const UPDATE_SUCCESS_STATUS = "UPDATE_SUCCESS_STATUS"
-export const UPDATE_SUCCESS_STATUS_NAME = "UPDATE_SUCCESS_STATUS_NAME"
+export const CREATE_STATUS = "CREATE_STATUS"
+export const DELETE_STATUS = "DELETE_STATUS"
+export const UPDATE_STATUS = "UPDATE_STATUS"
+export const UPDATE_STATUS_NAME = "UPDATE_STATUS_NAME"
 export const UPDATE_ISSUE_ORDER = "UPDATE_ISSUE_ORDER"
-export const APPEND_SUCCESS_STATUS = "APPEND_SUCCESS_STATUS"
+export const APPEND_STATUS = "APPEND_STATUS"
 export const REORDER_ISSUES = "REORDER_ISSUES"
 export const MOVE_ISSUES = "MOVE_ISSUES"
 export const DELETE_ISSUE_FROM_STATUS = "DELETE_ISSUE_FROM_STATUS"
@@ -18,28 +18,28 @@ export const DELETE_STATUS_BY_PROJECT = "DELETE_STATUS_BY_PROJECT"
 
 export const createSuccessfulStatus = (data) => {
     return {
-        type: CREATE_SUCCESS_STATUS,
+        type: CREATE_STATUS,
         data: data
     }
 }
 
 export const updateSuccessfulStatus = (data) => {
     return {
-        type: UPDATE_SUCCESS_STATUS,
+        type: UPDATE_STATUS,
         data: data
     }
 }
 
 export const updateSuccessfulStatusName = (data) => {
     return {
-        type: UPDATE_SUCCESS_STATUS_NAME,
+        type: UPDATE_STATUS_NAME,
         data: data
     }
 }
 
 export const deleteSuccessfulStatus = (id) => {
     return {
-        type: DELETE_SUCCESS_STATUS,
+        type: DELETE_STATUS,
         id: id
     }
 }
@@ -76,7 +76,7 @@ export function updateSuccessfulIssueOrder(data) {
 
 export function appendSuccessStatus(data) {
     return {
-        type: APPEND_SUCCESS_STATUS,
+        type: APPEND_STATUS,
         data: data
     }
 }

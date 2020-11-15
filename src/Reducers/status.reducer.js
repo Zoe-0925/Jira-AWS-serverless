@@ -1,6 +1,6 @@
 import {
-    CREATE_SUCCESS_STATUS, DELETE_SUCCESS_STATUS,
-    UPDATE_SUCCESS_STATUS, UPDATE_SUCCESS_STATUS_NAME, APPEND_SUCCESS_STATUS, MOVE_ISSUES,
+    CREATE_STATUS, DELETE_STATUS,
+    UPDATE_STATUS, UPDATE_STATUS_NAME, APPEND_STATUS, MOVE_ISSUES,
     DELETE_ISSUE_FROM_STATUS, DELETE_STATUS_BY_PROJECT, UPDATE_ISSUE_ORDER
 } from "../Actions/status.actions"
 
@@ -22,16 +22,16 @@ export default function StatusReducer(state = initialState, action) {
     let newState = Object.assign({}, state)
     let status
     switch (action.type) {
-        case CREATE_SUCCESS_STATUS:
+        case CREATE_STATUS:
             newState.status.set(action.data._id, action.data)
             return newState
-        case DELETE_SUCCESS_STATUS:
+        case DELETE_STATUS:
             newState.status.detele(action.id)
             return newState
-        case UPDATE_SUCCESS_STATUS:
+        case UPDATE_STATUS:
             newState.status.set(action.data._id, action.data)
             return newState
-        case UPDATE_SUCCESS_STATUS_NAME:
+        case UPDATE_STATUS_NAME:
             status = newState.status.get(action.data._id)
             status.name = action.data.name
             newState.status.set(action.data._id, status)
@@ -49,7 +49,7 @@ export default function StatusReducer(state = initialState, action) {
             newState.status.set(action.source._id, sourceStatus)
             newState.status.set(action.destination._id, destinationStatus)
             return newState
-        case APPEND_SUCCESS_STATUS:
+        case APPEND_STATUS:
             action.data.map(each => newState.status.set(each._id, each))
             return newState
         case DELETE_ISSUE_FROM_STATUS:
