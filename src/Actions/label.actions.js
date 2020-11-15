@@ -7,37 +7,6 @@ export const DELETE_LABEL = "DELETE_LABEL"
 export const APPEND_LABELS = "APPEND_LABELS"
 export const DELETE_LABEL_BY_PROJECT = "DELETE_LABEL_BY_PROJECT"
 
-/********************** Actions *******************/
-
-export function createSuccessfulLabel(data) {
-    return {
-        type: CREATE_LABEL,
-        data: data
-    }
-}
-
-export function appendSuccessfulLabels(data) {
-    return {
-        type: APPEND_LABELS,
-        data: data
-    }
-}
-
-
-export function deleteSuccessfulLabel(data) {
-    return {
-        type: DELETE_LABEL,
-        data: data
-    }
-}
-
-export function deleteSuccessLabelByProject(id) {
-    return {
-        type: DELETE_LABEL_BY_PROJECT,
-        id: id
-    }
-}
-
 /******************************** Thunk Actions ****************************************/
 export const chainDeleteLabel = (id) => async  dispatch => {
     try {
@@ -56,7 +25,10 @@ export const chainDeleteLabel = (id) => async  dispatch => {
 export const getProjectLabels = (projectId) => async  dispatch => {
     try {
         const labels = await API.get("LabelApi", "/labels/project/" + projectId)
-        dispatch(appendSuccessfulLabels(labels))
+        dispatch({
+            type: APPEND_LABELS,
+            data: labels
+        })
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -69,7 +41,10 @@ export const createLabel = (newLabel) => async  dispatch => {
         await API.post("LabelApi", "/labels", {
             body: newLabel
         })
-        dispatch(createSuccessfulLabel(newLabel))
+        dispatch({
+            type: CREATE_LABEL,
+            data: newLabel
+        })
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -79,7 +54,10 @@ export const createLabel = (newLabel) => async  dispatch => {
 export const deleteLabel = (id) => async  dispatch => {
     try {
         await API.del("LabelApi", "/labels/" + id)
-        dispatch(deleteSuccessfulLabel(id))
+        dispatch({
+            type: DELETE_LABEL,
+            id: id
+        })
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -100,7 +78,10 @@ export const getAllLabels = (projectId) => async  dispatch => {
 export const deleteLabelByProject = (projectId) => async dispatch => {
     try {
         await API.del("LabelApi", "/labels/project/" + projectId)
-        dispatch(deleteSuccessLabelByProject(projectId))
+        dispatch({
+            type: DELETE_LABEL_BY_PROJECT,
+            id: projectId
+        })
     }
     catch (err) {
         dispatch(dispatchError(err))
