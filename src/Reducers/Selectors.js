@@ -12,6 +12,8 @@ export const selectLabelReducer = state => state.LabelReducer
 
 export const selectUserReducer = state => state.UserReducer
 
+export const selectCommentReducer = state => state.CommentReducer
+
 export const selectLoadingReducer = state => state.LoadingReducer
 
 export const selectLoading = state => state.LoadingReducer.loading
@@ -62,6 +64,9 @@ export const selectIssueUpdatedTimeById = (issueId) => state => selectTasks(stat
 export const selectLabels = state => selectLabelReducer(state).labels
 
 export const selectLabelNames = state => selectLabels(state).map(each => each.name)
+
+/****************** Selectors - Comments  *********************/
+export const selectCommentByIssue = id => state => selectCommentReducer(state).comments.filter(comment => comment.issue === id)
 
 /****************** Reselectors - Projects  *********************/
 export const selectProjectMembers = createSelector(

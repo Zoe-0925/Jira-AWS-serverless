@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from "react-redux"
 import Pusher from 'pusher-js';
 import CommentBox from "./CommentBox"
 require('dotenv').config()  //Enable access to the ".env" file
+import { selectCommentByIssue } from "../../Reducers/Selectors"
 
-export default function CommentHOC() {
+export default function CommentHOC({ issueId }) {
     const [comments, setState] = useState([])
 
-    const data = []
-    // TODO
-    //useSelect()
-    // Select comments from the store
+    const data = useSelector(selectCommentByIssue)
 
     useEffect(() => {
-       const pusher = new Pusher(process.env.REACT_APP_PUSHER_APP_KEY||"", {
-            cluster: process.env.REACT_APP_PUSHER_APP_CLUSTER||"",
+        const pusher = new Pusher(process.env.REACT_APP_PUSHER_APP_KEY || "", {
+            cluster: process.env.REACT_APP_PUSHER_APP_CLUSTER || "",
             encrypted: true,
         });
 
@@ -23,6 +22,10 @@ export default function CommentHOC() {
             setState(prevState => {
                 const { commentList } = prevState;
                 commentList.push(data.comment);
+                //TODO
+                //save the commentList to the store and DB
+
+
                 //TODO
                 //check if data.comment is correct
 
