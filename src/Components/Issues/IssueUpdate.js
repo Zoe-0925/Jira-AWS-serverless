@@ -11,8 +11,8 @@ import {
 } from '@material-ui/core';
 import CreateIcon from '@material-ui/icons/Create';
 import {
-    selectStatusById, selectAllStatus, selectLabels, selectProjectMembers,
-    selectUserById, selectIssueUpdatedTimeById
+    selectStatusById, selectLabels, selectProjectMembers,
+    selectUserById, selectIssueUpdatedTimeById, selectAllStatusInArray
 } from "../../Reducers/Selectors"
 import {
     chainUpdateIssueStatus, updateIssueAttribute
@@ -47,7 +47,7 @@ const IssueDetailForm = ({ issue, handleClose }) => {
     const reporter = useSelector(selectUserById(issue.reporter))
     const currentLabels = []
     const defaultStatus = useSelector(selectStatusById(issue.status))
-    const allStatus = useSelector(selectAllStatus)
+    const allStatus = useSelector(selectAllStatusInArray)
     let statusOptions = allStatus.map(each => { return { label: each.name, value: each._id } })
 
     const assigneeOptions = useSelector(selectProjectMembers).map(each => {

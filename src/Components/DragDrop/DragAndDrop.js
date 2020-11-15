@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux"
 import IssueDetail from "../Issues/IssueUpdate"
-import { selectAllStatus, selectGroupBy } from "../../Reducers/Selectors"
+import {  selectGroupBy, selectAllStatusInArray } from "../../Reducers/Selectors"
 import { IssueDroppable } from "./Droppable";
 import StatusCreate from "./StatusCreate"
 
@@ -14,7 +14,7 @@ import StatusCreate from "./StatusCreate"
 //  <IssueCard task={task} openTaskDetail={openTaskDetail} />
 
 export default function DragAndDrop() {
-    const columns = useSelector(selectAllStatus)
+    const columns = useSelector(selectAllStatusInArray)
 
     //  const { createNewColumn } = useCreateStatus(initialStatus._id)
 

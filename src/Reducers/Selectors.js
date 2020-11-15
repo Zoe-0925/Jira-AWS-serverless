@@ -23,10 +23,12 @@ export const selectAuthenticated = state => state.LoadingReducer.authenticated
 export const selectErrorMessage = state => state.LoadingReducer.errorMessage
 
 /****************** Selectors - Status  *********************/
-export const selectAllStatus = state => {
+export const selectAllStatusInArray = state => {
     const mapResult = state.StatusReducer.status
     return [...mapResult.values()]
 }
+
+export const selectAllStatus = state =>  state.StatusReducer.status
 
 export const selectStatusById = (id) => state => {
     const currentProject = state.ProjectReducer.projects.find(item => item._id === state.ProjectReducer.currentProjectId)
@@ -62,9 +64,9 @@ export const selectCurrentProjectName = state => {
 }
 
 /****************** Selectors - Issue  *********************/
-export const selectTasks = state => state => state.IssueReducer.tasks
+export const selectTasks = state => state.IssueReducer.tasks
 
-export const selectEpics = state => state => state.IssueReducer.epics
+export const selectEpics =  state => state.IssueReducer.epics
 
 export const selectTaskById = (issueId) => state => selectTasks(state).get(issueId)
 
