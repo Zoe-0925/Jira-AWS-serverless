@@ -3,7 +3,7 @@ import {
     UPDATE_SUCCESS_EPIC, UPDATE_ISSUE_GROUP, TOGGLE_FLAG, DELETE_SUCCESS_SUB_TASK,
     ADD_TASK_TO_EPIC, REMOVE_TASK_FROM_EPIC, ADD_SUBTASK_TO_TASK, REMOVE_SUBTASK_FROM_TASK,
     DELETE_ISSUE_BY_PROJECT, APPEND_SUCCESS_ISSUES, CREATE_SUCCESS_ISSUE,
-    UPDATE_SUCCESS_TASK_ATTRIBUTE
+    UPDATE_SUCCESS_TASK_ATTRIBUTE, UPDATE_ISSUE_AFTER_DELETE_STATUS
 
 } from "../Actions/issue.actions"
 import { DELETE_SUCCESS_STATUS } from "../Actions/status.actions"
@@ -39,6 +39,14 @@ export default function IssueReducer(state = initialState, action) {
             if (action.data.issueType === "task") { newState.tasks.set(action.data._id, action.data) }
             if (action.data.issueType === "epic") { newState.epics.push(action.data) }
             if (action.data.issueType === "subtask") { newState.subtasks.push(action.data) }
+            return newState
+        case UPDATE_ISSUE_AFTER_DELETE_STATUS:
+            newState.tasks.forEach((value, key) => {
+                if (action.data.includes(key)) {
+                    const newValue = { ...value, status: action.id }
+                    newState.tasks.set(key, newValue)
+                }
+            })
             return newState
         case DELETE_SUCCESS_TASK:
             newState.tasks.delete(action.id)
@@ -85,12 +93,6 @@ export default function IssueReducer(state = initialState, action) {
             // task = newState.issues.get(action.id)
             //task.epic = action.data
             // newState.issues.set(action.id, issue)
-            return newState
-
-        case DELETE_SUCCESS_STATUS:
-            //accpets a list of issueIds (issues) and a new status id (id)
-            let issuesToUpdate = newState.issues.filter(item => !action.issues.includes(item._id))
-            issuesToUpdate.map(each => each.status = action.id)
             return newState
         case UPDATE_SUCCESS_EPIC:
             newState.epics.filter(item => item._id !== action.data._id)

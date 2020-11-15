@@ -121,7 +121,7 @@ const IssueDetailForm = ({ issue, handleClose }) => {
                             name="issueType"
                             defaultValue={{ label: defaultStatus.name, value: issue.status }}
                             options={statusOptions}
-                            onChange={(e) => chainUpdateIssueStatus({ _id: issue._id, value: e.value }, issue.status)}
+                            onChange={(e) => chainUpdateIssueStatus({ _id: issue._id, value: e.value, attribute: "status" }, issue.status)}
                         />
                         <Row></Row>
                         <p className="label">Assignee</p>

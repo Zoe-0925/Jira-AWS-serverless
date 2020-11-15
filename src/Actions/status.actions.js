@@ -1,6 +1,7 @@
 import API from '@aws-amplify/api';
 import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
 import { changeColumn, reorder } from "../Components/Util"
+import { updateIssueAttribute } from "./issue.actions"
 
 export const ADD_ISSUE_TO_TAIL = "ADD_ISSUE_TO_TAIL"
 export const CREATE_SUCCESS_STATUS = "CREATE_SUCCESS_STATUS"
@@ -35,11 +36,10 @@ export const updateSuccessfulStatusName = (data) => {
     }
 }
 
-export const deleteSuccessfulStatus = (id, issues) => {
+export const deleteSuccessfulStatus = (id) => {
     return {
         type: DELETE_SUCCESS_STATUS,
-        id: id,
-        issues: issues //issue ids
+        id: id
     }
 }
 
@@ -90,9 +90,20 @@ export function addSuccessIssueToTail(statusId, issueId) {
 
 /**************************** Thunk Actions ***************************/
 
-export const chaninDeleteStatus = () => async (dispatch) => {
+export const chaninDeleteStatus = (id) => async (dispatch) => {
     dispatch({ type: LOADING })
     try {
+        const newStatusId = ""  //get the previous status or second status id from the status order
+        await Promise.all([
+            dispatch(deleteStatus(id)),
+            dispatch(handleIssueAfterDeleteStatus(id, newStatusId)),
+
+
+        ])
+        //delete status
+        //delete status from project's statusOrder
+
+        //update the status of the related issues
 
 
     } catch (err) {
@@ -135,7 +146,7 @@ export const addIssueToTail = (statusId, issueOrder) => async (dispatch) => {
                 value: issueOrder
             }
         })
-        await dispatch(updateIssueOrder(statusId, issueOrder))
+        await dispatch(updateIssueAttribute(statusId, issueOrder))
     } catch (err) {
         dispatch(dispatchError(err))
     }
@@ -167,7 +178,6 @@ export const updateIssueOrder = (id, issueOrder) => async  dispatch => {
             _id: id,
             issueOrder: issueOrder
         })
-        dispatch({ type: AUTHENTICATED })
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -200,7 +210,6 @@ export const updateStatusForIssue = (source, destination, issueId) => async (dis
 
 export const getProjectStatus = (projectId) => async  dispatch => {
     try {
-        console.log("projectId in status", projectId)
         const status = await API.get("StatusApi", "/status/project/" + projectId)
         await dispatch(appendSuccessStatus(status))
         dispatch({ type: AUTHENTICATED })
@@ -256,11 +265,9 @@ export const updateStatusName = (data) => async  dispatch => {
 }
 
 export const deleteStatus = (id) => async  dispatch => {
-    dispatch({ type: LOADING })
     try {
         await API.del("StatusApi", "/status/" + id)
         dispatch(deleteSuccessfulStatus(id))
-        dispatch({ type: AUTHENTICATED })
     }
     catch (err) {
         dispatch(dispatchError(err))

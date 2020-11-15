@@ -6,7 +6,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import { Container, Row, Col } from 'reactstrap';
 import { DotIconMenu } from "../Shared/Tabs"
-import { chainDeleteIssue, toggleFlag } from "../../Actions/issue.actions"
+import { chainDeleteIssue, updateIssueAttribute } from "../../Actions/issue.actions"
 import { selectTaskById } from "../../Reducers/Selectors"
 
 const IssueCard = ({ issueId, openTaskDetail }) => {
@@ -30,7 +30,7 @@ const IssueCard = ({ issueId, openTaskDetail }) => {
         //TODO
         //reorder to bottom
 
-        
+
         handleMenuClose()
     }
 
@@ -54,7 +54,7 @@ const IssueCard = ({ issueId, openTaskDetail }) => {
                     <Col sm="2">
                         <DotIconMenu className="dot-icon" anchorEl={anchorEl} isOpen={isOpen} anchorRef={anchorRef}
                             handleMenuClose={handleMenuClose} handleMenuOpen={handleMenuOpen}>
-                            <MenuItem onClick={() => dispatch(toggleFlag(task._id, !task.flag))}>{!task.flag ? "Add flag" : "Remove flag"}</MenuItem>
+                            <MenuItem onClick={() => dispatch(updateIssueAttribute({ _id: task._id, attribute: "flag", value: !task.flag }))}>{!task.flag ? "Add flag" : "Remove flag"}</MenuItem>
                             <MenuItem >Add parent</MenuItem>
                             <MenuItem >Add label</MenuItem>
                             <MenuItem onClick={e => handleDeleteTask(e, task._id, task.status)}>Delete</MenuItem>
@@ -80,7 +80,7 @@ const IssueCard = ({ issueId, openTaskDetail }) => {
                     </Col>
                 </Row>
             </Container>
-        </Box>)
+        </Box >)
     }
 }
 

@@ -47,13 +47,9 @@ if (process.env.ENV && process.env.ENV !== "NONE") {
 const userIdPresent = false; // TODO: update in case is required to use that definition
 const partitionKeyName = "_id";
 const partitionKeyType = "S";
-const sortKeyName = "";
-const sortKeyType = "";
-const hasSortKey = sortKeyName !== "";
 const path = "/issues";
 const UNAUTH = 'UNAUTH';
 const hashKeyPath = '/:' + partitionKeyName;
-const sortKeyPath = hasSortKey ? '/:' + sortKeyName : '';
 // declare a new express app
 var app = express()
 app.use(bodyParser.json())
@@ -327,7 +323,7 @@ app.put(path, function (req, res) {
 * HTTP put method for updating issue summary *
 *************************************/
 
-app.put(path + "/update/summary", function (req, res) {
+app.put(path + "/update/attribute", function (req, res) {
 
   if (userIdPresent) {
     req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
@@ -340,7 +336,7 @@ app.put(path + "/update/summary", function (req, res) {
     Key: {
       "_id": req.body._id,
     },
-    UpdateExpression: "set summary" + " = :value, updatedAt" + " = :now",
+    UpdateExpression: "set " + req.body.attribute + " = :value, updatedAt" + " = :now",
     ExpressionAttributeValues: {
       ":value": req.body.value,
       ":now": now
@@ -355,175 +351,6 @@ app.put(path + "/update/summary", function (req, res) {
     }
   });
 });
-
-/************************************
-* HTTP put method for updating issue description *
-*************************************/
-
-app.put(path + "/update/description", function (req, res) {
-
-  if (userIdPresent) {
-    req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
-  }
-
-  const now = JSON.stringify(new Date())
-
-  let putItemParams = {
-    TableName: tableName,
-    Key: {
-      "_id": req.body._id,
-    },
-    UpdateExpression: "set description" + " = :value, updatedAt" + " = :now",
-    ExpressionAttributeValues: {
-      ":value": req.body.value,
-      ":now": now
-    },
-  }
-
-  dynamodb.update(putItemParams, (err, data) => {
-    if (err) {
-      res.statusCode = 500;
-      res.json({ error: err, url: req.url, body: req.body });
-    } else {
-      res.json({ updatedAt: now })
-    }
-  });
-});
-
-/************************************
-* HTTP put method for updating issue assignee *
-*************************************/
-
-app.put(path + "/update/assignee", function (req, res) {
-
-  if (userIdPresent) {
-    req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
-  }
-
-  const now = JSON.stringify(new Date())
-
-  let putItemParams = {
-    TableName: tableName,
-    Key: {
-      "_id": req.body._id,
-    },
-    UpdateExpression: "set assignee" + " = :value, updatedAt" + " = :now",
-    ExpressionAttributeValues: {
-      ":value": req.body.value,
-      ":now": now
-    },
-  }
-  dynamodb.update(putItemParams, (err, data) => {
-    if (err) {
-      res.statusCode = 500;
-      res.json({ error: err, url: req.url, body: req.body });
-    } else {
-      res.json({ updatedAt: now })
-    }
-  });
-});
-
-/************************************
-* HTTP put method for updating issue reporter *
-*************************************/
-
-app.put(path + "/update/reporter", function (req, res) {
-
-  if (userIdPresent) {
-    req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
-  }
-  const now = JSON.stringify(new Date())
-
-  let putItemParams = {
-    TableName: tableName,
-    Key: {
-      "_id": req.body._id,
-    },
-    UpdateExpression: "set reporter" + " = :value, updatedAt" + " = :now",
-    ExpressionAttributeValues: {
-      ":value": req.body.value,
-      ":now": now
-    },
-  }
-
-  dynamodb.update(putItemParams, (err, data) => {
-    if (err) {
-      res.statusCode = 500;
-      res.json({ error: err, url: req.url, body: req.body });
-    } else {
-      res.json({ updatedAt: now })
-    }
-  });
-});
-
-/************************************
-* HTTP put method for updating issue labels *
-*************************************/
-
-app.put(path + "/update/labels", function (req, res) {
-
-  if (userIdPresent) {
-    req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
-  }
-
-  const now = JSON.stringify(new Date())
-
-  let putItemParams = {
-    TableName: tableName,
-    Key: {
-      "_id": req.body._id,
-    },
-    UpdateExpression: "set labels" + " = :value, updatedAt" + " = :now",
-    ExpressionAttributeValues: {
-      ":value": req.body.value,
-      ":now": now
-    },
-  }
-  dynamodb.update(putItemParams, (err, data) => {
-    if (err) {
-      res.statusCode = 500;
-      res.json({ error: err, url: req.url, body: req.body });
-    } else {
-      res.json({ updatedAt: now })
-    }
-  });
-});
-
-
-/************************************
-* HTTP put method for updating issue flag *
-*************************************/
-
-app.put(path + "/update/flag", function (req, res) {
-
-  if (userIdPresent) {
-    req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
-  }
-
-  const now = JSON.stringify(new Date())
-
-  let putItemParams = {
-    TableName: tableName,
-    Key: {
-      "_id": req.body._id,
-    },
-    UpdateExpression: "set flag" + " = :value, updatedAt" + " = :now",
-    ExpressionAttributeValues: {
-      ":value": req.body.value,
-      ":now": now
-    },
-  }
-  dynamodb.update(putItemParams, (err, data) => {
-    if (err) {
-      res.statusCode = 500;
-      res.json({ error: err, url: req.url, body: req.body });
-    } else {
-      res.json({ updatedAt: now })
-    }
-  });
-});
-
-
 
 /************************************
 * HTTP post method for insert object *

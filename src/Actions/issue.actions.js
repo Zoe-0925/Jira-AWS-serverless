@@ -1,6 +1,6 @@
 
 import { API } from 'aws-amplify';
-import { addIssueToTail, updateStatusForIssue,  deleteIssueFromStatus} from "./status.actions"
+import { addIssueToTail, updateStatusForIssue, deleteIssueFromStatus } from "./status.actions"
 import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
 
 export const CREATE_SUCCESS_SUB_TASK = "CREATE_SUCCESS_SUB_TASK"
@@ -21,6 +21,7 @@ export const ADD_SUBTASK_TO_TASK = "ADD_SUBTASK_TO_TASK"
 export const REMOVE_SUBTASK_FROM_TASK = "REMOVE_SUBTASK_FROM_TASK"
 export const UPDATE_ISSUE_GROUP = "UPDATE_ISSUE_GROUP"
 export const TOGGLE_FLAG = "TOGGLE_FLAG"
+export const UPDATE_ISSUE_AFTER_DELETE_STATUS = "UPDATE_ISSUE_AFTER_DELETE_STATUS"
 /**********************************  Actions  ******************************************/
 export function appendProjectIssues(data) {
     return {
@@ -59,6 +60,14 @@ export function updateSuccessfulTaskAttribute(id, key, value) {
     }
 }
 
+export function updateIssueAfterDeleteStatus(data, id) {
+    return {
+        type: UPDATE_ISSUE_AFTER_DELETE_STATUS,
+        data: data,
+        id: id
+    }
+}
+
 export function updateSuccessfulEpic(data) {
     return {
         type: UPDATE_SUCCESS_EPIC,
@@ -71,13 +80,6 @@ export function updateIssueGroup(id, data) {
         type: UPDATE_ISSUE_GROUP,
         id: id,
         data: data
-    }
-}
-
-export function toggleSuccessfulFlag(id) {
-    return {
-        type: TOGGLE_FLAG,
-        id: id
     }
 }
 
@@ -122,7 +124,7 @@ export const chainUpdateIssueStatus = (data, previousState) => async (dispatch) 
     try {
         await Promise.all([
             dispatch({ type: LOADING }),
-            dispatch(updateIssueStatus(data)),
+            dispatch(updateIssueAttribute(data)),
             dispatch(updateStatusForIssue(previousState, data._status, data._id))])
         dispatch({ type: AUTHENTICATED })
     }
@@ -131,9 +133,11 @@ export const chainUpdateIssueStatus = (data, previousState) => async (dispatch) 
     }
 }
 
+//TODO
+//Add delete task from epic
+//Add delete task from subtask......
 export const chainDeleteIssue = (issueId, statusId, issueType) => async (dispatch) => {
     try {
-        console.log("issueId",issueId, "statusId",statusId)
         await Promise.all([
             dispatch({ type: LOADING }),
             dispatch(deleteIssue(issueId, issueType)),
@@ -145,6 +149,31 @@ export const chainDeleteIssue = (issueId, statusId, issueType) => async (dispatc
         dispatch(dispatchError(err))
     }
 }
+
+export const handleIssueAfterDeleteStatus = (statusId, newStatusId) => async (dispatch, getState) => {
+    try {
+        let tasksToUpdate = []
+        getState().IssueReducer.tasks.forEach((value, key) => {
+            if (value.status === statusId) {
+                tasksToUpdate.push(key)
+            }
+        })
+        tasksToUpdate.forEach(issueId => {
+            await API.put("IssueApi", "/issues/update/attribute", {
+                body: {
+                    _id: issueId,
+                    attribute: "status",
+                    value: newStatusId
+                }
+            })
+        });
+        dispatch(updateIssueAfterDeleteStatus(tasksToUpdate, newStatusId))
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+    }
+}
+
 
 export const createIssue = (data) => async  dispatch => {
     try {
@@ -185,13 +214,13 @@ export const getProjectIssues = (projectId) => async  dispatch => {
     }
 }
 
-export const updateIssueSummary = (data) => async  dispatch => {
+export const updateIssueAttribute = (data) => async  dispatch => {
     dispatch({ type: LOADING })
     try {
-        await API.put("IssueApi", "/issues/update/summary", {
+        await API.put("IssueApi", "/issues/update/attribute", {
             body: data
         })
-        await dispatch(updateSuccessfulTaskAttribute(data._id, "summary", data.value))
+        await dispatch(updateSuccessfulTaskAttribute(data._id, data.attribute, data.value))
         dispatch({ type: AUTHENTICATED })
     }
     catch (err) {
@@ -199,96 +228,11 @@ export const updateIssueSummary = (data) => async  dispatch => {
     }
 }
 
-export const updateIssueDescription = (data) => async  dispatch => {
-    dispatch({ type: LOADING })
-    try {
-        await API.put("IssueApi", "/issues/update/description", {
-            body: data
-        })
-        await dispatch(updateSuccessfulTaskAttribute(data._id, "description", data.value))
-        dispatch({ type: AUTHENTICATED })
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-    }
-}
 
-export const updateIssueAssignee = (data) => async  dispatch => {
-    dispatch({ type: LOADING })
-    try {
-        await API.put("IssueApi", "/issues/update/assignee", {
-            body: data
-        })
-        await dispatch(updateSuccessfulTaskAttribute(data._id, "assignee", data.value))
-        dispatch({ type: AUTHENTICATED })
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-    }
-}
-
-export const updateIssueReporter = (data) => async  dispatch => {
-    dispatch({ type: LOADING })
-    try {
-        await API.put("IssueApi", "/issues/update/reporter", {
-            body: data
-        })
-        await dispatch(updateSuccessfulTaskAttribute(data._id, "reporter", data.value))
-        dispatch({ type: AUTHENTICATED })
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-    }
-}
-
-export const updateIssueLabel = (data) => async  dispatch => {
-    dispatch({ type: LOADING })
-    try {
-        await API.put("IssueApi", "/issues/update/labels", {
-            body: data
-        })
-        await dispatch(updateSuccessfulTaskAttribute(data._id, "labels", data.value))
-        dispatch({ type: AUTHENTICATED })
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-    }
-}
-
-export const updateIssueStatus = (data) => async  dispatch => {
-    try {
-        await API.put("IssueApi", "/issues/update/status", {
-            body: data
-        })
-        await dispatch(updateSuccessfulTaskAttribute(data._id, "status", data.value))
-        dispatch({ type: AUTHENTICATED })
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-    }
-}
-
-export const toggleFlag = (id, flag) => async dispatch => {
-    dispatch({ type: LOADING })
-    try {
-        await API.put("IssueApi", "/issues/update/flag", {
-            body: {
-                _id: id,
-                flag: flag
-            }
-        })
-        await dispatch(toggleSuccessfulFlag(id))
-        dispatch({ type: AUTHENTICATED })
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-    }
-}
 
 export const deleteIssue = (issueId, issueType) => async  dispatch => {
     dispatch({ type: LOADING })
     try {
-        console.log("issueId in deleteIssue", issueId)
         await API.del("IssueApi", "/issues/object/" + issueId)
         switch (issueType) {
             case "task":
