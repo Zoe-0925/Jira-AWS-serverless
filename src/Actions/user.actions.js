@@ -77,6 +77,7 @@ export const chainDeleteUser = (id, projectIds) => async (dispatch, getState) =>
 export const getUserAndProjects = () => async dispatch => {
     try {
         const user = await dispatch(getCurrentUser())
+        console.log("user",user)
         await Promise.all([
             dispatch(login(user)),
             dispatch(getAllProjects(user.projects))
@@ -133,13 +134,12 @@ export const mockgetUserAndProjectData = () => async (dispatch) => {
 }
 
 export const getCurrentUser = () => async  dispatch => {
-    dispatch({ type: LOADING })
     try {
         const credential = await Auth.currentAuthenticatedUser({
             bypassCache: true  // Optional, By default is false. If set to true, this call will send a request to Cognito to get the latest user data
         })
         if (credential) {
-            return searchUserByEmail(credential.username)
+            return await dispatch(searchUserByEmail(credential.username))
         }
     }
     catch (err) {
@@ -171,7 +171,8 @@ export const addProjectToUser = projectId => async (dispatch, getState) => {
 
 export const searchUserByEmail = email => async (dispatch) => {
     try {
-        return await API.get("UserApi", "/users/email/" + email)
+        const user =  await API.get("UserApi", "/users/email/" + email)
+        return user
     }
     catch (err) {
         dispatch(dispatchError(err))

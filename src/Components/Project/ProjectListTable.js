@@ -52,7 +52,7 @@ export default function ProjectListTable() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {projects.length > 0 && projects.map(project => (
+                        {projects && projects.length > 0 && projects.map(project => (
                             <TableRow key={project._id} className="table-body">
                                 <TableCell className="project-name" component="th" scope="row" onClick={() => goToBoardPage(project._id)}>
                                     {project && project.name}
