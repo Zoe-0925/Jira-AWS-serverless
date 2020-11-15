@@ -41,7 +41,7 @@ export function ManageCategoryTab() {
 export function ProjectHeaderTab({ title, subtite, imgSrc }) {
     return (
         <div className="project-header">
-            <img className="item-left drawer-img" alt="project photo" src={imgSrc} />
+            <img className="item-left drawer-img" alt="project" src={imgSrc} />
             <div>
                 <Typography className="item-right-up"
                     variant="subtitle1" gutterBottom>{title}</Typography>

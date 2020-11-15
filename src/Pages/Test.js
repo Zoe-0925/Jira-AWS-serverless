@@ -1,5 +1,5 @@
-import React, { useState , useEffect} from 'react'
-import {  Button} from '@material-ui/core';
+import React, { useState, useEffect } from 'react'
+import { Button } from '@material-ui/core';
 import { useDispatch, useSelector } from "react-redux"
 import { getCurrentUser } from "../Actions/user.actions"
 import { createMultipleStatus, createStatus } from "../Actions/status.actions"
@@ -32,13 +32,11 @@ export default function Test() {
     const dispatch = useDispatch()
     const status = useSelector(selectCurrentProject)
 
-    useEffect(() => {
-        console.log("status", status)
-    }, [status])
+
 
 
     return (<div>
-        <Button>open</Button>
+        <Button >open</Button>
 
     </div>
     )

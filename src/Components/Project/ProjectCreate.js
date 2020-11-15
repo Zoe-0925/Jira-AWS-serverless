@@ -1,9 +1,7 @@
 import React, { Fragment } from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { selectCurrentUserId } from "../../Reducers/Selectors"
-import { createMultipleStatus } from "../../Actions/status.actions"
-import { chainCreactProject, createSuccessfulProject } from "../../Actions/project.actions"
-import { addProjectToUser } from "../../Actions/user.actions"
+import { chainCreactProject } from "../../Actions/project.actions"
 import { Form, Field } from 'formik';
 import { withFormik } from 'formik';
 import { Typography, Button, InputLabel, Dialog } from '@material-ui/core';

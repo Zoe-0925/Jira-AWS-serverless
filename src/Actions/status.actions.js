@@ -200,6 +200,7 @@ export const updateStatusForIssue = (source, destination, issueId) => async (dis
 
 export const getProjectStatus = (projectId) => async  dispatch => {
     try {
+        console.log("projectId in status", projectId)
         const status = await API.get("StatusApi", "/status/project/" + projectId)
         await dispatch(appendSuccessStatus(status))
         dispatch({ type: AUTHENTICATED })

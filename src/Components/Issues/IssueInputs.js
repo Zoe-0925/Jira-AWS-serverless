@@ -13,7 +13,7 @@ export function IssueSummaryInput({ summary }) {
     }
 
     return (
-        <EditableText name="issue-summary" className="board-name" style="summary"
+        <EditableText name="issue-summary" className="board-name" 
             setEdit={setEdit} edit={edit} text={state.value}>
             <Input state={state} setState={setState} setEdit={setEdit} handleSubmit={updateSummary} />
         </EditableText>

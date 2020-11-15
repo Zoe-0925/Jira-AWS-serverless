@@ -54,7 +54,8 @@ export default function ProjectReducer(state = initialState, action) {
         case APPEND_SUCCESS_PROJECTS:
             return { ...state, projects: action.data }
         case UPDATE_SUCCESS_STATUS_ORDER:
-            newState.projects.find(item => item._id === action.data._id).statusOrder = action.data.statusOrder
+            target = newState.projects.find(item => item._id === newState.currentProjectId)
+            target.statusOrder = action.data
             return newState
         case UPDATE_SUCCESS_PROJECT_NAME:
             newState.projects.find(item => item._id === action.data._id).name = action.data.name
@@ -68,10 +69,6 @@ export default function ProjectReducer(state = initialState, action) {
         case UPDATE_SUCCESS_MEMBERS:
             target = newState.projects.find(item => item._id === action.data._id)
             target.members = action.data.members
-            return newState
-        case UPDATE_SUCCESS_STATUS_ORDER:
-            target = newState.projects.find(item => item._id === newState.currentProjectId)
-            target.statusOrder = action.data
             return newState
         default:
             return state

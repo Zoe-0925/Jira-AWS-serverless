@@ -91,7 +91,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NavBar() {
     const classes = useStyles();
-    const [isCreateIssueopen, setOpenCreateIssue] = useState(false)
     const [isCreateProjectOpen, setOpenCreateProject] = useState(false)
     const [isProfileMenuOpen, setProfileAnchorEl] = useState(false);
     const [isProjectMenuOpen, setProjectAnchorEl] = useState(false);

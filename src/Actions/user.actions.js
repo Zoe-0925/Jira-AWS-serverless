@@ -1,10 +1,11 @@
 import { Auth } from 'aws-amplify';
 import API from '@aws-amplify/api';
+import history from "../history"
 import { getAllProjects, mockgetAllProjects, setCurrentProject } from "./project.actions"
 import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
 import { getProjectIssues } from "./issue.actions"
 import { getProjectLabels } from "./label.actions"
-import { getProjectStatus,appendSuccessStatus} from "./status.actions"
+import { getProjectStatus, appendSuccessStatus } from "./status.actions"
 
 export const LOGIN = "LOGIN"
 export const LOGOUT = "LOGOUT"
@@ -60,7 +61,6 @@ export function updateProjects(projects) {
 /******************* Thunk Actions  *****************************/
 export const getUserAndProjects = () => async dispatch => {
     try {
-        dispatch({ type: LOADING })
         const user = await dispatch(getCurrentUser())
         await Promise.all([
             dispatch(login(user)),
@@ -68,19 +68,19 @@ export const getUserAndProjects = () => async dispatch => {
         ])
     }
     catch (err) {
-        dispatch(dispatchError(err))
+        return dispatch(dispatchError(err))
     }
 }
 
 export const getUserAndProjectData = () => async (dispatch, getState) => {
     try {
         dispatch({ type: LOADING })
-        const user = await dispatch(getCurrentUser())
-        await Promise.all([
-            dispatch(login(user)),
-            dispatch(getAllProjects(user.projects))
-        ])
-        const id = getState().ProjectReducer.currentProjectId
+        await dispatch(getUserAndProjects())
+        let id = getState().ProjectReducer.currentProjectId
+        if (!id || id === "") {
+            history.push("/projects")
+            return
+        }
         await Promise.all([
             dispatch(getProjectStatus(id)),
             dispatch(getProjectIssues(id)),

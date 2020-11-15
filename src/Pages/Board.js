@@ -7,10 +7,9 @@ import { useEditText } from "../Components/Shared/CustomHooks"
 import { EditableText, Input } from "../Components/Shared/EditableText"
 import DragContext from "../Components/DragDrop/DragContext"
 import NavBar from "../Components/NavBar/NavBar"
-import { selectCurrentProjectName, selectCurrentUserId, selectCurrentProjectId } from '../Reducers/Selectors';
+import { selectCurrentProjectName, selectCurrentUserId } from '../Reducers/Selectors';
 import { Typography, Link, Breadcrumbs } from "@material-ui/core"
-import { updateProjectName, chainGetProjectData } from "../Actions/project.actions"
-import { getUserAndProjects, getUserAndProjectData, mockgetUserAndProjectData } from "../Actions/user.actions"
+import {  getUserAndProjectData } from "../Actions/user.actions"
 
 export default function Board() {
     const dispatch = useDispatch()
@@ -22,17 +21,9 @@ export default function Board() {
 
     useEffect(() => {
         if (currentUserId === "") {
-            dispatch(mockgetUserAndProjectData())
+           dispatch(getUserAndProjectData())
         }
     }, [])
-
-    /** 
-    useEffect(() => {
-        if (state && state !== "" && state !== projectName) {
-            dispatch(updateProjectName(state))
-        }
-    }, [state])
-*/
 
     return (
         <div className={open ? "main drawer-close" : "main drawer-open"}>
