@@ -171,41 +171,10 @@ app.get(path + '/object' + hashKeyPath, function (req, res) {
 });
 
 /************************************
-* HTTP put method for updating project name *
-*************************************/
-
-app.put(path + "/name", function (req, res) {
-
-  if (userIdPresent) {
-    req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
-  }
-
-  let putItemParams = {
-    TableName: tableName,
-    Key: {
-      "_id": req.body._id,
-    },
-    UpdateExpression: "set name = :name",
-    ExpressionAttributeValues: {
-      ":name": req.body.value
-    },
-  }
-  dynamodb.update(putItemParams, (err, data) => {
-    if (err) {
-      res.statusCode = 500;
-      res.json({ error: err, url: req.url, body: req.body });
-    } else {
-      res.json({ data: data })
-    }
-  });
-});
-
-
-/************************************
 * HTTP put method for updating members *
 *************************************/
 
-app.put(path + "/members", function (req, res) {
+app.put(path + "/update", function (req, res) {
 
   if (userIdPresent) {
     req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
@@ -216,9 +185,9 @@ app.put(path + "/members", function (req, res) {
     Key: {
       "_id": req.body._id,
     },
-    UpdateExpression: "set members = :members",
+    UpdateExpression: "set " + req.body.attribute + " = :value",
     ExpressionAttributeValues: {
-      ":members": req.body.value
+      ":value": req.body.value
     },
   }
   dynamodb.update(putItemParams, (err, data) => {
@@ -252,36 +221,6 @@ app.put(path + "/detail", function (req, res) {
       ":default_assignee": req.body.default_assignee,
       ":key": req.body.key,
       "updatedAt": req.body.updatedAt,
-    },
-  }
-  dynamodb.update(putItemParams, (err, data) => {
-    if (err) {
-      res.statusCode = 500;
-      res.json({ error: err, url: req.url, body: req.body });
-    } else {
-      res.json({ data: data })
-    }
-  });
-});
-
-/************************************
-* HTTP put method for updating project name and default assignee *
-*************************************/
-
-app.put(path + "/statusOrder", function (req, res) {
-
-  if (userIdPresent) {
-    req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
-  }
-
-  let putItemParams = {
-    TableName: tableName,
-    Key: {
-      "_id": req.body._id,
-    },
-    UpdateExpression: "set statusOrder = :statusOrder",
-    ExpressionAttributeValues: {
-      ":statusOrder": req.body.value
     },
   }
   dynamodb.update(putItemParams, (err, data) => {
