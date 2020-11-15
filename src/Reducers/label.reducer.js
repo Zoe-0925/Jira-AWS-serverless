@@ -1,7 +1,7 @@
 import {
-    CREATE_SUCCESS_LABEL,
-    DELETE_SUCCESS_LABEL,
-    APPEND_SUCCESS_LABELS,
+    CREATE_LABEL,
+    DELETE_LABEL,
+    APPEND_LABELS,
     DELETE_LABEL_BY_PROJECT
 } from "../Actions/label.actions"
 
@@ -16,11 +16,11 @@ const initialState = {
 export default function LabelReducer(state = initialState, action) {
     let newState = { ...state }
     switch (action.type) {
-        case CREATE_SUCCESS_LABEL:
+        case CREATE_LABEL:
             return { labels: [...newState.labels, action.data] }
-        case DELETE_SUCCESS_LABEL:
+        case DELETE_LABEL:
             return { labels: newState.labels.filter(item => item._id !== action.id) }
-        case APPEND_SUCCESS_LABELS:
+        case APPEND_LABELS:
             return { labels: newState.labels.concat(action.data) }
         case DELETE_LABEL_BY_PROJECT:
             return initialState

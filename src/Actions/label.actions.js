@@ -2,23 +2,23 @@ import API from '@aws-amplify/api';
 import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
 import { removeLabelFromIssues } from "./issue.actions"
 
-export const CREATE_SUCCESS_LABEL = "CREATE_SUCCESS_LABEL"
-export const DELETE_SUCCESS_LABEL = "DELETE_SUCCESS_LABEL"
-export const APPEND_SUCCESS_LABELS = "APPEND_SUCCESS_LABELS"
+export const CREATE_LABEL = "CREATE_LABEL"
+export const DELETE_LABEL = "DELETE_LABEL"
+export const APPEND_LABELS = "APPEND_LABELS"
 export const DELETE_LABEL_BY_PROJECT = "DELETE_LABEL_BY_PROJECT"
 
 /********************** Actions *******************/
 
 export function createSuccessfulLabel(data) {
     return {
-        type: CREATE_SUCCESS_LABEL,
+        type: CREATE_LABEL,
         data: data
     }
 }
 
 export function appendSuccessfulLabels(data) {
     return {
-        type: APPEND_SUCCESS_LABELS,
+        type: APPEND_LABELS,
         data: data
     }
 }
@@ -26,7 +26,7 @@ export function appendSuccessfulLabels(data) {
 
 export function deleteSuccessfulLabel(data) {
     return {
-        type: DELETE_SUCCESS_LABEL,
+        type: DELETE_LABEL,
         data: data
     }
 }
