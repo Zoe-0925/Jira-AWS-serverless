@@ -16,33 +16,7 @@ export const DELETE_COMMENT_BY_PROJECT = "DELETE_COMMENT_BY_PROJECT"
 export const DELETE_COMMENT_BY_ISSUE = "DELETE_COMMENT_BY_ISSUE"
 
 /**********************************  Actions  ******************************************/
-export function appendSuccessfulComments(data) {
-    return {
-        type: APPEND_COMMENTS,
-        data: data
-    }
-}
 
-export function createSuccessfulComment(data) {
-    return {
-        type: CREATE_COMMENT,
-        data: data
-    }
-}
-
-export function deleteSuccessfulComment(id) {
-    return {
-        type: DELETE_COMMENT,
-        id: id
-    }
-}
-
-export function updateSuccessfulComment(data) {
-    return {
-        type: UPDATE_COMMENT,
-        data: data
-    }
-}
 
 export function deleteSuccessCommentByProject(id) {
     return {
@@ -51,20 +25,15 @@ export function deleteSuccessCommentByProject(id) {
     }
 }
 
-export function deleteSuccessCommentByIssue(id) {
-    return {
-        type: DELETE_COMMENT_BY_ISSUE,
-        id: id
-    }
-}
-
-
 /**********************************  Thunk Actions  ******************************************/
 export const getCommentsForIssue = (issueId) => async  dispatch => {
     dispatch({ type: LOADING })
     try {
         const data = await API.get("CommentApi", "/comments/issue/" + issueId)
-        dispatch(appendSuccessfulComments(data))
+        dispatch({
+            type: APPEND_COMMENTS,
+            data: data
+        })
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -77,7 +46,10 @@ export const createComment = (newComment) => async  dispatch => {
         await API.post("CommentApi", "/comments", {
             body: newComment
         })
-        dispatch(createSuccessfulComment(newComment))
+        dispatch({
+            type: CREATE_COMMENT,
+            data: newComment
+        })
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -90,7 +62,10 @@ export const updateComment = (comment) => async  dispatch => {
         await API.put("CommentApi", "/comments", {
             body: comment
         })
-        dispatch(updateSuccessfulComment(comment))
+        dispatch({
+            type: UPDATE_COMMENT,
+            data: comment
+        })
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -101,7 +76,10 @@ export const deleteComment = (id) => async  dispatch => {
     dispatch({ type: LOADING })
     try {
         await API.del("CommentApi", "/comments/" + id)
-        dispatch(deleteSuccessfulComment(id))
+        dispatch({
+            type: DELETE_COMMENT,
+            id: id
+        })
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -117,10 +95,12 @@ export const deleteCommentByIssue = (issueId) => async  dispatch => {
     try {
         //TODO
         //update batch write item and update the api call
-        dispatch(deleteSuccessCommentByProject(issueId))
+        dispatch({
+            type: DELETE_COMMENT_BY_ISSUE,
+            id: issueId
+        })
     }
     catch (err) {
         dispatch(dispatchError(err))
     }
 }
-
