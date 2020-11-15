@@ -23,50 +23,61 @@ export const selectAuthenticated = state => state.LoadingReducer.authenticated
 export const selectErrorMessage = state => state.LoadingReducer.errorMessage
 
 /****************** Selectors - Status  *********************/
-export const selectAllStatus = state => selectStatusReducer(state).status
+export const selectAllStatus = state => state.StatusReducer.status
 
-export const selectStatus = state => selectStatusOrder(state).map(each => selectAllStatus(state).get(each))
+export const selectStatus = state => {
+    const currentProject = state.ProjectReducer.projects.find(item => item._id === state.ProjectReducer.currentProjectId)
+    return currentProject ? currentProject.statusOrder.map(each => state.StatusReducer.status.get(each)) : []
+}
 
-export const selectStatusById = (id) => state => selectStatus(state).get(id)
+export const selectStatusById = (id) => state => {
+    const currentProject = state.ProjectReducer.projects.find(item => item._id === state.ProjectReducer.currentProjectId)
+    return currentProject ? currentProject.statusOrder.map(each => state.StatusReducer.status.get(each)).get(id) : ""
+}
 
-export const selectDefaultIssueOrder = state => selectAllStatus(state).get(selectFirstStatus(state)) !== undefined ? selectAllStatus(state).get(selectFirstStatus(state)).issues : []
+export const selectDefaultIssueOrder = state => state.StatusReducer.status.get(selectFirstStatus(state)) !== undefined ? state.StatusReducer.status.get(selectFirstStatus(state)).issues : []
 
 
 /****************** Selectors - Project  *********************/
-export const selectAllProjects = state => selectProjectReducer(state).projects
+export const selectAllProjects = state => state.ProjectReducer.projects
 
-export const selectCurrentProjectId = state => selectProjectReducer(state).currentProjectId
+export const selectCurrentProjectId = state => state.ProjectReducer.currentProjectId
 
 export const selectStatusOrder = state => {
-    const currentProject = selectAllProjects(state).find(item => item._id === selectProjectReducer(state).currentProjectId)
+    const currentProject = state.ProjectReducer.projects.find(item => item._id === state.ProjectReducer.currentProjectId)
     return currentProject ? currentProject.statusOrder : []
 }
-export const selectCurrentProject = state => selectAllProjects(state).find(item => item._id === selectCurrentProjectId(state))
+export const selectCurrentProject = state => state.ProjectReducer.projects.find(item => item._id === state.ProjectReducer.currentProjectId)
 
 export const selectFirstStatus = state => {
-    return selectCurrentProject(state) ? selectStatusOrder(state)[0] : ""
+    if (state.ProjectReducer.projects) {
+        const currentProject = state.ProjectReducer.projects.find(item => item._id === state.ProjectReducer.currentProjectId)
+        return currentProject ? currentProject.statusOrder : []
+    } else {
+        return []
+    }
 }
 
 export const selectCurrentProjectName = state => {
-    const currentProject = selectCurrentProject(state)
+    const currentProject = state.ProjectReducer.projects.find(item => item._id === state.ProjectReducer.currentProjectId)
     return currentProject ? currentProject.name : ""
 }
 
 /****************** Selectors - Issue  *********************/
-export const selectTasks = state => selectIssueReducer(state).tasks
+export const selectTasks = state => state => state.IssueReducer.tasks
 
-export const selectEpics = state => selectIssueReducer(state).epics
+export const selectEpics = state => state => state.IssueReducer.epics
 
 export const selectTaskById = (issueId) => state => selectTasks(state).get(issueId)
 
 export const selectIssueUpdatedTimeById = (issueId) => state => selectTasks(state).get(issueId).updatedAt
 /****************** Selectors - Labels  *********************/
-export const selectLabels = state => selectLabelReducer(state).labels
+export const selectLabels = state => state.LabelReducer.labels
 
-export const selectLabelNames = state => selectLabels(state).map(each => each.name)
+export const selectLabelNames = state => state.LabelReducer.labels.map(each => each.name)
 
 /****************** Selectors - Comments  *********************/
-export const selectCommentByIssue = id => state => selectCommentReducer(state).comments.filter(comment => comment.issue === id)
+export const selectCommentByIssue = id => state => state.CommentReducer.comments.filter(comment => comment.issue === id)
 
 /****************** Reselectors - Projects  *********************/
 export const selectProjectMembers = createSelector(

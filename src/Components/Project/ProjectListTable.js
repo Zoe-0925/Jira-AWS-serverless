@@ -12,6 +12,7 @@ import history from "../../history"
 
 export default function ProjectListTable() {
     let projects = useSelector(selectAllProjects)
+    console.log("projects in the page", projects)
     const users = useSelector(selectAllUsers)
 
     const dispatch = useDispatch()
