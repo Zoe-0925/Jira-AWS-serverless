@@ -7,7 +7,6 @@ import { removeStatusFromOrder } from "./project.actions"
 export const ADD_ISSUE_TO_TAIL = "ADD_ISSUE_TO_TAIL"
 export const CREATE_STATUS = "CREATE_STATUS"
 export const DELETE_STATUS = "DELETE_STATUS"
-export const UPDATE_STATUS = "UPDATE_STATUS"
 export const UPDATE_STATUS_NAME = "UPDATE_STATUS_NAME"
 export const UPDATE_ISSUE_ORDER = "UPDATE_ISSUE_ORDER"
 export const APPEND_STATUS = "APPEND_STATUS"
@@ -15,34 +14,6 @@ export const REORDER_ISSUES = "REORDER_ISSUES"
 export const MOVE_ISSUES = "MOVE_ISSUES"
 export const DELETE_ISSUE_FROM_STATUS = "DELETE_ISSUE_FROM_STATUS"
 export const DELETE_STATUS_BY_PROJECT = "DELETE_STATUS_BY_PROJECT"
-
-export const createSuccessfulStatus = (data) => {
-    return {
-        type: CREATE_STATUS,
-        data: data
-    }
-}
-
-export const updateSuccessfulStatus = (data) => {
-    return {
-        type: UPDATE_STATUS,
-        data: data
-    }
-}
-
-export const updateSuccessfulStatusName = (data) => {
-    return {
-        type: UPDATE_STATUS_NAME,
-        data: data
-    }
-}
-
-export const deleteSuccessfulStatus = (id) => {
-    return {
-        type: DELETE_STATUS,
-        id: id
-    }
-}
 
 export const reorderToBotttom = (source, startIndex) => {
     return {
@@ -53,27 +24,6 @@ export const reorderToBotttom = (source, startIndex) => {
     }
 }
 
-export const deleteSuccessfulIssueFromStatus = (issueId, statusId) => {
-    return {
-        type: DELETE_ISSUE_FROM_STATUS,
-        issueId: issueId,
-        statusId: statusId
-    }
-}
-
-export function deleteSuccessStatusByProject() {
-    return {
-        type: DELETE_STATUS_BY_PROJECT
-    }
-}
-
-export function updateSuccessfulIssueOrder(data) {
-    return {
-        type: UPDATE_ISSUE_ORDER,
-        data: data
-    }
-}
-
 export function appendSuccessStatus(data) {
     return {
         type: APPEND_STATUS,
@@ -81,6 +31,8 @@ export function appendSuccessStatus(data) {
     }
 }
 
+//TODO
+//Check if it is necessary
 export function addSuccessIssueToTail(statusId, issueId) {
     return {
         type: ADD_ISSUE_TO_TAIL,
@@ -219,7 +171,10 @@ export const createStatus = (newStatus) => async  dispatch => {
         await API.put("StatusApi", "/status", {
             body: newStatus
         })
-        await dispatch(createSuccessfulStatus(newStatus))
+        await dispatch({
+            type: CREATE_STATUS,
+            data: newStatus
+        })
         dispatch({ type: AUTHENTICATED })
     }
     catch (err) {
@@ -250,7 +205,10 @@ export const updateStatusName = (data) => async  dispatch => {
         await API.put("StatusApi", "/status/name", {
             body: data
         })
-        await dispatch(updateSuccessfulStatusName(data))
+        await dispatch({
+            type: UPDATE_STATUS_NAME,
+            data: data
+        })
         dispatch({ type: AUTHENTICATED })
     }
     catch (err) {
@@ -261,7 +219,10 @@ export const updateStatusName = (data) => async  dispatch => {
 export const deleteStatus = (id) => async  dispatch => {
     try {
         await API.del("StatusApi", "/status/" + id)
-        dispatch(deleteSuccessfulStatus(id))
+        dispatch({
+            type: DELETE_STATUS,
+            id: id
+        })
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -271,7 +232,7 @@ export const deleteStatus = (id) => async  dispatch => {
 export const deleteStatusByProject = (projectId) => async (dispatch) => {
     try {
         await API.del("StatusApi", "/status/project/" + projectId)
-        dispatch(deleteSuccessStatusByProject(projectId))
+        dispatch({ type: DELETE_STATUS_BY_PROJECT })
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -286,7 +247,11 @@ export const deleteIssueFromStatus = (issueId, statusId) => async (dispatch, get
         await API.put("StatusApi", "/status/issueOrder", {
             body: issuesUpdated
         })
-        dispatch(deleteSuccessfulIssueFromStatus(issueId, statusId))
+        dispatch({
+            type: DELETE_ISSUE_FROM_STATUS,
+            issueId: issueId,
+            statusId: statusId
+        })
         dispatch({ type: AUTHENTICATED })
     }
     catch (err) {
