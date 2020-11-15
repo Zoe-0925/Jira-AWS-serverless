@@ -6,12 +6,9 @@ export const DELETE_COMMENT = "DELETE_COMMENT"
 export const UPDATE_COMMENT = "UPDATE_COMMENT"
 export const APPEND_COMMENTS = "APPEND_COMMENTS"
 export const APPEND_COMMENTS_CHILDREN = "APPEND_COMMENTS_CHILDREN"
-
-export const CREATE_COMMENT = "CREATE_COMMENT"
+export const DELETE_COMMENT_BY_PROJECT = "DELETE_COMMENT_BY_PROJECT"
 export const GET_COMMENT_BY_ID = "GET_COMMENT_BY_ID"
 export const GET_ALL_COMMENTS = "GET_ALL_COMMENTS"
-export const UPDATE_COMMENT = "UPDATE_COMMENT"
-export const DELETE_COMMENT = "UPDATE_COMMENT"
 export const DELETE_COMMENT_BY_ISSUE = "DELETE_COMMENT_BY_ISSUE"
 
 /**********************************  Actions  ******************************************/

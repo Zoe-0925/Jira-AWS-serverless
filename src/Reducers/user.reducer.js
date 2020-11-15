@@ -1,5 +1,5 @@
 import {
-	UPDATE_USER, LOGIN, LOGOUT, ADD_OTHER_USERS, UPDATE_PROJECTS, CLEAR_USER
+	UPDATE_USER, LOGIN, LOGOUT, ADD_OTHER_USERS, UPDATE_PROJECTS, CLEAR
 } from "../Actions/user.actions"
 
 const testState = {
@@ -32,7 +32,7 @@ const UserReducer = (state = initialState, action) => {
 			tempUsers.push(action.data)
 			newState.users = tempUsers
 			return newState
-		case CLEAR_USER:
+		case CLEAR:
 			return initialState
 		default:
 			return state

@@ -12,9 +12,9 @@ import history from "../../history"
 
 export default function ProjectListTable() {
     let projects = useSelector(selectAllProjects)
+    const users = useSelector(selectAllUsers)
 
     const dispatch = useDispatch()
-    const users = useSelector(selectAllUsers)
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const isOpen = Boolean(anchorEl);
@@ -52,13 +52,13 @@ export default function ProjectListTable() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {users.length > 0 && projects.map(project => (
+                        {projects.length > 0 && projects.map(project => (
                             <TableRow key={project._id} className="table-body">
                                 <TableCell className="project-name" component="th" scope="row" onClick={() => goToBoardPage(project._id)}>
-                                    {project.name}
+                                    {project && project.name}
                                 </TableCell>
                                 <TableCell component="th" scope="row">
-                                    {project.key}
+                                    {project && project.key}
                                 </TableCell>
                                 <TableCell component="th" scope="row">
                                     Software
@@ -69,8 +69,8 @@ export default function ProjectListTable() {
                                 <TableCell component="th" scope="row" >
                                     <DotIconMenu className="dot-icon" anchorEl={anchorEl} isOpen={isOpen} anchorRef={anchorRef}
                                         handleMenuClose={handleMenuClose} handleMenuOpen={handleMenuOpen} >
-                                        <MenuItem onClick={() => goToProjectDetail(project._id)}>Project settings</MenuItem>
-                                        <MenuItem onClick={() => dispatch(chainDeleteProject(project._id))}>Move to trash</MenuItem>
+                                        <MenuItem onClick={() => goToProjectDetail( project._id)}>Project settings</MenuItem>
+                                        <MenuItem onClick={() => dispatch(chainDeleteProject( project._id))}>Move to trash</MenuItem>
                                     </DotIconMenu>
                                 </TableCell>
                             </TableRow>

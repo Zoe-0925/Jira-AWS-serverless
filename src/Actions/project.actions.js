@@ -17,12 +17,6 @@ export const UPDATE_STATUS_ORDER = "UPDATE_STATUS_ORDER"
 export const REMOVE_STATUS_FROM_ORDER = "REMOVE_STATUS_FROM_ORDER"
 
 /***************** Actions  ***********************/
-export function updateSuccessfulMembers(data) {
-    return {
-        type: UPDATE_MEMBERS,
-        data: data
-    }
-}
 
 
 export function createSuccessfulProject(data) {
@@ -39,31 +33,12 @@ export function appendSuccessfulProject(data) {
     }
 }
 
-export function updateSuccessfulProject(data) {
-    return {
-        type: UPDATE_PROJECT,
-        data: data
-    }
-}
 
-export function updateSuccessfulProjectName(data) {
-    return {
-        type: UPDATE_PROJECT_NAME,
-        data: data
-    }
-}
 
 export function updateSuccessfulProjectDetail(data) {
     return {
         type: UPDATE_PROJECT_DETAIL,
         data: data
-    }
-}
-
-export function deleteSuccessfulProject(id) {
-    return {
-        type: UPDATE_PROJECT,
-        id: id
     }
 }
 
@@ -191,7 +166,10 @@ export const subMembers = (projectId, userId, members) => async dispatch => {
 export const deleteProject = (id) => async  dispatch => {
     try {
         await API.del("ProjectApi", "/projects/" + id)
-        dispatch(deleteSuccessfulProject(id))
+        dispatch({
+            type:DELETE_PROJECT,
+            id:id
+        })
     }
     catch (err) {
         dispatch(dispatchError(err))

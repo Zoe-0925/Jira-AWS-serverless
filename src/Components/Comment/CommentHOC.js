@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from "react-redux"
 import Pusher from 'pusher-js';
 import CommentBox from "./CommentBox"
-require('dotenv').config()  //Enable access to the ".env" file
 import { selectCommentByIssue } from "../../Reducers/Selectors"
+
+require('dotenv').config()  //Enable access to the ".env" file
 
 export default function CommentHOC({ issueId }) {
     const [comments, setState] = useState([])

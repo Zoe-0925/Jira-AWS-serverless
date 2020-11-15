@@ -68,7 +68,10 @@ export const getAllLabels = (projectId) => async  dispatch => {
     dispatch({ type: LOADING })
     try {
         const data = await API.get("LabelApi", "/labels/project" + projectId)
-        dispatch(appendSuccessfulLabels(data))
+        dispatch({
+            type: APPEND_LABELS,
+            data: data
+        })
     }
     catch (err) {
         dispatch(dispatchError(err))

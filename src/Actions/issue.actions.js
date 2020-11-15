@@ -90,7 +90,7 @@ export const handleIssueAfterDeleteStatus = (statusId, newStatusId) => async (di
             }
         })
         tasksToUpdate.forEach(issueId => {
-            await API.put("IssueApi", "/issues/update/attribute", {
+            API.put("IssueApi", "/issues/update/attribute", {
                 body: {
                     _id: issueId,
                     attribute: "status",
@@ -223,7 +223,7 @@ export const removeLabelFromIssues = labelId => async (dispatch, getState) => {
             }
         })
         tasksToUpdate.forEach(issueId => {
-            await API.put("IssueApi", "/issues/update/attribute", {
+            API.put("IssueApi", "/issues/update/attribute", {
                 body: {
                     _id: issueId,
                     attribute: "label",

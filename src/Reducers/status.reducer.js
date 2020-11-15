@@ -1,6 +1,6 @@
 import {
     CREATE_STATUS, DELETE_STATUS,
-    UPDATE_STATUS, UPDATE_STATUS_NAME, APPEND_STATUS, MOVE_ISSUES,
+   UPDATE_STATUS_NAME, APPEND_STATUS, MOVE_ISSUES,
     DELETE_ISSUE_FROM_STATUS,  UPDATE_ISSUE_ORDER
 } from "../Actions/status.actions"
 
@@ -27,9 +27,6 @@ export default function StatusReducer(state = initialState, action) {
             return newState
         case DELETE_STATUS:
             newState.status.detele(action.id)
-            return newState
-        case UPDATE_STATUS:
-            newState.status.set(action.data._id, action.data)
             return newState
         case UPDATE_STATUS_NAME:
             status = newState.status.get(action.data._id)

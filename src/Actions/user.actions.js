@@ -1,7 +1,7 @@
 import { Auth } from 'aws-amplify';
 import API from '@aws-amplify/api';
 import history from "../history"
-import { getAllProjects, mockgetAllProjects, setCurrentProject } from "./project.actions"
+import { getAllProjects, mockgetAllProjects, setCurrentProject ,chainDeleteProject} from "./project.actions"
 import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
 import { getProjectIssues } from "./issue.actions"
 import { getProjectLabels } from "./label.actions"
@@ -63,7 +63,7 @@ export const chainDeleteUser = (id, projectIds) => async (dispatch, getState) =>
         dispatch({ type: LOADING })
         await API.del("UserApi", "/users/object/" + id)
         projects.forEach(projectId => {
-            await dispatch(chainDeleteProject(projectId))
+           dispatch(chainDeleteProject(projectId))
         })
         dispatch({ type: CLEAR })
         await Auth.signOut({ global: true });
