@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { setCurrentProject, chainDeleteProject } from "../../Actions/project.actions"
 import { selectAllUsers, selectAllProjects } from "../../Reducers/Selectors"
@@ -12,7 +12,6 @@ import history from "../../history"
 
 export default function ProjectListTable() {
     let projects = useSelector(selectAllProjects)
-    console.log("projects in the page", projects)
     const users = useSelector(selectAllUsers)
 
     const dispatch = useDispatch()
@@ -38,10 +37,6 @@ export default function ProjectListTable() {
         dispatch(setCurrentProject(projectId))
         history.push("/projects/settings/details")
     }
-
-    useEffect(() => {
-        console.log("projects changed", projects)
-    }, [projects])
 
     return (
         <div className="project-list-table">
