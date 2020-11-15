@@ -1,11 +1,11 @@
 import API from '@aws-amplify/api';
 import { dispatchError, LOADING } from "./loading.actions"
 
-export const CREATE_SUCCESS_COMMENT = "CREATE_SUCCESS_COMMENT"
-export const DELETE_SUCCESS_COMMENT = "DELETE_SUCCESS_COMMENT"
-export const UPDATE_SUCCESS_COMMENT = "UPDATE_SUCCESS_COMMENT"
-export const APPEND_SUCCESS_COMMENTS = "APPEND_SUCCESS_COMMENTS"
-export const APPEND_SUCCESS_COMMENTS_CHILDREN = "APPEND_SUCCESS_COMMENTS_CHILDREN"
+export const CREATE_COMMENT = "CREATE_COMMENT"
+export const DELETE_COMMENT = "DELETE_COMMENT"
+export const UPDATE_COMMENT = "UPDATE_COMMENT"
+export const APPEND_COMMENTS = "APPEND_COMMENTS"
+export const APPEND_COMMENTS_CHILDREN = "APPEND_COMMENTS_CHILDREN"
 
 export const CREATE_COMMENT = "CREATE_COMMENT"
 export const GET_COMMENT_BY_ID = "GET_COMMENT_BY_ID"
@@ -18,28 +18,28 @@ export const DELETE_COMMENT_BY_ISSUE = "DELETE_COMMENT_BY_ISSUE"
 /**********************************  Actions  ******************************************/
 export function appendSuccessfulComments(data) {
     return {
-        type: APPEND_SUCCESS_COMMENTS,
+        type: APPEND_COMMENTS,
         data: data
     }
 }
 
 export function createSuccessfulComment(data) {
     return {
-        type: CREATE_SUCCESS_COMMENT,
+        type: CREATE_COMMENT,
         data: data
     }
 }
 
 export function deleteSuccessfulComment(id) {
     return {
-        type: DELETE_SUCCESS_COMMENT,
+        type: DELETE_COMMENT,
         id: id
     }
 }
 
 export function updateSuccessfulComment(data) {
     return {
-        type: UPDATE_SUCCESS_COMMENT,
+        type: UPDATE_COMMENT,
         data: data
     }
 }
