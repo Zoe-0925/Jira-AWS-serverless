@@ -1,7 +1,7 @@
 import {
     CREATE_STATUS, DELETE_STATUS,
     UPDATE_STATUS, UPDATE_STATUS_NAME, APPEND_STATUS, MOVE_ISSUES,
-    DELETE_ISSUE_FROM_STATUS, DELETE_STATUS_BY_PROJECT, UPDATE_ISSUE_ORDER
+    DELETE_ISSUE_FROM_STATUS,  UPDATE_ISSUE_ORDER
 } from "../Actions/status.actions"
 
 const status = new Map()
@@ -56,9 +56,10 @@ export default function StatusReducer(state = initialState, action) {
             const newIssueList = newState.status.get(action.statusId).issues.filter(id => id !== action.issueId)
             newState.status.get(action.statusId).issues = newIssueList
             return newState
-        case DELETE_STATUS_BY_PROJECT:
-            newState.status.clear()
-            return newState
+        case "DELETE_PROJECT":
+            return initialState
+        case "CLEAR":
+            return initialState
         default:
             return state;
     }

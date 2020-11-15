@@ -232,7 +232,7 @@ export const deleteStatus = (id) => async  dispatch => {
 export const deleteStatusByProject = (projectId) => async (dispatch) => {
     try {
         await API.del("StatusApi", "/status/project/" + projectId)
-        dispatch({ type: DELETE_STATUS_BY_PROJECT })
+        dispatch({ type: "DELETE_PROJECT" })
     }
     catch (err) {
         dispatch(dispatchError(err))

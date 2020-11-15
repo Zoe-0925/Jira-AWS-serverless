@@ -70,6 +70,8 @@ export default function ProjectReducer(state = initialState, action) {
             target = newState.projects.find(item => item._id === action.data._id)
             target.members = action.data.members
             return newState
+        case "CLEAR":
+            return initialState
         default:
             return state
     }

@@ -2,7 +2,7 @@ import {
     DELETE_TASK, UPDATE_TASK, DELETE_EPIC,
     UPDATE_EPIC, UPDATE_ISSUE_GROUP, TOGGLE_FLAG, DELETE_SUB_TASK,
     ADD_TASK_TO_EPIC, REMOVE_TASK_FROM_EPIC, ADD_SUBTASK_TO_TASK, REMOVE_SUBTASK_FROM_TASK,
-    DELETE_ISSUE_BY_PROJECT, APPEND_ISSUES, CREATE_ISSUE,
+    APPEND_ISSUES, CREATE_ISSUE,
     UPDATE_TASK_ATTRIBUTE, UPDATE_ISSUE_AFTER_DELETE_STATUS, REMOVE_LABEL_FROM_ISSUE
 
 } from "../Actions/issue.actions"
@@ -117,7 +117,9 @@ export default function IssueReducer(state = initialState, action) {
             let issue = newState.issues.get(action.id)
             issue.flag = !issue.flag
             return newState
-        case DELETE_ISSUE_BY_PROJECT:
+        case "DELETE_PROJECT":
+            return initialState
+        case "CLEAR":
             return initialState
         default:
             return state;

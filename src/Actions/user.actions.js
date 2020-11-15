@@ -11,7 +11,7 @@ export const LOGIN = "LOGIN"
 export const LOGOUT = "LOGOUT"
 export const UPDATE_USER = "UPDATE_USER"
 export const ADD_OTHER_USERS = "ADD_OTHER_USERS"
-export const DELETE_USER = "DELETE_USER"
+export const CLEAR = "CLEAR"
 export const SAVE_TOKENS = "SAVE_TOKENS"
 export const FINISH_LOADING = "FINISH_LOADING"
 export const UPDATE_PROJECTS = "UPDATE_PROJECTS"
@@ -55,6 +55,23 @@ export function saveTokens(accessToken, refreshToken) {
 
 
 /******************* Thunk Actions  *****************************/
+//TODO 
+//remove the account from AWS Cognito as well
+export const chainDeleteUser = (id, projectIds) => async (dispatch, getState) => {
+    try {
+        const projects = getState().ProjectReducer.projects.map(each => each._id)
+        dispatch({ type: LOADING })
+        await API.del("UserApi", "/users/object/" + id)
+        projects.forEach(projectId => {
+            await dispatch(chainDeleteProject(projectId))
+        })
+        dispatch({ type: CLEAR })
+    }
+    catch (err) {
+        return dispatch(dispatchError(err))
+    }
+}
+
 export const getUserAndProjects = () => async dispatch => {
     try {
         const user = await dispatch(getCurrentUser())

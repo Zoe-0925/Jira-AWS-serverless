@@ -1,8 +1,7 @@
 import {
     CREATE_LABEL,
     DELETE_LABEL,
-    APPEND_LABELS,
-    DELETE_LABEL_BY_PROJECT
+    APPEND_LABELS
 } from "../Actions/label.actions"
 
 const testState = {
@@ -22,7 +21,9 @@ export default function LabelReducer(state = initialState, action) {
             return { labels: newState.labels.filter(item => item._id !== action.id) }
         case APPEND_LABELS:
             return { labels: newState.labels.concat(action.data) }
-        case DELETE_LABEL_BY_PROJECT:
+        case "DELETE_PROJECT":
+            return initialState
+        case "CLEAR":
             return initialState
         default:
             return state;

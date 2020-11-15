@@ -205,8 +205,7 @@ export const deleteIssueByProject = (projectId) => async (dispatch) => {
     try {
         await API.del("IssueApi", "/issues/project/" + projectId)
         dispatch({
-            type: DELETE_ISSUE_BY_PROJECT,
-            id: projectId
+            type: "DELETE_PROJECT"
         })
     }
     catch (err) {

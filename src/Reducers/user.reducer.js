@@ -1,5 +1,5 @@
 import {
-	UPDATE_USER, LOGIN, LOGOUT,ADD_OTHER_USERS, UPDATE_PROJECTS
+	UPDATE_USER, LOGIN, LOGOUT, ADD_OTHER_USERS, UPDATE_PROJECTS, CLEAR_USER
 } from "../Actions/user.actions"
 
 const testState = {
@@ -8,7 +8,8 @@ const testState = {
 }
 const initialState = {
 	currentUserId: "",
-	users: []}
+	users: []
+}
 
 const UserReducer = (state = initialState, action) => {
 	let newState = Object.assign({}, state)
@@ -31,6 +32,8 @@ const UserReducer = (state = initialState, action) => {
 			tempUsers.push(action.data)
 			newState.users = tempUsers
 			return newState
+		case CLEAR_USER:
+			return initialState
 		default:
 			return state
 	}
