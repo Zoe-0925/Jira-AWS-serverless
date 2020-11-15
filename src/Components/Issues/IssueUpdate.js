@@ -15,8 +15,7 @@ import {
     selectMemberNames, selectLabelNames, selectUserById,
 } from "../../Reducers/Selectors"
 import {
-    updateIssueLabel, chainUpdateIssueStatus,
-    updateIssueSummary, updateIssueDescription, updateIssueAssignee, updateIssueReporter
+    chainUpdateIssueStatus, updateIssueAttribute
 } from "../../Actions/issue.actions"
 import CommentHOC from "../Comment/CommentHOC"
 import CloseIcon from '@material-ui/icons/Close';
@@ -54,7 +53,7 @@ const IssueDetailForm = ({ issue, handleClose }) => {
     //TODO call the thunk to get all users, and save to the store
     const assigneeOptions = useSelector(selectProjectMembers).map(each => {
         return { label: each.name, value: each._id }
-    })
+    }).push({ label: "Not assigned", value: "" })
 
     const labelOptions = useSelector(selectLabels).map(each => {
         return { label: each.name, value: each._id }
@@ -121,7 +120,7 @@ const IssueDetailForm = ({ issue, handleClose }) => {
                             name="issueType"
                             defaultValue={{ label: defaultStatus.name, value: issue.status }}
                             options={statusOptions}
-                            onChange={(e) => chainUpdateIssueStatus({ _id: issue._id, value: e.value, attribute: "status" }, issue.status)}
+                            onChange={(e) => dispatch(chainUpdateIssueStatus({ _id: issue._id, value: e.value, attribute: "status" }, issue.status))}
                         />
                         <Row></Row>
                         <p className="label">Assignee</p>
@@ -131,7 +130,7 @@ const IssueDetailForm = ({ issue, handleClose }) => {
                             name="assignee"
                             defaultValue={{ label: assignee.name, value: assignee }}
                             options={assigneeOptions}
-                            onChange={(e) => dispatch(updateIssueAssignee({ _id: issue._id, value: e.value }))}
+                            onChange={(e) => dispatch(updateIssueAttribute({ _id: issue._id, value: e.value, attribute: "assignee" }))}
                             isClearable={true}
                         />
                         <Row></Row>
@@ -143,7 +142,7 @@ const IssueDetailForm = ({ issue, handleClose }) => {
                             name="labels"
                             defaultValue={currentLabels}
                             options={labelOptions}
-                            onChange={(e) => dispatch(updateIssueLabel({ _id: issue._id, value: e.value }))}
+                            onChange={(e) => dispatch(updateIssueAttribute({ _id: issue._id, value: e.value, attribute: "labels" }))}
                             isClearable={true}
                         />
                         <Row></Row>
@@ -154,7 +153,7 @@ const IssueDetailForm = ({ issue, handleClose }) => {
                             name="reportee"
                             defaultValue={{ label: reportee.name, value: reportee }}
                             options={reporterOptions}
-                            onChange={(e) => dispatch(updateIssueReporter({ _id: issue._id, value: e.value }))}
+                            onChange={(e) => dispatch(updateIssueAttribute({ _id: issue._id, value: e.value, attribute: "reporter" }))}
                         />
                         <Row></Row>
                         <Divider />
