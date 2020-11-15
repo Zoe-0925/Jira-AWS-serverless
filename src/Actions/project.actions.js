@@ -5,23 +5,23 @@ import { getProjectIssues, deleteIssueByProject } from "./issue.actions"
 import { getProjectLabels, deleteLabelByProject } from "./label.actions"
 import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
 
-export const CREATE_SUCCESS_PROJECT = "CREATE_SUCCESS_PROJECT"
-export const DELETE_SUCCESS_PROJECT = "DELETE_SUCCESS_PROJECT"
-export const UPDATE_SUCCESS_MEMBERS = "UPDATE_MEMBERS"
-export const UPDATE_SUCCESS_PROJECT = "UPDATE_SUCCESS_PROJECT"
-export const UPDATE_SUCCESS_PROJECT_DETAIL = "UPDATE_SUCCESS_PROJECT_DETAIL"
-export const UPDATE_SUCCESS_PROJECT_NAME = "UPDATE_SUCCESS_PROJECT_NAME"
-export const APPEND_SUCCESS_PROJECTS = "APPEND_SUCCESS_PROJECTS"
+export const CREATE_PROJECT = "CREATE_PROJECT"
+export const DELETE_PROJECT = "DELETE_PROJECT"
+export const UPDATE_MEMBERS = "UPDATE_MEMBERS"
+export const UPDATE_PROJECT = "UPDATE_PROJECT"
+export const UPDATE_PROJECT_DETAIL = "UPDATE_PROJECT_DETAIL"
+export const UPDATE_PROJECT_NAME = "UPDATE_PROJECT_NAME"
+export const APPEND_PROJECTS = "APPEND_PROJECTS"
 export const SET_CURRENT_PROJECT = "SET_CURRENT_PROJECT"
 export const APPEDN_CURRENT_PROJECT = "APPEDN_CURRENT_PROJECT"
 export const LEAVE_PROJECT = "LEAVE_PROJECT"  //Remove a user from a project...
-export const UPDATE_SUCCESS_STATUS_ORDER = "UPDATE_SUCCESS_STATUS_ORDER"
-export const REMOVE_SUCCESS_STATUS_FROM_ORDER = "REMOVE_SUCCESS_STATUS_FROM_ORDER"
+export const UPDATE_STATUS_ORDER = "UPDATE_STATUS_ORDER"
+export const REMOVE_STATUS_FROM_ORDER = "REMOVE_STATUS_FROM_ORDER"
 
 /***************** Actions  ***********************/
 export function updateSuccessfulMembers(data) {
     return {
-        type: UPDATE_SUCCESS_MEMBERS,
+        type: UPDATE_MEMBERS,
         data: data
     }
 }
@@ -29,42 +29,42 @@ export function updateSuccessfulMembers(data) {
 
 export function createSuccessfulProject(data) {
     return {
-        type: CREATE_SUCCESS_PROJECT,
+        type: CREATE_PROJECT,
         data: data
     }
 }
 
 export function appendSuccessfulProject(data) {
     return {
-        type: APPEND_SUCCESS_PROJECTS,
+        type: APPEND_PROJECTS,
         data: data //an array
     }
 }
 
 export function updateSuccessfulProject(data) {
     return {
-        type: UPDATE_SUCCESS_PROJECT,
+        type: UPDATE_PROJECT,
         data: data
     }
 }
 
 export function updateSuccessfulProjectName(data) {
     return {
-        type: UPDATE_SUCCESS_PROJECT_NAME,
+        type: UPDATE_PROJECT_NAME,
         data: data
     }
 }
 
 export function updateSuccessfulProjectDetail(data) {
     return {
-        type: UPDATE_SUCCESS_PROJECT_DETAIL,
+        type: UPDATE_PROJECT_DETAIL,
         data: data
     }
 }
 
 export function deleteSuccessfulProject(id) {
     return {
-        type: UPDATE_SUCCESS_PROJECT,
+        type: UPDATE_PROJECT,
         id: id
     }
 }
@@ -78,7 +78,7 @@ export function setCurrentProject(data) {
 
 export const updateSuccessfulStatusOrder = (data) => {
     return {
-        type: UPDATE_SUCCESS_STATUS_ORDER,
+        type: UPDATE_STATUS_ORDER,
         data: data
     }
 }
@@ -176,10 +176,24 @@ export const updateProjectDetail = (data) => async  dispatch => {
     }
 }
 
-export const updateMembers = data => async  dispatch => {
+export const addMember = (projectId, userId, members) => async dispatch => {
     dispatch({ type: LOADING })
+    await dispatch(updateMembers([...members, userId]))
+}
+
+export const subMembers = (projectId, userId, members) => async dispatch => {
+    dispatch({ type: LOADING })
+    let updated = [...members]
+    updated = updated.filter(member => member === userId)
+    await dispatch(updateMembers(updated))
+
+}
+
+export const updateMembers = data => async  dispatch => {
     try {
         await API.put("ProjectApi", "/projects/members", data)
+
+
         //TODO
         // dispatch(updateSuccessfulProjecMembers(data))
         dispatch({ type: AUTHENTICATED })

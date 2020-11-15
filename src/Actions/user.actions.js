@@ -66,6 +66,8 @@ export const chainDeleteUser = (id, projectIds) => async (dispatch, getState) =>
             await dispatch(chainDeleteProject(projectId))
         })
         dispatch({ type: CLEAR })
+        await Auth.signOut({ global: true });
+        history.push("/")
     }
     catch (err) {
         return dispatch(dispatchError(err))
@@ -137,7 +139,7 @@ export const getCurrentUser = () => async  dispatch => {
             bypassCache: true  // Optional, By default is false. If set to true, this call will send a request to Cognito to get the latest user data
         })
         if (credential) {
-            return await API.get("UserApi", "/users/email/" + credential.username)
+            return searchUserByEmail(credential.username)
         }
     }
     catch (err) {
@@ -161,6 +163,15 @@ export const addProjectToUser = projectId => async (dispatch, getState) => {
             type: UPDATE_PROJECTS,
             data: projectsUpdated
         })
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+    }
+}
+
+export const searchUserByEmail = email => async (dispatch) => {
+    try {
+        return await API.get("UserApi", "/users/email/" + email)
     }
     catch (err) {
         dispatch(dispatchError(err))

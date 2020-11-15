@@ -1,8 +1,8 @@
 
 import {
-    CREATE_SUCCESS_PROJECT, DELETE_SUCCESS_PROJECT,
-    APPEND_SUCCESS_PROJECTS, SET_CURRENT_PROJECT, UPDATE_SUCCESS_PROJECT_NAME, UPDATE_SUCCESS_PROJECT_DETAIL,
-    UPDATE_SUCCESS_MEMBERS, UPDATE_SUCCESS_STATUS_ORDER,
+    CREATE_PROJECT, DELETE_PROJECT,
+    APPEND_PROJECTS, SET_CURRENT_PROJECT, UPDATE_PROJECT_NAME, UPDATE_PROJECT_DETAIL,
+    UPDATE_MEMBERS, UPDATE_STATUS_ORDER,
 } from "../Actions/project.actions"
 
 const testState = {
@@ -42,31 +42,31 @@ export default function ProjectReducer(state = initialState, action) {
     switch (action.type) {
         case SET_CURRENT_PROJECT:
             return { ...state, currentProjectId: action.data }
-        case CREATE_SUCCESS_PROJECT:
+        case CREATE_PROJECT:
             newState.projects.push(action.data)
             return newState
-        case DELETE_SUCCESS_PROJECT:
+        case DELETE_PROJECT:
             newState.projects = newState.projects.filter(item => item._id !== action.id)
             if (newState.currentProjectId === action.id) {
                 newState.currentProjectId = ""
             }
             return newState
-        case APPEND_SUCCESS_PROJECTS:
+        case APPEND_PROJECTS:
             return { ...state, projects: action.data }
-        case UPDATE_SUCCESS_STATUS_ORDER:
+        case UPDATE_STATUS_ORDER:
             target = newState.projects.find(item => item._id === newState.currentProjectId)
             target.statusOrder = action.data
             return newState
-        case UPDATE_SUCCESS_PROJECT_NAME:
+        case UPDATE_PROJECT_NAME:
             newState.projects.find(item => item._id === action.data._id).name = action.data.name
             return newState
-        case UPDATE_SUCCESS_PROJECT_DETAIL:
+        case UPDATE_PROJECT_DETAIL:
             target = newState.projects.find(item => item._id === action.data._id)
             target.default_assignee = action.data.default_assignee
             target.name = action.data.name
             target.key = action.data.key
             return newState
-        case UPDATE_SUCCESS_MEMBERS:
+        case UPDATE_MEMBERS:
             target = newState.projects.find(item => item._id === action.data._id)
             target.members = action.data.members
             return newState

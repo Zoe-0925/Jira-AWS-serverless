@@ -14,7 +14,6 @@ import {
 } from 'formik-material-ui';
 import { useDotIconMenu } from "../Shared/CustomHooks"
 import { Container, Row, Col } from "reactstrap"
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 export const ProjectDetailForm = ({
     values,
