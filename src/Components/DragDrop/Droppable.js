@@ -37,6 +37,8 @@ export const MyDroppable = ({ el, ind, ...props }) => (<Droppable key={ind} drop
 </Droppable>)
 
 export const IssueDroppable = ({ columns, openTaskDetail }) => {
+
+    console.log("columns in IssueDroppable", columns)
     /**
      *     const noneFilter = useSelector(selectNoneFilter)
 
