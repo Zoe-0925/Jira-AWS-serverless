@@ -1,5 +1,6 @@
 import API from '@aws-amplify/api';
-import { dispatchError, LOADING } from "./loading.actions"
+import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
+import { removeLabelFromIssues } from "./issue.actions"
 
 export const CREATE_SUCCESS_LABEL = "CREATE_SUCCESS_LABEL"
 export const DELETE_SUCCESS_LABEL = "DELETE_SUCCESS_LABEL"
@@ -38,6 +39,20 @@ export function deleteSuccessLabelByProject(id) {
 }
 
 /******************************** Thunk Actions ****************************************/
+export const chainDeleteLabel = (id) => async  dispatch => {
+    try {
+        await Promise.all([
+            dispatch({ type: LOADING }),
+            dispatch(deleteLabel(id)),
+            dispatch(removeLabelFromIssues(id))
+        ])
+        dispatch({ type: AUTHENTICATED })
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+    }
+}
+
 export const getProjectLabels = (projectId) => async  dispatch => {
     try {
         const labels = await API.get("LabelApi", "/labels/project/" + projectId)
@@ -62,7 +77,6 @@ export const createLabel = (newLabel) => async  dispatch => {
 }
 
 export const deleteLabel = (id) => async  dispatch => {
-    dispatch({ type: LOADING })
     try {
         await API.del("LabelApi", "/labels/" + id)
         dispatch(deleteSuccessfulLabel(id))

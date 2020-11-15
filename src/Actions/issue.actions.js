@@ -3,18 +3,18 @@ import { API } from 'aws-amplify';
 import { addIssueToTail, updateStatusForIssue, deleteIssueFromStatus } from "./status.actions"
 import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
 
-export const CREATE_SUCCESS_SUB_TASK = "CREATE_SUCCESS_SUB_TASK"
-export const CREATE_SUCCESS_ISSUE = "CREATE_SUCCESS_ISSUE"
-export const DELETE_SUCCESS_TASK = "DELETE_SUCCESS_TASK"
-export const DELETE_SUCCESS_EPIC = "DELETE_SUCCESS_EPIC"
-export const DELETE_SUCCESS_SUB_TASK = "DELETE_SUCCESS_SUB_TASK"
+export const CREATE_SUB_TASK = "CREATE_SUB_TASK"
+export const CREATE_ISSUE = "CREATE_ISSUE"
+export const DELETE_TASK = "DELETE_TASK"
+export const DELETE_EPIC = "DELETE_EPIC"
+export const DELETE_SUB_TASK = "DELETE_SUB_TASK"
 export const DELETE_ISSUE_BY_PROJECT = "DELETE_ISSUE_BY_PROJECT"
-export const UPDATE_SUCCESS_TASK = "UPDATE_SUCCESS_TASK"
-export const UPDATE_SUCCESS_TASK_ATTRIBUTE = "UPDATE_SUCCESS_TASK_ATTRIBUTE"
-export const UPDATE_SUCCESS_EPIC = "UPDATE_SUCCESS_EPIC"
-export const APPEND_SUCCESS_ISSUES = "APPEND_SUCCESS_ISSUES"
-export const APPEND_SUCCESS_CURRENT_TASK = "APPEND_SUCCESS_CURRENT_TASK"
-export const APPEND_SUCCESS_CURRENT_EPIC = "APPEND_SUCCESS_CURRENT_EPIC"
+export const UPDATE_TASK = "UPDATE_TASK"
+export const UPDATE_TASK_ATTRIBUTE = "UPDATE_TASK_ATTRIBUTE"
+export const UPDATE_EPIC = "UPDATE_EPIC"
+export const APPEND_ISSUES = "APPEND_ISSUES"
+export const APPEND_CURRENT_TASK = "APPEND_CURRENT_TASK"
+export const APPEND_CURRENT_EPIC = "APPEND_CURRENT_EPIC"
 export const ADD_TASK_TO_EPIC = "ADD_TASK_TO_EPIC"
 export const REMOVE_TASK_FROM_EPIC = "REMOVE_TASK_FROM_EPIC"
 export const ADD_SUBTASK_TO_TASK = "ADD_SUBTASK_TO_TASK"
@@ -22,55 +22,11 @@ export const REMOVE_SUBTASK_FROM_TASK = "REMOVE_SUBTASK_FROM_TASK"
 export const UPDATE_ISSUE_GROUP = "UPDATE_ISSUE_GROUP"
 export const TOGGLE_FLAG = "TOGGLE_FLAG"
 export const UPDATE_ISSUE_AFTER_DELETE_STATUS = "UPDATE_ISSUE_AFTER_DELETE_STATUS"
+export const REMOVE_LABEL_FROM_ISSUE = "REMOVE_LABEL_FROM_ISSUE"
 /**********************************  Actions  ******************************************/
-export function appendProjectIssues(data) {
-    return {
-        type: APPEND_SUCCESS_ISSUES,
-        data: data
-    }
-}
-
-export function createSuccessfulIssue(data) {
-    return {
-        type: CREATE_SUCCESS_ISSUE,
-        data: data
-    }
-}
-
-export function deleteSuccessfulEpic(id) {
-    return {
-        type: DELETE_SUCCESS_EPIC,
-        id: id
-    }
-}
-
-export function updateSuccessfulTask(data) {
-    return {
-        type: UPDATE_SUCCESS_TASK,
-        data: data
-    }
-}
-
-export function updateSuccessfulTaskAttribute(id, key, value) {
-    return {
-        type: UPDATE_SUCCESS_TASK_ATTRIBUTE,
-        id: id,
-        key: key,
-        value: value
-    }
-}
-
-export function updateIssueAfterDeleteStatus(data, id) {
-    return {
-        type: UPDATE_ISSUE_AFTER_DELETE_STATUS,
-        data: data,
-        id: id
-    }
-}
-
 export function updateSuccessfulEpic(data) {
     return {
-        type: UPDATE_SUCCESS_EPIC,
+        type: UPDATE_EPIC,
         data: data
     }
 }
@@ -82,28 +38,6 @@ export function updateIssueGroup(id, data) {
         data: data
     }
 }
-
-export function deleteSuccessIssueByProject(id) {
-    return {
-        type: DELETE_ISSUE_BY_PROJECT,
-        id: id
-    }
-}
-
-export function deleteSuccessfulTask(id) {
-    return {
-        type: DELETE_SUCCESS_TASK,
-        id: id
-    }
-}
-
-export function deleteSuccessfulSubtask(id) {
-    return {
-        type: DELETE_SUCCESS_SUB_TASK,
-        id: id
-    }
-}
-
 
 /**********************************  Thunk Actions  ******************************************/
 export const chainCreateIssueAndUpdateIssueOrder = (data) => async (dispatch, getState) => {
@@ -167,7 +101,11 @@ export const handleIssueAfterDeleteStatus = (statusId, newStatusId) => async (di
                 }
             })
         });
-        dispatch(updateIssueAfterDeleteStatus(tasksToUpdate, newStatusId))
+        dispatch({
+            type: UPDATE_ISSUE_AFTER_DELETE_STATUS,
+            data: tasksToUpdate,
+            id: newStatusId
+        })
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -178,7 +116,10 @@ export const handleIssueAfterDeleteStatus = (statusId, newStatusId) => async (di
 export const createIssue = (data) => async  dispatch => {
     try {
         await API.post("IssueApi", "/issues/", { body: data })
-        dispatch(createSuccessfulIssue(data))
+        dispatch({
+            type: CREATE_ISSUE,
+            data: data
+        })
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -205,9 +146,10 @@ export const getProjectIssues = (projectId) => async  dispatch => {
                 return
             }
         })
-        dispatch(appendProjectIssues({
-            tasks: tasks, epics: epics, subtasks: subtasks
-        }))
+        dispatch({
+            type: APPEND_ISSUES,
+            data: { tasks: tasks, epics: epics, subtasks: subtasks }
+        })
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -220,7 +162,12 @@ export const updateIssueAttribute = (data) => async  dispatch => {
         await API.put("IssueApi", "/issues/update/attribute", {
             body: data
         })
-        await dispatch(updateSuccessfulTaskAttribute(data._id, data.attribute, data.value))
+        await dispatch({
+            type: UPDATE_TASK_ATTRIBUTE,
+            id: data._id,
+            key: data.attribute,
+            value: data.value
+        })
         dispatch({ type: AUTHENTICATED })
     }
     catch (err) {
@@ -234,11 +181,20 @@ export const deleteIssue = (issueId, issueType) => async  dispatch => {
         await API.del("IssueApi", "/issues/object/" + issueId)
         switch (issueType) {
             case "task":
-                return dispatch(deleteSuccessfulTask(issueId))
+                return dispatch({
+                    type: DELETE_TASK,
+                    id: issueId
+                })
             case "epic":
-                return dispatch(deleteSuccessfulEpic(issueId))
+                return dispatch({
+                    type: DELETE_EPIC,
+                    id: issueId
+                })
             case "subtask":
-                return dispatch(deleteSuccessfulSubtask(issueId))
+                return dispatch({
+                    type: DELETE_SUB_TASK,
+                    id: issueId
+                })
             default:
                 return
         }
@@ -251,10 +207,40 @@ export const deleteIssue = (issueId, issueType) => async  dispatch => {
 export const deleteIssueByProject = (projectId) => async (dispatch) => {
     try {
         await API.del("IssueApi", "/issues/project/" + projectId)
-        dispatch(deleteSuccessIssueByProject(projectId))
+        dispatch({
+            type: DELETE_ISSUE_BY_PROJECT,
+            id: projectId
+        })
     }
     catch (err) {
         dispatch(dispatchError(err))
     }
 }
 
+export const removeLabelFromIssues = labelId => async (dispatch, getState) => {
+    try {
+        let tasksToUpdate = []
+        getState().IssueReducer.tasks.forEach((value, key) => {
+            if (value.label === labelId) {
+                tasksToUpdate.push(key)
+            }
+        })
+        tasksToUpdate.forEach(issueId => {
+            await API.put("IssueApi", "/issues/update/attribute", {
+                body: {
+                    _id: issueId,
+                    attribute: "label",
+                    value: tasksToUpdate.labels.filter(item => item !== labelId)
+                }
+            })
+        });
+        dispatch({
+            type: REMOVE_LABEL_FROM_ISSUE,
+            id: labelId,
+            data: tasksToUpdate
+        })
+    }
+    catch (err) {
+        return dispatch(dispatchError(err))
+    }
+}

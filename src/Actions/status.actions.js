@@ -1,7 +1,7 @@
 import API from '@aws-amplify/api';
 import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
 import { changeColumn, reorder } from "../Components/Util"
-import { updateIssueAttribute } from "./issue.actions"
+import { updateIssueAttribute, handleIssueAfterDeleteStatus } from "./issue.actions"
 import { removeStatusFromOrder } from "./project.actions"
 
 export const ADD_ISSUE_TO_TAIL = "ADD_ISSUE_TO_TAIL"
