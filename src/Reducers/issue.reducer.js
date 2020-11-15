@@ -61,6 +61,7 @@ export default function IssueReducer(state = initialState, action) {
         case UPDATE_TASK_ATTRIBUTE:
             task = newState.issues.get(action._id)
             task[action.key] = action.value
+            task.updatedAt = action.updatedAt
             newState.issues.set(action._id, task)
             return newState
         case UPDATE_ISSUE_AFTER_DELETE_STATUS:
@@ -101,7 +102,7 @@ export default function IssueReducer(state = initialState, action) {
             //task.epic = action.data
             // newState.issues.set(action.id, issue)
             return newState
-        case UPDATEEPIC:
+        case UPDATE_EPIC:
             newState.epics.filter(item => item._id !== action.data._id)
             newState.epics.push(action.data)
             return newState
@@ -113,10 +114,6 @@ export default function IssueReducer(state = initialState, action) {
 
 
 
-        case TOGGLE_FLAG:
-            let issue = newState.issues.get(action.id)
-            issue.flag = !issue.flag
-            return newState
         case "DELETE_PROJECT":
             return initialState
         case "CLEAR":

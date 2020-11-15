@@ -156,14 +156,15 @@ export const getProjectIssues = (projectId) => async  dispatch => {
 export const updateIssueAttribute = (data) => async  dispatch => {
     dispatch({ type: LOADING })
     try {
-        await API.put("IssueApi", "/issues/update/attribute", {
+        const updatedAt = await API.put("IssueApi", "/issues/update/attribute", {
             body: data
         })
         await dispatch({
             type: UPDATE_TASK_ATTRIBUTE,
             id: data._id,
             key: data.attribute,
-            value: data.value
+            value: data.value,
+            updatedAt: updatedAt
         })
         dispatch({ type: AUTHENTICATED })
     }
