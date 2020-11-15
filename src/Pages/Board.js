@@ -24,10 +24,17 @@ export default function Board() {
     useEffect(() => {
         if (currentUserId === "") {
             dispatch(getUserAndProjectData())
-        } else {
+        }
+        if (currentUserId !== "" && projectName) {
             dispatch(chainGetProjectData(currentProjectId))
         }
     }, [])
+
+    useEffect(() => {
+        if (currentUserId !== "" && projectName) {
+            dispatch(chainGetProjectData(currentProjectId))
+        }
+    }, [projectName])
 
     return (
         <div className={open ? "main drawer-close" : "main drawer-open"}>

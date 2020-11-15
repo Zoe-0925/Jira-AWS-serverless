@@ -32,8 +32,11 @@ export default function Test() {
     const dispatch = useDispatch()
     const status = useSelector(selectCurrentProject)
 
-
-
+    useEffect(() => {
+        API.get("StatusApi", "/status/project/" + "7c1f9838-dbd7-4432-b52c-aae87022d578").then(
+            status => console.log("status", status)
+        )
+    }, [])
 
     return (<div>
         <Button >open</Button>

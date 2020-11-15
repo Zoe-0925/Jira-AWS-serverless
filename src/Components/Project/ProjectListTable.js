@@ -1,18 +1,20 @@
 import React from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { setCurrentProject, chainDeleteProject } from "../../Actions/project.actions"
-import { selectAllUsers, selectAllProjects } from "../../Reducers/Selectors"
+import { selectAllUsers, selectAllProjects, selectCurrentProjectId, selectLoading } from "../../Reducers/Selectors"
 import {
     Table, TableBody, TableCell, TableContainer, TableHead,
-    TableRow, Paper, MenuItem
+    TableRow, Paper, MenuItem, CircularProgress
 } from '@material-ui/core'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { DotIconMenu } from "../Shared/Tabs"
 import history from "../../history"
 
 export default function ProjectListTable() {
+    const loading = useSelector(selectLoading)
     let projects = useSelector(selectAllProjects)
     const users = useSelector(selectAllUsers)
+    const currentProjectId = useSelector(selectCurrentProjectId)
 
     const dispatch = useDispatch()
 
@@ -77,7 +79,8 @@ export default function ProjectListTable() {
                         ))}
                     </TableBody>
                 </Table>
-                {projects.length === 0 && <p>Currently, there is no project.</p>}
+                {loading && <CircularProgress className="editable-input" />}
+                { !loading && projects.length === 0 && <p>Currently, there is no project.</p>}
             </TableContainer>
         </div>
     )

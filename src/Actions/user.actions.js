@@ -76,12 +76,13 @@ export const chainDeleteUser = (id, projectIds) => async (dispatch, getState) =>
 
 export const getUserAndProjects = () => async dispatch => {
     try {
+        dispatch({ type: LOADING })
         const user = await dispatch(getCurrentUser())
-        console.log("user",user)
         await Promise.all([
             dispatch(login(user)),
             dispatch(getAllProjects(user.projects))
         ])
+        dispatch({ type: AUTHENTICATED })
     }
     catch (err) {
         return dispatch(dispatchError(err))
