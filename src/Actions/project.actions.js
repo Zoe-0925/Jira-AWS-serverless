@@ -188,20 +188,6 @@ export const updateMembers = data => async  dispatch => {
     }
 }
 
-export const updateStatusOrder = (data) => async  dispatch => {
-    dispatch({ type: LOADING })
-    try {
-        await API.put("ProjectApi", "/projects/update/statusOrder", {
-            body: { items: data }
-        })
-        dispatch({ type: AUTHENTICATED })
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-    }
-}
-
-
 export const deleteProject = (id) => async  dispatch => {
     try {
         await API.del("ProjectApi", "/projects/" + id)
@@ -220,7 +206,7 @@ export const removeStatusFromOrder = (id) => async (dispatch, getState) => {
         await API.put("ProjectApi", "/projects/statusOrder", {
             body: { statusOrder: orderUpdated }
         })
-        dispatch(updateStatusOrder(orderUpdated))
+        dispatch(updateSuccessfulStatusOrder(orderUpdated))
     }
     catch (err) {
         dispatch(dispatchError(err))

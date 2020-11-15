@@ -2,6 +2,7 @@ import API from '@aws-amplify/api';
 import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
 import { changeColumn, reorder } from "../Components/Util"
 import { updateIssueAttribute } from "./issue.actions"
+import { removeStatusFromOrder } from "./project.actions"
 
 export const ADD_ISSUE_TO_TAIL = "ADD_ISSUE_TO_TAIL"
 export const CREATE_SUCCESS_STATUS = "CREATE_SUCCESS_STATUS"
@@ -97,15 +98,8 @@ export const chaninDeleteStatus = (id) => async (dispatch) => {
         await Promise.all([
             dispatch(deleteStatus(id)),
             dispatch(handleIssueAfterDeleteStatus(id, newStatusId)),
-
-
+            dispatch(removeStatusFromOrder(id))
         ])
-        //delete status
-        //delete status from project's statusOrder
-
-        //update the status of the related issues
-
-
     } catch (err) {
         dispatch(dispatchError(err))
     }

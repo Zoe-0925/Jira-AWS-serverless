@@ -228,8 +228,6 @@ export const updateIssueAttribute = (data) => async  dispatch => {
     }
 }
 
-
-
 export const deleteIssue = (issueId, issueType) => async  dispatch => {
     dispatch({ type: LOADING })
     try {
