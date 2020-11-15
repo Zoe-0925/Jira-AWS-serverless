@@ -57,6 +57,7 @@ export const selectEpics = state => selectIssueReducer(state).epics
 
 export const selectTaskById = (issueId) => state => selectTasks(state).get(issueId)
 
+export const selectIssueUpdatedTimeById = (issueId) => state => selectTasks(state).get(issueId).updatedAt
 /****************** Selectors - Labels  *********************/
 export const selectLabels = state => selectLabelReducer(state).labels
 

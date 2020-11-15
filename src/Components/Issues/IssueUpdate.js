@@ -12,7 +12,7 @@ import {
 import CreateIcon from '@material-ui/icons/Create';
 import {
     selectStatusById, selectStatus, selectLabels, selectProjectMembers,
-    selectMemberNames, selectLabelNames, selectUserById,
+    selectUserById, selectIssueUpdatedTimeById
 } from "../../Reducers/Selectors"
 import {
     chainUpdateIssueStatus, updateIssueAttribute
@@ -42,15 +42,14 @@ const IssueDetailForm = ({ issue, handleClose }) => {
     //add loading reducer
     //disable buttons when loading.
 
+    const updatedTime = useSelector(selectIssueUpdatedTimeById(issue._id))
     const assignee = useSelector(selectUserById(issue.assignee))
-    const reportee = useSelector(selectUserById(issue.reportee))
+    const reporter = useSelector(selectUserById(issue.reporter))
     const currentLabels = []
     const defaultStatus = useSelector(selectStatusById(issue.status))
     const allStatus = useSelector(selectStatus)
     let statusOptions = allStatus.map(each => { return { label: each.name, value: each._id } })
 
-
-    //TODO call the thunk to get all users, and save to the store
     const assigneeOptions = useSelector(selectProjectMembers).map(each => {
         return { label: each.name, value: each._id }
     }).push({ label: "Not assigned", value: "" })
@@ -64,18 +63,8 @@ const IssueDetailForm = ({ issue, handleClose }) => {
             return { label: each, value: each }
         })
 
-    //TODO
-    // Call the thunk to get a list of user objects
-    // and then select them from the store
-    const projectMembers = []
-
     function showEpic() {
     }
-
-
-    //TODO
-    // use effect for updated time
-
 
     return <Fragment>
         <MuiDialogTitle disableTypography className="title">
@@ -150,8 +139,8 @@ const IssueDetailForm = ({ issue, handleClose }) => {
                         <Select
                             className="select"
                             classNamePrefix="select"
-                            name="reportee"
-                            defaultValue={{ label: reportee.name, value: reportee }}
+                            name="reporter"
+                            defaultValue={{ label: reporter.name, value: reporter }}
                             options={reporterOptions}
                             onChange={(e) => dispatch(updateIssueAttribute({ _id: issue._id, value: e.value, attribute: "reporter" }))}
                         />
@@ -159,7 +148,7 @@ const IssueDetailForm = ({ issue, handleClose }) => {
                         <Divider />
                         <Row></Row>
                         <p className="time">{"Created " + issue.created}</p>
-                        <p className="time">{"Updated " + issue.updated}</p>
+                        <p className="time">{"Updated " + updatedTime}</p>
                     </Col>
                 </Row>
             </Container>
