@@ -7,10 +7,8 @@ import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
 
 export const CREATE_PROJECT = "CREATE_PROJECT"
 export const DELETE_PROJECT = "DELETE_PROJECT"
-export const UPDATE_MEMBERS = "UPDATE_MEMBERS"
-export const UPDATE_PROJECT = "UPDATE_PROJECT"
+export const UPDATE_PROJECT_ATTRIBUTE = "UPDATE_PROJECT_ATTRIBUTE"
 export const UPDATE_PROJECT_DETAIL = "UPDATE_PROJECT_DETAIL"
-export const UPDATE_PROJECT_NAME = "UPDATE_PROJECT_NAME"
 export const APPEND_PROJECTS = "APPEND_PROJECTS"
 export const SET_CURRENT_PROJECT = "SET_CURRENT_PROJECT"
 export const APPEDN_CURRENT_PROJECT = "APPEDN_CURRENT_PROJECT"
@@ -115,14 +113,16 @@ export const chainDeleteProject = (projectId) => async dispatch => {
 }
 
 
-export const createProject = (newProject) => dispatch => {
-    API.post("ProjectApi", "/projects", {
-        body: newProject
-    }).catch(err => {
+export const createProject = (newProject) => async dispatch => {
+    try {
+        await API.post("ProjectApi", "/projects", {
+            body: newProject
+        })
+        dispatch(createSuccessfulProject(newProject))
+    }
+    catch (err) {
         dispatch(dispatchError(err))
-        return
-    })
-    dispatch(createSuccessfulProject(newProject))
+    }
 }
 
 export const getAllProjects = (idList) => async dispatch => {
@@ -151,18 +151,20 @@ export const mockgetAllProjects = () => async dispatch => {
     }
 }
 
-export const updateProjectName = (data) => async  dispatch => {
+export const updateProjectAttribute = (data) => async dispatch => {
     dispatch({ type: LOADING })
     try {
-        await API.put("ProjectApi", "/projects/name", data)
-        await dispatch(updateSuccessfulProjectName(data))
+        await API.put("ProjectApi", "/projects/update/", { body: data })
+        await dispatch({
+            type: UPDATE_PROJECT_ATTRIBUTE,
+            data: data
+        })
         dispatch({ type: AUTHENTICATED })
     }
     catch (err) {
         dispatch(dispatchError(err))
     }
 }
-
 
 export const updateProjectDetail = (data) => async  dispatch => {
     dispatch({ type: LOADING })
@@ -177,29 +179,13 @@ export const updateProjectDetail = (data) => async  dispatch => {
 }
 
 export const addMember = (projectId, userId, members) => async dispatch => {
-    dispatch({ type: LOADING })
-    await dispatch(updateMembers([...members, userId]))
+    await dispatch(updateProjectAttribute({ _id: projectId, value: [...members, userId], attribute: "members" }))
 }
 
 export const subMembers = (projectId, userId, members) => async dispatch => {
-    dispatch({ type: LOADING })
     let updated = [...members]
     updated = updated.filter(member => member === userId)
-    await dispatch(updateMembers(updated))
-
-}
-
-export const updateMembers = data => async  dispatch => {
-    try {
-        await API.put("ProjectApi", "/projects/members", data)
-
-
-        //TODO
-        // dispatch(updateSuccessfulProjecMembers(data))
-        dispatch({ type: AUTHENTICATED })
-    } catch (err) {
-        dispatch(dispatchError(err))
-    }
+    await dispatch(updateProjectAttribute({ _id: projectId, value: updated, attribute: "members" }))
 }
 
 export const deleteProject = (id) => async  dispatch => {

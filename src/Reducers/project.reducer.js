@@ -1,8 +1,7 @@
 
 import {
     CREATE_PROJECT, DELETE_PROJECT,
-    APPEND_PROJECTS, SET_CURRENT_PROJECT, UPDATE_PROJECT_NAME, UPDATE_PROJECT_DETAIL,
-    UPDATE_MEMBERS, UPDATE_STATUS_ORDER,
+    APPEND_PROJECTS, SET_CURRENT_PROJECT, UPDATE_PROJECT_ATTRIBUTE, UPDATE_PROJECT_DETAIL
 } from "../Actions/project.actions"
 
 const testState = {
@@ -53,22 +52,16 @@ export default function ProjectReducer(state = initialState, action) {
             return newState
         case APPEND_PROJECTS:
             return { ...state, projects: action.data }
-        case UPDATE_STATUS_ORDER:
+
+        case UPDATE_PROJECT_ATTRIBUTE:
             target = newState.projects.find(item => item._id === newState.currentProjectId)
-            target.statusOrder = action.data
-            return newState
-        case UPDATE_PROJECT_NAME:
-            newState.projects.find(item => item._id === action.data._id).name = action.data.name
+            target[action.data.attribute] = action.data.value
             return newState
         case UPDATE_PROJECT_DETAIL:
             target = newState.projects.find(item => item._id === action.data._id)
             target.default_assignee = action.data.default_assignee
             target.name = action.data.name
             target.key = action.data.key
-            return newState
-        case UPDATE_MEMBERS:
-            target = newState.projects.find(item => item._id === action.data._id)
-            target.members = action.data.members
             return newState
         case "CLEAR":
             return initialState
