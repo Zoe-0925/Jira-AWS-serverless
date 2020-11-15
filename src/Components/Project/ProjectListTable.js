@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { setCurrentProject, chainDeleteProject } from "../../Actions/project.actions"
 import { selectAllUsers, selectAllProjects } from "../../Reducers/Selectors"
@@ -39,6 +39,10 @@ export default function ProjectListTable() {
         history.push("/projects/settings/details")
     }
 
+    useEffect(() => {
+        console.log("projects changed", projects)
+    }, [projects])
+
     return (
         <div className="project-list-table">
             <TableContainer component={Paper}>
@@ -70,8 +74,8 @@ export default function ProjectListTable() {
                                 <TableCell component="th" scope="row" >
                                     <DotIconMenu className="dot-icon" anchorEl={anchorEl} isOpen={isOpen} anchorRef={anchorRef}
                                         handleMenuClose={handleMenuClose} handleMenuOpen={handleMenuOpen} >
-                                        <MenuItem onClick={() => goToProjectDetail( project._id)}>Project settings</MenuItem>
-                                        <MenuItem onClick={() => dispatch(chainDeleteProject( project._id))}>Move to trash</MenuItem>
+                                        <MenuItem onClick={() => goToProjectDetail(project._id)}>Project settings</MenuItem>
+                                        <MenuItem onClick={() => dispatch(chainDeleteProject(project._id))}>Move to trash</MenuItem>
                                     </DotIconMenu>
                                 </TableCell>
                             </TableRow>

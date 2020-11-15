@@ -9,6 +9,7 @@ export const CREATE_PROJECT = "CREATE_PROJECT"
 export const DELETE_PROJECT = "DELETE_PROJECT"
 export const UPDATE_PROJECT_ATTRIBUTE = "UPDATE_PROJECT_ATTRIBUTE"
 export const UPDATE_PROJECT_DETAIL = "UPDATE_PROJECT_DETAIL"
+export const APPEND_PROJECT = "APPEND_PROJECT"
 export const APPEND_PROJECTS = "APPEND_PROJECTS"
 export const SET_CURRENT_PROJECT = "SET_CURRENT_PROJECT"
 export const APPEDN_CURRENT_PROJECT = "APPEDN_CURRENT_PROJECT"
@@ -102,10 +103,12 @@ export const createProject = (newProject) => async dispatch => {
 
 export const getAllProjects = (idList) => async dispatch => {
     try {
-        let projects = []
         idList.map(projectId => API.get("ProjectApi", "/projects/object/" + projectId)
-            .then(project => projects.push(project.Item)).catch(err => dispatch(dispatchError(err))))
-        dispatch(appendSuccessfulProject(projects))
+            .then(project => dispatch({
+                type: APPEND_PROJECT,
+                data: project.Item
+            })).catch(err => dispatch(dispatchError(err))))
+
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -167,8 +170,8 @@ export const deleteProject = (id) => async  dispatch => {
     try {
         await API.del("ProjectApi", "/projects/" + id)
         dispatch({
-            type:DELETE_PROJECT,
-            id:id
+            type: DELETE_PROJECT,
+            id: id
         })
     }
     catch (err) {
