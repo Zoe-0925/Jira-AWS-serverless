@@ -43,6 +43,7 @@ export function dispatchAddOtherUsers(userList) {
     }
 }
 
+/**
 export function saveTokens(accessToken, refreshToken) {
     return {
         type: SAVE_TOKENS,
@@ -50,13 +51,8 @@ export function saveTokens(accessToken, refreshToken) {
         refreshToken: refreshToken
     }
 }
+*/
 
-export function updateProjects(projects) {
-    return {
-        type: UPDATE_PROJECTS,
-        data: projects
-    }
-}
 
 /******************* Thunk Actions  *****************************/
 export const getUserAndProjects = () => async dispatch => {
@@ -144,7 +140,10 @@ export const addProjectToUser = projectId => async (dispatch, getState) => {
                 projects: projectsUpdated
             }
         })
-        dispatch(updateProjects(projectsUpdated))
+        dispatch({
+            type: UPDATE_PROJECTS,
+            data: projectsUpdated
+        })
     }
     catch (err) {
         dispatch(dispatchError(err))
