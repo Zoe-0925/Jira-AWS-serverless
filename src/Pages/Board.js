@@ -9,19 +9,23 @@ import DragContext from "../Components/DragDrop/DragContext"
 import NavBar from "../Components/NavBar/NavBar"
 import { selectCurrentProjectName, selectCurrentUserId } from '../Reducers/Selectors';
 import { Typography, Link, Breadcrumbs } from "@material-ui/core"
-import {  getUserAndProjectData } from "../Actions/user.actions"
+import { getUserAndProjectData } from "../Actions/user.actions"
+import { chainGetProjectData } from "../Actions/project.actions"
 
 export default function Board() {
     const dispatch = useDispatch()
+    const currentProjectId = useSelector(selectCurrentUserId)
     const projectName = useSelector(selectCurrentProjectName)
     const currentUserId = useSelector(selectCurrentUserId)
- 
+
     const { state, setState, edit, setEdit } = useEditText(projectName || "")
     const [open, setOpen] = React.useState(true);
 
     useEffect(() => {
         if (currentUserId === "") {
-           dispatch(getUserAndProjectData())
+            dispatch(getUserAndProjectData())
+        } else {
+            dispatch(chainGetProjectData(currentProjectId))
         }
     }, [])
 
