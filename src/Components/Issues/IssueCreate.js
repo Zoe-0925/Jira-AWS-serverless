@@ -98,7 +98,7 @@ const IssueForm = props => {
                     size="small"
                     onChange={(e) => setFieldValue("description", e.target.value)}
                     margin="normal"
-                    aria-label="minimum height" rowsMin={12}
+                    aria-label="minimum height" rowsMin={8}
                 />
                 <DialogActions>
                     <Button className="cancel-btn" disabled={isSubmitting} onClick={handleClose}>Cancel</Button>
