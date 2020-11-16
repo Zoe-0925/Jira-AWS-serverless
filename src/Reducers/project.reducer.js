@@ -41,23 +41,17 @@ export default function ProjectReducer(state = initialState, action) {
     let target
     switch (action.type) {
         case SET_CURRENT_PROJECT:
-            return { ...state, currentProjectId: action.data }
+            return { ...state, currentProjectId: action.id }
         case CREATE_PROJECT:
-            newState.projects.push(action.data)
-            return newState
+            return { ...state, projects: [...state.projects, action.data] }
         case DELETE_PROJECT:
             newState.projects = newState.projects.filter(item => item._id !== action.id)
             if (newState.currentProjectId === action.id) {
                 newState.currentProjectId = ""
             }
             return newState
-        case APPEND_PROJECT:
-            return { ...state, projects: [...state.projects, action.data] }
-
         case APPEND_PROJECTS:
-            console.log("action.data for statusOrder", action.data)
             return { ...state, projects: action.data }
-
         case UPDATE_PROJECT_ATTRIBUTE:
             target = newState.projects.find(item => item._id === newState.currentProjectId)
             target[action.data.attribute] = action.data.value

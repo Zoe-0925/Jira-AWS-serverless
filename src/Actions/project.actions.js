@@ -9,13 +9,19 @@ export const CREATE_PROJECT = "CREATE_PROJECT"
 export const DELETE_PROJECT = "DELETE_PROJECT"
 export const UPDATE_PROJECT_ATTRIBUTE = "UPDATE_PROJECT_ATTRIBUTE"
 export const UPDATE_PROJECT_DETAIL = "UPDATE_PROJECT_DETAIL"
-export const APPEND_PROJECT = "APPEND_PROJECT"
 export const APPEND_PROJECTS = "APPEND_PROJECTS"
 export const SET_CURRENT_PROJECT = "SET_CURRENT_PROJECT"
 export const APPEDN_CURRENT_PROJECT = "APPEDN_CURRENT_PROJECT"
 export const LEAVE_PROJECT = "LEAVE_PROJECT"  //Remove a user from a project...
 export const UPDATE_STATUS_ORDER = "UPDATE_STATUS_ORDER"
 export const REMOVE_STATUS_FROM_ORDER = "REMOVE_STATUS_FROM_ORDER"
+
+export const setCurrentProject = id => {
+    return {
+        type: SET_CURRENT_PROJECT,
+        id: id
+    }
+}
 
 /*****************  Thunk Actions  ****************/
 export const chainCreactProject = (project, status) => async dispatch => {
@@ -66,12 +72,12 @@ export const createProject = (newProject) => async dispatch => {
 
 export const getAllProjects = (idList) => async dispatch => {
     try {
-        idList.map(projectId => API.get("ProjectApi", "/projects/object/" + projectId)
-            .then(project => dispatch({
-                type: APPEND_PROJECTS,
-                data: project.Item
-            })).catch(err => dispatch(dispatchError(err))))
-
+        const projects = idList.map(projectId => API.get("ProjectApi", "/projects/object/" + projectId)
+            .then(project => project.Item))
+        await dispatch({
+            type: APPEND_PROJECTS,
+            data: projects
+        })
     }
     catch (err) {
         dispatch(dispatchError(err))

@@ -45,6 +45,7 @@ export const selectCurrentProjectId = state => state.ProjectReducer.currentProje
 
 export const selectStatusOrder = state => {
     const currentProject = state.ProjectReducer.projects.find(item => item._id === state.ProjectReducer.currentProjectId)
+    console.log("statusOrder from selector", currentProject.statusOrder)
     return currentProject ? currentProject.statusOrder : []
 }
 export const selectCurrentProject = state => state.ProjectReducer.projects.find(item => item._id === state.ProjectReducer.currentProjectId)
