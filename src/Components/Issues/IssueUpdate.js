@@ -43,12 +43,17 @@ const IssueDetailForm = ({ issue, handleClose }) => {
     //disable buttons when loading.
 
     const updatedTime = useSelector(selectIssueUpdatedTimeById(issue._id))
-    const assignee = useSelector(selectUserById(issue.assignee))
-    const reporter = useSelector(selectUserById(issue.reporter))
+    const assignee = issue.assignee ? useSelector(selectUserById(issue.assignee)) : ""
+    const reporter = issue.reporter ? issue.reporter : ""
+
+    console.log("assignee", assignee, issue.assignee, "reporter", reporter)
+
     const currentLabels = []
     const defaultStatus = useSelector(selectStatusById(issue.status))
     const allStatus = useSelector(selectAllStatusInArray)
     let statusOptions = allStatus.map(each => { return { label: each.name, value: each._id } })
+
+    const defaultAssignee = assignee === "" ? { label: "Not assigned", value: "" } : { label: assignee.name, value: assignee }
 
     const assigneeOptions = useSelector(selectProjectMembers).map(each => {
         return { label: each.name, value: each._id }
@@ -75,7 +80,7 @@ const IssueDetailForm = ({ issue, handleClose }) => {
                             <CreateIcon className="cursor" size="small" onClick={showEpic} />
                             Add epic
                         </Button>
-                        <Link color="inherit" href="/" onClick={() => { }}>
+                        <Link color="inherit" href="/">
                             {issue.key}
                         </Link>
                     </Breadcrumbs>
@@ -117,7 +122,7 @@ const IssueDetailForm = ({ issue, handleClose }) => {
                             className="select"
                             classNamePrefix="select"
                             name="assignee"
-                            defaultValue={{ label: assignee.name, value: assignee }}
+                            defaultValue={defaultAssignee}
                             options={assigneeOptions}
                             onChange={(e) => dispatch(updateIssueAttribute({ _id: issue._id, value: e.value, attribute: "assignee" }))}
                             isClearable={true}
