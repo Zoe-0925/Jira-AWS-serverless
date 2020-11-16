@@ -17,46 +17,6 @@ export const LEAVE_PROJECT = "LEAVE_PROJECT"  //Remove a user from a project...
 export const UPDATE_STATUS_ORDER = "UPDATE_STATUS_ORDER"
 export const REMOVE_STATUS_FROM_ORDER = "REMOVE_STATUS_FROM_ORDER"
 
-/***************** Actions  ***********************/
-
-
-export function createSuccessfulProject(data) {
-    return {
-        type: CREATE_PROJECT,
-        data: data
-    }
-}
-
-export function appendSuccessfulProject(data) {
-    return {
-        type: APPEND_PROJECTS,
-        data: data //an array
-    }
-}
-
-
-
-export function updateSuccessfulProjectDetail(data) {
-    return {
-        type: UPDATE_PROJECT_DETAIL,
-        data: data
-    }
-}
-
-export function setCurrentProject(data) {
-    return {
-        type: SET_CURRENT_PROJECT,
-        data: data
-    }
-}
-
-export const updateSuccessfulStatusOrder = (data) => {
-    return {
-        type: UPDATE_STATUS_ORDER,
-        data: data
-    }
-}
-
 /*****************  Thunk Actions  ****************/
 export const chainCreactProject = (project, status) => async dispatch => {
     await Promise.all([
@@ -94,7 +54,10 @@ export const createProject = (newProject) => async dispatch => {
         await API.post("ProjectApi", "/projects", {
             body: newProject
         })
-        dispatch(createSuccessfulProject(newProject))
+        dispatch({
+            type: CREATE_PROJECT,
+            data: newProject
+        })
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -105,7 +68,7 @@ export const getAllProjects = (idList) => async dispatch => {
     try {
         idList.map(projectId => API.get("ProjectApi", "/projects/object/" + projectId)
             .then(project => dispatch({
-                type: APPEND_PROJECT,
+                type: APPEND_PROJECTS,
                 data: project.Item
             })).catch(err => dispatch(dispatchError(err))))
 
@@ -122,7 +85,10 @@ export const mockgetAllProjects = () => async dispatch => {
             image: "", key: "TestProject1", lead: "tsidadsjkdhiueiurt", members: ["tsidadsjkdhiueiurt"], name: "TestProject1",
             statusOrder: ["9729f490-fd5f-43ab-8efb-40e8d132bc68", "efe83b13-9255-4339-a8f5-d5703beb9ffc", "439c3d96-30eb-497d-b336-228873048bc3", "f3a0e59f-635a-4b75-826f-b0f5bf24b5c4"]
         }]
-        dispatch(appendSuccessfulProject(projects))
+        dispatch({
+            type: APPEND_PROJECTS,
+            data: projects //an array
+        })
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -148,7 +114,10 @@ export const updateProjectDetail = (data) => async  dispatch => {
     dispatch({ type: LOADING })
     try {
         await API.put("ProjectApi", "/projects/detail", data)
-        await dispatch(updateSuccessfulProjectDetail(data))
+        await dispatch({
+            type: UPDATE_PROJECT_DETAIL,
+            data: data
+        })
         dispatch({ type: AUTHENTICATED })
     }
     catch (err) {
@@ -187,7 +156,10 @@ export const removeStatusFromOrder = (id) => async (dispatch, getState) => {
         await API.put("ProjectApi", "/projects/statusOrder", {
             body: { statusOrder: orderUpdated }
         })
-        dispatch(updateSuccessfulStatusOrder(orderUpdated))
+        dispatch({
+            type: UPDATE_STATUS_ORDER,
+            data: orderUpdated
+        })
     }
     catch (err) {
         dispatch(dispatchError(err))

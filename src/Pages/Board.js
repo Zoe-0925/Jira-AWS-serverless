@@ -25,9 +25,6 @@ export default function Board() {
         if (currentUserId === "") {
             dispatch(getUserAndProjectData())
         }
-        if (currentUserId !== "" && projectName) {
-            dispatch(chainGetProjectData(currentProjectId))
-        }
     }, [])
 
     useEffect(() => {

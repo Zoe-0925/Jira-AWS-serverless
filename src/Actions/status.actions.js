@@ -57,7 +57,19 @@ export const chaninDeleteStatus = (id) => async (dispatch) => {
     }
 }
 
-export const moveIssues = (sourceStatus, destinationStatus, startIndex, endIndex) => async (dispatch) => {
+export const chainReorder = (sourceStatus, startIndex, endIndex) => async (dispatch) => {
+    dispatch({ type: LOADING })
+    try {
+        const issueOrder = reorder(sourceStatus.issues, startIndex, endIndex)
+        await dispatch(updateIssueOrder(sourceStatus._id, issueOrder))
+        dispatch({ type: AUTHENTICATED })
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+    }
+}
+
+export const chainMove = (sourceStatus, destinationStatus, startIndex, endIndex) => async (dispatch) => {
     dispatch({ type: LOADING })
     try {
         const { sourceIssueorder, destinationIssueorder } = changeColumn(sourceStatus.issues, destinationStatus.issues, startIndex, endIndex)
@@ -94,20 +106,6 @@ export const addIssueToTail = (statusId, issueOrder) => async (dispatch) => {
         })
         await dispatch(updateIssueAttribute(statusId, issueOrder))
     } catch (err) {
-        dispatch(dispatchError(err))
-    }
-}
-
-export const reorderIssues = (source, startIndex, endIndex) => async (dispatch, getState) => {
-    dispatch({ type: LOADING })
-    try {
-        const status = getState().StatusReducer.status
-        let sourceStatus = { ...status.get(source) }
-        const issueOrder = reorder(sourceStatus.issues, startIndex, endIndex)
-        await dispatch(updateIssueOrder(sourceStatus._id, issueOrder))
-        dispatch({ type: AUTHENTICATED })
-    }
-    catch (err) {
         dispatch(dispatchError(err))
     }
 }

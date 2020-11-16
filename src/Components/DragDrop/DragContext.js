@@ -2,7 +2,7 @@ import React from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { DragDropContext } from 'react-beautiful-dnd';
 import DragAndDrop from "./DragAndDrop"
-import { moveIssues } from "../../Actions/status.actions"
+import { chainReorder, chainMove } from "../../Actions/status.actions"
 import { selectAllStatus, selectStatusOrder } from '../../Reducers/Selectors';
 
 export default function DragContext() {
@@ -19,12 +19,20 @@ export default function DragContext() {
 
         const sInd = +source.droppableId;  //The index in statusOrder
         const dInd = +destination.droppableId;
-
-        //If sInd===dInd => reorder, else, move the issue
-        // source.index is in issueOrder
         const sourceStatus = allStatus.get(statusOrder[sInd])
-        const destinationStatus = allStatus.get(statusOrder[dInd])
-        dispatch(moveIssues(sourceStatus, destinationStatus, source.index, destination.index))
+        if (sInd === dInd) {//reorder
+            dispatch(chainReorder(sourceStatus, sInd, dInd))
+
+        } else {
+            console.log("sInd", sInd, "statusOrder[sInd]", statusOrder[sInd])
+            console.log("dInd", dInd, "statusOrder[dInd]", statusOrder[dInd])
+            const destinationStatus = allStatus.get(statusOrder[dInd])
+            console.log("sourceStatus", sourceStatus, destinationStatus)
+            dispatch(chainMove(sourceStatus, destinationStatus, source.index, destination.index))
+        }
+
+        // source.index is in issueOrder
+
     }
 
     return (
