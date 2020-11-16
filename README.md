@@ -5,6 +5,8 @@ This is a Jira full-stack web application built with React, Redux, RESTful API a
 
 ![alt text](https://github.com/Zoe-0925/Jira-AWS-Frontend/blob/master/public/Demo-1.png)
 ![alt text](https://github.com/Zoe-0925/Jira-AWS-Frontend/blob/master/public/Demo-2.png)
+![alt text](https://github.com/Zoe-0925/Jira-AWS-Frontend/blob/master/public/Demo-3.png)
+![alt text](https://github.com/Zoe-0925/Jira-AWS-Frontend/blob/master/public/Demo-4.png)
 
 
 ## Tech Stack:  React, Redux Thunk, SCSS, AWS Amplify,AWS Cognito, AWS DynamoDB, AWS Lambda
