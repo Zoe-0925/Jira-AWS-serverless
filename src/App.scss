@@ -534,7 +534,7 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
     padding-bottom: 0.7rem;
     margin: 0.3rem;
     border-radius: 3%;
-    min-height:5rem;
+    min-height: 5rem;
 
     .col {
       width: 50%;
@@ -938,5 +938,11 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
 
   .create-pj-btn {
     @include call-to-action-button;
+  }
+}
+
+.loading-btn {
+  .root {
+    height: 1.5rem;
   }
 }

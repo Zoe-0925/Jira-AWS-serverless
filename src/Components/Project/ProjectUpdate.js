@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import { useDispatch, useSelector } from "react-redux"
-import { selectProjectReducer, selectUserReducer } from "../../Reducers/Selectors"
+import { selectAllProjects, selectAllUsers, selectLoading } from "../../Reducers/Selectors"
 import { updateProjectDetail } from "../../Actions/project.actions"
 import { Form, Field } from 'formik';
 import { withFormik } from 'formik';
@@ -24,6 +24,7 @@ export const ProjectDetailForm = ({
 }) => {
     const { anchorEl, isOpen, anchorRef, handleMenuClose, handleMenuOpen } = useDotIconMenu()
 
+    const loading = useSelector(selectLoading)
     const leadOptions = values.memberObjects.map(each => { return { value: each._id, label: each.name } })
     const assigneeOptions = [{ value: "lead", label: "Project Lead" }, { value: "", label: "None" }]
 
@@ -103,9 +104,10 @@ export const ProjectDetailForm = ({
                 </div>
                 <Divider />
                 <Button
+                    disabled={loading}
                     className="navbar-create-btn"
                     onClick={handleSubmit}
-                >Save</Button>
+                >  {!loading ? "Save" : <CircularProgress className="loading-btn" />}</Button>
             </Form>
         </div>
     </Fragment>
@@ -144,10 +146,8 @@ export const ProjectDetailWrapper = withFormik({
 
 export const ProjectUpdateHOC = () => {
     const dispatch = useDispatch()
-    const members = useSelector(selectUserReducer).users
-    const project = useSelector(selectProjectReducer).projects
-
-
+    const project = useSelector(selectAllProjects)
+    const members = useSelector(selectAllUsers)
 
     const submitForm = values => {
         const updateDate = new Date()

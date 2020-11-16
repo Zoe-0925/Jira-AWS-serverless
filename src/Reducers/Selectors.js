@@ -28,7 +28,7 @@ export const selectAllStatusInArray = state => {
     return [...mapResult.values()]
 }
 
-export const selectAllStatus = state =>  state.StatusReducer.status
+export const selectAllStatus = state => state.StatusReducer.status
 
 export const selectStatusById = (id) => state => {
     const currentProject = state.ProjectReducer.projects.find(item => item._id === state.ProjectReducer.currentProjectId)
@@ -63,10 +63,20 @@ export const selectCurrentProjectName = state => {
     return currentProject ? currentProject.name : ""
 }
 
+export const selectProjectMemberIds = state => {
+    const currentProject = state.ProjectReducer.projects.find(item => item._id === state.ProjectReducer.currentProjectId)
+    return currentProject ? currentProject.members : []
+}
+
+export const selectProjectMembers = state => {
+    const currentProject = state.ProjectReducer.projects.find(item => item._id === state.ProjectReducer.currentProjectId)
+    if (currentProject === undefined) { return [] }
+    return state.UserReducer.users.filter(user => currentProject.members.include(user._id))
+}
 /****************** Selectors - Issue  *********************/
 export const selectTasks = state => state.IssueReducer.tasks
 
-export const selectEpics =  state => state.IssueReducer.epics
+export const selectEpics = state => state.IssueReducer.epics
 
 export const selectTaskById = (issueId) => state => selectTasks(state).get(issueId)
 
@@ -80,10 +90,6 @@ export const selectLabelNames = state => state.LabelReducer.labels.map(each => e
 export const selectCommentByIssue = id => state => state.CommentReducer.comments.filter(comment => comment.issue === id)
 
 /****************** Reselectors - Projects  *********************/
-export const selectProjectMembers = createSelector(
-    selectCurrentProject,
-    currentProject => currentProject.members
-)
 
 export const selectMemberNames = createSelector(
     selectProjectMembers,
