@@ -2,11 +2,10 @@ import React, { Fragment } from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { selectAllProjects, selectAllUsers, selectLoading } from "../../Reducers/Selectors"
 import { updateProjectDetail } from "../../Actions/project.actions"
-import { Form, Field } from 'formik';
-import { withFormik } from 'formik';
+import { Form, Field ,withFormik} from 'formik';
 import { DotIconMenu } from "../Shared/Tabs"
 import {
-    Link, Typography, Breadcrumbs, Button, InputLabel, Divider, MenuItem,
+    Link, Typography, Breadcrumbs, Button, InputLabel, Divider, MenuItem,CircularProgress
 } from '@material-ui/core';
 import {
     TextField,

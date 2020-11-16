@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { setCurrentProject, chainDeleteProject } from "../../Actions/project.actions"
-import { selectAllUsers, selectAllProjects, selectCurrentProjectId, selectLoading } from "../../Reducers/Selectors"
+import { selectAllUsers, selectAllProjects,selectLoading } from "../../Reducers/Selectors"
 import {
     Table, TableBody, TableCell, TableContainer, TableHead,
     TableRow, Paper, MenuItem, CircularProgress
@@ -14,8 +14,7 @@ export default function ProjectListTable() {
     const loading = useSelector(selectLoading)
     let projects = useSelector(selectAllProjects)
     const users = useSelector(selectAllUsers)
-    const currentProjectId = useSelector(selectCurrentProjectId)
-
+ 
     const dispatch = useDispatch()
 
     const [anchorEl, setAnchorEl] = React.useState(null);

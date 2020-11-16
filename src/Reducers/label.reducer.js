@@ -4,9 +4,10 @@ import {
     APPEND_LABELS
 } from "../Actions/label.actions"
 
+/** 
 const testState = {
     labels: [{ _id: "xxx", name: "test label1" }]
-}
+} */
 
 const initialState = {
     labels: []

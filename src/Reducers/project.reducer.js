@@ -4,6 +4,7 @@ import {
     APPEND_PROJECTS, SET_CURRENT_PROJECT, UPDATE_PROJECT_ATTRIBUTE, UPDATE_PROJECT_DETAIL
 } from "../Actions/project.actions"
 
+/**
 const testState = {
     projects: [{
         _id: "test id",
@@ -17,7 +18,7 @@ const testState = {
         statusOrder: ["1", "2", "3", "4"]
     }],
     currentProjectId: "test id"
-}
+}*/
 
 const initialState = {
     projects: [],
