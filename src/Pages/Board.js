@@ -7,7 +7,7 @@ import { useEditText } from "../Components/Shared/CustomHooks"
 import { EditableText, Input } from "../Components/Shared/EditableText"
 import DragContext from "../Components/DragDrop/DragContext"
 import NavBar from "../Components/NavBar/NavBar"
-import { selectCurrentProjectName, selectCurrentUserId,selectCurrentProjectId } from '../Reducers/Selectors';
+import { selectCurrentProject, selectCurrentUserId, selectCurrentProjectId } from '../Reducers/Selectors';
 import { Typography, Link, Breadcrumbs } from "@material-ui/core"
 import { getUserAndProjectData } from "../Actions/user.actions"
 import { chainGetProjectData } from "../Actions/project.actions"
@@ -15,7 +15,7 @@ import { chainGetProjectData } from "../Actions/project.actions"
 export default function Board() {
     const dispatch = useDispatch()
     const currentProjectId = useSelector(selectCurrentProjectId)
-    const projectName = useSelector(selectCurrentProjectName)
+    const projectName = useSelector(selectCurrentProject) ? useSelector(selectCurrentProject).name : ""
     const currentUserId = useSelector(selectCurrentUserId)
 
     const { state, setState, edit, setEdit } = useEditText(projectName || "")

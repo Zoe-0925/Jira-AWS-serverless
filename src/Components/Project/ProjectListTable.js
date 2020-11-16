@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { setCurrentProject, chainDeleteProject } from "../../Actions/project.actions"
-import { selectAllUsers, selectAllProjects,selectLoading } from "../../Reducers/Selectors"
+import { selectAllUsers, selectAllProjects,selectLoadingReducer } from "../../Reducers/Selectors"
 import {
     Table, TableBody, TableCell, TableContainer, TableHead,
     TableRow, Paper, MenuItem, CircularProgress
@@ -11,7 +11,7 @@ import { DotIconMenu } from "../Shared/Tabs"
 import history from "../../history"
 
 export default function ProjectListTable() {
-    const loading = useSelector(selectLoading)
+    const loading = useSelector(selectLoadingReducer).loading
     let projects = useSelector(selectAllProjects)
     const users = useSelector(selectAllUsers)
  

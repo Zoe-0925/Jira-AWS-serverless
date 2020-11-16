@@ -3,7 +3,7 @@ import React from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { updateStatusName, deleteStatus } from "../../Actions/status.actions"
 import { chainCreateIssueAndUpdateIssueOrder } from "../../Actions/issue.actions"
-import { selectLoading } from '../../Reducers/Selectors';
+import { selectLoadingReducer } from '../../Reducers/Selectors';
 /**--------------UI-------------- */
 import { MenuItem, CircularProgress } from '@material-ui/core';
 import { AddTab, DotIconMenu } from "../Shared/Tabs"
@@ -49,7 +49,7 @@ export function ColumnTitle({ status }) {
 export default function Column({ initialStatus, ...props }) {
     const dispatch = useDispatch()
     const { state, setState, edit, setEdit } = useEditText("")
-    const loading = useSelector(selectLoading)
+    const loading = useSelector(selectLoadingReducer).loading
 
     const handleSubmit = (value) => {
         let issue = {

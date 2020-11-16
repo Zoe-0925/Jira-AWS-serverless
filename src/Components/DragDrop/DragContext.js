@@ -3,12 +3,13 @@ import { useDispatch, useSelector } from "react-redux"
 import { DragDropContext } from 'react-beautiful-dnd';
 import DragAndDrop from "./DragAndDrop"
 import { chainReorder, chainMove } from "../../Actions/status.actions"
-import { selectAllStatus, selectStatusOrder } from '../../Reducers/Selectors';
+import { selectAllStatus, selectCurrentProject } from '../../Reducers/Selectors';
 
 export default function DragContext() {
     const dispatch = useDispatch()
     const allStatus = useSelector(selectAllStatus)
-    const statusOrder = useSelector(selectStatusOrder)
+    const currentProject = useSelector(selectCurrentProject)
+    const statusOrder = currentProject ? currentProject.statusOrder : []
 
     function onDragEnd(result) {
         const { source, destination } = result;
@@ -19,15 +20,12 @@ export default function DragContext() {
 
         const sInd = +source.droppableId;  //The index in statusOrder
         const dInd = +destination.droppableId;
-        const sourceStatus = allStatus.get(statusOrder[sInd])
+        const sourceStatus = allStatus.get(statusOrder[0][sInd])
         if (sInd === dInd) {//reorder
             dispatch(chainReorder(sourceStatus, sInd, dInd))
 
         } else {
-            console.log("sInd", sInd, "statusOrder[sInd]", statusOrder[sInd])
-            console.log("dInd", dInd, "statusOrder[dInd]", statusOrder[dInd])
-            const destinationStatus = allStatus.get(statusOrder[dInd])
-            console.log("sourceStatus", sourceStatus, destinationStatus)
+            const destinationStatus = allStatus.get(statusOrder[0][dInd])
             dispatch(chainMove(sourceStatus, destinationStatus, source.index, destination.index))
         }
 

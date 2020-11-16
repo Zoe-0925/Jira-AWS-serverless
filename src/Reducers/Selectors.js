@@ -16,16 +16,11 @@ export const selectCommentReducer = state => state.CommentReducer
 
 export const selectLoadingReducer = state => state.LoadingReducer
 
-export const selectLoading = state => state.LoadingReducer.loading
-
-export const selectAuthenticated = state => state.LoadingReducer.authenticated
-
-export const selectErrorMessage = state => state.LoadingReducer.errorMessage
-
 /****************** Selectors - Status  *********************/
 export const selectAllStatusInArray = state => {
-    const mapResult = state.StatusReducer.status
-    return [...mapResult.values()]
+    const project = state.ProjectReducer.projects.find(project => project._id === state.ProjectReducer.currentProjectId)
+    const statusOrder = project ? project.statusOrder[0] : []
+    return statusOrder.map(each => state.StatusReducer.status.get(each))
 }
 
 export const selectAllStatus = state => state.StatusReducer.status
@@ -43,11 +38,6 @@ export const selectAllProjects = state => state.ProjectReducer.projects
 
 export const selectCurrentProjectId = state => state.ProjectReducer.currentProjectId
 
-export const selectStatusOrder = state => {
-    const currentProject = state.ProjectReducer.projects.find(item => item._id === state.ProjectReducer.currentProjectId)
-    console.log("statusOrder from selector", currentProject.statusOrder)
-    return currentProject ? currentProject.statusOrder : []
-}
 export const selectCurrentProject = state => state.ProjectReducer.projects.find(item => item._id === state.ProjectReducer.currentProjectId)
 
 export const selectFirstStatus = state => {
@@ -57,16 +47,6 @@ export const selectFirstStatus = state => {
     } else {
         return []
     }
-}
-
-export const selectCurrentProjectName = state => {
-    const currentProject = state.ProjectReducer.projects.find(item => item._id === state.ProjectReducer.currentProjectId)
-    return currentProject ? currentProject.name : ""
-}
-
-export const selectProjectMemberIds = state => {
-    const currentProject = state.ProjectReducer.projects.find(item => item._id === state.ProjectReducer.currentProjectId)
-    return currentProject ? currentProject.members : []
 }
 
 export const selectProjectMembers = state => {

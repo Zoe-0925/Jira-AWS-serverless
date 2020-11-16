@@ -72,12 +72,14 @@ export const createProject = (newProject) => async dispatch => {
 
 export const getAllProjects = (idList) => async dispatch => {
     try {
-        const projects = idList.map(projectId => API.get("ProjectApi", "/projects/object/" + projectId)
-            .then(project => project.Item))
-        await dispatch({
-            type: APPEND_PROJECTS,
-            data: projects
-        })
+        idList.map(projectId => API.get("ProjectApi", "/projects/object/" + projectId).then(
+            project => {
+                dispatch({
+                    type: CREATE_PROJECT,
+                    data: project.Item
+                })
+            }
+        ))
     }
     catch (err) {
         dispatch(dispatchError(err))

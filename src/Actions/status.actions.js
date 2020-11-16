@@ -73,23 +73,30 @@ export const chainMove = (sourceStatus, destinationStatus, startIndex, endIndex)
     dispatch({ type: LOADING })
     try {
         const { sourceIssueorder, destinationIssueorder } = changeColumn(sourceStatus.issues, destinationStatus.issues, startIndex, endIndex)
-        const sourceUpdated = { _id: sourceStatus._id, issueOrder: sourceIssueorder }
-        const destinationUpdated = { _id: destinationStatus._id, issueOrder: destinationIssueorder }
-        await API.put("StatusApi", "/status/issueOrder", {
-            body: {
-                sourceUpdated
-            }
-        })
-        await API.put("StatusApi", "/status/issueOrder", {
-            body: {
-                destinationUpdated
-            }
-        })
-        dispatch({
-            type: MOVE_ISSUES,
-            source: sourceUpdated,
-            destination: destinationUpdated
-        })
+        console.log("sourceIssueorder, destinationIssueorder", sourceIssueorder, destinationIssueorder)
+        //TODO
+        //changeColumn is wrong. Needs to be fixed
+        
+        
+        /** 
+         const sourceUpdated = { _id: sourceStatus._id, issueOrder: sourceIssueorder }
+         const destinationUpdated = { _id: destinationStatus._id, issueOrder: destinationIssueorder }
+         await API.put("StatusApi", "/status/issueOrder", {
+             body: {
+                 sourceUpdated
+             }
+         })
+         await API.put("StatusApi", "/status/issueOrder", {
+             body: {
+                 destinationUpdated
+             }
+         })
+         dispatch({
+             type: MOVE_ISSUES,
+             source: sourceUpdated,
+             destination: destinationUpdated
+         })
+         */
     }
     catch (err) {
         dispatch(dispatchError(err))
