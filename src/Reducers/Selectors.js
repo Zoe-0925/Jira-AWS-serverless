@@ -25,10 +25,7 @@ export const selectAllStatusInArray = state => {
 
 export const selectAllStatus = state => state.StatusReducer.status
 
-export const selectStatusById = (id) => state => {
-    const currentProject = state.ProjectReducer.projects.find(item => item._id === state.ProjectReducer.currentProjectId)
-    return currentProject ? currentProject.statusOrder.map(each => state.StatusReducer.status.get(each)).get(id) : ""
-}
+export const selectStatusById = (id) => state => state.StatusReducer.status.get(id)
 
 export const selectDefaultIssueOrder = state => state.StatusReducer.status.get(selectFirstStatus(state)) !== undefined ? state.StatusReducer.status.get(selectFirstStatus(state)).issues : []
 
@@ -52,7 +49,7 @@ export const selectFirstStatus = state => {
 export const selectProjectMembers = state => {
     const currentProject = state.ProjectReducer.projects.find(item => item._id === state.ProjectReducer.currentProjectId)
     if (currentProject === undefined) { return [] }
-    return state.UserReducer.users.filter(user => currentProject.members.include(user._id))
+    return state.UserReducer.users.filter(user => currentProject.members.includes(user._id))
 }
 /****************** Selectors - Issue  *********************/
 export const selectTasks = state => state.IssueReducer.tasks
