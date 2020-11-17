@@ -49,7 +49,7 @@ const IssueCard = ({ issueId, openTaskDetail }) => {
             <Container>
                 <Row className="mt-0">
                     <Col sm="10" onClick={() => openTaskDetail(task)}>
-                        <p>{task.summary}</p>
+                       {task.summary}
                     </Col>
                     <Col sm="2">
                         <DotIconMenu className="dot-icon" anchorEl={anchorEl} isOpen={isOpen} anchorRef={anchorRef}
@@ -72,7 +72,7 @@ const IssueCard = ({ issueId, openTaskDetail }) => {
                         </Tooltip>
                     </Col>
                     <Col sm="8">
-                        <p>{task.summary}</p>
+                       {task.summary}
                     </Col>
                     <Col sm="1">
                         <Tooltip title={task.assignee} aria-label={task.assignee}>

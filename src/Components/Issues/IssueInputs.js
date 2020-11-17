@@ -1,5 +1,5 @@
 import React from 'react'
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { EditableText, Input, TextareaWithActionBtns } from "../Shared/EditableText"
 import { useEditText } from "../Shared/CustomHooks"
 import { selectLoadingReducer } from '../../Reducers/Selectors';
@@ -10,27 +10,28 @@ export function IssueSummaryInput({ id, summary }) {
     const dispatch = useDispatch()
 
     const updateSummary = (value) => {
-        setState(value)
-        dispatch(updateIssueAttribute({ _id: id, attribute: "summary", value: value }))
+        if (state.value !== state.backup) {
+            setState(value)
+            dispatch(updateIssueAttribute({ _id: id, attribute: "summary", value: value.value }))
+        }
     }
 
     return (
-        <EditableText name="issue-summary" className="board-name"
+        <EditableText className="issue-summary" name="issue-summary" className="board-name"
             setEdit={setEdit} edit={edit} text={state.value}>
-            <Input style={{
-                fontSize: "1.71429em", lineHeight: "1.16667", fontWeight: "500", letterSpacing: "-0.01em",
-                margin: "0", padding: "0", color: "rgb(23, 43, 77)"
-            }} state={state} setState={updateSummary} setEdit={setEdit} />
+            <Input state={state} setState={updateSummary} setEdit={setEdit} />
         </EditableText>
     )
 }
 
 export function IssueDescriptionInput({ id, description }) {
-    const { state, setState, edit, setEdit } = useEditText(description)
+    const { state, setState, edit, setEdit } = useEditText(description!==""?description:"Add a description...")
     const dispatch = useDispatch()
 
     const updateDesciption = () => {
-        setTimeout(dispatch(updateIssueAttribute({ _id: id, attribute: "description", value: state })), 1000)
+        if (state.value !== state.backup) {
+            setTimeout(dispatch(updateIssueAttribute({ _id: id, attribute: "description", value: state.value })), 1000)
+        }
     }
 
     const loading = useSelector(selectLoadingReducer).loading

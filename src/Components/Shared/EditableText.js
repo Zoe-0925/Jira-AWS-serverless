@@ -1,8 +1,7 @@
 import React, { Fragment } from 'react'
-import { ListItem, TextareaAutosize } from '@material-ui/core';
+import { ListItem, Button, TextareaAutosize } from '@material-ui/core';
 import { v4 as uuidv4 } from 'uuid'
 import { Container, Row } from "reactstrap"
-import SaveCancelButtons from "../Shared/SaveCancelButtons"
 
 export function Input({ state, setState, setEdit, handleSubmit }) {
 
@@ -73,7 +72,7 @@ export function Textarea({ state, setState, setEdit, handleSubmit }) {
 
 export function TextareaWithActionBtns({ isSubmitting, handleChange, handleCancel, handleSave }) {
     return (
-        <Container className="container">
+        <Container>
             <Row>
                 <TextareaAutosize
                     className="input-form"
@@ -85,25 +84,23 @@ export function TextareaWithActionBtns({ isSubmitting, handleChange, handleCance
                 />
             </Row>
             <Row className="action-btns">
-                <SaveCancelButtons isSubmitting={isSubmitting} handleCancel={handleCancel} handleSave={handleSave} />
+                <Button className="navbar-create-btn" disabled={isSubmitting} onClick={handleSave}>Save</Button>
+                <Button className="cancel-btn" disabled={isSubmitting} onClick={handleCancel}>Cancel</Button>
             </Row>
         </Container>
     )
 }
 
 //Accepts an input or textare and returns an editable text box
-export function EditableText({ edit, text, setEdit, ...props }) {
+export function EditableText({ edit, text, setEdit, className, ...props }) {
 
     return (
         <Fragment>
-            {edit ?
-                <ListItem key={uuidv4()}>
-                    {props.children}
-                </ListItem> : <ListItem button key={uuidv4()} onClick={() => {
-                    setEdit(true)
-                }}>
-                    {text}
-                </ListItem>
+            {edit ? props.children : <ListItem button key={uuidv4()} onClick={() => {
+                setEdit(true)
+            }}>
+                <p className={className ? className : "no-class"}> {text}</p>
+            </ListItem>
             }
         </Fragment>
     )

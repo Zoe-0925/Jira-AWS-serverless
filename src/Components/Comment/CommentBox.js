@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Fragment} from 'react'
 import CommentInput from "./CommentInput"
 import { ListItem, ListItemText, Divider } from '@material-ui/core';
 import { Row } from "reactstrap"
@@ -24,7 +24,7 @@ export default function CommentBox({ comments }) {
     </div>
 
     return (
-        <div className="CommentBox">
+        <Fragment>
             <p className="title">Comments</p>
             {
                 comments && comments.length > 0 &&
@@ -33,5 +33,5 @@ export default function CommentBox({ comments }) {
                 </div>
             }
             <CommentInput />
-        </div>)
+        </Fragment>)
 }

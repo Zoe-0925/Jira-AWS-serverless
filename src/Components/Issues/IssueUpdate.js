@@ -95,15 +95,21 @@ const IssueDetailForm = ({ issue, handleClose }) => {
         <div className="issue-detail-form">
             <Row>
                 <Col sm="12" md="7">
-                    <IssueSummaryInput id={issue._id} summary={issue.summary} />
-                    <p className="label">Description</p>
-                    <IssueDescriptionInput id={issue._id} description={issue.description} />
-                    <Row></Row>
-                    <Row></Row>
-                    <Divider />
-                    <Row></Row>
-                    <Row></Row>
-                    <CommentHOC />
+                    <Row>
+                        <div className="left-container">
+                            <IssueSummaryInput id={issue._id} summary={issue.summary} />
+                            <p className="label">Description</p>
+                            <IssueDescriptionInput id={issue._id} description={issue.description} />
+                            <Row></Row>
+                            <Row></Row>
+                            <Divider className="divider" />
+                            <Row></Row>
+                            <Row md="auto"></Row>
+                            <CommentHOC />
+                        </div>
+                    </Row>
+                    <Row>
+                    </Row>
                 </Col>
                 <Col sm="12" md="5">
                     <Select

@@ -758,7 +758,12 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
 .issue-detail-form {
   width: $full;
 
-  .margin{
+  .divider {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .margin {
     margin-bottom: 1rem;
   }
 
@@ -772,6 +777,10 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
     padding: 0;
   }
 
+  .left-container {
+    margin-left: 1.5rem;
+    width: $full;
+  }
   @media (max-width: 400px) {
     width: $full;
   }
@@ -969,4 +978,16 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
   .root {
     height: 1.5rem;
   }
+}
+
+.issue-summary {
+  font-size: 1.71429em;
+  font-style: inherit;
+  line-height: 1.16667;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+  color: rgb(23, 43, 77);
 }
