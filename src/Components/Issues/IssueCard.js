@@ -80,7 +80,7 @@ const IssueCard = ({ issueId, openTaskDetail }) => {
                     </Col>
                 </Row>
             </Container>
-        </Box >)
+        </Box>)
     }
 }
 

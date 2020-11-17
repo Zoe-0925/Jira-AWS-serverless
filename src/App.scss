@@ -758,6 +758,10 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
 .issue-detail-form {
   width: $full;
 
+  .margin{
+    margin-bottom: 1rem;
+  }
+
   .issue-title {
     font-size: 2rem;
   }
@@ -773,7 +777,6 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
   }
 
   @media (min-width: 401px) {
-    width: 600px;
     padding: 1.5rem;
     text-align: left;
     max-height: 700px;
@@ -792,7 +795,28 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
     }
 
     .label {
-      @include label;
+      font-size: 1em;
+      font-style: inherit;
+      font-weight: 600;
+      letter-spacing: -0.003em;
+      margin-top: 16px;
+      line-height: 24px;
+      color: rgb(23, 43, 77);
+      overflow-wrap: break-word;
+      min-width: 0px;
+    }
+
+    .small-label {
+      font-family: "Segoe UI", Roboto, Oxygen, Ubuntu, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+      color: #5e6c84;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 16px;
+      float: none;
+      display: block;
+      text-align: left;
+      width: auto;
+      margin: 0;
     }
 
     .time {

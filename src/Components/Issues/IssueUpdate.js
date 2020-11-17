@@ -28,7 +28,8 @@ const IssueDetail = ({ issue, open, handleClose }) => {
             open={open}
             onClose={handleClose}
             aria-labelledby="max-width-dialog-title"
-            maxWidth="lg"
+            maxWidth="md"
+            fullWidth={true}
             className="dialog-container"
         >
             <IssueDetailForm issue={issue} handleClose={handleClose} />
@@ -71,7 +72,7 @@ const IssueDetailForm = ({ issue, handleClose }) => {
     function showEpic() {
     }
 
-    return <Fragment>
+    return <div>
         <MuiDialogTitle disableTypography className="title">
             <Row>
                 <Col>
@@ -80,9 +81,7 @@ const IssueDetailForm = ({ issue, handleClose }) => {
                             <CreateIcon className="cursor" size="small" onClick={showEpic} />
                             Add epic
                         </Button>
-                        <Link color="inherit" href="/">
-                            {issue.key}
-                        </Link>
+                        {issue.key}
                     </Breadcrumbs>
                 </Col>
                 <Col md="auto"></Col>
@@ -94,71 +93,83 @@ const IssueDetailForm = ({ issue, handleClose }) => {
             </Row>
         </MuiDialogTitle>
         <div className="issue-detail-form">
-            <Container>
-                <Row>
-                    <Col sm="12" md="7">
-                        <IssueSummaryInput id={issue._id} summary={issue.summary} />
-                        <p className="label">Description</p>
-                        <IssueDescriptionInput id={issue._id} description={issue.description} />
-                        <Row></Row>
-                        <Row></Row>
-                        <Divider />
-                        <Row></Row>
-                        <Row></Row>
-                        <CommentHOC />
-                    </Col>
-                    <Col sm="12" md="5">
-                        <Select
-                            className="select"
-                            classNamePrefix="select"
-                            name="issueType"
-                            defaultValue={{ label: defaultStatus.name, value: issue.status }}
-                            options={statusOptions}
-                            onChange={(e) => dispatch(chainUpdateIssueStatus({ _id: issue._id, value: e.value, attribute: "status" }, issue.status))}
-                        />
-                        <Row></Row>
-                        <p className="label">Assignee</p>
-                        <Select
-                            className="select"
-                            classNamePrefix="select"
-                            name="assignee"
-                            defaultValue={defaultAssignee}
-                            options={assigneeOptions}
-                            onChange={(e) => dispatch(updateIssueAttribute({ _id: issue._id, value: e.value, attribute: "assignee" }))}
-                            isClearable={true}
-                        />
-                        <Row></Row>
-                        <p className="label">Labels</p>
-                        <Select
-                            className="select"
-                            classNamePrefix="select"
-                            isMulti
-                            name="labels"
-                            defaultValue={currentLabels}
-                            options={labelOptions}
-                            onChange={(e) => dispatch(updateIssueAttribute({ _id: issue._id, value: e.value, attribute: "labels" }))}
-                            isClearable={true}
-                        />
-                        <Row></Row>
-                        <p className="label">Reporter</p>
-                        <Select
-                            className="select"
-                            classNamePrefix="select"
-                            name="reporter"
-                            defaultValue={{ label: reporter.name, value: reporter }}
-                            options={reporterOptions}
-                            onChange={(e) => dispatch(updateIssueAttribute({ _id: issue._id, value: e.value, attribute: "reporter" }))}
-                        />
-                        <Row></Row>
-                        <Divider />
-                        <Row></Row>
-                        <p className="time">{"Created " + issue.created}</p>
-                        <p className="time">{"Updated " + updatedTime}</p>
-                    </Col>
-                </Row>
-            </Container>
+            <Row>
+                <Col sm="12" md="7">
+                    <IssueSummaryInput id={issue._id} summary={issue.summary} />
+                    <p className="label">Description</p>
+                    <IssueDescriptionInput id={issue._id} description={issue.description} />
+                    <Row></Row>
+                    <Row></Row>
+                    <Divider />
+                    <Row></Row>
+                    <Row></Row>
+                    <CommentHOC />
+                </Col>
+                <Col sm="12" md="5">
+                    <Select
+                        className="select"
+                        classNamePrefix="select"
+                        name="status"
+                        defaultValue={{ label: defaultStatus.name, value: issue.status }}
+                        options={statusOptions}
+                        onChange={(e) => dispatch(chainUpdateIssueStatus({ _id: issue._id, value: e.value, attribute: "status" }, issue.status))}
+                    />
+                    <Row className="margin"></Row>
+                    <Row className="margin">
+                        <Col sm="4">
+                            <p className="small-label">Assignee</p>
+                        </Col>
+                        <Col sm="8">
+                            <Select
+                                className="select"
+                                classNamePrefix="select"
+                                name="assignee"
+                                defaultValue={defaultAssignee}
+                                options={assigneeOptions}
+                                onChange={(e) => dispatch(updateIssueAttribute({ _id: issue._id, value: e.value, attribute: "assignee" }))}
+                            />
+                        </Col>
+                    </Row>
+                    <Row className="margin">
+                        <Col sm="4">
+                            <p className="small-label">Labels</p>
+                        </Col>
+                        <Col sm="8">
+                            <Select
+                                className="select"
+                                classNamePrefix="select"
+                                isMulti
+                                name="labels"
+                                defaultValue={currentLabels}
+                                options={labelOptions}
+                                onChange={(e) => dispatch(updateIssueAttribute({ _id: issue._id, value: e.value, attribute: "labels" }))}
+                            />
+                        </Col>
+                    </Row>
+                    <Row className="margin">
+                        <Col sm="4">
+                            <p className="small-label">Reporter</p>
+                        </Col>
+                        <Col sm="8">
+                            <Select
+                                className="select"
+                                classNamePrefix="select"
+                                name="reporter"
+                                defaultValue={{ label: reporter.name, value: reporter }}
+                                options={reporterOptions}
+                                onChange={(e) => dispatch(updateIssueAttribute({ _id: issue._id, value: e.value, attribute: "reporter" }))}
+                            />
+                        </Col>
+                    </Row>
+                    <Row className="margin"></Row>
+                    <Divider />
+                    <Row className="margin"></Row>
+                    <p className="time">{"Created " + issue.created}</p>
+                    <p className="time">{"Updated " + updatedTime}</p>
+                </Col>
+            </Row>
         </div>
-    </Fragment>
+    </div>
 }
 
 

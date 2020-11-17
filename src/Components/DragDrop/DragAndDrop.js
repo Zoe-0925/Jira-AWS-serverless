@@ -5,14 +5,6 @@ import {  selectGroupBy, selectAllStatusInArray } from "../../Reducers/Selectors
 import { IssueDroppable } from "./Droppable";
 import StatusCreate from "./StatusCreate"
 
-//TODO 
-//Update this to accept children
-
-
-//TODO
-//Inside the draggable
-//  <IssueCard task={task} openTaskDetail={openTaskDetail} />
-
 export default function DragAndDrop() {
     const columns = useSelector(selectAllStatusInArray)
 
