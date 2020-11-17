@@ -143,8 +143,9 @@ export default function IssueCreate() {
             }), ...value
         }
         if (issue.issueTye === "epic") {
-            // TODO
-            //add start date and due date}
+            const today = new Date()
+            issue.startDate = JSON.stringify(today)
+            issue.dueDate = JSON.stringify(today.setMonth(today.getMonth() + 1))
             if (issue.project === "") { issue.project = projects[0]._id }
             dispatch(chainCreateIssueAndUpdateIssueOrder(issue)).then(
                 result => {
