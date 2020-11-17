@@ -17,7 +17,10 @@ export function IssueSummaryInput({ id, summary }) {
     return (
         <EditableText name="issue-summary" className="board-name"
             setEdit={setEdit} edit={edit} text={state.value}>
-            <Input state={state} setState={updateSummary} setEdit={setEdit} />
+            <Input style={{
+                fontSize: "1.71429em", lineHeight: "1.16667", fontWeight: "500", letterSpacing: "-0.01em",
+                margin: "0", padding: "0", color: "rgb(23, 43, 77)"
+            }} state={state} setState={updateSummary} setEdit={setEdit} />
         </EditableText>
     )
 }
