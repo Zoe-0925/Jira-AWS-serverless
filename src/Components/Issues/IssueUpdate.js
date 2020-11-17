@@ -1,15 +1,14 @@
 import React, { Fragment, useState } from 'react';
 import { useSelector, useDispatch } from "react-redux"
 import { IssueSummaryInput, IssueDescriptionInput } from "./IssueInputs"
-import { Container, Row, Col } from 'reactstrap';
+import IssueAddEpic from "./IssueAddEpic"
+import {  Row, Col } from 'reactstrap';
 import Select from 'react-select';
 import {
     Divider,
-    Link,
     Breadcrumbs,
-    IconButton, Button, Dialog
+    IconButton, Dialog
 } from '@material-ui/core';
-import CreateIcon from '@material-ui/icons/Create';
 import {
     selectStatusById, selectLabels, selectProjectMembers,
     selectUserById, selectIssueUpdatedTimeById, selectAllStatusInArray
@@ -40,15 +39,11 @@ const IssueDetail = ({ issue, open, handleClose }) => {
 
 const IssueDetailForm = ({ issue, handleClose }) => {
     const dispatch = useDispatch()
-    //TODO
-    //add loading reducer
-    //disable buttons when loading.
 
     const updatedTime = useSelector(selectIssueUpdatedTimeById(issue._id))
     const assignee = issue.assignee ? useSelector(selectUserById(issue.assignee)) : ""
     const reporter = issue.reporter ? issue.reporter : ""
 
-    console.log("assignee", assignee, issue.assignee, "reporter", reporter)
 
     const currentLabels = []
     const defaultStatus = useSelector(selectStatusById(issue.status))
@@ -70,19 +65,12 @@ const IssueDetailForm = ({ issue, handleClose }) => {
             return { label: each, value: each }
         })
 
-    function showEpic() {
-    }
-
     return <div>
         <MuiDialogTitle disableTypography className="title">
             <Row>
                 <Col>
                     <Breadcrumbs aria-label="breadcrumb" style={{ display: "inline" }}>
-                        <Button className="add-epic-btn" onClick={showEpic}>
-                            <CreateIcon className="cursor" size="small" onClick={showEpic} />
-                            Add epic
-                        </Button>
-                        {issue.key}
+                        <IssueAddEpic issueId={issue._id} />
                     </Breadcrumbs>
                 </Col>
                 <Col md="auto"></Col>

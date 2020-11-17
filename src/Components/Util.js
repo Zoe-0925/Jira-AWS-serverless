@@ -39,8 +39,8 @@ export const changeColumn = (source, destination, startIndex, endIndex) => {
 
 export const formatDate = dateString => {
     try {
-        console.log("date",  parseJSON(dateString))
-        return format(parseJSON(dateString), "MM-dd-YYYY")
+        const date = parseJSON(dateString)
+        return format(date, "MMMM dd YYYY")
     } catch (err) {
         return ""
     }
