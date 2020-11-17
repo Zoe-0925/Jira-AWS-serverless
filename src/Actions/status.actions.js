@@ -1,8 +1,8 @@
 import API from '@aws-amplify/api';
 import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
-import { changeColumn, reorder } from "../Components/Util"
+import { reorder } from "../Components/Util"
 import { updateIssueAttribute, handleIssueAfterDeleteStatus } from "./issue.actions"
-import { removeStatusFromOrder } from "./project.actions"
+import { removeStatusFromOrder, updateProjectAttribute } from "./project.actions"
 
 export const ADD_ISSUE_TO_TAIL = "ADD_ISSUE_TO_TAIL"
 export const CREATE_STATUS = "CREATE_STATUS"
@@ -42,6 +42,20 @@ export function addSuccessIssueToTail(statusId, issueId) {
 }
 
 /**************************** Thunk Actions ***************************/
+
+export const chainCreateStatus = data => async (dispatch, getState) => {
+    dispatch({ type: LOADING })
+    try {
+        const project = getState().ProjectReducer.projects.find(item => item._id === status.data.project)
+        await Promise.all([
+            dispatch(createStatus(data)),
+            dispatch(updateProjectAttribute({ _id: data.project, attribute: "statusOrder", value: [...project.statusOrder, data._id] }))
+        ])
+        dispatch({ type: AUTHENTICATED })
+    } catch (err) {
+        dispatch(dispatchError(err))
+    }
+}
 
 export const chaninDeleteStatus = (id) => async (dispatch) => {
     dispatch({ type: LOADING })
@@ -167,7 +181,6 @@ export const getProjectStatus = (projectId) => async  dispatch => {
 }
 
 export const createStatus = (newStatus) => async  dispatch => {
-    dispatch({ type: LOADING })
     try {
         await API.put("StatusApi", "/status", {
             body: newStatus
@@ -176,7 +189,6 @@ export const createStatus = (newStatus) => async  dispatch => {
             type: CREATE_STATUS,
             data: newStatus
         })
-        dispatch({ type: AUTHENTICATED })
     }
     catch (err) {
         dispatch(dispatchError(err))

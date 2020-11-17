@@ -31,12 +31,6 @@ export const reorder = (list, startIndex, endIndex) => {
     return list
 }
 
-export const changeColumn = (source, destination, startIndex, endIndex) => {
-    const [removedToMove] = source.splice(startIndex, 1);
-    destination.splice(endIndex, 0, removedToMove);
-    return { source, destination }
-}
-
 export const formatDate = dateString => {
     try {
         const date = parseJSON(dateString)

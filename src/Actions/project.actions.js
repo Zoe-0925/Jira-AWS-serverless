@@ -104,14 +104,12 @@ export const mockgetAllProjects = () => async dispatch => {
 }
 
 export const updateProjectAttribute = (data) => async dispatch => {
-    dispatch({ type: LOADING })
     try {
         await API.put("ProjectApi", "/projects/update/", { body: data })
         await dispatch({
             type: UPDATE_PROJECT_ATTRIBUTE,
             data: data
         })
-        dispatch({ type: AUTHENTICATED })
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -134,13 +132,17 @@ export const updateProjectDetail = (data) => async  dispatch => {
 }
 
 export const addMember = (projectId, userId, members) => async dispatch => {
+    dispatch({ type: LOADING })
     await dispatch(updateProjectAttribute({ _id: projectId, value: [...members, userId], attribute: "members" }))
+    dispatch({ type: AUTHENTICATED })
 }
 
 export const subMembers = (projectId, userId, members) => async dispatch => {
+    dispatch({ type: LOADING })
     let updated = [...members]
     updated = updated.filter(member => member === userId)
     await dispatch(updateProjectAttribute({ _id: projectId, value: updated, attribute: "members" }))
+    dispatch({ type: AUTHENTICATED })
 }
 
 export const deleteProject = (id) => async  dispatch => {
