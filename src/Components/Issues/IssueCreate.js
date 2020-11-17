@@ -128,7 +128,7 @@ const IssueCreateContent = withFormik({
     displayName: 'MyForm',
 })(IssueForm);
 
-const IssueCreate = () => {
+export default function IssueCreate() {
     const dispatch = useDispatch()
     const defaultStatusId = useSelector(selectFirstStatus)
     const [open, setOpen] = useState(false)
@@ -142,32 +142,34 @@ const IssueCreate = () => {
                 labels: [], assignee: "", reporter: "",
             }), ...value
         }
-        if (issue.project === "") { issue.project = projects[0]._id }
-        dispatch(chainCreateIssueAndUpdateIssueOrder(issue)).then(
-            result => {
-                if (result) {
-                    setSuccessful(true)
+        if (issue.issueTye === "epic") {
+            // TODO
+            //add start date and due date}
+            if (issue.project === "") { issue.project = projects[0]._id }
+            dispatch(chainCreateIssueAndUpdateIssueOrder(issue)).then(
+                result => {
+                    if (result) {
+                        setSuccessful(true)
+                    }
                 }
-            }
+            )
+            setOpen(false)
+        }
+
+        return (
+            <Fragment>
+                {projects && <Button className="navbar-create-btn" onClick={() => setOpen(true)}>Create</Button>}
+                {projects && <Dialog
+                    open={open}
+                    onClose={() => setOpen(false)}
+                    aria-labelledby="max-width-dialog-title"
+                    maxWidth="lg"
+                    className="dialog-container"
+                >
+                    <IssueCreateContent onContinue={submitCreateIssue} handleClose={() => setOpen(false)} />
+                </Dialog>}
+                {sucessful && <SuccessfulFeedback open={sucessful} message="Issue created successfully!" />}
+            </Fragment>
         )
-        setOpen(false)
     }
-
-    return (
-        <Fragment>
-            {projects && <Button className="navbar-create-btn" onClick={() => setOpen(true)}>Create</Button>}
-            {projects && <Dialog
-                open={open}
-                onClose={() => setOpen(false)}
-                aria-labelledby="max-width-dialog-title"
-                maxWidth="lg"
-                className="dialog-container"
-            >
-                <IssueCreateContent onContinue={submitCreateIssue} handleClose={() => setOpen(false)} />
-            </Dialog>}
-            {sucessful && <SuccessfulFeedback open={sucessful} message="Issue created successfully!" />}
-        </Fragment>
-    )
 }
-
-export default IssueCreate
