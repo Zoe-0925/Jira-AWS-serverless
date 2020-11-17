@@ -155,21 +155,22 @@ export default function IssueCreate() {
             )
             setOpen(false)
         }
-
-        return (
-            <Fragment>
-                {projects && <Button className="navbar-create-btn" onClick={() => setOpen(true)}>Create</Button>}
-                {projects && <Dialog
-                    open={open}
-                    onClose={() => setOpen(false)}
-                    aria-labelledby="max-width-dialog-title"
-                    maxWidth="lg"
-                    className="dialog-container"
-                >
-                    <IssueCreateContent onContinue={submitCreateIssue} handleClose={() => setOpen(false)} />
-                </Dialog>}
-                {sucessful && <SuccessfulFeedback open={sucessful} message="Issue created successfully!" />}
-            </Fragment>
-        )
     }
+
+    return (
+        <Fragment>
+            {projects && <Button className="navbar-create-btn" onClick={() => setOpen(true)}>Create</Button>}
+            {projects && <Dialog
+                open={open}
+                onClose={() => setOpen(false)}
+                aria-labelledby="max-width-dialog-title"
+                maxWidth="lg"
+                className="dialog-container"
+            >
+                <IssueCreateContent onContinue={submitCreateIssue} handleClose={() => setOpen(false)} />
+            </Dialog>}
+            {sucessful && <SuccessfulFeedback open={sucessful} message="Issue created successfully!" />}
+        </Fragment>
+    )
+}
 }
