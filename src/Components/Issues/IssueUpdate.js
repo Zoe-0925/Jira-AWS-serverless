@@ -20,6 +20,7 @@ import {
 import CommentHOC from "../Comment/CommentHOC"
 import CloseIcon from '@material-ui/icons/Close';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
+import { formatDate } from "../Util"
 
 const IssueDetail = ({ issue, open, handleClose }) => {
 
@@ -170,8 +171,8 @@ const IssueDetailForm = ({ issue, handleClose }) => {
                     <Row className="margin"></Row>
                     <Divider />
                     <Row className="margin"></Row>
-                    <p className="time">{"Created " + issue.created}</p>
-                    <p className="time">{"Updated " + updatedTime}</p>
+                    <p className="time">{"Created " + formatDate(issue.createdAt)}</p>
+                    <p className="time">{"Updated " + formatDate(updatedTime)}</p>
                 </Col>
             </Row>
         </div>

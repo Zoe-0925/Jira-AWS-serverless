@@ -1,4 +1,6 @@
 import { v4 as uuidv4 } from 'uuid'
+import format from 'date-fns/format'
+import parseJSON from 'date-fns/parseJSON'
 
 export const initiateProjectAndStatus = (projectData, currentUserId) => {
     const projectId = uuidv4()
@@ -33,4 +35,13 @@ export const changeColumn = (source, destination, startIndex, endIndex) => {
     const [removedToMove] = source.splice(startIndex, 1);
     destination.splice(endIndex, 0, removedToMove);
     return { source, destination }
+}
+
+export const formatDate = dateString => {
+    try {
+        console.log("date",  parseJSON(dateString))
+        return format(parseJSON(dateString), "MM-dd-YYYY")
+    } catch (err) {
+        return ""
+    }
 }
