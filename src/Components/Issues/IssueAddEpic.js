@@ -9,7 +9,7 @@ import {
     DialogActions, Dialog
 } from '@material-ui/core';
 import * as Yup from 'yup';
-import { selectAllEpics } from "../../Reducers/Selectors"
+import { selectEpics } from "../../Reducers/Selectors"
 import { updateIssueAttribute } from "../../Actions/issue.actions"
 import { DialogCloseIcon } from "../Shared/Tabs"
 import SuccessfulFeedback from "../Shared/SuccessfulFeedback"
@@ -23,7 +23,7 @@ const IssueAddEpicForm = props => {
         isSubmitting,
     } = props
 
-    const epics = useSelector(selectAllEpics)
+    const epics = useSelector(selectEpics)
 
     const epicOptions = epics.map(each => {
         return {
