@@ -46,7 +46,7 @@ export default function SideDrawer({ handleClick, open, ...props }) {
     const theme = useTheme();
     const classes = useStyles();
     const [mobileOpen, setMobileOpen] = React.useState(false);
-    const title = useSelector(selectCurrentProject)?useSelector(selectCurrentProject).name:""
+    const title = useSelector(selectCurrentProject) ? useSelector(selectCurrentProject).name : ""
 
     function handleDrawerToggle() {
         setMobileOpen(!mobileOpen)
@@ -55,13 +55,6 @@ export default function SideDrawer({ handleClick, open, ...props }) {
     const closeButton = (<IconButton onClick={handleDrawerToggle} className={classes.closeMenuButton}>
         <CloseIcon />
     </IconButton>)
-
-    const drawerTitle = (<div className="title">
-        <ProjectHeaderTab title={title} subtite="Software project" imgSrc="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcT2sa8Zxht8_5o8aMA9I1rHmr9FVXEoxoDVfw&usqp=CAU" />
-        <IconButton className="close-drawer-icon" onClick={open ? () => { handleClick(false) } : () => { handleClick(true) }}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-        </IconButton>
-    </div>)
 
     return <div className="drawer">
         <nav className={classes.drawer}>
@@ -80,20 +73,28 @@ export default function SideDrawer({ handleClick, open, ...props }) {
                     }}
                 >
                     {closeButton}
-                    {drawerTitle}
+                    <div className="title">
+                        <ProjectHeaderTab title={title} subtite="Software project" imgSrc="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcT2sa8Zxht8_5o8aMA9I1rHmr9FVXEoxoDVfw&usqp=CAU" />
+                    </div>
                     {props.children}
                 </Drawer>
             </Hidden>
             <Hidden xsDown implementation="css">
                 <Drawer
                     className={classes.drawer}
-                    variant="permanent"
+                    variant="persistent"
+                    open={open}
                     classes={{
                         paper: classes.drawerPaper,
                     }}
                 >
                     <div className={classes.toolbar} />
-                    {drawerTitle}
+                    <div className="title">
+                        <ProjectHeaderTab title={title} subtite="Software project" imgSrc="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcT2sa8Zxht8_5o8aMA9I1rHmr9FVXEoxoDVfw&usqp=CAU" />
+                        <IconButton className="close-drawer-icon" onClick={open ? () => { handleClick(false) } : () => { handleClick(true) }}>
+                            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                        </IconButton>
+                    </div>
                     {props.children}
                 </Drawer>
             </Hidden>
