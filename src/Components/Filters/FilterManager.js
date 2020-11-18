@@ -1,15 +1,9 @@
 import React from 'react'
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import PersonAddIcon from '@material-ui/icons/PersonAdd';
-import { Tooltip } from '@material-ui/core';
-import IssueFilter from "./IssueFilter"
-//import Label from "./Label"
-import GroupBy from "./GroupBy"
+import { selectUserName } from '../../Reducers/Selectors';
 
-export default function FilterManager() {
-    //TODO
-    //Retrieve the user name from the server
-    const userName = "Zoe"
+export default function FilterManager({ filters, setFilter }) {
+    const userName = useSelector(selectUserName)
+
 
     return (
         <div className="row filter-row">
@@ -21,22 +15,6 @@ export default function FilterManager() {
                 <PersonAddIcon className="icon item-3" fontSize="large" />
             </Tooltip>
             <GroupBy className="item-5" />
-
-            <Button className="nav-tab" onClick={handleProjectMenuOpen}>Projects <ExpandMoreIcon /></Button>
-
         </div>
     )
 }
-
-// No filter
-// Filter by issue summary
-// Filter by epic
-// filter by label
-// group by assignee
-// group by epic
-// group by subtask 
-
-// 选中了什么 filter 还要显示数字（local state）
-
-//Group by view
-//Now we have none group by view

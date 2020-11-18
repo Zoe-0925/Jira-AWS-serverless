@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from "react-redux"
-import FilterManager from "../Components/Filters/FilterManager"
 import Drawer from "../Components/Drawer/Drawer"
 import { DrawerInner } from "../Components/Drawer/DrawerInner"
 import { useEditText } from "../Components/Shared/CustomHooks"
@@ -47,7 +46,6 @@ export default function Board() {
                 setEdit={setEdit} edit={edit} value={state}>
                 <Input state={state} setState={setState} setEdit={setEdit} />
             </EditableText>
-            <FilterManager />
             <DragContext />
         </div>
     )

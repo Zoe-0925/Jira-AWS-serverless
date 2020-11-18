@@ -3,13 +3,15 @@ import { useDispatch, useSelector } from "react-redux"
 import { DragDropContext } from 'react-beautiful-dnd';
 import DragAndDrop from "./DragAndDrop"
 import { chainReorder, chainMove } from "../../Actions/status.actions"
-import { selectAllStatus, selectCurrentProject } from '../../Reducers/Selectors';
+import { selectAllStatus, selectCurrentProject, selectUserName } from '../../Reducers/Selectors';
+import FilterManager from "../Filters/FilterManager"
 
 export default function DragContext() {
     const dispatch = useDispatch()
     const allStatus = useSelector(selectAllStatus)
     const currentProject = useSelector(selectCurrentProject)
     const statusOrder = currentProject ? currentProject.statusOrder : []
+    const { filters, setFilters } = useState()
 
     function onDragEnd(result) {
         const { source, destination } = result;
@@ -34,10 +36,13 @@ export default function DragContext() {
     }
 
     return (
-        <DragDropContext onDragEnd={onDragEnd}>
-            <div className="board-container">
-                <DragAndDrop />
-            </div>
-        </DragDropContext>
+        <Fragment>
+            <FilterManager filters={filters} setFilters={setFilters} />
+            <DragDropContext onDragEnd={onDragEnd}>
+                <div className="board-container">
+                    <DragAndDrop filters={filters} />
+                </div>
+            </DragDropContext>
+        </Fragment>
     )
 }

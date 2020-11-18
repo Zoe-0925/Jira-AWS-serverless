@@ -52,13 +52,32 @@ export const selectProjectMembers = state => {
     return state.UserReducer.users.filter(user => currentProject.members.includes(user._id))
 }
 /****************** Selectors - Issue  *********************/
-export const selectTasks = state => state.IssueReducer.tasks
 
 export const selectEpics = state => state.IssueReducer.epics
 
-export const selectTaskById = (issueId) => state => selectTasks(state).get(issueId)
+export const selectTaskById = (issueId) => state => state.IssueReducer.tasks.get(issueId)
 
-export const selectIssueUpdatedTimeById = (issueId) => state => selectTasks(state).get(issueId).updatedAt
+export const selectIssueUpdatedTimeById = (issueId) => state => state.IssueReducer.tasks.get(issueId).updatedAt
+
+export const filterByLabel = (issueIds, labelIds) => state => {
+    const issues = issueIds.map(issueId => state.IssueReducer.tasks.get(issueId))
+    let result = []
+    labelIds.map(labelId => {
+        let midResult = issues.filter(issue => issue.labels.includes(labelId))
+        if (midResult.length > 0) { result.concat(midResult) }
+    })
+    return result
+}
+
+export const filterByEpic = (issueIds, epicIds) => state => {
+    const issues = issueIds.map(issueId => state.IssueReducer.tasks.get(issueId))
+    let result = []
+    epicIds.map(epicId => {
+        let midResult = issues.filter(issue => issue.epic && issue.epic === epicId)
+        if (midResult.length > 0) { result.concat(midResult) }
+    })
+    return result
+}
 
 /****************** Selectors - Labels  *********************/
 export const selectLabels = state => state.LabelReducer.labels
@@ -90,6 +109,12 @@ export const selectCurrentUserId = createSelector(
 export const selectAllUsers = createSelector(
     selectUserReducer,
     reducer => reducer.users
+)
+
+export const selectUserName = createSelector(
+    selectAllUsers,
+    selectCurrentUserId,
+    (users, id) => users.find(item => item._id === id)
 )
 
 export const selectUserById = (id) => createSelector(

@@ -39,19 +39,6 @@ export const MyDroppable = ({ el, ind, ...props }) => (<Droppable key={ind} drop
 export const IssueDroppable = ({ columns, openTaskDetail }) => {
 
     /**
-     *     const noneFilter = useSelector(selectNoneFilter)
-
-    const filterByEpic = useSelector(selectFilterByEpic)
-    const filterByAssignee = useSelector(selectFilterByAssignee)
-    const filterByLabel = useSelector(selectFilterByLabel)
-     */
-
-    //Add column:
-    // dispatch(createSuccessfulStatus(statusName))
-    //Delete column: 
-    // dispatch(deleteSuccessfulStatus(statusId))
-
-    /**
      *     {filterByEpic !== "" && el.issues.filter(item => { item.parent === filterByEpic }).map((issueId, index) =>
                                     draggable(issues.get(issueId), index, openTaskDetail)
                                 )}
