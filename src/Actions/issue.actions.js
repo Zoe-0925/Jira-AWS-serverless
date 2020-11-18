@@ -78,37 +78,6 @@ export const chainDeleteIssue = (issueId, statusId, issueType) => async (dispatc
     }
 }
 
-export const handleIssueAfterDeleteStatus = (statusId, newStatusId) => async (dispatch, getState) => {
-    try {
-        const statusToDelete = getState().StatusReducer.status.get(statusId)
-        if (statusToDelete.issues.length === 0) { return }
-        let tasksToUpdate = []
-        getState().IssueReducer.tasks.forEach((value, key) => {
-            if (value.status === statusId) {
-                tasksToUpdate.push(key)
-            }
-        })
-        tasksToUpdate.forEach(issueId => {
-            API.put("IssueApi", "/issues/update/attribute", {
-                body: {
-                    _id: issueId,
-                    attribute: "status",
-                    value: newStatusId
-                }
-            })
-        });
-        dispatch({
-            type: UPDATE_ISSUE_AFTER_DELETE_STATUS,
-            data: tasksToUpdate,
-            id: newStatusId
-        })
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-    }
-}
-
-
 export const createIssue = (data) => async  dispatch => {
     try {
         await API.post("IssueApi", "/issues/", { body: data })

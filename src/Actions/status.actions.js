@@ -1,7 +1,7 @@
 import API from '@aws-amplify/api';
 import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
 import { reorder } from "../Components/Util"
-import { updateIssueAttribute, handleIssueAfterDeleteStatus } from "./issue.actions"
+import { updateIssueAttribute, handleIssueAfterDeleteStatus, deleteIssue } from "./issue.actions"
 import { removeStatusFromOrder, updateProjectAttribute } from "./project.actions"
 
 export const ADD_ISSUE_TO_TAIL = "ADD_ISSUE_TO_TAIL"
@@ -57,15 +57,15 @@ export const chainCreateStatus = data => async (dispatch, getState) => {
     }
 }
 
-export const chaninDeleteStatus = (id) => async (dispatch) => {
+export const chaninDeleteStatus = (id) => async (dispatch, getState) => {
     dispatch({ type: LOADING })
     try {
-        const newStatusId = ""  //get the previous status or second status id from the status order
+        const status = getState().StatusReducer.status.get(id)
         await Promise.all([
             dispatch(deleteStatus(id)),
-            dispatch(handleIssueAfterDeleteStatus(id, newStatusId)),
             dispatch(removeStatusFromOrder(id))
         ])
+        status.issues.map(each => dispatch(deleteIssue(each), "task"))
     } catch (err) {
         dispatch(dispatchError(err))
     }
