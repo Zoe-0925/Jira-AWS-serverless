@@ -89,14 +89,14 @@ export const chainMove = (sourceStatus, destinationStatus, startIndex, endIndex)
         let destinationIssueorder = [...destinationStatus.issues]
         const [removedToMove] = sourceIssueorder.splice(startIndex, 1);
         destinationIssueorder.splice(endIndex, 0, removedToMove);
-        const sourceUpdated = { _id: sourceStatus._id, issueOrder: sourceIssueorder }
-        const destinationUpdated = { _id: destinationStatus._id, issueOrder: destinationIssueorder }
-        await API.put("StatusApi", "/status/issueOrder", {
+        const sourceUpdated = { _id: sourceStatus._id, value: sourceIssueorder, attribute: "issues" }
+        const destinationUpdated = { _id: destinationStatus._id, value: destinationIssueorder, attribute: "issues" }
+        await API.put("StatusApi", "/status/update/attribute", {
             body: {
                 sourceUpdated
             }
         })
-        await API.put("StatusApi", "/status/issueOrder", {
+        await API.put("StatusApi", "/status/update/attribute", {
             body: {
                 destinationUpdated
             }
@@ -114,10 +114,11 @@ export const chainMove = (sourceStatus, destinationStatus, startIndex, endIndex)
 
 export const addIssueToTail = (statusId, issueOrder) => async (dispatch) => {
     try {
-        await API.put("StatusApi", "/status/issueOrder", {
+        await API.put("StatusApi", "/status/update/attribute", {
             body: {
                 _id: statusId,
-                value: issueOrder
+                value: issueOrder,
+                attribute: "issues"
             }
         })
         await dispatch(updateIssueAttribute(statusId, issueOrder))
@@ -128,16 +129,12 @@ export const addIssueToTail = (statusId, issueOrder) => async (dispatch) => {
 
 export const updateIssueOrder = (id, issueOrder) => async  dispatch => {
     try {
-        //TODO server returns 500
+        const data = { _id: id, attribute: "issues", value: issueOrder }
         await API.put("StatusApi", "/status/update/attribute", {
-            body: { _id: id, attribute: "issues", value: issueOrder }
+            body: data
         })
 
-        await dispatch({
-            type: UPDATE_ISSUE_ORDER,
-            _id: id,
-            issueOrder: issueOrder
-        })
+        await dispatch({ ...data, type: UPDATE_ISSUE_ORDER })
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -150,11 +147,11 @@ export const updateStatusForIssue = (source, destination, issueId) => async (dis
         const sourceUpdated = [allStatus.get(source).issues].filter(item => item._id === issueId)
         const destinationUpdated = [allStatus.get(destination).issues].push(issueId)
 
-        await API.put("StatusApi", "/status/issueOrder", {
-            body: { _id: source, value: sourceUpdated }
+        await API.put("StatusApi", "/status/update/attribute", {
+            body: { _id: source, value: sourceUpdated, attribute: "issues" }
         })
-        await API.put("StatusApi", "/status/issueOrder", {
-            body: { _id: destination, value: destinationUpdated }
+        await API.put("StatusApi", "/status/update/attribute", {
+            body: { _id: destination, value: destinationUpdated, attribute: "issues" }
         })
         await dispatch({
             type: MOVE_ISSUES,
@@ -188,7 +185,6 @@ export const createStatus = (newStatus) => async  dispatch => {
             type: CREATE_STATUS,
             data: newStatus
         })
-        console.log("status created")
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -257,8 +253,8 @@ export const deleteIssueFromStatus = (issueId, statusId) => async (dispatch, get
         let status = getState().StatusReducer.status.get(statusId)
         let statusCopy = { ...status }
         let issuesUpdated = statusCopy.issues.filter(item => item !== issueId)
-        await API.put("StatusApi", "/status/issueOrder", {
-            body: issuesUpdated
+        await API.put("StatusApi", "/status/update/attribute", {
+            body: { _id: statusId, attribute: "issues", value: issuesUpdated }
         })
         dispatch({
             type: DELETE_ISSUE_FROM_STATUS,
