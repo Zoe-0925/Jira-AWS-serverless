@@ -68,6 +68,6 @@ export const IssueDroppable = ({ columns, openTaskDetail }) => {
                 </Column>
             </MyDroppable>
         }
-        return <Skeleton variant="rect" animation="wave" width={200} height={300} style={{ marginRight: "1rem" }} />
+        return <Skeleton variant="rect" animation="wave" width={230} height={280} style={{ marginRight: "1rem" }} />
     } )
 }
