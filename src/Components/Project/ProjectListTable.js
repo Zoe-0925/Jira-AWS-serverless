@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { setCurrentProject, chainDeleteProject } from "../../Actions/project.actions"
-import { selectAllUsers, selectAllProjects,selectLoadingReducer } from "../../Reducers/Selectors"
+import { selectAllUsers, selectAllProjects, selectLoading } from "../../Reducers/Selectors"
 import {
     Table, TableBody, TableCell, TableContainer, TableHead,
     TableRow, Paper, MenuItem, CircularProgress
@@ -9,12 +9,14 @@ import {
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { DotIconMenu } from "../Shared/Tabs"
 import history from "../../history"
+import Skeleton from '@material-ui/lab/Skeleton';
+
 
 export default function ProjectListTable() {
-    const loading = useSelector(selectLoadingReducer).loading
+    const loading = useSelector(selectLoading)
     let projects = useSelector(selectAllProjects)
     const users = useSelector(selectAllUsers)
- 
+
     const dispatch = useDispatch()
 
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -78,8 +80,10 @@ export default function ProjectListTable() {
                         ))}
                     </TableBody>
                 </Table>
-                {loading && <CircularProgress className="editable-input" />}
-                { !loading && projects.length === 0 && <p>Currently, there is no project.</p>}
+                {loading && <Fragment>
+                    <Skeleton variant="rect" animation="wave" width="inherit" height={50} style={{ marginBottom: "1rem" }} />
+                    <Skeleton variant="rect" animation="wave" width="inherit" height={50} style={{ marginBottom: "1rem" }} />
+                </Fragment>}
             </TableContainer>
         </div>
     )

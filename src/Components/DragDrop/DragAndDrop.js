@@ -1,25 +1,21 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux"
 import IssueDetail from "../Issues/IssueUpdate"
-import { selectAllStatusInArray } from "../../Reducers/Selectors"
+import { selectAllStatusInArrayWithIssues } from "../../Reducers/Selectors"
 import { IssueDroppable } from "./Droppable";
 import StatusCreate from "./StatusCreate"
 
 export default function DragAndDrop({ filters }) {
-    const columns = useSelector(selectAllStatusInArray)
-    const [conlumnFiltered, setColumns] = useState(columns)
+    const columns = useSelector(selectAllStatusInArrayWithIssues)
 
-    useEffect(() => {
-        let result = { ...conlumnFiltered }
-        if (filters.labels) { //It is a list of label ids
-
-        }
-        if (filters.epics) {//It is a list of epic ids
-
-        }
-
-    }, [filters])
-
+    //Filter
+    const columnFiltered = columns.map(each => {
+        let issuesFiltered = [...each.issues]
+        if (filters.labels) { issuesFiltered = filterByLabel(issuesFiltered) }
+        if (filters.epics) { issuesFiltered = filterByEpic(issuesFiltered) }
+        each.issuesFiltered = issuesFiltered.map(each => each._id)
+        return each
+    })
 
     const [open, setOpen] = useState(false)
     const [issueOpened, setIssue] = useState("")
@@ -32,7 +28,7 @@ export default function DragAndDrop({ filters }) {
     return (
         <div className="epic-list">
             {open && <IssueDetail open={open} handleClose={() => setOpen(false)} issue={issueOpened} />}
-            <IssueDroppable columns={conlumnFiltered} openTaskDetail={openTaskDetail} />
+            <IssueDroppable columns={columns} openTaskDetail={openTaskDetail} />
             <StatusCreate />
         </div>
     );

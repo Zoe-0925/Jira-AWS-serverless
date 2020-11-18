@@ -8,7 +8,7 @@ import { v4 as uuidv4 } from 'uuid'
 export function EmptyColumn({ hide }) {
     const dispatch = useDispatch()
     const { state, setState, edit, setEdit } = useEditText("")
-    const loading = useSelector(selectLoadingReducer).loading
+    const loading = useSelector(selectLoading)
     const currentProjectId = useSelector(selectCurrentProjectId)
 
     const handleSubmit = () => {

@@ -2,7 +2,7 @@ import React from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { EditableText, Input, TextareaWithActionBtns } from "../Shared/EditableText"
 import { useEditText } from "../Shared/CustomHooks"
-import { selectLoadingReducer } from '../../Reducers/Selectors';
+import { selectLoading } from '../../Reducers/Selectors';
 import { updateIssueAttribute } from '../../Actions/issue.actions';
 
 export function IssueSummaryInput({ id, summary }) {
@@ -34,7 +34,7 @@ export function IssueDescriptionInput({ id, description }) {
         }
     }
 
-    const loading = useSelector(selectLoadingReducer).loading
+    const loading = useSelector(selectLoading)
 
     const cancel = () => {
         setState({ ...state, value: state.backup })

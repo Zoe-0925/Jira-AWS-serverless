@@ -6,16 +6,18 @@ import { useEditText } from "../Components/Shared/CustomHooks"
 import { EditableText, Input } from "../Components/Shared/EditableText"
 import DragContext from "../Components/DragDrop/DragContext"
 import NavBar from "../Components/NavBar/NavBar"
-import { selectCurrentProject, selectCurrentUserId, selectCurrentProjectId } from '../Reducers/Selectors';
+import { selectCurrentProject, selectCurrentUserId, selectCurrentProjectId,selectLoading } from '../Reducers/Selectors';
 import { Typography, Link, Breadcrumbs } from "@material-ui/core"
 import { getUserAndProjectData } from "../Actions/user.actions"
 import { chainGetProjectData } from "../Actions/project.actions"
+import Skeleton from '@material-ui/lab/Skeleton';
 
 export default function Board() {
     const dispatch = useDispatch()
     const currentProjectId = useSelector(selectCurrentProjectId)
     const projectName = useSelector(selectCurrentProject) ? useSelector(selectCurrentProject).name : ""
     const currentUserId = useSelector(selectCurrentUserId)
+    const loading = useSelector(selectLoading)
 
     const { state, setState, edit, setEdit } = useEditText(projectName || "")
     const [open, setOpen] = React.useState(true);
@@ -42,11 +44,11 @@ export default function Board() {
                 <Link color="inherit" href="/">Projects</Link>
                 <Typography color="textPrimary">{projectName ? projectName : ""}</Typography>
             </Breadcrumbs>
-            <EditableText name="epic-summary" className="board-name"
+            {!loading ? <EditableText name="epic-summary" className="board-name"
                 setEdit={setEdit} edit={edit} value={state}>
                 <Input state={state} setState={setState} setEdit={setEdit} />
-            </EditableText>
-            <DragContext />
+            </EditableText> : <Skeleton variant="text" />}
+            {!loading ?  <DragContext />: <Skeleton variant="rect" width={800} height={800}/>}
         </div>
     )
 }

@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import { useDispatch, useSelector } from "react-redux"
-import { selectAllProjects, selectAllUsers, selectLoadingReducer } from "../../Reducers/Selectors"
+import { selectAllProjects, selectAllUsers, selectLoading } from "../../Reducers/Selectors"
 import { updateProjectDetail } from "../../Actions/project.actions"
 import { Form, Field ,withFormik} from 'formik';
 import { DotIconMenu } from "../Shared/Tabs"
@@ -23,7 +23,7 @@ export const ProjectDetailForm = ({
 }) => {
     const { anchorEl, isOpen, anchorRef, handleMenuClose, handleMenuOpen } = useDotIconMenu()
 
-    const loading = useSelector(selectLoadingReducer).loading
+    const loading = useSelector(selectLoading)
     const leadOptions = values.memberObjects.map(each => { return { value: each._id, label: each.name } })
     const assigneeOptions = [{ value: "lead", label: "Project Lead" }, { value: "", label: "None" }]
 

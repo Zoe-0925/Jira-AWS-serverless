@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect'
+import { filterByEpic } from '../Components/Util';
 
 export const selectStatusReducer = state => state.StatusReducer
 
@@ -16,11 +17,40 @@ export const selectCommentReducer = state => state.CommentReducer
 
 export const selectLoadingReducer = state => state.LoadingReducer
 
+export const selectLoading = state => state.LoadingReducer.loading
+
 /****************** Selectors - Status  *********************/
 export const selectAllStatusInArray = state => {
     const project = state.ProjectReducer.projects.find(project => project._id === state.ProjectReducer.currentProjectId)
     const statusOrder = project ? project.statusOrder[0] : []
     return statusOrder.map(each => state.StatusReducer.status.get(each))
+}
+
+
+export const selectAllStatusInArrayWithIssues = state => {
+    const project = state.ProjectReducer.projects.find(project => project._id === state.ProjectReducer.currentProjectId)
+    const statusOrder = project ? project.statusOrder[0] : []
+    let status = statusOrder.map(each => state.StatusReducer.status.get(each))
+    status.map(each => {
+        if (each.issues.length > 0) {
+            each.issues = each.issues.map(issueId => state.IssueReducer.tasks.get(issueId))
+        }
+    })
+    return status
+}
+
+
+export const selectAllStatusInArrayFiltered = filters => state => {
+    const notFiltered = selectAllStatusInArray(state)
+    if (filters === {} || filters === undefined) {
+        return notFiltered
+    }
+    const issuesBeforeFilter = notFiltered.map(each => each.issues)
+    let issuesAfterFilter = filters.labels ? issuesBeforeFilter.map(each => filterByLabel(each, filters.labels)) : issuesBeforeFilter
+    issuesAfterFilter = filters.epics ? issuesAfterFilter.map(each => filterByEpic(each, filters.epics)) : issuesAfterFilter
+    let result = [...notFiltered]
+    issuesAfterFilter.map(each => result[issuesAfterFilter.indexOf(each)].issueFiltered = each)
+    return result
 }
 
 export const selectAllStatus = state => state.StatusReducer.status
@@ -59,25 +89,8 @@ export const selectTaskById = (issueId) => state => state.IssueReducer.tasks.get
 
 export const selectIssueUpdatedTimeById = (issueId) => state => state.IssueReducer.tasks.get(issueId).updatedAt
 
-export const filterByLabel = (issueIds, labelIds) => state => {
-    const issues = issueIds.map(issueId => state.IssueReducer.tasks.get(issueId))
-    let result = []
-    labelIds.map(labelId => {
-        let midResult = issues.filter(issue => issue.labels.includes(labelId))
-        if (midResult.length > 0) { result.concat(midResult) }
-    })
-    return result
-}
+export const selectTaskByIds = (issueIdList) => state => issueIdList.map(each => state.IssueReducer.tasks.get(each))
 
-export const filterByEpic = (issueIds, epicIds) => state => {
-    const issues = issueIds.map(issueId => state.IssueReducer.tasks.get(issueId))
-    let result = []
-    epicIds.map(epicId => {
-        let midResult = issues.filter(issue => issue.epic && issue.epic === epicId)
-        if (midResult.length > 0) { result.concat(midResult) }
-    })
-    return result
-}
 
 /****************** Selectors - Labels  *********************/
 export const selectLabels = state => state.LabelReducer.labels

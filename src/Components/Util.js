@@ -39,3 +39,21 @@ export const formatDate = dateString => {
         return ""
     }
 }
+
+export const filterByLabel = (issues, labelIds) => {
+    let result = []
+    labelIds.map(labelId => {
+        let midResult = issues.filter(issue => issue.labels.includes(labelId))
+        if (midResult.length > 0) { result.concat(midResult.map(each => each._id)) }
+    })
+    return result // a list of issueIds
+}
+
+export const filterByEpic = (issues, epicIds) => {
+    let result = []
+    epicIds.map(epicId => {
+        let midResult = issues.filter(issue => issue.epic && issue.epic === epicId)
+        if (midResult.length > 0) { result.concat(midResult.map(each => each._id)) }
+    })
+    return result // a list of issueIds
+}
