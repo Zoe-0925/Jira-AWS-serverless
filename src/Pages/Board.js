@@ -4,7 +4,7 @@ import Drawer from "../Components/Drawer/Drawer"
 import { DrawerInner } from "../Components/Drawer/DrawerInner"
 import DragContext from "../Components/DragDrop/DragContext"
 import NavBar from "../Components/NavBar/NavBar"
-import { selectCurrentProject, selectCurrentUserId, selectCurrentProjectId, selectLoading } from '../Reducers/Selectors';
+import { selectCurrentProject, selectCurrentUserId, selectCurrentProjectId } from '../Reducers/Selectors';
 import { Typography, Link, Breadcrumbs } from "@material-ui/core"
 import { getUserAndProjectData } from "../Actions/user.actions"
 import { chainGetProjectData } from "../Actions/project.actions"
@@ -30,10 +30,10 @@ export default function Board() {
         }
     }, [projectName])
 
-   
+
     return (
         <div className={open ? "main drawer-close" : "main drawer-open"}>
-            <NavBar />
+            <NavBar openDrawer={() => setOpen(true)} />
             <Drawer handleClick={setOpen} open={open}>
                 <DrawerInner currentLocation="board" />
             </Drawer>
@@ -41,6 +41,7 @@ export default function Board() {
                 <Link color="inherit" href="/">Projects</Link>
                 <Typography color="textPrimary">{projectName ? projectName : ""}</Typography>
             </Breadcrumbs>
+            <p>{projectName} Board</p>
             <DragContext />
         </div>
     )

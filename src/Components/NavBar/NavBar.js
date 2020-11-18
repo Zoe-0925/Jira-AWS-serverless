@@ -89,7 +89,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function NavBar() {
+export default function NavBar({openDrawer}) {
     const classes = useStyles();
     const [isCreateProjectOpen, setOpenCreateProject] = useState(false)
     const [isProfileMenuOpen, setProfileAnchorEl] = useState(false);
@@ -164,6 +164,7 @@ export default function NavBar() {
                         className={classes.menuButton}
                         color="inherit"
                         aria-label="open drawer"
+                        onClick={openDrawer}
                     >
                         <MenuIcon />
                     </IconButton>

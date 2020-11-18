@@ -48,7 +48,7 @@ export const IssueDroppable = ({ columns, openTaskDetail }) => {
             return <MyDroppable key={ind} el={el} ind={ind}>
                 <Column initialStatus={el}>
                     {el && el.issues && el.issues.map((issueId, index) => <MyDraggable key={issueId} id={issueId} index={index}>
-                        <IssueCard key={issueId} issueId={issueId} openTaskDetail={openTaskDetail} />
+                        <IssueCard key={uuidv4()} issueId={issueId} openTaskDetail={openTaskDetail} />
                     </MyDraggable>)}
                 </Column>
             </MyDroppable>

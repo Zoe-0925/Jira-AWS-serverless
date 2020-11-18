@@ -64,9 +64,6 @@ export const chainUpdateIssueStatus = (data, previousState) => async (dispatch) 
     }
 }
 
-//TODO
-//Add delete task from epic
-//Add delete task from subtask......
 export const chainDeleteIssue = (issueId, statusId, issueType) => async (dispatch) => {
     try {
         await Promise.all([
@@ -83,6 +80,8 @@ export const chainDeleteIssue = (issueId, statusId, issueType) => async (dispatc
 
 export const handleIssueAfterDeleteStatus = (statusId, newStatusId) => async (dispatch, getState) => {
     try {
+        const statusToDelete = getState().StatusReducer.status.get(statusId)
+        if (statusToDelete.issues.length === 0) { return }
         let tasksToUpdate = []
         getState().IssueReducer.tasks.forEach((value, key) => {
             if (value.status === statusId) {

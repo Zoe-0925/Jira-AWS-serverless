@@ -46,7 +46,7 @@ export function addSuccessIssueToTail(statusId, issueId) {
 export const chainCreateStatus = data => async (dispatch, getState) => {
     dispatch({ type: LOADING })
     try {
-        const project = getState().ProjectReducer.projects.find(item => item._id === status.data.project)
+        const project = getState().ProjectReducer.projects.find(item => item._id === data.project)
         await Promise.all([
             dispatch(createStatus(data)),
             dispatch(updateProjectAttribute({ _id: data.project, attribute: "statusOrder", value: [...project.statusOrder, data._id] }))
@@ -189,6 +189,7 @@ export const createStatus = (newStatus) => async  dispatch => {
             type: CREATE_STATUS,
             data: newStatus
         })
+        console.log("status created")
     }
     catch (err) {
         dispatch(dispatchError(err))

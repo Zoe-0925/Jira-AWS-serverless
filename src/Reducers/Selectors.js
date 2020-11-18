@@ -22,14 +22,14 @@ export const selectLoading = state => state.LoadingReducer.loading
 /****************** Selectors - Status  *********************/
 export const selectAllStatusInArray = state => {
     const project = state.ProjectReducer.projects.find(project => project._id === state.ProjectReducer.currentProjectId)
-    const statusOrder = project ? project.statusOrder[0] : []
+    const statusOrder = project ? project.statusOrder : []
     return statusOrder.map(each => state.StatusReducer.status.get(each))
 }
 
 
 export const selectAllStatusInArrayWithIssues = state => {
     const project = state.ProjectReducer.projects.find(project => project._id === state.ProjectReducer.currentProjectId)
-    const statusOrder = project ? project.statusOrder[0] : []
+    const statusOrder = project ? project.statusOrder : []
     let status = statusOrder.map(each => state.StatusReducer.status.get(each))
     status.map(each => {
         if (each && each.issues.length > 0) {

@@ -163,8 +163,8 @@ export const removeStatusFromOrder = (id) => async (dispatch, getState) => {
         const reducer = getState().ProjectReducer
         const orderBefore = reducer.projects.find(item => item._id === reducer.currentProjectId).statusOrder
         const orderUpdated = orderBefore.filter(item => item !== id)
-        await API.put("ProjectApi", "/projects/statusOrder", {
-            body: { statusOrder: orderUpdated }
+        await API.put("ProjectApi", "/projects/update", {
+            body: { statusOrder: orderUpdated, _id:id, attribute:"statusOrder" }
         })
         dispatch({
             type: UPDATE_STATUS_ORDER,
