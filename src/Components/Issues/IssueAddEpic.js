@@ -12,7 +12,7 @@ import * as Yup from 'yup';
 import { selectEpics } from "../../Reducers/Selectors"
 import { updateIssueAttribute } from "../../Actions/issue.actions"
 import { DialogCloseIcon } from "../Shared/Tabs"
-import SuccessfulFeedback from "../Shared/SuccessfulFeedback"
+import {SuccessfulFeedback} from "../Shared/Feedback"
 import CreateIcon from '@material-ui/icons/Create';
 
 const IssueAddEpicForm = props => {

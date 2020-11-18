@@ -991,3 +991,6 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
   padding: 0px;
   color: rgb(23, 43, 77);
 }
+.confirm-btn {
+  @include call-to-action-button;
+}

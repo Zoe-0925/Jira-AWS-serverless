@@ -1,7 +1,7 @@
 import React from 'react'
 /**--------------Redux-------------- */
 import { useDispatch, useSelector } from "react-redux"
-import { updateStatusName, deleteStatus } from "../../Actions/status.actions"
+import { updateStatusName,  chaninDeleteStatus } from "../../Actions/status.actions"
 import { chainCreateIssueAndUpdateIssueOrder } from "../../Actions/issue.actions"
 import { selectLoading } from '../../Reducers/Selectors';
 /**--------------UI-------------- */
@@ -20,6 +20,8 @@ export function ColumnTitle({ status }) {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const isOpen = Boolean(anchorEl);
     const anchorRef = React.useRef(null);
+
+    const [showWarning, setShowWarning] = React.useState(false)
 
     const handleMenuClose = () => {
         setAnchorEl(null);
@@ -40,8 +42,10 @@ export function ColumnTitle({ status }) {
             <DotIconMenu className="dot-icon" anchorEl={anchorEl} isOpen={isOpen} anchorRef={anchorRef}
                 handleMenuClose={handleMenuClose} handleMenuOpen={handleMenuOpen}>
                 <MenuItem>Set column limit</MenuItem>
-                <MenuItem onClick={() => dispatch(deleteStatus(status.id))}>Delete</MenuItem>
+                <MenuItem onClick={() => setShowWarning(true)}>Delete</MenuItem>
             </DotIconMenu>
+            {showWarning && <WarningFeedback title="Deleting this column will remove all issues inside" message="Do you want to delete all issues?"
+                handleClose={() => setShowWarning(false)} handleConfirm={() => dispatch(chaninDeleteStatus(status)) } />}
         </div>
     )
 }

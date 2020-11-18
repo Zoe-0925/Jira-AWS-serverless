@@ -57,13 +57,12 @@ export const chainCreateStatus = data => async (dispatch, getState) => {
     }
 }
 
-export const chaninDeleteStatus = (id) => async (dispatch, getState) => {
+export const chaninDeleteStatus = (status) => async (dispatch) => {
     dispatch({ type: LOADING })
     try {
-        const status = getState().StatusReducer.status.get(id)
         await Promise.all([
-            dispatch(deleteStatus(id)),
-            dispatch(removeStatusFromOrder(id))
+            dispatch(deleteStatus(status._id)),
+            dispatch(removeStatusFromOrder(status._id))
         ])
         status.issues.map(each => dispatch(deleteIssue(each), "task"))
     } catch (err) {

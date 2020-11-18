@@ -21,7 +21,7 @@ import { selectAllProjects, selectFirstStatus } from "../../Reducers/Selectors"
 import { chainCreateIssueAndUpdateIssueOrder } from "../../Actions/issue.actions"
 import { DialogCloseIcon } from "../Shared/Tabs"
 import { addCreateAndUpdateDate } from "../Util"
-import SuccessfulFeedback from "../Shared/SuccessfulFeedback"
+import {SuccessfulFeedback} from "../Shared/Feedback"
 
 const IssueForm = props => {
     const {

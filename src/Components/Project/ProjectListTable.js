@@ -4,7 +4,7 @@ import { setCurrentProject, chainDeleteProject } from "../../Actions/project.act
 import { selectAllUsers, selectAllProjects, selectLoading } from "../../Reducers/Selectors"
 import {
     Table, TableBody, TableCell, TableContainer, TableHead,
-    TableRow, Paper, MenuItem, CircularProgress
+    TableRow, Paper, MenuItem
 } from '@material-ui/core'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { DotIconMenu } from "../Shared/Tabs"
