@@ -15,12 +15,7 @@ export default function Board() {
     const currentProjectId = useSelector(selectCurrentProjectId)
     const projectName = useSelector(selectCurrentProject) ? useSelector(selectCurrentProject).name : ""
     const currentUserId = useSelector(selectCurrentUserId)
-   
-    const [state, setState] = useState({
-        value: projectName ? projectName : "",
-        backup: projectName !== undefined ? projectName: ""
-    })
-    const [edit, setEdit] = useState(false)
+
     const [open, setOpen] = useState(true);
 
     useEffect(() => {
@@ -33,11 +28,9 @@ export default function Board() {
         if (currentUserId !== "" && projectName) {
             dispatch(chainGetProjectData(currentProjectId))
         }
-        setState(projectName)
     }, [projectName])
 
-    console.log("projectName", projectName, "state", state)
-
+   
     return (
         <div className={open ? "main drawer-close" : "main drawer-open"}>
             <NavBar />
