@@ -7,9 +7,6 @@ import StatusCreate from "./StatusCreate"
 
 export default function DragAndDrop() {
     const columns = useSelector(selectAllStatusInArray)
-
-    //  const { createNewColumn } = useCreateStatus(initialStatus._id)
-
     //----------Filters----------------------
    // const groupBy = useSelector(selectGroupBy)
     //TODO

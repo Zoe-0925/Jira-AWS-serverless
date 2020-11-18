@@ -18,9 +18,12 @@ export default function FilterManager() {
                 <AccountCircleIcon className="icon item-2" fontSize="large" />
             </Tooltip>
             <Tooltip title="Add people" aria-label="Add people">
-            <PersonAddIcon className="icon item-3" fontSize="large" />
+                <PersonAddIcon className="icon item-3" fontSize="large" />
             </Tooltip>
             <GroupBy className="item-5" />
+
+            <Button className="nav-tab" onClick={handleProjectMenuOpen}>Projects <ExpandMoreIcon /></Button>
+
         </div>
     )
 }
