@@ -243,7 +243,7 @@ app.put(path + "/name", function (req, res) {
 * HTTP put method for updating user name *
 ******************************************/
 
-app.put(path + "/issueOrder", function (req, res) {
+app.put(path + "/update/attribute", function (req, res) {
 
   if (userIdPresent) {
     req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
@@ -254,9 +254,9 @@ app.put(path + "/issueOrder", function (req, res) {
     Key: {
       "_id": req.body._id,
     },
-    UpdateExpression: "set issues = :issues",
+    UpdateExpression: "set "+ req.body.attribute +"= :values",
     ExpressionAttributeValues: {
-      ":issues": req.body.value
+      ":value": req.body.value
     },
   }
   dynamodb.update(putItemParams, (err, data) => {

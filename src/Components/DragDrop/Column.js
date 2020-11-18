@@ -34,7 +34,7 @@ export function ColumnTitle({ status }) {
             <EditableText name="epic-summary" className="epic-summary"
                 edit={edit} text={state.value || status.name} setEdit={setEdit}>
                 <Input name="status-title-input" state={state} setState={setState} setEdit={setEdit} handleSubmit={() => {
-                    dispatch(updateStatusName({ _id: status._id, value: state.value }))
+                    dispatch(updateStatusName({ _id: status._id, value: state.value, attribute: "name" }))
                 }} />
             </EditableText>
             <DotIconMenu className="dot-icon" anchorEl={anchorEl} isOpen={isOpen} anchorRef={anchorRef}

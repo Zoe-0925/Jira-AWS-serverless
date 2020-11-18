@@ -130,8 +130,8 @@ export const addIssueToTail = (statusId, issueOrder) => async (dispatch) => {
 export const updateIssueOrder = (id, issueOrder) => async  dispatch => {
     try {
         //TODO server returns 500
-        await API.put("StatusApi", "/status/issueOrder", {
-            body: { _id: id, value: issueOrder }
+        await API.put("StatusApi", "/status/update/attribute", {
+            body: { _id: id, attribute: "issues", value: issueOrder }
         })
 
         await dispatch({
@@ -216,7 +216,7 @@ export const createMultipleStatus = (list) => async  dispatch => {
 export const updateStatusName = (data) => async  dispatch => {
     dispatch({ type: LOADING })
     try {
-        await API.put("StatusApi", "/status/name", {
+        await API.put("StatusApi", "/status/update/attribute", {
             body: data
         })
         await dispatch({
