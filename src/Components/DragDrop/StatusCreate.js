@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { chainCreateStatus } from "../../Actions/status.actions"
 import { selectCurrentProjectId } from "../../Reducers/Selectors"
 import { v4 as uuidv4 } from 'uuid'
+import { useEditText } from '../Shared/CustomHooks';
 
 export function EmptyColumn({ hide }) {
     const dispatch = useDispatch()

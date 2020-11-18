@@ -31,7 +31,6 @@ export default function DragContext() {
             dispatch(chainMove(sourceStatus, destinationStatus, source.index, destination.index))
         }
 
-        // source.index is in issueOrder
 
     }
 

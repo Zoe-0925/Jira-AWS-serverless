@@ -14,9 +14,7 @@ export default function FilterManager({ filters, setFilter }) {
     return (
         <div className="row filter-row">
             <IssueFilter className="item-1" />
-            <Tooltip title={userName ? userName : ""} aria-label={userName ? userName : ""}>
-                <AccountCircleIcon className="icon item-2" fontSize="large" />
-            </Tooltip>
+            <AccountCircleIcon className="icon item-2" fontSize="large" />
             <Tooltip title="Add people" aria-label="Add people">
                 <PersonAddIcon className="icon item-3" fontSize="large" />
             </Tooltip>

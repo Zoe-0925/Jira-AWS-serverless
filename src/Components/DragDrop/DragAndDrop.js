@@ -10,7 +10,7 @@ export default function DragAndDrop({ filters }) {
 
     //Filter
     const columnFiltered = columns.map(each => {
-        if(each && each.issues){
+        if(each && filters && each.issues){
             let issuesFiltered = [...each.issues]
             if (filters.labels) { issuesFiltered = filterByLabel(issuesFiltered) }
             if (filters.epics) { issuesFiltered = filterByEpic(issuesFiltered) }
@@ -18,6 +18,20 @@ export default function DragAndDrop({ filters }) {
             return each
         }
     })
+    
+    /**
+     *     {filterByEpic !== "" && el.issues.filter(item => { item.parent === filterByEpic }).map((issueId, index) =>
+                                    draggable(issues.get(issueId), index, openTaskDetail)
+                                )}
+                                {filterByLabel !== "" && el.issues.filter(item => { item.label === filterByLabel }).map((issueId, index) =>
+                                    draggable(issues.get(issueId), index, openTaskDetail)
+                                )}
+                                {filterByAssignee && el.issues.filter(item => { item.filterByAssignee === filterByAssignee }).map((issueId, index) =>
+                                    draggable(issues.get(issueId), index, openTaskDetail)
+                                )}
+     */
+
+
 
     const [open, setOpen] = useState(false)
     const [issueOpened, setIssue] = useState("")

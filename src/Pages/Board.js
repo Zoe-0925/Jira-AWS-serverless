@@ -1,26 +1,27 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from "react-redux"
 import Drawer from "../Components/Drawer/Drawer"
 import { DrawerInner } from "../Components/Drawer/DrawerInner"
-import { useEditText } from "../Components/Shared/CustomHooks"
-import { EditableText, Input } from "../Components/Shared/EditableText"
 import DragContext from "../Components/DragDrop/DragContext"
 import NavBar from "../Components/NavBar/NavBar"
 import { selectCurrentProject, selectCurrentUserId, selectCurrentProjectId, selectLoading } from '../Reducers/Selectors';
 import { Typography, Link, Breadcrumbs } from "@material-ui/core"
 import { getUserAndProjectData } from "../Actions/user.actions"
 import { chainGetProjectData } from "../Actions/project.actions"
-import Skeleton from '@material-ui/lab/Skeleton';
+
 
 export default function Board() {
     const dispatch = useDispatch()
     const currentProjectId = useSelector(selectCurrentProjectId)
     const projectName = useSelector(selectCurrentProject) ? useSelector(selectCurrentProject).name : ""
     const currentUserId = useSelector(selectCurrentUserId)
-    const loading = useSelector(selectLoading)
-
-    const { state, setState, edit, setEdit } = useEditText(projectName || "")
-    const [open, setOpen] = React.useState(true);
+   
+    const [state, setState] = useState({
+        value: projectName ? projectName : "",
+        backup: projectName !== undefined ? projectName: ""
+    })
+    const [edit, setEdit] = useState(false)
+    const [open, setOpen] = useState(true);
 
     useEffect(() => {
         if (currentUserId === "") {
@@ -32,7 +33,10 @@ export default function Board() {
         if (currentUserId !== "" && projectName) {
             dispatch(chainGetProjectData(currentProjectId))
         }
+        setState(projectName)
     }, [projectName])
+
+    console.log("projectName", projectName, "state", state)
 
     return (
         <div className={open ? "main drawer-close" : "main drawer-open"}>
@@ -44,10 +48,6 @@ export default function Board() {
                 <Link color="inherit" href="/">Projects</Link>
                 <Typography color="textPrimary">{projectName ? projectName : ""}</Typography>
             </Breadcrumbs>
-            {!loading ? <EditableText name="epic-summary" className="board-name"
-                setEdit={setEdit} edit={edit} value={state}>
-                <Input state={state} setState={setState} setEdit={setEdit} />
-            </EditableText> : <Skeleton variant="text" />}
             <DragContext />
         </div>
     )
