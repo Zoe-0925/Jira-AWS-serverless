@@ -67,7 +67,7 @@ const IssueCard = ({ issueId, openTaskDetail }) => {
                 </Row>
                 <Row className="mt-0" onClick={() => openTaskDetail(task)}>
                     <Col sm="1">
-                        <Tooltip title={task.issueType} aria-label={task.issueType}>
+                        <Tooltip title={task.issueType ||""} aria-label={task.issueType||""}>
                             <CheckBoxIcon className="icon" style={{ color: "#5BC2F2" }} />
                         </Tooltip>
                     </Col>
@@ -75,7 +75,7 @@ const IssueCard = ({ issueId, openTaskDetail }) => {
                        {task.summary}
                     </Col>
                     <Col sm="1">
-                        <Tooltip title={task.assignee} aria-label={task.assignee}>
+                        <Tooltip title={task.assignee||""} aria-label={task.assignee||""}>
                             <AccountCircleIcon /></Tooltip>
                     </Col>
                 </Row>

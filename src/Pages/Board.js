@@ -6,7 +6,7 @@ import { useEditText } from "../Components/Shared/CustomHooks"
 import { EditableText, Input } from "../Components/Shared/EditableText"
 import DragContext from "../Components/DragDrop/DragContext"
 import NavBar from "../Components/NavBar/NavBar"
-import { selectCurrentProject, selectCurrentUserId, selectCurrentProjectId,selectLoading } from '../Reducers/Selectors';
+import { selectCurrentProject, selectCurrentUserId, selectCurrentProjectId, selectLoading } from '../Reducers/Selectors';
 import { Typography, Link, Breadcrumbs } from "@material-ui/core"
 import { getUserAndProjectData } from "../Actions/user.actions"
 import { chainGetProjectData } from "../Actions/project.actions"
@@ -48,7 +48,7 @@ export default function Board() {
                 setEdit={setEdit} edit={edit} value={state}>
                 <Input state={state} setState={setState} setEdit={setEdit} />
             </EditableText> : <Skeleton variant="text" />}
-            {!loading ?  <DragContext />: <Skeleton variant="rect" width={800} height={800}/>}
+            <DragContext />
         </div>
     )
 }

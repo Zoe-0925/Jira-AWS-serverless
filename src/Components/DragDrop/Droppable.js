@@ -1,7 +1,10 @@
 import React from "react";
+import { useSelector } from "react-redux"
 import { Droppable, Draggable } from "react-beautiful-dnd";
 import Column from "./Column"
 import IssueCard from "../Issues/IssueCard"
+import { selectLoading } from "../../Reducers/Selectors";
+import Skeleton from '@material-ui/lab/Skeleton';
 
 export const MyDraggable = ({ id, index, ...props }) => {
     return id === undefined ? <div></div> : <Draggable
@@ -37,7 +40,7 @@ export const MyDroppable = ({ el, ind, ...props }) => (<Droppable key={ind} drop
 </Droppable>)
 
 export const IssueDroppable = ({ columns, openTaskDetail }) => {
-
+    const loading = useSelector(selectLoading)
     /**
      *     {filterByEpic !== "" && el.issues.filter(item => { item.parent === filterByEpic }).map((issueId, index) =>
                                     draggable(issues.get(issueId), index, openTaskDetail)
@@ -56,12 +59,15 @@ export const IssueDroppable = ({ columns, openTaskDetail }) => {
     //filters should be handled here
 
     return columns.length === 0 ? <div></div> : columns.map((el, ind) => {
-        return <MyDroppable key={ind} el={el} ind={ind}>
-            <Column initialStatus={el}>
-                {el && el.issues && el.issues.map((issueId, index) => <MyDraggable key={issueId} id={issueId} index={index}>
-                    <IssueCard issueId={issueId} openTaskDetail={openTaskDetail} />
-                </MyDraggable>)}
-            </Column>
-        </MyDroppable>
-    })
+        if (!loading) {
+            return <MyDroppable key={ind} el={el} ind={ind}>
+                <Column initialStatus={el}>
+                    {el && el.issues && el.issues.map((issueId, index) => <MyDraggable key={issueId} id={issueId} index={index}>
+                        <IssueCard issueId={issueId} openTaskDetail={openTaskDetail} />
+                    </MyDraggable>)}
+                </Column>
+            </MyDroppable>
+        }
+        return <Skeleton variant="rect" animation="wave" width={200} height={300} style={{ marginRight: "1rem" }} />
+    } )
 }

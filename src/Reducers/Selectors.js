@@ -32,7 +32,7 @@ export const selectAllStatusInArrayWithIssues = state => {
     const statusOrder = project ? project.statusOrder[0] : []
     let status = statusOrder.map(each => state.StatusReducer.status.get(each))
     status.map(each => {
-        if (each.issues.length > 0) {
+        if (each && each.issues.length > 0) {
             each.issues = each.issues.map(issueId => state.IssueReducer.tasks.get(issueId))
         }
     })

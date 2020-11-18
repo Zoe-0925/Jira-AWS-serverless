@@ -10,11 +10,13 @@ export default function DragAndDrop({ filters }) {
 
     //Filter
     const columnFiltered = columns.map(each => {
-        let issuesFiltered = [...each.issues]
-        if (filters.labels) { issuesFiltered = filterByLabel(issuesFiltered) }
-        if (filters.epics) { issuesFiltered = filterByEpic(issuesFiltered) }
-        each.issuesFiltered = issuesFiltered.map(each => each._id)
-        return each
+        if(each && each.issues){
+            let issuesFiltered = [...each.issues]
+            if (filters.labels) { issuesFiltered = filterByLabel(issuesFiltered) }
+            if (filters.epics) { issuesFiltered = filterByEpic(issuesFiltered) }
+            each.issuesFiltered = issuesFiltered.map(each => each._id)
+            return each
+        }
     })
 
     const [open, setOpen] = useState(false)
