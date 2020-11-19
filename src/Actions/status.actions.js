@@ -1,7 +1,7 @@
 import API from '@aws-amplify/api';
 import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
 import { reorder } from "../Components/Util"
-import { updateIssueAttribute, handleIssueAfterDeleteStatus, deleteIssue } from "./issue.actions"
+import {  deleteIssue } from "./issue.actions"
 import { removeStatusFromOrder, updateProjectAttribute } from "./project.actions"
 
 export const ADD_ISSUE_TO_TAIL = "ADD_ISSUE_TO_TAIL"
@@ -70,6 +70,8 @@ export const chaninDeleteStatus = (status) => async (dispatch) => {
     }
 }
 
+//TODO
+//No api call here
 export const chainReorder = (sourceStatus, startIndex, endIndex) => async (dispatch) => {
     dispatch({ type: LOADING })
     try {

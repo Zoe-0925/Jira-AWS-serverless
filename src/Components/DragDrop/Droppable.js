@@ -10,7 +10,7 @@ import { v4 as uuidv4 } from 'uuid'
 export const MyDraggable = ({ id, index, ...props }) => {
     return id === undefined ? <div></div> : <Draggable
         className="draggable"
-        key={id}
+        key={uuidv4()}
         draggableId={id}
         index={index}
     >

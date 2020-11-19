@@ -43,17 +43,6 @@ export function dispatchAddOtherUsers(userList) {
     }
 }
 
-/**
-export function saveTokens(accessToken, refreshToken) {
-    return {
-        type: SAVE_TOKENS,
-        accessToken: accessToken,
-        refreshToken: refreshToken
-    }
-}
-*/
-
-
 /******************* Thunk Actions  *****************************/
 //TODO 
 //remove the account from AWS Cognito as well

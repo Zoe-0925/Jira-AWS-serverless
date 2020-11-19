@@ -28,14 +28,6 @@ export function updateSuccessfulEpic(data) {
     }
 }
 
-export function updateIssueGroup(id, data) {
-    return {
-        type: UPDATE_ISSUE_GROUP,
-        id: id,
-        data: data
-    }
-}
-
 /**********************************  Thunk Actions  ******************************************/
 export const chainCreateIssueAndUpdateIssueOrder = (data) => async (dispatch, getState) => {
     try {

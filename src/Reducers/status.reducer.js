@@ -36,7 +36,7 @@ export default function StatusReducer(state = initialState, action) {
             return newState
         case UPDATE_ISSUE_ORDER:
             status = newState.status.get(action._id)
-            status.issues = action.value
+            status = {...status, issues:action.value}
             newState.status.set(action._id, status)
             return newState
         case MOVE_ISSUES:
