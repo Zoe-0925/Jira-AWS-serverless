@@ -329,6 +329,11 @@ app.put(path + "/update/attribute", function (req, res) {
     req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
   }
 
+  if (!["summary", "updatedAt", "description", "status", "project", "reporter", "assignee"].includes(req.body.attribute)) {
+    res.statusCode = 500;
+    return res.json({ error: "Invalid update", url: req.url });
+  }
+
   const now = JSON.stringify(new Date())
 
   let putItemParams = {

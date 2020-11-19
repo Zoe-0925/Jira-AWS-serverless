@@ -53,6 +53,6 @@ export const IssueDroppable = ({ columns, openTaskDetail }) => {
                 </Column>
             </MyDroppable>
         }
-        return <Skeleton key={uuidv4()} variant="rect" animation="wave" width={230} height={200} style={{ marginRight: "1rem" }} />
+        return <Skeleton key={uuidv4()} variant="rect" animation="wave" width={230} height={240} style={{ marginRight: "1rem" }} />
     })
 }

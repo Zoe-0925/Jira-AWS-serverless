@@ -1,6 +1,6 @@
 
 import { API } from 'aws-amplify';
-import { addIssueToTail, updateStatusForIssue, deleteIssueFromStatus } from "./status.actions"
+import {  updateIssueOrder, updateStatusForIssue, deleteIssueFromStatus } from "./status.actions"
 import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
 
 export const CREATE_SUB_TASK = "CREATE_SUB_TASK"
@@ -43,7 +43,7 @@ export const chainCreateIssueAndUpdateIssueOrder = (data) => async (dispatch, ge
         await Promise.all([
             dispatch({ type: LOADING }),
             dispatch(createIssue(data)),
-            dispatch(addIssueToTail(data.status, [...issueOrder, data._id]))])
+            dispatch( updateIssueOrder(data.status, [...issueOrder, data._id]))])
         dispatch({ type: AUTHENTICATED })
     }
     catch (err) {

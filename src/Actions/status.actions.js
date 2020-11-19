@@ -112,21 +112,6 @@ export const chainMove = (sourceStatus, destinationStatus, startIndex, endIndex)
     }
 }
 
-export const addIssueToTail = (statusId, issueOrder) => async (dispatch) => {
-    try {
-        await API.put("StatusApi", "/status/update/attribute", {
-            body: {
-                _id: statusId,
-                value: issueOrder,
-                attribute: "issues"
-            }
-        })
-        await dispatch(updateIssueAttribute(statusId, issueOrder))
-    } catch (err) {
-        dispatch(dispatchError(err))
-    }
-}
-
 export const updateIssueOrder = (id, issueOrder) => async  dispatch => {
     try {
         const data = { _id: id, attribute: "issues", value: issueOrder }

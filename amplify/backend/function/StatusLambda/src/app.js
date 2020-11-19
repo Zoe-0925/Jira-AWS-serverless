@@ -214,12 +214,17 @@ app.put(path + "/update/attribute", function (req, res) {
     req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
   }
 
+  if (!["name", "issues", "project"].includes(req.body.attribute)) {
+    res.statusCode = 500;
+    return res.json({ error: "Invalid update", url: req.url});
+  }
+
   let putItemParams = {
     TableName: tableName,
     Key: {
       "_id": req.body._id,
     },
-    UpdateExpression: "set "+ req.body.attribute +"= :values",
+    UpdateExpression: "set " + req.body.attribute + " = :value",
     ExpressionAttributeValues: {
       ":value": req.body.value
     },
