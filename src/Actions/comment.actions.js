@@ -36,56 +36,36 @@ export const getCommentsForIssue = (issueId) => async  dispatch => {
     }
 }
 
-export const createComment = (newComment) => async  dispatch => {
+export const createComment = (newComment) => dispatch => {
     dispatch({ type: LOADING })
-    try {
-        await API.post("CommentApi", "/comments", {
-            body: newComment
-        })
-        dispatch({
-            type: CREATE_COMMENT,
-            data: newComment
-        })
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-    }
+    dispatch({
+        type: CREATE_COMMENT,
+        data: newComment
+    })
 }
 
-export const updateComment = (comment) => async  dispatch => {
+export const updateCommentDescription = (comment) => dispatch => {
     dispatch({ type: LOADING })
-    try {
-        await API.put("CommentApi", "/comments", {
-            body: comment
-        })
-        dispatch({
-            type: UPDATE_COMMENT,
-            data: comment
-        })
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-    }
+    dispatch({
+        type: UPDATE_COMMENT,
+        data: comment
+    })
 }
 
-export const deleteComment = (id) => async  dispatch => {
+export const deleteComment = (id) => dispatch => {
     dispatch({ type: LOADING })
-    try {
-        await API.del("CommentApi", "/comments/" + id)
-        dispatch({
-            type: DELETE_COMMENT,
-            id: id
-        })
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-    }
+    dispatch({
+        type: DELETE_COMMENT,
+        id: id
+    })
 }
 
+//TODO
 export const deleteCommentByProject = (projectId) => async  dispatch => {
 
 }
 
+//TODO
 export const deleteCommentByIssue = (issueId) => async  dispatch => {
     dispatch({ type: LOADING })
     try {

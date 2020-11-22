@@ -1,7 +1,11 @@
 
 import { API } from 'aws-amplify';
-import {  updateIssueOrder, updateStatusForIssue, deleteIssueFromStatus } from "./status.actions"
+import { updateIssueOrder, updateStatusForIssue, deleteIssueFromStatus } from "./status.actions"
 import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
+import aixos from "axios"
+
+//get base from the .ENV and 
+const BASE = ""
 
 export const CREATE_SUB_TASK = "CREATE_SUB_TASK"
 export const CREATE_ISSUE = "CREATE_ISSUE"
@@ -35,7 +39,7 @@ export const chainCreateIssueAndUpdateIssueOrder = (data) => async (dispatch, ge
         await Promise.all([
             dispatch({ type: LOADING }),
             dispatch(createIssue(data)),
-            dispatch( updateIssueOrder(data.status, [...issueOrder, data._id]))])
+            dispatch(updateIssueOrder(data.status, [...issueOrder, data._id]))])
         dispatch({ type: AUTHENTICATED })
     }
     catch (err) {
@@ -70,17 +74,15 @@ export const chainDeleteIssue = (issueId, statusId, issueType) => async (dispatc
     }
 }
 
-export const createIssue = (data) => async  dispatch => {
-    try {
-        await API.post("IssueApi", "/issues/", { body: data })
-        dispatch({
-            type: CREATE_ISSUE,
-            data: data
-        })
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-    }
+//TODO
+//move to the client:
+//await aixos.post(BASE + "/issues/", { body: data })
+
+export const createIssue = (data) => dispatch => {
+    dispatch({
+        type: CREATE_ISSUE,
+        data: data
+    })
 }
 
 export const getProjectIssues = (projectId) => async  dispatch => {
@@ -113,65 +115,45 @@ export const getProjectIssues = (projectId) => async  dispatch => {
     }
 }
 
-export const updateIssueAttribute = (data) => async  dispatch => {
+export const updateIssueAttribute = (data) => dispatch => {
     dispatch({ type: LOADING })
-    try {
-        const updatedAt = await API.put("IssueApi", "/issues/update/attribute", {
-            body: data
-        })
-        await dispatch({
-            type: UPDATE_TASK_ATTRIBUTE,
-            id: data._id,
-            key: data.attribute,
-            value: data.value,
-            updatedAt: updatedAt
-        })
-        dispatch({ type: AUTHENTICATED })
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
+    dispatch({
+        type: UPDATE_TASK_ATTRIBUTE,
+        id: data._id,
+        key: data.attribute,
+        value: data.value,
+        updatedAt: updatedAt
+    })
+    dispatch({ type: AUTHENTICATED })
+}
+
+export const deleteIssue = (issueId, issueType) => dispatch => {
+    dispatch({ type: LOADING })
+    switch (issueType) {
+        case "task":
+            return dispatch({
+                type: DELETE_TASK,
+                id: issueId
+            })
+        case "epic":
+            return dispatch({
+                type: DELETE_EPIC,
+                id: issueId
+            })
+        case "subtask":
+            return dispatch({
+                type: DELETE_SUB_TASK,
+                id: issueId
+            })
+        default:
+            return
     }
 }
 
-export const deleteIssue = (issueId, issueType) => async  dispatch => {
-    dispatch({ type: LOADING })
-    try {
-        await API.del("IssueApi", "/issues/object/" + issueId)
-        switch (issueType) {
-            case "task":
-                return dispatch({
-                    type: DELETE_TASK,
-                    id: issueId
-                })
-            case "epic":
-                return dispatch({
-                    type: DELETE_EPIC,
-                    id: issueId
-                })
-            case "subtask":
-                return dispatch({
-                    type: DELETE_SUB_TASK,
-                    id: issueId
-                })
-            default:
-                return
-        }
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-    }
-}
-
-export const deleteIssueByProject = (projectId) => async (dispatch) => {
-    try {
-        await API.del("IssueApi", "/issues/project/" + projectId)
-        dispatch({
-            type: "DELETE_PROJECT"
-        })
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-    }
+export const deleteIssueByProject = (projectId) => (dispatch) => {
+    dispatch({
+        type: "DELETE_PROJECT"
+    })
 }
 
 export const removeLabelFromIssues = labelId => async (dispatch, getState) => {

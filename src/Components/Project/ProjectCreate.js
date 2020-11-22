@@ -93,10 +93,6 @@ export const ProjectCreateHOC = ({ open, setOpen }) => {
     const submitForm = values => {
         const { project, statusList } = initiateProjectAndStatus(values, userId)
         dispatch(chainCreactProject(project, statusList))
-
-        //dispatch(createSuccessfulProject(project))
-        // dispatch(createMultipleStatus(statusList))
-        // dispatch(addProjectToUser(project._id))
         setOpen(false)
     }
 

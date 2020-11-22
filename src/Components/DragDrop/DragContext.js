@@ -13,6 +13,13 @@ export default function DragContext() {
     const statusOrder = currentProject ? currentProject.statusOrder : []
     const { filters, setFilters } = useState()
 
+    useEffect(() => {
+        //TODO 
+        //update the host address
+        const host = `ws://127.0.0.1:8000/ws/game/${id}?token=${localStorage.getItem('token')}`;
+      //  dispatch(wsConnect(host));
+    }, [])
+
     function onDragEnd(result) {
         const { source, destination } = result;
 

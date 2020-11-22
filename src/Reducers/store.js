@@ -4,9 +4,10 @@ import logger from 'redux-logger'
 import thunk from 'redux-thunk';
 import history from "../history"
 import { routerMiddleware } from 'connected-react-router'
+import websocketMiddleware from "./middleware"
 
 const configureStore = () => {
-    let middleware = applyMiddleware(thunk, logger, routerMiddleware(history));
+    let middleware = applyMiddleware(thunk, logger, routerMiddleware(history), websocketMiddleware);
 
     if (process.env.NODE_ENV !== 'production') {
         const devToolsExtension = window.devToolsExtension;

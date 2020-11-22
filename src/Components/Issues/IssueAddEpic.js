@@ -75,6 +75,10 @@ const IssueAddEpic = ({ issueId }) => {
     const [sucessful, setSuccessful] = useState(false)
 
     const submitAddEpic = (value) => {
+
+        //TODO 
+        //Need last updated at.....
+        
         dispatch(updateIssueAttribute({ _id: issueId, attribute: "epic", value: value.epic })).then(
             result => {
                 if (result) {

@@ -12,6 +12,10 @@ export function IssueSummaryInput({ id, summary }) {
     const updateSummary = (value) => {
         if (state.value !== state.backup) {
             setState(value)
+
+
+            //TODO
+            //need updatedAt
             dispatch(updateIssueAttribute({ _id: id, attribute: "summary", value: value.value }))
         }
     }
@@ -30,6 +34,10 @@ export function IssueDescriptionInput({ id, description }) {
 
     const updateDesciption = () => {
         if (state.value !== state.backup) {
+
+
+            //TODO
+            //Need updatedAt
             setTimeout(dispatch(updateIssueAttribute({ _id: id, attribute: "description", value: state.value })), 1000)
         }
     }

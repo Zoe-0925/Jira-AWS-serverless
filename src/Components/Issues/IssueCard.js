@@ -36,7 +36,7 @@ const IssueCard = ({ issueId, openTaskDetail }) => {
 
     const handleDeleteTask = (e, id, status) => {
         e.preventDefault()
-        dispatch(chainDeleteIssue(id, status, "task"))
+        dispatch(chainDeleteIssue(id, status, "task", task.updatedAt))
         handleMenuClose()
     }
 
@@ -49,12 +49,12 @@ const IssueCard = ({ issueId, openTaskDetail }) => {
             <Container>
                 <Row className="mt-0">
                     <Col sm="10" onClick={() => openTaskDetail(task)}>
-                       {task.summary}
+                        {task.summary}
                     </Col>
                     <Col sm="2">
                         <DotIconMenu className="dot-icon" anchorEl={anchorEl} isOpen={isOpen} anchorRef={anchorRef}
                             handleMenuClose={handleMenuClose} handleMenuOpen={handleMenuOpen}>
-                            <MenuItem onClick={() => dispatch(updateIssueAttribute({ _id: task._id, attribute: "flag", value: !task.flag }))}>{!task.flag ? "Add flag" : "Remove flag"}</MenuItem>
+                            <MenuItem onClick={() => dispatch(updateIssueAttribute({ _id: task._id, attribute: "flag", value: !task.flag, updatedAt: task.updatedAt }))}>{!task.flag ? "Add flag" : "Remove flag"}</MenuItem>
                             <MenuItem >Add parent</MenuItem>
                             <MenuItem >Add label</MenuItem>
                             <MenuItem onClick={e => handleDeleteTask(e, task._id, task.status)}>Delete</MenuItem>
@@ -67,15 +67,15 @@ const IssueCard = ({ issueId, openTaskDetail }) => {
                 </Row>
                 <Row className="mt-0" onClick={() => openTaskDetail(task)}>
                     <Col sm="1">
-                        <Tooltip title={task.issueType ||""} aria-label={task.issueType||""}>
+                        <Tooltip title={task.issueType || ""} aria-label={task.issueType || ""}>
                             <CheckBoxIcon className="icon" style={{ color: "#5BC2F2" }} />
                         </Tooltip>
                     </Col>
                     <Col sm="8">
-                       {task.summary}
+                        {task.summary}
                     </Col>
                     <Col sm="1">
-                        <Tooltip title={task.assignee||""} aria-label={task.assignee||""}>
+                        <Tooltip title={task.assignee || ""} aria-label={task.assignee || ""}>
                             <AccountCircleIcon /></Tooltip>
                     </Col>
                 </Row>

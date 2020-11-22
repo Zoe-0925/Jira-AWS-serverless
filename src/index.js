@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import history from './history';
 /**    Redux     */
 import { Provider, ReactReduxContext } from 'react-redux';
-import configureStore from './Components/store';
+import configureStore from './Reducers/store';
 /**     Pages     */
 import App from './App';
 /**     Fonts    */

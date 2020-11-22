@@ -109,7 +109,7 @@ const IssueDetailForm = ({ issue, handleClose }) => {
                         name="status"
                         defaultValue={{ label: defaultStatus.name, value: issue.status }}
                         options={statusOptions}
-                        onChange={(e) => dispatch(chainUpdateIssueStatus({ _id: issue._id, value: e.value, attribute: "status" }, issue.status))}
+                        onChange={(e) => dispatch(chainUpdateIssueStatus({ _id: issue._id, value: e.value, attribute: "status", updatedAt:issue.updatedAt }, issue.status))}
                     />
                     <Row className="margin"></Row>
                     <Row className="margin">
@@ -123,7 +123,7 @@ const IssueDetailForm = ({ issue, handleClose }) => {
                                 name="assignee"
                                 defaultValue={defaultAssignee}
                                 options={assigneeOptions}
-                                onChange={(e) => dispatch(updateIssueAttribute({ _id: issue._id, value: e.value, attribute: "assignee" }))}
+                                onChange={(e) => dispatch(updateIssueAttribute({ _id: issue._id, value: e.value, attribute: "assignee", updatedAt:issue.updatedAt }))}
                             />
                         </Col>
                     </Row>
@@ -139,7 +139,7 @@ const IssueDetailForm = ({ issue, handleClose }) => {
                                 name="labels"
                                 defaultValue={currentLabels}
                                 options={labelOptions}
-                                onChange={(e) => dispatch(updateIssueAttribute({ _id: issue._id, value: e.value, attribute: "labels" }))}
+                                onChange={(e) => dispatch(updateIssueAttribute({ _id: issue._id, value: e.value, attribute: "labels" ,updatedAt:issue.updatedAt}))}
                             />
                         </Col>
                     </Row>
@@ -154,7 +154,7 @@ const IssueDetailForm = ({ issue, handleClose }) => {
                                 name="reporter"
                                 defaultValue={{ label: reporter.name, value: reporter }}
                                 options={reporterOptions}
-                                onChange={(e) => dispatch(updateIssueAttribute({ _id: issue._id, value: e.value, attribute: "reporter" }))}
+                                onChange={(e) => dispatch(updateIssueAttribute({ _id: issue._id, value: e.value, attribute: "reporter",updatedAt:issue.updatedAt }))}
                             />
                         </Col>
                     </Row>

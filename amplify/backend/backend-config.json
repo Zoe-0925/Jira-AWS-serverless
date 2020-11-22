@@ -23,6 +23,10 @@
     "Status": {
       "service": "DynamoDB",
       "providerPlugin": "awscloudformation"
+    },
+    "JiraStorage": {
+      "service": "S3",
+      "providerPlugin": "awscloudformation"
     }
   },
   "function": {

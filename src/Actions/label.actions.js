@@ -38,9 +38,6 @@ export const getProjectLabels = (projectId) => async  dispatch => {
 export const createLabel = (newLabel) => async  dispatch => {
     dispatch({ type: LOADING })
     try {
-        await API.post("LabelApi", "/labels", {
-            body: newLabel
-        })
         dispatch({
             type: CREATE_LABEL,
             data: newLabel
@@ -53,7 +50,6 @@ export const createLabel = (newLabel) => async  dispatch => {
 
 export const deleteLabel = (id) => async  dispatch => {
     try {
-        await API.del("LabelApi", "/labels/" + id)
         dispatch({
             type: DELETE_LABEL,
             id: id
@@ -80,7 +76,6 @@ export const getAllLabels = (projectId) => async  dispatch => {
 
 export const deleteLabelByProject = (projectId) => async dispatch => {
     try {
-        await API.del("LabelApi", "/labels/project/" + projectId)
         dispatch({
             type: "DELETE_PROJECT"
         })

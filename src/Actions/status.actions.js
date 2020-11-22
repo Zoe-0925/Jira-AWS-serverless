@@ -117,10 +117,6 @@ export const chainMove = (sourceStatus, destinationStatus, startIndex, endIndex)
 export const updateIssueOrder = (id, issueOrder) => async  dispatch => {
     try {
         const data = { _id: id, attribute: "issues", value: issueOrder }
-        await API.put("StatusApi", "/status/update/attribute", {
-            body: data
-        })
-
         await dispatch({ ...data, type: UPDATE_ISSUE_ORDER })
     }
     catch (err) {
@@ -163,19 +159,11 @@ export const getProjectStatus = (projectId) => async  dispatch => {
     }
 }
 
-export const createStatus = (newStatus) => async  dispatch => {
-    try {
-        await API.put("StatusApi", "/status", {
-            body: newStatus
-        })
-        await dispatch({
+export const createStatus = (newStatus) =>   dispatch => {
+         dispatch({
             type: CREATE_STATUS,
             data: newStatus
         })
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-    }
 }
 
 export const createMultipleStatus = (list) => async  dispatch => {

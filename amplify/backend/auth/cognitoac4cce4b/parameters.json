@@ -1,6 +1,6 @@
 {
     "identityPoolName": "jiraserverless_identitypool_2c6e0c67",
-    "allowUnauthenticatedIdentities": true,
+    "allowUnauthenticatedIdentities": false,
     "resourceNameTruncated": "jirase2c6e0c67",
     "userPoolName": "jiraserverless_userpool_2c6e0c67",
     "autoVerifiedAttributes": [
