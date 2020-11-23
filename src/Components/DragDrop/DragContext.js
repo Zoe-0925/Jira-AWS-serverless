@@ -3,8 +3,9 @@ import { useDispatch, useSelector } from "react-redux"
 import { DragDropContext } from 'react-beautiful-dnd';
 import DragAndDrop from "./DragAndDrop"
 import { chainReorder, chainMove } from "../../Actions/status.actions"
-import { selectAllStatus, selectCurrentProject, selectUserName } from '../../Reducers/Selectors';
+import { selectAllStatus, selectCurrentProject } from '../../Reducers/Selectors';
 import FilterManager from "../Filters/FilterManager"
+import { wsConnect } from "../../Actions/websocket.actions"
 
 export default function DragContext() {
     const dispatch = useDispatch()
@@ -14,10 +15,8 @@ export default function DragContext() {
     const { filters, setFilters } = useState()
 
     useEffect(() => {
-        //TODO 
-        //update the host address
-        const host = `ws://127.0.0.1:8000/ws/game/${id}?token=${localStorage.getItem('token')}`;
-      //  dispatch(wsConnect(host));
+        const host = `ws://127.0.0.1:80/}`;
+        //  dispatch(wsConnect(host));
     }, [])
 
     function onDragEnd(result) {
