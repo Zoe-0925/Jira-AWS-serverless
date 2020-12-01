@@ -258,43 +258,6 @@ app.get(path + "/status/:status", function (req, res) {
 });
 
 /*****************************************
- * HTTP Get method for get single object *
- *****************************************/
-
-app.get(path + '/object' + hashKeyPath, function (req, res) {
-  var params = {};
-  if (userIdPresent && req.apiGateway) {
-    params[partitionKeyName] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
-  } else {
-    params[partitionKeyName] = req.params[partitionKeyName];
-    try {
-      params[partitionKeyName] = convertUrlType(req.params[partitionKeyName], partitionKeyType);
-    } catch (err) {
-      res.statusCode = 500;
-      res.json({ error: 'Wrong column type ' + err });
-    }
-  }
-
-  let getItemParams = {
-    TableName: tableName,
-    Key: params
-  }
-
-  dynamodb.get(getItemParams, (err, data) => {
-    if (err) {
-      res.statusCode = 500;
-      res.json({ error: 'Could not load items: ' + err.message });
-    } else {
-      if (data.Items) {
-        res.json(data.Items);
-      } else {
-        res.json(data);
-      }
-    }
-  });
-});
-
-/*****************************************
  * HTTP Get method for get the last updated date of a single object *
  *****************************************/
 
@@ -333,31 +296,33 @@ app.get(path + '/object/' + hashKeyPath + "/updatedAt", function (req, res) {
 
 
 /************************************
-* HTTP put method for insert object *
+* HTTP post method for insert object *
 *************************************/
 
-app.put(path, function (req, res) {
+app.post(path, function (req, res) {
 
   if (userIdPresent) {
     req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
   }
+  const now = JSON.stringify(new Date())
 
   let putItemParams = {
     TableName: tableName,
-    Item: req.body
+    Item: { ...req.body, createdAt: now, updatedAt: now }
   }
+
   dynamodb.put(putItemParams, (err, data) => {
     if (err) {
       res.statusCode = 500;
       res.json({ error: err, url: req.url, body: req.body });
     } else {
-      res.json({ success: 'put call succeed!', url: req.url, data: data })
+      res.json({ success: 'put call succeed!', url: req.url, updatedAt: now })
     }
   });
 });
 
 /************************************
-* HTTP put method for updating issue summary *
+* HTTP put method for updating issue attribute *
 *************************************/
 
 app.put(path + "/update/attribute", function (req, res) {
@@ -394,30 +359,6 @@ app.put(path + "/update/attribute", function (req, res) {
   });
 });
 
-/************************************
-* HTTP post method for insert object *
-*************************************/
-
-app.post(path, function (req, res) {
-
-  if (userIdPresent) {
-    req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
-  }
-
-  let putItemParams = {
-    TableName: tableName,
-    Item: req.body
-  }
-  dynamodb.put(putItemParams, (err, data) => {
-    if (err) {
-      res.statusCode = 500;
-      res.json({ error: err, url: req.url, body: req.body });
-    } else {
-      res.json({ success: 'post call succeed!', url: req.url, data: data })
-    }
-  });
-});
-
 /**************************************
 * HTTP remove method to delete object *
 ***************************************/
@@ -445,41 +386,10 @@ app.delete(path + '/object' + hashKeyPath, function (req, res) {
       res.statusCode = 500;
       res.json({ error: err, url: req.url });
     } else {
-      res.json({ url: req.url, data: data });
+      res.json({ url: req.url, success: "Successfully deleted the issue" });
     }
   });
 });
-
-/**************************************
-* HTTP remove method to delete object by project id *
-***************************************/
-
-app.delete(path + '/project/:project', function (req, res) {
-  var params = {};
-  if (userIdPresent && req.apiGateway) {
-    params[partitionKeyName] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
-  } else {
-    params[partitionKeyName] = req.params[partitionKeyName];
-    try {
-      params[partitionKeyName] = convertUrlType(req.params[partitionKeyName], partitionKeyType);
-    } catch (err) {
-      res.statusCode = 500;
-      res.json({ error: 'Wrong column type ' + err });
-    }
-  }
-
-  let removeItemParams = {
-    TableName: tableName,
-    KeyConditionExpression: '#status = :status',
-    ExpressionAttributeValues: { ':project': req.params.project },
-    ExpressionAttributeNames: { '#project': 'project' },
-    IndexName: "project-index"
-  }
-
-  //TODO:
-  //batch write item
-});
-
 
 app.listen(3000, function () {
   console.log("App started")

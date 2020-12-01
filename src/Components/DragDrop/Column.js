@@ -31,6 +31,10 @@ export function ColumnTitle({ status }) {
         setAnchorEl(event.currentTarget);
     };
 
+    //Filter:
+    // props.filteredResult? {props.filteredResult + " of " + status.issues.length
+
+
     return (
         <div className="flex-row epic-title" id={status !== undefined ? status._id : ""}>
             <EditableText name="epic-summary" className="epic-summary"

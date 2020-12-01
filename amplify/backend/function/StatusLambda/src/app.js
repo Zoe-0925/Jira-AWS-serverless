@@ -115,8 +115,6 @@ app.get(path, function (req, res) {
   });
 });
 
-
-
 /********************************
  * HTTP Get method for list objects *
  ********************************/
@@ -143,69 +141,7 @@ app.get(path + "/project/:project", function (req, res) {
 });
 
 /*****************************************
- * HTTP Get method for get single object *
- *****************************************/
-
-app.get(path + '/object' + hashKeyPath, function (req, res) {
-  var params = {};
-  if (userIdPresent && req.apiGateway) {
-    params[partitionKeyName] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
-  } else {
-    params[partitionKeyName] = req.params[partitionKeyName];
-    try {
-      params[partitionKeyName] = convertUrlType(req.params[partitionKeyName], partitionKeyType);
-    } catch (err) {
-      res.statusCode = 500;
-      res.json({ error: 'Wrong column type ' + err });
-    }
-  }
-
-  let getItemParams = {
-    TableName: tableName,
-    Key: params
-  }
-
-  dynamodb.get(getItemParams, (err, data) => {
-    if (err) {
-      res.statusCode = 500;
-      res.json({ error: 'Could not load items: ' + err.message });
-    } else {
-      if (data.Items) {
-        res.json(data.Items);
-      } else {
-        res.json(data);
-      }
-    }
-  });
-});
-
-
-/************************************
-* HTTP put method for insert object *
-*************************************/
-
-app.put(path, function (req, res) {
-
-  if (userIdPresent) {
-    req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
-  }
-
-  let putItemParams = {
-    TableName: tableName,
-    Item: req.body
-  }
-  dynamodb.put(putItemParams, (err, data) => {
-    if (err) {
-      res.statusCode = 500;
-      res.json({ error: err, url: req.url, body: req.body });
-    } else {
-      res.json({ success: true, url: req.url, data: data })
-    }
-  });
-});
-
-/*****************************************
-* HTTP put method for updating user name *
+* HTTP put method for updating status attribute *
 ******************************************/
 
 app.put(path + "/update/attribute", function (req, res) {
@@ -216,25 +152,29 @@ app.put(path + "/update/attribute", function (req, res) {
 
   if (!["name", "issues", "project"].includes(req.body.attribute)) {
     res.statusCode = 500;
-    return res.json({ error: "Invalid update", url: req.url});
+    return res.json({ error: "Invalid update", url: req.url });
   }
+
+  const now = JSON.stringify(new Date())
 
   let putItemParams = {
     TableName: tableName,
     Key: {
       "_id": req.body._id,
     },
-    UpdateExpression: "set " + req.body.attribute + " = :value",
+    UpdateExpression: "set " + req.body.attribute + " = :value, updatedAt" + " = :now",
     ExpressionAttributeValues: {
-      ":value": req.body.value
+      ":value": req.body.value,
+      ":now": now
     },
   }
+
   dynamodb.update(putItemParams, (err, data) => {
     if (err) {
       res.statusCode = 500;
       res.json({ error: err, url: req.url, body: req.body });
     } else {
-      res.json({ data: data })
+      res.json({ updatedAt: now })
     }
   });
 });
@@ -250,16 +190,19 @@ app.post(path, function (req, res) {
     req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
   }
 
+  const now = JSON.stringify(new Date())
+
   let putItemParams = {
     TableName: tableName,
-    Item: req.body
+    Item: { ...req.body, createdAt: now, updatedAt: now }
   }
+
   dynamodb.put(putItemParams, (err, data) => {
     if (err) {
       res.statusCode = 500;
       res.json({ error: err, url: req.url, body: req.body });
     } else {
-      res.json({ success: 'post call succeed!', url: req.url, data: data })
+      res.json({ success: 'post call succeed!', url: req.url, updatedAt: now })
     }
   });
 });
@@ -291,7 +234,7 @@ app.delete(path + '/object' + hashKeyPath, function (req, res) {
       res.statusCode = 500;
       res.json({ error: err, url: req.url });
     } else {
-      res.json({ url: req.url, data: data });
+      res.json({ success: "Successfully deleted the item" });
     }
   });
 });

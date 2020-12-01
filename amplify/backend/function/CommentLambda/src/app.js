@@ -29,7 +29,7 @@ AWS.config.update({ region: process.env.TABLE_REGION });
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 let tableName = "Comment";
-if(process.env.ENV && process.env.ENV !== "NONE") {
+if (process.env.ENV && process.env.ENV !== "NONE") {
   tableName = tableName + '-' + process.env.ENV;
 }
 
@@ -46,7 +46,7 @@ app.use(bodyParser.json())
 app.use(awsServerlessExpressMiddleware.eventContext())
 
 // Enable CORS for all methods
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*")
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
   next()
@@ -54,7 +54,7 @@ app.use(function(req, res, next) {
 
 // convert url string param to expected Type
 const convertUrlType = (param, type) => {
-  switch(type) {
+  switch (type) {
     case "N":
       return Number.parseInt(param);
     default:
@@ -102,68 +102,6 @@ app.get(path + "/issue/:issue", function (req, res) {
 });
 
 /*****************************************
- * HTTP Get method for get single object *
- *****************************************/
-
-app.get(path + '/object' + hashKeyPath, function (req, res) {
-  var params = {};
-  if (userIdPresent && req.apiGateway) {
-    params[partitionKeyName] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
-  } else {
-    params[partitionKeyName] = req.params[partitionKeyName];
-    try {
-      params[partitionKeyName] = convertUrlType(req.params[partitionKeyName], partitionKeyType);
-    } catch (err) {
-      res.statusCode = 500;
-      res.json({ error: 'Wrong column type ' + err });
-    }
-  }
-
-  let getItemParams = {
-    TableName: tableName,
-    Key: params
-  }
-
-  dynamodb.get(getItemParams, (err, data) => {
-    if (err) {
-      res.statusCode = 500;
-      res.json({ error: 'Could not load items: ' + err.message });
-    } else {
-      if (data.Items) {
-        res.json(data.Items);
-      } else {
-        res.json(data);
-      }
-    }
-  });
-});
-
-
-/************************************
-* HTTP put method for insert object *
-*************************************/
-
-app.put(path, function (req, res) {
-
-  if (userIdPresent) {
-    req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
-  }
-
-  let putItemParams = {
-    TableName: tableName,
-    Item: req.body
-  }
-  dynamodb.put(putItemParams, (err, data) => {
-    if (err) {
-      res.statusCode = 500;
-      res.json({ error: err, url: req.url, body: req.body });
-    } else {
-      res.json({ success: 'put call succeed!', url: req.url, data: data })
-    }
-  });
-});
-
-/*****************************************
 * HTTP put method for updating user name *
 ******************************************/
 
@@ -204,16 +142,18 @@ app.post(path, function (req, res) {
     req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
   }
 
+  const now = JSON.stringify(new Date())
+
   let putItemParams = {
     TableName: tableName,
-    Item: req.body
+    Item: { ...req.body, createdAt: now, updatedAt: now }
   }
   dynamodb.put(putItemParams, (err, data) => {
     if (err) {
       res.statusCode = 500;
       res.json({ error: err, url: req.url, body: req.body });
     } else {
-      res.json({ success: 'post call succeed!', url: req.url, data: data })
+      res.json({ success: 'post call succeed!', url: req.url, updatedAt: now })
     }
   });
 });
@@ -245,7 +185,7 @@ app.delete(path + '/object' + hashKeyPath, function (req, res) {
       res.statusCode = 500;
       res.json({ error: err, url: req.url });
     } else {
-      res.json({ url: req.url, data: data });
+      res.json({ url: req.url, success:"Successfully deleted the comment" });
     }
   });
 });
