@@ -4,8 +4,13 @@ import { DragDropContext } from 'react-beautiful-dnd';
 import DragAndDrop from "./DragAndDrop"
 import { chainReorder, chainMove } from "../../Actions/status.actions"
 import { selectAllStatus, selectCurrentProject } from '../../Reducers/Selectors';
-import FilterManager from "../Filters/FilterManager"
+import IssueFilter from "../Filters/IssueFilter"
+import { Tooltip } from '@material-ui/core'
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import GroupBy from "../Filters/GroupBy"
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { wsConnect } from "../../Actions/websocket.actions"
+
 
 export default function DragContext() {
     const dispatch = useDispatch()
@@ -40,7 +45,14 @@ export default function DragContext() {
 
     return (
         <Fragment>
-            <FilterManager filters={filters} setFilters={setFilters} />
+            <div className="row filter-row">
+                <IssueFilter className="item-1" />
+                <AccountCircleIcon className="icon item-2" fontSize="large" />
+                <Tooltip title="Add people" aria-label="Add people">
+                    <PersonAddIcon className="icon item-3" fontSize="large" />
+                </Tooltip>
+                <GroupBy className="item-5" />
+            </div>
             <DragDropContext onDragEnd={onDragEnd}>
                 <div className="board-container">
                     <DragAndDrop filters={filters} />

@@ -1,16 +1,20 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux"
 import IssueDetail from "../Issues/IssueUpdate"
-import { selectAllStatusInArrayWithIssues } from "../../Reducers/Selectors"
-import { IssueDroppable } from "./Droppable";
+import { selectAllStatusInArrayWithIssues, selectLoading } from "../../Reducers/Selectors"
+import { MyDraggable, MyDroppable } from "./Droppable";
 import StatusCreate from "./StatusCreate"
+import Column from "./Column"
+import IssueCard from "../Issues/IssueCard"
+import Skeleton from '@material-ui/lab/Skeleton';
 
 export default function DragAndDrop({ filters }) {
     const columns = useSelector(selectAllStatusInArrayWithIssues)
+    const loading = useSelector(selectLoading)
 
     //Filter
     const columnFiltered = columns.map(each => {
-        if(each && filters && each.issues){
+        if (each && filters && each.issues) {
             let issuesFiltered = [...each.issues]
             if (filters.labels) { issuesFiltered = filterByLabel(issuesFiltered) }
             if (filters.epics) { issuesFiltered = filterByEpic(issuesFiltered) }
@@ -18,7 +22,7 @@ export default function DragAndDrop({ filters }) {
             return each
         }
     })
-    
+
     /**
      *     {filterByEpic !== "" && el.issues.filter(item => { item.parent === filterByEpic }).map((issueId, index) =>
                                     draggable(issues.get(issueId), index, openTaskDetail)
@@ -44,7 +48,18 @@ export default function DragAndDrop({ filters }) {
     return (
         <div className="epic-list">
             {open && <IssueDetail open={open} handleClose={() => setOpen(false)} issue={issueOpened} />}
-            <IssueDroppable columns={columns} openTaskDetail={openTaskDetail} />
+            {columns.length === 0 ? <div></div> : columns.map((el, ind) => {
+                if (!loading) {
+                    return <MyDroppable key={ind} el={el} ind={ind}>
+                        <Column initialStatus={el}>
+                            {el && el.issues && el.issues.map((issueId, index) => <MyDraggable id={issueId} index={index}>
+                                <IssueCard key={uuidv4()} issueId={issueId} openTaskDetail={openTaskDetail} />
+                            </MyDraggable>)}
+                        </Column>
+                    </MyDroppable>
+                }
+                return <Skeleton key={uuidv4()} variant="rect" animation="wave" width={230} height={240} style={{ marginRight: "1rem" }} />
+            })}
             <StatusCreate />
         </div>
     );
