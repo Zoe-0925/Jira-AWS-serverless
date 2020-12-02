@@ -3,12 +3,13 @@ import { useDispatch, useSelector } from "react-redux"
 import { DragDropContext } from 'react-beautiful-dnd';
 import DragAndDrop from "./DragAndDrop"
 import { chainReorder, chainMove } from "../../Actions/status.actions"
-import { selectAllStatus, selectCurrentProject } from '../../Reducers/Selectors';
+import { selectAllStatus, selectCurrentProject, selectLabels } from '../../Reducers/Selectors';
 import IssueFilter from "../Filters/IssueFilter"
 import { Tooltip } from '@material-ui/core'
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import GroupBy from "../Filters/GroupBy"
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import { selectEpics } from '../../Reducers/Selectors';
 import { wsConnect } from "../../Actions/websocket.actions"
 
 
@@ -17,12 +18,22 @@ export default function DragContext() {
     const allStatus = useSelector(selectAllStatus)
     const currentProject = useSelector(selectCurrentProject)
     const statusOrder = currentProject ? currentProject.statusOrder : []
-    const { filters, setFilters } = useState()
+    const labels = useSelector(selectLabels)
+    const epics = useSelector(selectEpics)
+    const { filters, setFilters } = useState({ labels: [], epics: [] })
 
     useEffect(() => {
         const host = `ws://127.0.0.1:80/}`;
         //  dispatch(wsConnect(host));
     }, [])
+
+    const setLabelFilter = labelId => {
+        setFilters({ ...filters, labels: [...filters.labels, labelId] })
+    }
+
+    const setEpicFilter = epicId => {
+        setFilters({ ...filters, epics: [...filters.epics, epicId] })
+    }
 
     function onDragEnd(result) {
         const { source, destination } = result;
@@ -51,6 +62,8 @@ export default function DragContext() {
                 <Tooltip title="Add people" aria-label="Add people">
                     <PersonAddIcon className="icon item-3" fontSize="large" />
                 </Tooltip>
+                <FilterButton data={epics} buttonName="Epic" label="summary" handleSelect={setEpicFilter} />
+                <FilterButton data={labels} buttonName="Label" label="name" handleSelect={setLabelFilter} />
                 <GroupBy className="item-5" />
             </div>
             <DragDropContext onDragEnd={onDragEnd}>
