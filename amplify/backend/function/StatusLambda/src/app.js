@@ -140,6 +140,45 @@ app.get(path + "/project/:project", function (req, res) {
   });
 });
 
+/********************************
+ * HTTP Get method for list objects that have been updated at a certain time*
+ ********************************/
+app.get(path + "/updatedAt/:updatedAt", function (req, res) {
+  var condition = {}
+  condition[partitionKeyName] = {
+    ComparisonOperator: 'EQ'
+  }
+
+  if (userIdPresent && req.apiGateway) {
+    condition[partitionKeyName]['AttributeValueList'] = [req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH];
+  } else {
+    try {
+      condition[partitionKeyName]['AttributeValueList'] = [convertUrlType(req.params[partitionKeyName], partitionKeyType)];
+    } catch (err) {
+      res.statusCode = 500;
+      res.json({ error: 'Wrong column type ' + err });
+    }
+  }
+
+  let queryParams = {
+    TableName: tableName,
+    KeyConditionExpression: '#updatedAt = :updatedAt',
+    ExpressionAttributeValues: { ':updatedAt': req.params.updatedAt },
+    ExpressionAttributeNames: { '#updatedAt': 'updatedAt' },
+    IndexName: "updatedAt-index"
+  }
+
+  dynamodb.query(queryParams, (err, data) => {
+    if (err) {
+      res.statusCode = 500;
+      res.json({ error: 'Could not load items: ' + err });
+    } else {
+      res.json(data.Items);
+    }
+  });
+});
+
+
 /*****************************************
 * HTTP put method for updating status attribute *
 ******************************************/
@@ -194,7 +233,7 @@ app.post(path, function (req, res) {
 
   let putItemParams = {
     TableName: tableName,
-    Item: { ...req.body, createdAt: now, updatedAt: now }
+    Item: { ...req.body, createdAt: now, updatedAt: now, deletedAt: ""Ï }
   }
 
   dynamodb.put(putItemParams, (err, data) => {
