@@ -7,35 +7,28 @@ import StatusCreate from "./StatusCreate"
 import Column from "./Column"
 import IssueCard from "../Issues/IssueCard"
 import Skeleton from '@material-ui/lab/Skeleton';
+import { filterByLabel, filterByEpic } from "../Util"
 
 export default function DragAndDrop({ filters }) {
     const columns = useSelector(selectAllStatusInArrayWithIssues)
     const loading = useSelector(selectLoading)
+    const [filteredIssueIds, setFilter] = useState([])
 
-    //Filter
-    const columnFiltered = columns.map(each => {
-        if (each && filters && each.issues) {
-            let issuesFiltered = [...each.issues]
-            if (filters.labels) { issuesFiltered = filterByLabel(issuesFiltered) }
-            if (filters.epics) { issuesFiltered = filterByEpic(issuesFiltered) }
-            each.issuesFiltered = issuesFiltered.map(each => each._id)
-            return each
+    useEffect(() => {
+        if (filters) {
+            const result = columns.map(each => {
+                if (each && each.issues) {
+                    let issuesFiltered = [...each.issues]
+                    if (filters.labels) { issuesFiltered = filterByLabel(issuesFiltered, filters.labels) }
+                    if (filters.epics) { issuesFiltered = filterByEpic(issuesFiltered, filters.epics) }
+                    return issuesFiltered
+                }
+            })
+            setFilter(result)
+        } else {
+            setFilter(columns.map(el => el.issues))
         }
-    })
-
-    /**
-     *     {filterByEpic !== "" && el.issues.filter(item => { item.parent === filterByEpic }).map((issueId, index) =>
-                                    draggable(issues.get(issueId), index, openTaskDetail)
-                                )}
-                                {filterByLabel !== "" && el.issues.filter(item => { item.label === filterByLabel }).map((issueId, index) =>
-                                    draggable(issues.get(issueId), index, openTaskDetail)
-                                )}
-                                {filterByAssignee && el.issues.filter(item => { item.filterByAssignee === filterByAssignee }).map((issueId, index) =>
-                                    draggable(issues.get(issueId), index, openTaskDetail)
-                                )}
-     */
-
-
+    }, [filters])
 
     const [open, setOpen] = useState(false)
     const [issueOpened, setIssue] = useState("")
@@ -48,11 +41,11 @@ export default function DragAndDrop({ filters }) {
     return (
         <div className="epic-list">
             {open && <IssueDetail open={open} handleClose={() => setOpen(false)} issue={issueOpened} />}
-            {columns.length === 0 ? <div></div> : columns.map((el, ind) => {
+            {columns.length === 0 ? <div></div> : filteredIssueIds.map((el, ind) => {
                 if (!loading) {
                     return <MyDroppable key={ind} el={el} ind={ind}>
                         <Column initialStatus={el}>
-                            {el && el.issues && el.issues.map((issueId, index) => <MyDraggable id={issueId} index={index}>
+                            {el && el.map((issueId, index) => <MyDraggable id={issueId} index={index}>
                                 <IssueCard key={uuidv4()} issueId={issueId} openTaskDetail={openTaskDetail} />
                             </MyDraggable>)}
                         </Column>

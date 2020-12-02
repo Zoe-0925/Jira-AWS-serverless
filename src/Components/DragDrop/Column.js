@@ -13,7 +13,7 @@ import { useEditText } from '../Shared/CustomHooks';
 import { addCreateAndUpdateDate } from "../Util"
 import { v4 as uuidv4 } from 'uuid'
 
-export function ColumnTitle({ status }) {
+export function ColumnTitle({ status}) {
     const { state, setState, edit, setEdit } = useEditText(status.name || "")
     const dispatch = useDispatch()
 
@@ -31,8 +31,9 @@ export function ColumnTitle({ status }) {
         setAnchorEl(event.currentTarget);
     };
 
+   // , displayNumber 
     //Filter:
-    // props.filteredResult? {props.filteredResult + " of " + status.issues.length
+    // props.displayNumber? {props.displayNumber + " of " + status.issues.length
 
 
     return (
