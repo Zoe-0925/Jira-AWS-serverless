@@ -21,7 +21,8 @@ export default function ProjectListTable() {
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const isOpen = Boolean(anchorEl);
-  
+    const anchorRef = React.useRef(null);
+
     const handleMenuClose = () => {
         setAnchorEl(false);
     };

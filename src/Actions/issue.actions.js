@@ -121,8 +121,7 @@ export const updateIssueAttribute = (data) => dispatch => {
         type: UPDATE_TASK_ATTRIBUTE,
         id: data._id,
         key: data.attribute,
-        value: data.value,
-        updatedAt: updatedAt
+        value: data.value
     })
     dispatch({ type: AUTHENTICATED })
 }

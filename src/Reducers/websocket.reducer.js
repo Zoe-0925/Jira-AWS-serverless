@@ -1,6 +1,6 @@
 const websocketInitialState = { connected: false };
 
-export const WebsocketReducer = (state = { ...websocketInitialState }, action) => {
+const WebsocketReducer = (state = { ...websocketInitialState }, action) => {
   switch (action.type) {
     case 'WS_CONNECTED':
       return { ...state, connected: true };
@@ -8,3 +8,5 @@ export const WebsocketReducer = (state = { ...websocketInitialState }, action) =
       return state;
   }
 };
+
+export default WebsocketReducer

@@ -4,14 +4,14 @@ import Drawer from "../Components/Drawer/Drawer"
 import { DrawerInner } from "../Components/Drawer/DrawerInner"
 import DragContext from "../Components/DragDrop/DragContext"
 import NavBar from "../Components/NavBar/NavBar"
-import { selectCurrentProject} from '../Reducers/Selectors';
+import { selectCurrentProjectName } from '../Reducers/Selectors';
 import { Typography, Link, Breadcrumbs } from "@material-ui/core"
 import { getUserAndProjectData } from "../Actions/user.actions"
 
 export default function Board() {
     const dispatch = useDispatch()
-    const projectName = useSelector(selectCurrentProject) ? useSelector(selectCurrentProject).name : ""
- 
+    const projectName = useSelector(selectCurrentProjectName)
+
     const [open, setOpen] = useState(true);
 
     useEffect(() => {

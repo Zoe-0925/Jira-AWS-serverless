@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux"
 import IssueDetail from "../Issues/IssueUpdate"
 import { selectAllStatusInArrayWithIssues, selectLoading } from "../../Reducers/Selectors"
@@ -8,6 +8,7 @@ import Column from "./Column"
 import IssueCard from "../Issues/IssueCard"
 import Skeleton from '@material-ui/lab/Skeleton';
 import { filterByLabel, filterByEpic } from "../Util"
+import { v4 as uuidv4 } from 'uuid'
 
 export default function DragAndDrop({ filters }) {
     const columns = useSelector(selectAllStatusInArrayWithIssues)

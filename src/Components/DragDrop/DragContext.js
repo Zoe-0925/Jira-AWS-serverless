@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react'
+import React, { useState, Fragment, useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { DragDropContext } from 'react-beautiful-dnd';
 import DragAndDrop from "./DragAndDrop"
@@ -11,7 +11,7 @@ import GroupBy from "../Filters/GroupBy"
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { selectEpics } from '../../Reducers/Selectors';
 import { wsConnect } from "../../Actions/websocket.actions"
-
+import FilterButton from "../Filters/FilterButton"
 
 export default function DragContext() {
     const dispatch = useDispatch()
@@ -62,8 +62,8 @@ export default function DragContext() {
                 <Tooltip title="Add people" aria-label="Add people">
                     <PersonAddIcon className="icon item-3" fontSize="large" />
                 </Tooltip>
-                <FilterButton data={epics} buttonName="Epic" label="summary" handleSelect={setEpicFilter} />
-                <FilterButton data={labels} buttonName="Label" label="name" handleSelect={setLabelFilter} />
+                {epics.length > 0 ? <FilterButton data={epics} buttonName="Epic" label="summary" handleSelect={setEpicFilter} /> : "Create Epic"}
+                {labels.length > 0 ? <FilterButton data={labels} buttonName="Label" label="name" handleSelect={setLabelFilter} /> : "Create Label"}
                 <GroupBy className="item-5" />
             </div>
             <DragDropContext onDragEnd={onDragEnd}>

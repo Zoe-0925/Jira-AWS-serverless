@@ -1,4 +1,5 @@
 import * as actions from '../Actions/websocket.actions';
+const WebSocket = require('ws');
 
 const socketMiddleware = () => {
     let socket = null;
@@ -35,6 +36,7 @@ const socketMiddleware = () => {
 
                 // connect to the remote host
                 socket = new WebSocket(action.host);
+                
 
                 // websocket handlers
                 socket.onmessage = onMessage(store);

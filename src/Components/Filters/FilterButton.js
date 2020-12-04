@@ -4,7 +4,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Button, Menu, MenuItem, FormGroup, FormControlLabel, Checkbox, ClickAwayListener } from '@material-ui/core'
 
 export default function FilterButton({ data, buttonName, label, handleSelect }) {
-    const [state, setState] = useState({});
+    const [state, setState] = useState([]);
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const isOpen = Boolean(anchorEl);
@@ -26,9 +26,11 @@ export default function FilterButton({ data, buttonName, label, handleSelect }) 
     }, [data])
 
     const handleChange = (event) => {
-        const newState = { ...state, [event.target.name]: event.target.checked }
-        setState(newState);
-        handleSelect(newState)
+        const newState = [...state, { [event.target.name]: event.target.checked }]
+        setState(newState)
+
+        //TODO may be wrong
+        handleSelect(newState.filter(item => item.value() === true).map(each => each.key()))
     }
 
     return (

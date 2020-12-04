@@ -43,7 +43,7 @@ const IssueDetailForm = ({ issue, handleClose }) => {
     const dispatch = useDispatch()
 
     const updatedTime = useSelector(selectIssueUpdatedTimeById(issue._id))
-    const assignee = issue.assignee ? useSelector(selectUserById(issue.assignee)) : ""
+    const assignee = useSelector(selectUserById(issue.assignee||""))
     const reporter = issue.reporter ? issue.reporter : ""
 
 

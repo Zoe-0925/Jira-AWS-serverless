@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { chainCreateStatus } from "../../Actions/status.actions"
 import { selectCurrentProjectId, selectLoading } from "../../Reducers/Selectors"
 import { v4 as uuidv4 } from 'uuid'
+import {  CircularProgress } from '@material-ui/core';
 
 export function EmptyColumn({ hide }) {
     const dispatch = useDispatch()
@@ -17,8 +18,11 @@ export function EmptyColumn({ hide }) {
         hide()
     }
 
+    //TODO 
+    // the  <div className="flex-row epic-title" > 
+    // used to have the id property
     return (<div className="epic-box">
-        <div className="flex-row epic-title" id={status !== undefined ? status._id : ""}>
+        <div className="flex-row epic-title" >
             <input
                 name="create-status-input"
                 type="text"
@@ -37,7 +41,7 @@ export function EmptyColumn({ hide }) {
                     }
                 }}
             />
-       </div>
+        </div>
         {loading && <CircularProgress className="editable-input" />}
     </div>)
 }
