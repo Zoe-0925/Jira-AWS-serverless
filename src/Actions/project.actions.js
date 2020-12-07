@@ -54,22 +54,6 @@ export const chainDeleteProject = (projectId) => async dispatch => {
     dispatch({ type: AUTHENTICATED })
 }
 
-
-export const createProject = (newProject) => async dispatch => {
-    try {
-        await API.post("ProjectApi", "/projects", {
-            body: newProject
-        })
-        dispatch({
-            type: CREATE_PROJECT,
-            data: newProject
-        })
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-    }
-}
-
 export const getAllProjects = (idList) => async dispatch => {
     try {
         idList.map(projectId => API.get("ProjectApi", "/projects/object/" + projectId).then(
@@ -103,23 +87,44 @@ export const mockgetAllProjects = () => async dispatch => {
     }
 }
 
+export const createProject = (newProject) => async dispatch => {
+    try {
+        /** 
+        await API.post("ProjectApi", "/projects", {
+            body: newProject
+        })*/
+        const payload = {
+            type: CREATE_PROJECT,
+            data: newProject
+        }
+        dispatch({ type: NEW_MESSAGE, payload: payload })
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+    }
+}
+
 export const updateProjectAttribute = (data) => {
     //  await API.put("ProjectApi", "/projects/update/", { body: data })
-    return {
+    const payload = {
         type: UPDATE_PROJECT_ATTRIBUTE,
         data: data
     }
+    await Promise.all([
+        dispatch({ type: LOADING }),
+        dispatch({ type: NEW_MESSAGE, payload: payload })])
 }
 
 export const updateProjectDetail = (data) => async  dispatch => {
     dispatch({ type: LOADING })
     try {
-        await API.put("ProjectApi", "/projects/detail", data)
-        await dispatch({
+        const payload = {
             type: UPDATE_PROJECT_DETAIL,
             data: data
-        })
-        dispatch({ type: AUTHENTICATED })
+        }
+        //     await API.put("ProjectApi", "/projects/detail", data)
+        Promise.all([dispatch({ type: LOADING }),
+        dispatch({ type: NEW_MESSAGE, payload: payload })])
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -127,19 +132,19 @@ export const updateProjectDetail = (data) => async  dispatch => {
 }
 
 export const addMember = (projectId, userId, members) => async dispatch => {
-    dispatch({ type: LOADING })
     await dispatch(updateProjectAttribute({ _id: projectId, value: [...members, userId], attribute: "members" }))
-    dispatch({ type: AUTHENTICATED })
 }
 
 export const subMembers = (projectId, userId, members) => async dispatch => {
-    dispatch({ type: LOADING })
     let updated = [...members]
     updated = updated.filter(member => member === userId)
     await dispatch(updateProjectAttribute({ _id: projectId, value: updated, attribute: "members" }))
-    dispatch({ type: AUTHENTICATED })
 }
 
+//TODO 
+//check this in the end
+//It seems like, the DELETE_PROJECT action has been called multiple times.
+//While only one is needed
 export const deleteProject = (id) => async  dispatch => {
     try {
         await API.del("ProjectApi", "/projects/" + id)
@@ -153,6 +158,8 @@ export const deleteProject = (id) => async  dispatch => {
     }
 }
 
+//TODO
+//The payload needs to be updated for the ws connection
 export const removeStatusFromOrder = (id) => async (dispatch, getState) => {
     try {
         const reducer = getState().ProjectReducer

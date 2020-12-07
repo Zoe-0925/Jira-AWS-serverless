@@ -116,6 +116,7 @@ export const updateIssueOrder = (id, issueOrder) => {
     return { type: UPDATE_ISSUE_ORDER, _id: id, attribute: "issues", value: issueOrder }
 }
 
+//TODO check this.
 export const updateStatusForIssue = (source, destination, issueId) => {
     const allStatus = getState().StatusReducer.status
     const sourceUpdated = [allStatus.get(source).issues].filter(item => item._id === issueId)
@@ -177,14 +178,14 @@ export const createMultipleStatus = (list) => async dispatch => {
 export const updateStatusName = (data) => async  dispatch => {
     dispatch({ type: LOADING })
     try {
-        await API.put("StatusApi", "/status/update/attribute", {
-            body: data
-        })
-        await dispatch({
+        /**    await API.put("StatusApi", "/status/update/attribute", {
+               body: data
+           })*/
+        const payload = {
             type: UPDATE_STATUS_NAME,
             data: data
-        })
-        dispatch({ type: AUTHENTICATED })
+        }
+        dispatch({ type: NEW_MESSAGE, payload: payload })
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -193,17 +194,20 @@ export const updateStatusName = (data) => async  dispatch => {
 
 export const deleteStatus = (id) => async  dispatch => {
     try {
-        await API.del("StatusApi", "/status/" + id)
-        dispatch({
+        //  await API.del("StatusApi", "/status/" + id)
+        const payload = {
             type: DELETE_STATUS,
             id: id
-        })
+        }
+        dispatch({ type: NEW_MESSAGE, payload: payload })
     }
     catch (err) {
         dispatch(dispatchError(err))
     }
 }
 
+//TODO
+//Check in the last
 export const deleteStatusByProject = (projectId) => async (dispatch) => {
     try {
         await API.del("StatusApi", "/status/project/" + projectId)

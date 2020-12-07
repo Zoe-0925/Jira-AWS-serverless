@@ -8,6 +8,10 @@ export const APPEND_LABELS = "APPEND_LABELS"
 export const DELETE_LABEL_BY_PROJECT = "DELETE_LABEL_BY_PROJECT"
 
 /******************************** Thunk Actions ****************************************/
+
+//TODO
+//Since removeLabelFromIssues is involved
+//needs to update the payload for the web socket
 export const chainDeleteLabel = (id) => async  dispatch => {
     try {
         await Promise.all([
@@ -36,12 +40,14 @@ export const getProjectLabels = (projectId) => async  dispatch => {
 }
 
 export const createLabel = (newLabel) => async  dispatch => {
-    dispatch({ type: LOADING })
     try {
-        dispatch({
+        const payload = {
             type: CREATE_LABEL,
             data: newLabel
-        })
+        }
+        await Promise.all([
+            dispatch({ type: LOADING }),
+            dispatch({ type: NEW_MESSAGE, payload: payload })])
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -50,30 +56,21 @@ export const createLabel = (newLabel) => async  dispatch => {
 
 export const deleteLabel = (id) => async  dispatch => {
     try {
-        dispatch({
+        const payload = {
             type: DELETE_LABEL,
             id: id
-        })
+        }
+        await Promise.all([
+            dispatch({ type: LOADING }),
+            dispatch({ type: NEW_MESSAGE, payload: payload })])
     }
     catch (err) {
         dispatch(dispatchError(err))
     }
 }
 
-export const getAllLabels = (projectId) => async  dispatch => {
-    dispatch({ type: LOADING })
-    try {
-        const data = await API.get("LabelApi", "/labels/project" + projectId)
-        dispatch({
-            type: APPEND_LABELS,
-            data: data
-        })
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-    }
-}
-
+//TODO 
+//Check this later
 export const deleteLabelByProject = (projectId) => async dispatch => {
     try {
         dispatch({
