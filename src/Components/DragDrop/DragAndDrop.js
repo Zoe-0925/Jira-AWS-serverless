@@ -16,7 +16,7 @@ export default function DragAndDrop({ filters }) {
     const [filteredIssueIds, setFilter] = useState([])
 
     useEffect(() => {
-        if (filters.labels.length>0 || filters.epics.length>0) {
+        if (filters && filters.labels && filters.epics) {
             const result = columns.map(each => {
                 if (each && each.issues) {
                     let issuesFiltered = [...each.issues]

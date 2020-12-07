@@ -6,7 +6,7 @@ import { ProjectCreateHOC } from "../Components/Project/ProjectCreate"
 import { Button } from '@material-ui/core'
 import { Row, Col } from "reactstrap"
 import { selectCurrentUserId } from "../Reducers/Selectors"
-import {getUserAndProjects} from "../Actions/user.actions"
+import {getUserAndProjects, mockgetUserAndProjectData} from "../Actions/user.actions"
 
 const ProjectList = () => {
     const dispatch = useDispatch()
@@ -15,7 +15,7 @@ const ProjectList = () => {
 
     useEffect(() => {
         if (currentUserId === "") {
-            dispatch(getUserAndProjects())
+            dispatch(mockgetUserAndProjectData())
         }
     }, [])
 

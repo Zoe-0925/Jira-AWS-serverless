@@ -1,11 +1,8 @@
 
 import { API } from 'aws-amplify';
 import { updateIssueOrder, updateStatusForIssue, deleteIssueFromStatus } from "./status.actions"
-import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
-import aixos from "axios"
-
-//get base from the .ENV and 
-const BASE = ""
+import { dispatchError, LOADING } from "./loading.actions"
+import { NEW_MESSAGE } from './websocket.actions';
 
 export const CREATE_SUB_TASK = "CREATE_SUB_TASK"
 export const CREATE_ISSUE = "CREATE_ISSUE"
@@ -36,38 +33,31 @@ export function updateSuccessfulEpic(data) {
 export const chainCreateIssueAndUpdateIssueOrder = (data) => async (dispatch, getState) => {
     try {
         const issueOrder = getState().StatusReducer.status.get(data.status).issues
+        let payload = [createIssue(data), updateIssueOrder(data.status, [...issueOrder, data._id])]
         await Promise.all([
             dispatch({ type: LOADING }),
-            dispatch(createIssue(data)),
-            dispatch(updateIssueOrder(data.status, [...issueOrder, data._id]))])
-        dispatch({ type: AUTHENTICATED })
+            dispatch({ type: NEW_MESSAGE, payload: payload })
+        ])
     }
     catch (err) {
         dispatch(dispatchError(err))
+    }
+}
+
+export const createIssue = data => {
+    return {
+        type: CREATE_ISSUE,
+        data: data
     }
 }
 
 export const chainUpdateIssueStatus = (data, previousState) => async (dispatch) => {
     try {
+        let payload = [updateIssueAttribute(data), updateStatusForIssue(previousState, data._status, data._id)]
         await Promise.all([
             dispatch({ type: LOADING }),
-            dispatch(updateIssueAttribute(data)),
-            dispatch(updateStatusForIssue(previousState, data._status, data._id))])
-        dispatch({ type: AUTHENTICATED })
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-    }
-}
-
-export const chainDeleteIssue = (issueId, statusId, issueType) => async (dispatch) => {
-    try {
-        await Promise.all([
-            dispatch({ type: LOADING }),
-            dispatch(deleteIssue(issueId, issueType)),
-            deleteIssueFromStatus(issueId, statusId)
+            dispatch({ type: NEW_MESSAGE, payload: payload })
         ])
-        dispatch({ type: AUTHENTICATED })
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -75,15 +65,23 @@ export const chainDeleteIssue = (issueId, statusId, issueType) => async (dispatc
 }
 
 //TODO
-//move to the client:
-//await aixos.post(BASE + "/issues/", { body: data })
+// deleteIssueFromStatus needs to update the payload
+// otherwise, the wss server can not update things.
+export const chainDeleteIssue = (issueId, statusId, issueType) => async (dispatch) => {
+    try {
+        if (issueType !== "task" && issueType !== "epic" && issueType !== "subtask") { return }
+        let payload = [deleteIssue(issueId, issueType), deleteIssueFromStatus(issueId, statusId)]
 
-export const createIssue = (data) => dispatch => {
-    dispatch({
-        type: CREATE_ISSUE,
-        data: data
-    })
+        await Promise.all([
+            dispatch({ type: LOADING }),
+            dispatch({ type: NEW_MESSAGE, payload: payload })
+        ])
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+    }
 }
+
 
 export const getProjectIssues = (projectId) => async  dispatch => {
     try {
@@ -115,46 +113,40 @@ export const getProjectIssues = (projectId) => async  dispatch => {
     }
 }
 
-export const updateIssueAttribute = (data) => dispatch => {
-    dispatch({ type: LOADING })
-    dispatch({
+export const updateIssueAttribute = (data) => {
+    return {
         type: UPDATE_TASK_ATTRIBUTE,
         id: data._id,
         key: data.attribute,
         value: data.value
-    })
-    dispatch({ type: AUTHENTICATED })
+    }
 }
 
-export const deleteIssue = (issueId, issueType) => dispatch => {
-    dispatch({ type: LOADING })
+export const deleteIssue = (issueId, issueType) => {
     switch (issueType) {
         case "task":
-            return dispatch({
+            return {
                 type: DELETE_TASK,
                 id: issueId
-            })
+            }
         case "epic":
-            return dispatch({
+            return {
                 type: DELETE_EPIC,
                 id: issueId
-            })
+            }
         case "subtask":
-            return dispatch({
+            return {
                 type: DELETE_SUB_TASK,
                 id: issueId
-            })
+            }
         default:
             return
     }
 }
 
-export const deleteIssueByProject = (projectId) => (dispatch) => {
-    dispatch({
-        type: "DELETE_PROJECT"
-    })
-}
-
+//TODO
+//This needs to update the payload
+//Otherwise the wss server can not call API
 export const removeLabelFromIssues = labelId => async (dispatch, getState) => {
     try {
         let tasksToUpdate = []

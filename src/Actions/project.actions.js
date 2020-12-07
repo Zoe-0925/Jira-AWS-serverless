@@ -103,16 +103,11 @@ export const mockgetAllProjects = () => async dispatch => {
     }
 }
 
-export const updateProjectAttribute = (data) => async dispatch => {
-    try {
-        await API.put("ProjectApi", "/projects/update/", { body: data })
-        await dispatch({
-            type: UPDATE_PROJECT_ATTRIBUTE,
-            data: data
-        })
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
+export const updateProjectAttribute = (data) => {
+    //  await API.put("ProjectApi", "/projects/update/", { body: data })
+    return {
+        type: UPDATE_PROJECT_ATTRIBUTE,
+        data: data
     }
 }
 
@@ -164,7 +159,7 @@ export const removeStatusFromOrder = (id) => async (dispatch, getState) => {
         const orderBefore = reducer.projects.find(item => item._id === reducer.currentProjectId).statusOrder
         const orderUpdated = orderBefore.filter(item => item !== id)
         await API.put("ProjectApi", "/projects/update", {
-            body: { statusOrder: orderUpdated, _id:id, attribute:"statusOrder" }
+            body: { statusOrder: orderUpdated, _id: id, attribute: "statusOrder" }
         })
         dispatch({
             type: UPDATE_STATUS_ORDER,

@@ -42,6 +42,6 @@ const App = () => {
           <Route path="/confirmSignup" exact component={App} />
  */
 
-//export default process.env.NODE_ENV === "development" ? hot(App) : App
+export default process.env.NODE_ENV === "development" ? hot(App) : App
 
-export default process.env.NODE_ENV === "development" ? hot(withAuthenticator(App)) : withAuthenticator(App)
+//export default process.env.NODE_ENV === "development" ? hot(withAuthenticator(App)) : withAuthenticator(App)

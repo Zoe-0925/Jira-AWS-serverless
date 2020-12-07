@@ -1,7 +1,7 @@
 import API from '@aws-amplify/api';
 import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
 import { reorder } from "../Components/Util"
-import {  deleteIssue } from "./issue.actions"
+import { deleteIssue } from "./issue.actions"
 import { removeStatusFromOrder, updateProjectAttribute } from "./project.actions"
 
 export const ADD_ISSUE_TO_TAIL = "ADD_ISSUE_TO_TAIL"
@@ -31,59 +31,49 @@ export function appendSuccessStatus(data) {
     }
 }
 
-//TODO
-//Check if it is necessary
-export function addSuccessIssueToTail(statusId, issueId) {
-    return {
-        type: ADD_ISSUE_TO_TAIL,
-        statusId: statusId,
-        issueId: issueId
-    }
-}
-
 /**************************** Thunk Actions ***************************/
 
 export const chainCreateStatus = data => async (dispatch, getState) => {
     dispatch({ type: LOADING })
     try {
         const project = getState().ProjectReducer.projects.find(item => item._id === data.project)
-        await Promise.all([
-            dispatch(createStatus(data)),
-            dispatch(updateProjectAttribute({ _id: data.project, attribute: "statusOrder", value: [...project.statusOrder, data._id] }))
-        ])
-        dispatch({ type: AUTHENTICATED })
+        let payload = [createStatus(data), updateProjectAttribute({ _id: data.project, attribute: "statusOrder", value: [...project.statusOrder, data._id] })]
+        await dispatch({ type: NEW_MESSAGE, payload: payload })
     } catch (err) {
         dispatch(dispatchError(err))
     }
 }
 
+//TODO 
+// removeStatusFromOrder needs to update payload
+// otherwise the wss server can not call the API
 export const chaninDeleteStatus = (status) => async (dispatch) => {
     dispatch({ type: LOADING })
     try {
-        await Promise.all([
-            dispatch(deleteStatus(status._id)),
-            dispatch(removeStatusFromOrder(status._id))
-        ])
-        status.issues.map(each => dispatch(deleteIssue(each), "task"))
+        let payload = [deleteStatus(status._id), removeStatusFromOrder(status._id)]
+        //status.issues.map(each => dispatch(deleteIssue(each), "task"))
     } catch (err) {
         dispatch(dispatchError(err))
     }
 }
 
-//TODO
-//No api call here
 export const chainReorder = (sourceStatus, startIndex, endIndex) => async (dispatch) => {
-    dispatch({ type: LOADING })
     try {
         const issueOrder = reorder(sourceStatus.issues, startIndex, endIndex)
-        await dispatch(updateIssueOrder(sourceStatus._id, issueOrder))
-        dispatch({ type: AUTHENTICATED })
+        let payload = [updateIssueOrder(sourceStatus._id, issueOrder)]
+        await Promise.all([
+            dispatch({ type: LOADING }),
+            dispatch({ type: NEW_MESSAGE, payload: payload })
+        ])
     }
     catch (err) {
         dispatch(dispatchError(err))
     }
 }
 
+//TODO:
+//The actions to send to the API and the action to send back to the store is different......
+//Solved. It should be handled in the server
 export const chainMove = (sourceStatus, destinationStatus, startIndex, endIndex) => async (dispatch) => {
     dispatch({ type: LOADING })
     try {
@@ -93,6 +83,8 @@ export const chainMove = (sourceStatus, destinationStatus, startIndex, endIndex)
         destinationIssueorder.splice(endIndex, 0, removedToMove);
         const sourceUpdated = { _id: sourceStatus._id, value: sourceIssueorder, attribute: "issues" }
         const destinationUpdated = { _id: destinationStatus._id, value: destinationIssueorder, attribute: "issues" }
+
+        /** 
         await API.put("StatusApi", "/status/update/attribute", {
             body: {
                 sourceUpdated
@@ -103,48 +95,43 @@ export const chainMove = (sourceStatus, destinationStatus, startIndex, endIndex)
                 destinationUpdated
             }
         })
-        dispatch({
+        */
+        const payload = [{
             type: MOVE_ISSUES,
             source: sourceUpdated,
             destination: destinationUpdated
-        })
+        }]
+        await Promise.all([
+            dispatch({ type: LOADING }),
+            dispatch({ type: NEW_MESSAGE, payload: payload })
+        ])
+
     }
     catch (err) {
         dispatch(dispatchError(err))
     }
 }
 
-export const updateIssueOrder = (id, issueOrder) => async  dispatch => {
-    try {
-        const data = { _id: id, attribute: "issues", value: issueOrder }
-        await dispatch({ ...data, type: UPDATE_ISSUE_ORDER })
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-    }
+export const updateIssueOrder = (id, issueOrder) => {
+    return { type: UPDATE_ISSUE_ORDER, _id: id, attribute: "issues", value: issueOrder }
 }
 
-export const updateStatusForIssue = (source, destination, issueId) => async (dispatch, getState) => {
-    try {
-        const allStatus = getState().StatusReducer.status
-        const sourceUpdated = [allStatus.get(source).issues].filter(item => item._id === issueId)
-        const destinationUpdated = [allStatus.get(destination).issues].push(issueId)
-
-        await API.put("StatusApi", "/status/update/attribute", {
-            body: { _id: source, value: sourceUpdated, attribute: "issues" }
-        })
-        await API.put("StatusApi", "/status/update/attribute", {
-            body: { _id: destination, value: destinationUpdated, attribute: "issues" }
-        })
-        await dispatch({
-            type: MOVE_ISSUES,
-            source: sourceUpdated,
-            destination: destinationUpdated
-        })
-        dispatch({ type: AUTHENTICATED })
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
+export const updateStatusForIssue = (source, destination, issueId) => {
+    const allStatus = getState().StatusReducer.status
+    const sourceUpdated = [allStatus.get(source).issues].filter(item => item._id === issueId)
+    const destinationUpdated = [allStatus.get(destination).issues].push(issueId)
+    /**
+    await API.put("StatusApi", "/status/update/attribute", {
+        body: { _id: source, value: sourceUpdated, attribute: "issues" }
+    })
+    await API.put("StatusApi", "/status/update/attribute", {
+        body: { _id: destination, value: destinationUpdated, attribute: "issues" }
+    })
+    */
+    return {
+        type: MOVE_ISSUES,
+        source: sourceUpdated,
+        destination: destinationUpdated
     }
 }
 
@@ -159,14 +146,18 @@ export const getProjectStatus = (projectId) => async  dispatch => {
     }
 }
 
-export const createStatus = (newStatus) =>   dispatch => {
-         dispatch({
-            type: CREATE_STATUS,
-            data: newStatus
-        })
+export const createStatus = (newStatus) => {
+    return {
+        type: CREATE_STATUS,
+        data: newStatus
+    }
 }
 
-export const createMultipleStatus = (list) => async  dispatch => {
+
+//======================= Below has not been changed yet
+
+
+export const createMultipleStatus = (list) => async dispatch => {
     try {
         list.forEach(element => {
             API.post("StatusApi", "/status", {
@@ -223,20 +214,25 @@ export const deleteStatusByProject = (projectId) => async (dispatch) => {
     }
 }
 
-export const deleteIssueFromStatus = (issueId, statusId) => async (dispatch, getState) => {
+export const deleteIssueFromStatus = (issueId, statusId) => (dispatch, getState) => {
     try {
         let status = getState().StatusReducer.status.get(statusId)
         let statusCopy = { ...status }
         let issuesUpdated = statusCopy.issues.filter(item => item !== issueId)
+
+        //TODO
+
+        //Needs to update the payload, otherwise, the wss server can not update this...
+
+        /**
         await API.put("StatusApi", "/status/update/attribute", {
             body: { _id: statusId, attribute: "issues", value: issuesUpdated }
-        })
-        dispatch({
+        }) */
+        return {
             type: DELETE_ISSUE_FROM_STATUS,
             issueId: issueId,
             statusId: statusId
-        })
-        dispatch({ type: AUTHENTICATED })
+        }
     }
     catch (err) {
         dispatch(dispatchError(err))
