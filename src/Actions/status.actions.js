@@ -84,6 +84,10 @@ export const chainReorder = (sourceStatus, startIndex, endIndex) => async (dispa
     }
 }
 
+//TODO 
+//Needs to update///
+//Because the reducer accepts 2 arrays of results
+
 export const chainMove = (sourceStatus, destinationStatus, startIndex, endIndex) => async (dispatch) => {
     dispatch({ type: LOADING })
     try {
@@ -93,6 +97,8 @@ export const chainMove = (sourceStatus, destinationStatus, startIndex, endIndex)
         destinationIssueorder.splice(endIndex, 0, removedToMove);
         const sourceUpdated = { _id: sourceStatus._id, value: sourceIssueorder, attribute: "issues" }
         const destinationUpdated = { _id: destinationStatus._id, value: destinationIssueorder, attribute: "issues" }
+
+
 
 
 
@@ -119,17 +125,6 @@ export const chainMove = (sourceStatus, destinationStatus, startIndex, endIndex)
     }
 }
 
-//TODO check this.
-export const moveIssue = (source, destination, issueId) => {
-    return {
-        type: MOVE_ISSUE,
-        source: source,
-        destination: destination,
-
-    }
-}
-
-
 
 export const createMultipleStatus = (list) => async dispatch => {
     try {
@@ -140,8 +135,11 @@ export const createMultipleStatus = (list) => async dispatch => {
                 dispatch(dispatchError(err))
                 return
             })
-        });
-        await dispatch(appendSuccessStatus(list))
+        })
+        await Promise.all([
+            dispatch(appendSuccessStatus(list)),
+            dispatch({ type: NEW_MESSAGE, payload: appendSuccessStatus(list) })
+        ])
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -149,17 +147,16 @@ export const createMultipleStatus = (list) => async dispatch => {
 }
 
 export const updateStatusName = (data) => async  dispatch => {
-    dispatch({ type: LOADING })
     try {
-        /**    await API.put("StatusApi", "/status/update/attribute", {
-               body: data
-           })*/
-        const payload = {
-            type: UPDATE_STATUS_NAME,
-            data: data,
-            action: "update"
-        }
-        dispatch({ type: NEW_MESSAGE, payload: payload })
+        await Promise.all([
+            dispatch({ type: LOADING }),
+            fetchUpdateStatusAttribute(data)
+        ])
+        const payload = updateStatusNameAction(data)
+        await Promise.all([
+            dispatch(payload),
+            dispatch({ type: NEW_MESSAGE, payload: payload })
+        ])
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -184,7 +181,14 @@ export const deleteIssueFromStatus = (issueId, statusId) => (dispatch, getState)
 }
 
 /**************************** Actions ***************************/
+export const moveIssue = (source, destination, issueId) => {
+    return {
+        type: MOVE_ISSUE,
+        source: source,
+        destination: destination,
 
+    }
+}
 
 export const reorderToBotttom = (source, startIndex) => {
     return {
@@ -220,6 +224,15 @@ export const createStatus = (newStatus) => {
         action: "create"
     }
 }
+
+export const updateStatusNameAction = data => {
+    return {
+        type: UPDATE_STATUS_NAME,
+        data: data,
+        action: "update"
+    }
+}
+
 
 /**************************** APIs ***************************/
 
