@@ -1,8 +1,7 @@
 import API from '@aws-amplify/api';
 import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
 import { reorder } from "../Components/Util"
-import { deleteIssue } from "./issue.actions"
-import { removeStatusFromOrder, updateProjectAttribute, fetchUpdateProjectAttribute, updateStatusOrder } from "./project.actions"
+import { updateProjectAttribute, fetchUpdateProjectAttribute, updateStatusOrder } from "./project.actions"
 
 export const ADD_ISSUE_TO_TAIL = "ADD_ISSUE_TO_TAIL"
 export const CREATE_STATUS = "CREATE_STATUS"
@@ -126,7 +125,7 @@ export const moveIssue = (source, destination, issueId) => {
         type: MOVE_ISSUE,
         source: source,
         destination: destination,
-        
+
     }
 }
 
