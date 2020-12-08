@@ -117,7 +117,7 @@ export const addMember = (projectId, userId, members) => async dispatch => {
     try {
         const param = { _id: projectId, value: [...members, userId], attribute: "members" }
         await fetchUpdateProjectAttribute(param)
-        await dispatch(sendWsToServer(updateProjectAttribute(param)))
+        await dispatch(updateProjectAttribute(param))
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -130,7 +130,7 @@ export const subMembers = (projectId, userId, members) => async dispatch => {
         updated = updated.filter(member => member === userId)
         const param = { _id: projectId, value: updated, attribute: "members" }
         await fetchUpdateProjectAttribute(param)
-        await dispatch(sendWsToServer(updateProjectAttribute(param)))
+        await dispatch(updateProjectAttribute(param))
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -138,10 +138,10 @@ export const subMembers = (projectId, userId, members) => async dispatch => {
 }
 
 export const deleteProject = (id) => async  dispatch => {
-    await dispatch(sendWsToServer(updateProjectAttribute({
+    await dispatch(sendWsToServer({
         type: DELETE_PROJECT,
         id: id
-    })))
+    }))
 }
 
 export const createProject = (newProject) => async dispatch => {
@@ -158,19 +158,18 @@ export const updateStatusOrder = data => async dispatch => {
     }))
 }
 
+export const updateProjectAttribute = (data) => async dispatch => {
+    await dispatch(sendWsToServer({
+        type: UPDATE_PROJECT_ATTRIBUTE,
+        data: data
+    }))
+}
 /*****************  Actions  ****************/
 
 export const setCurrentProject = id => {
     return {
         type: SET_CURRENT_PROJECT,
         id: id
-    }
-}
-
-export const updateProjectAttribute = (data) => {
-    return {
-        type: UPDATE_PROJECT_ATTRIBUTE,
-        data: data
     }
 }
 
