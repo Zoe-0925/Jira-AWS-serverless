@@ -1,11 +1,12 @@
 import { Auth } from 'aws-amplify';
 import API from '@aws-amplify/api';
 import history from "../history"
-import { getAllProjects, mockgetAllProjects, setCurrentProject ,chainDeleteProject} from "./project.actions"
+import { getAllProjects, mockgetAllProjects, setCurrentProject, chainDeleteProject } from "./project.actions"
 import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
 import { getProjectIssues } from "./issue.actions"
 import { getProjectLabels } from "./label.actions"
 import { getProjectStatus, appendSuccessStatus } from "./status.actions"
+import { NEW_MESSAGE } from "./websocket.actions"
 
 export const LOGIN = "LOGIN"
 export const LOGOUT = "LOGOUT"
@@ -52,7 +53,7 @@ export const chainDeleteUser = (id, projectIds) => async (dispatch, getState) =>
         dispatch({ type: LOADING })
         await API.del("UserApi", "/users/object/" + id)
         projects.forEach(projectId => {
-           dispatch(chainDeleteProject(projectId))
+            dispatch(chainDeleteProject(projectId))
         })
         dispatch({ type: CLEAR })
         await Auth.signOut({ global: true });
@@ -137,34 +138,32 @@ export const getCurrentUser = () => async  dispatch => {
     }
 }
 
-export const addProjectToUser = projectId => async (dispatch, getState) => {
-    const reducer = getState().UserReducer
-    let projects = reducer.users.find(user => user._id === reducer.currentUserId).projects
-    let projectsUpdated = [...projects]
-    projectsUpdated.push(projectId)
+export const updateUserProjects = projects => async (dispatch) => {
+    const payload = {
+        type: UPDATE_PROJECTS,
+        data: projects
+    }
+    await Promise.all([
+        dispatch(payload),
+        dispatch({ type: NEW_MESSAGE, payload: payload })
+    ])
+}
+
+export const searchUserByEmail = email => async (dispatch) => {
     try {
-        await API.put("UserApi", "/users/projects/", {
-            body: {
-                _id: reducer.currentUserId,
-                projects: projectsUpdated
-            }
-        })
-        dispatch({
-            type: UPDATE_PROJECTS,
-            data: projectsUpdated
-        })
+        const user = await API.get("UserApi", "/users/email/" + email)
+        return user
     }
     catch (err) {
         dispatch(dispatchError(err))
     }
 }
 
-export const searchUserByEmail = email => async (dispatch) => {
-    try {
-        const user =  await API.get("UserApi", "/users/email/" + email)
-        return user
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-    }
+export const fetchUpdateUserProjects = async (userId, projects) => {
+    await API.put("UserApi", "/users/projects/", {
+        body: {
+            _id: userId,//reducer.currentUserId,
+            projects: projects//projectsUpdated
+        }
+    })
 }

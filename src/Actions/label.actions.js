@@ -8,24 +8,6 @@ export const APPEND_LABELS = "APPEND_LABELS"
 export const DELETE_LABEL_BY_PROJECT = "DELETE_LABEL_BY_PROJECT"
 
 /******************************** Thunk Actions ****************************************/
-
-//TODO
-//Since removeLabelFromIssues is involved
-//needs to update the payload for the web socket
-export const chainDeleteLabel = (id) => async  dispatch => {
-    try {
-        await Promise.all([
-            dispatch({ type: LOADING }),
-            dispatch(deleteLabel(id)),
-            dispatch(removeLabelFromIssues(id))
-        ])
-        dispatch({ type: AUTHENTICATED })
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-    }
-}
-
 export const getProjectLabels = (projectId) => async  dispatch => {
     try {
         const labels = await API.get("LabelApi", "/labels/project/" + projectId)
@@ -33,6 +15,21 @@ export const getProjectLabels = (projectId) => async  dispatch => {
             type: APPEND_LABELS,
             data: labels
         })
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+    }
+}
+
+export const chainDeleteLabel = (id) => async  dispatch => {
+    
+    try {
+        await Promise.all([
+            dispatch({ type: LOADING }),
+            dispatch(deleteLabel(id)),
+            dispatch(removeLabelFromIssues(id))
+        ])
+        dispatch({ type: AUTHENTICATED })
     }
     catch (err) {
         dispatch(dispatchError(err))

@@ -125,25 +125,11 @@ export const chainMove = (sourceStatus, destinationStatus, startIndex, endIndex)
     }
 }
 
-
 export const createMultipleStatus = (list) => async dispatch => {
-    try {
-        list.forEach(element => {
-            API.post("StatusApi", "/status", {
-                body: element
-            }).catch(err => {
-                dispatch(dispatchError(err))
-                return
-            })
-        })
-        await Promise.all([
-            dispatch(appendSuccessStatus(list)),
-            dispatch({ type: NEW_MESSAGE, payload: appendSuccessStatus(list) })
-        ])
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-    }
+    await Promise.all([
+        dispatch(appendSuccessStatus(list)),
+        dispatch({ type: NEW_MESSAGE, payload: appendSuccessStatus(list) })
+    ])
 }
 
 export const updateStatusName = (data) => async  dispatch => {
@@ -246,4 +232,15 @@ export const fetchDeleteStatusByProject = async projectId => {
 
 export const fetchDeleteStatus = async id => {
     await API.del("StatusApi", "/status/" + id)
+}
+
+export const fetchCreateMultipleStatus = list => {
+    list.forEach(element => {
+        API.post("StatusApi", "/status", {
+            body: element
+        }).catch(err => {
+            dispatch(dispatchError(err))
+            return
+        })
+    })
 }
