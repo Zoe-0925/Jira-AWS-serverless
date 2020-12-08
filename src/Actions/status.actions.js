@@ -180,7 +180,7 @@ export const appendSuccessStatus = (data) => async dispatch => {
     }))
 }
 
-export const moveIssue = (source, destination) => {
+export const moveIssue = (source, destination) => async dispatch => {
     await dispatch(sendWsToServer({
         type: MOVE_ISSUE,
         source: source,

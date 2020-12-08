@@ -64,8 +64,6 @@ export const chainCreateIssueAndUpdateIssueOrder = (data) => async (dispatch, ge
         await Promise.all([
             dispatch(createIssue(data)),
             dispatch(updateIssueOrder(data.status, [...issueOrder, data._id])),
-            dispatch({ type: NEW_MESSAGE, payload: createIssue(data), action: "broadcast" }),
-            dispatch({ type: NEW_MESSAGE, payload: updateIssueOrder(data.status, [...issueOrder, data._id]), action: "broadcast" })
         ])
         dispatch({ type: AUTHENTICATED })
     }
@@ -138,7 +136,7 @@ export const removeLabelFromIssues = labelId => async (dispatch, getState) => {
                 attribute: "label",
                 value: eachIssue.labels.filter(item => item !== labelId)
             })
-            await dispatch(sendWsToServer(removeLabelFromIssue(labelId, eachIssue)))
+            await dispatch(removeLabelFromIssue(labelId, eachIssue))
         })
     }
     catch (err) {
@@ -147,12 +145,12 @@ export const removeLabelFromIssues = labelId => async (dispatch, getState) => {
 }
 
 /********************************** Actions  ******************************************/
-export const removeLabelFromIssue = () => {
-    return {
+export const removeLabelFromIssue = (labelId, task) => async dispatch => {
+    await dispatch(sendWsToServer({
         type: REMOVE_LABEL_FROM_ISSUE,
         id: labelId,
         data: task
-    }
+    }))
 }
 
 export const createIssue = data => {
