@@ -83,14 +83,11 @@ export const chainUpdateIssueStatus = (data, previousStatusId) => async (dispatc
             fetchUpdateStatusAttribute({ _id: previousStatusId, value: updatedPreviousStatus, attribute: "issues" })
         ])
         await fetchUpdateStatusAttribute({ _id: data.status, value: updatedCurrentStatus, attribute: "issues" })
-        const moveIssuePayload = moveIssue({ _id: previousStatusId, value: updatedPreviousStatus },
-            { _id: updatedCurrentStatus, value: data.status })
         await Promise.all([
             dispatch({ type: LOADING }),
-            disptch(moveIssuePayload),
             disptch(updateIssueAttribute(data)),
-            dispatch({ type: NEW_MESSAGE, payload: moveIssuePayload }),
-            dispatch({ type: NEW_MESSAGE, payload: updateIssueAttribute(data), action: "broadcast" })
+            dispatch(moveIssue({ _id: previousStatusId, value: updatedPreviousStatus },
+                { _id: updatedCurrentStatus, value: data.status }))
         ])
         dispatch({ type: AUTHENTICATED })
     }
@@ -144,7 +141,16 @@ export const removeLabelFromIssues = labelId => async (dispatch, getState) => {
     }
 }
 
-/********************************** Actions  ******************************************/
+export const updateIssueAttribute = (data) => async dispatch => {
+    await dispatch(sendWsToServer({
+        type: UPDATE_TASK_ATTRIBUTE,
+        id: data._id,
+        key: data.attribute,
+        value: data.value,
+        action: "update"
+    }))
+}
+
 export const removeLabelFromIssue = (labelId, task) => async dispatch => {
     await dispatch(sendWsToServer({
         type: REMOVE_LABEL_FROM_ISSUE,
@@ -153,49 +159,45 @@ export const removeLabelFromIssue = (labelId, task) => async dispatch => {
     }))
 }
 
-export const createIssue = data => {
-    return {
+export const createIssue = data => async dispatch => {
+    await dispatch(sendWsToServer({
         type: CREATE_ISSUE,
         data: data,
         action: "create"
-    }
+    }))
 }
 
-export const updateIssueAttribute = (data) => {
-    return {
-        type: UPDATE_TASK_ATTRIBUTE,
-        id: data._id,
-        key: data.attribute,
-        value: data.value,
-        action: "update"
-    }
-}
-
-export const deleteIssue = (issueId, issueType) => {
-    let result = {
+export const deleteIssue = (issueId, issueType) => async dispatch => {
+    let midResult = {
         id: issueId,
         action: "delete"
     }
+    let result
     switch (issueType) {
         case "task":
-            return {
+            result = {
                 type: DELETE_TASK,
-                ...result
+                ...midResult
             }
+            break
         case "epic":
-            return {
+            result = {
                 type: DELETE_EPIC,
-                ...result
+                ...midResult
             }
+            break
         case "subtask":
-            return {
+            result = {
                 type: DELETE_SUB_TASK,
-                ...result
+                ...midResult
             }
+            break
         default:
             return
     }
+    await dispatch(sendWsToServer(result))
 }
+
 
 /********************************** API calls  ******************************************/
 
