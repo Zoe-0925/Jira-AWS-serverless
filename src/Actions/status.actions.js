@@ -2,6 +2,7 @@ import API from '@aws-amplify/api';
 import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
 import { reorder } from "../Components/Util"
 import { updateProjectAttribute, fetchUpdateProjectAttribute, updateStatusOrder } from "./project.actions"
+import { sendWsToServer } from "./websocket.actions"
 
 export const ADD_ISSUE_TO_TAIL = "ADD_ISSUE_TO_TAIL"
 export const CREATE_STATUS = "CREATE_STATUS"
@@ -10,7 +11,7 @@ export const UPDATE_STATUS_NAME = "UPDATE_STATUS_NAME"
 export const UPDATE_ISSUE_ORDER = "UPDATE_ISSUE_ORDER"
 export const APPEND_STATUS = "APPEND_STATUS"
 export const REORDER_ISSUES = "REORDER_ISSUES"
-export const MOVE_ISSUE = "MOVE_ISSUES"
+export const MOVE_ISSUE = "MOVE_ISSUE"
 export const DELETE_ISSUE_FROM_STATUS = "DELETE_ISSUE_FROM_STATUS"
 export const DELETE_STATUS_BY_PROJECT = "DELETE_STATUS_BY_PROJECT"
 
@@ -106,11 +107,8 @@ export const chainMove = (sourceStatus, destinationStatus, startIndex, endIndex)
             }
         })
 
-        const payload = moveIssue()
-        await Promise.all([
-            dispatch({ type: LOADING }),
-            dispatch({ type: NEW_MESSAGE, payload: payload })
-        ])
+        //TODO
+        //broadcast moveIssue()
 
     }
     catch (err) {
@@ -131,7 +129,7 @@ export const updateStatusName = (data) => async  dispatch => {
     }
 }
 
-export const deleteIssueFromStatus = (issueId, statusId) => (dispatch, getState) => {
+export const deleteIssueFromStatus = (issueId, statusId) => async (dispatch, getState) => {
     try {
         let status = getState().StatusReducer.status.get(statusId)
         let statusCopy = { ...status }
@@ -188,6 +186,17 @@ export const moveIssue = (source, destination) => async dispatch => {
     }))
 }
 
+export const fetchCreateMultipleStatus = list =>async dispatch => {
+    list.forEach(element => {
+        API.post("StatusApi", "/status", {
+            body: element
+        }).catch(err => {
+            dispatch(dispatchError(err))
+        })
+    })
+}
+
+
 /**************************** Actions ***************************/
 export const reorderToBotttom = (source, startIndex) => {
     return {
@@ -216,13 +225,6 @@ export const fetchDeleteStatus = async id => {
     await API.del("StatusApi", "/status/" + id)
 }
 
-export const fetchCreateMultipleStatus = list => {
-    list.forEach(element => {
-        API.post("StatusApi", "/status", {
-            body: element
-        }).catch(err => {
-            dispatch(dispatchError(err))
-            return
-        })
-    })
+export const fetchCreateStatus = async data => {
+    await API.post("StatusApi", "/status/", { body: data })
 }

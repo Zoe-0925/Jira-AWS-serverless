@@ -85,7 +85,7 @@ export const chainUpdateIssueStatus = (data, previousStatusId) => async (dispatc
         await fetchUpdateStatusAttribute({ _id: data.status, value: updatedCurrentStatus, attribute: "issues" })
         await Promise.all([
             dispatch({ type: LOADING }),
-            disptch(updateIssueAttribute(data)),
+            dispatch(updateIssueAttribute(data)),
             dispatch(moveIssue({ _id: previousStatusId, value: updatedPreviousStatus },
                 { _id: updatedCurrentStatus, value: data.status }))
         ])
@@ -124,12 +124,12 @@ export const removeLabelFromIssues = labelId => async (dispatch, getState) => {
         let tasksToUpdate = []
         getState().IssueReducer.tasks.forEach((value, key) => {
             if (value.labels.include(labelId)) {
-                [...tasksToUpdate, key]
+                tasksToUpdate = [...tasksToUpdate, key]
             }
         })
         tasksToUpdate.forEach(async eachIssue => {
             await fetchUpdateIssueAttribute({
-                _id: issueId,
+                _id: eachIssue._id,
                 attribute: "label",
                 value: eachIssue.labels.filter(item => item !== labelId)
             })

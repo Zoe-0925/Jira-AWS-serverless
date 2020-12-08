@@ -1,6 +1,6 @@
 import API from '@aws-amplify/api';
-import { getProjectStatus, fetchDeleteStatusByProject, appendSuccessStatus } from "./status.actions"
-import { updateUserProjects } from "./user.actions"
+import { getProjectStatus, fetchDeleteStatusByProject, appendSuccessStatus, fetchCreateMultipleStatus } from "./status.actions"
+import { updateUserProjects, fetchUpdateUserProjects } from "./user.actions"
 import { getProjectIssues, fetchDeleteIssueByProject } from "./issue.actions"
 import { getProjectLabels, fetchDeleteLabelByProject } from "./label.actions"
 import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"

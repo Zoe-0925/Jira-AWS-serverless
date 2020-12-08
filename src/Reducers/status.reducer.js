@@ -4,7 +4,7 @@ import {
     DELETE_ISSUE_FROM_STATUS,  UPDATE_ISSUE_ORDER
 } from "../Actions/status.actions"
 
-/** 
+
 const status = new Map()
 status.set("1", { _id: "1", name: "TO DO", issues: ["hdkahdjaskdh"] })
 status.set("2", { _id: "2", name: "IN PROGRESS", issues: [] })
@@ -13,13 +13,13 @@ status.set("4", { _id: "4", name: "TEST", issues: [] })
 
 const testState = {
     status: status,
-}*/
+}
 
 const initialState = {
     status: new Map(),
 }
 
-export default function StatusReducer(state = initialState, action) {
+export default function StatusReducer(state = testState, action) {
     let newState = Object.assign({}, state)
     let status
     switch (action.type) {

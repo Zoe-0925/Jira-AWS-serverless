@@ -2,7 +2,7 @@ import {
     CREATE_COMMENT,
     DELETE_COMMENT,
     APPEND_COMMENTS,
-    UPDATE_COMMENT,
+    UPDATE_COMMENT_DESCRIPTION,
     DELETE_COMMENT_BY_ISSUE
 } from "../Actions/comment.actions"
 
@@ -25,10 +25,9 @@ export default function CommentReducer(state = initialState, action) {
             tempComments = newState.comments.concat(action.data)
             newState.comments = tempComments
             return newState
-        case UPDATE_COMMENT:
-            tempComments = newState.comments.filter(item => item._id !== action.data._id)
-            tempComments.push(action.data)
-            newState.comments = tempComments
+        case UPDATE_COMMENT_DESCRIPTION:
+            let comment = newState.comments.find(item => item._id === action.data._id)
+            comment.description = action.data.description
             return newState
         case DELETE_COMMENT_BY_ISSUE:
             newState.comments.filter(item => item.issue !== action.id)

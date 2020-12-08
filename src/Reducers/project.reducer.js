@@ -1,10 +1,9 @@
 
 import {
-    CREATE_PROJECT, DELETE_PROJECT, APPEND_PROJECT,
-    APPEND_PROJECTS, SET_CURRENT_PROJECT, UPDATE_PROJECT_ATTRIBUTE, UPDATE_PROJECT_DETAIL
+    CREATE_PROJECT, DELETE_PROJECT, APPEND_PROJECTS, SET_CURRENT_PROJECT, UPDATE_PROJECT_ATTRIBUTE, UPDATE_PROJECT_DETAIL
 } from "../Actions/project.actions"
 
-/**
+
 const testState = {
     projects: [{
         _id: "test id",
@@ -18,7 +17,7 @@ const testState = {
         statusOrder: ["1", "2", "3", "4"]
     }],
     currentProjectId: "test id"
-}*/
+}
 
 const initialState = {
     projects: [],
@@ -36,7 +35,7 @@ const initialState = {
  * @param {*} action 
  */
 
-export default function ProjectReducer(state = initialState, action) {
+export default function ProjectReducer(state = testState, action) {
     let newState = { ...state }
     let target
     switch (action.type) {
