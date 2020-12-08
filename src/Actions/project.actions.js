@@ -1,5 +1,5 @@
 import API from '@aws-amplify/api';
-import { createMultipleStatus, getProjectStatus, fetchDeleteStatusByProject } from "./status.actions"
+import { getProjectStatus, fetchDeleteStatusByProject, appendSuccessStatus } from "./status.actions"
 import { updateUserProjects } from "./user.actions"
 import { getProjectIssues, fetchDeleteIssueByProject } from "./issue.actions"
 import { getProjectLabels, fetchDeleteLabelByProject } from "./label.actions"
@@ -73,7 +73,7 @@ export const chainCreactProject = (project, status) => async (dispatch, getState
     ])
     await Promise.all([
         dispatch(createProject(project)),
-        dispatch(createMultipleStatus(status)),
+        dispatch(appendSuccessStatus(status)),
         dispatch(updateUserProjects(project._id))
     ])
     dispatch({ type: AUTHENTICATED })

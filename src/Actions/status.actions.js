@@ -38,8 +38,6 @@ export const chainCreateStatus = data => async (dispatch, getState) => {
         await Promise.all([
             dispatch(createStatus(data)),
             dispatch(updateProjectAttribute(data)),
-            await dispatch({ type: NEW_MESSAGE, payload: createStatus(data) }),
-            await dispatch({ type: NEW_MESSAGE, payload: updateProjectAttribute(projectAttributePayload) }),
         ])
     } catch (err) {
         dispatch(dispatchError(err))
@@ -57,9 +55,7 @@ export const chaninDeleteStatus = (status) => async (dispatch, getState) => {
         ])
         await Promise.all([
             dispatch(deleteStatus(status._id)),
-            dispatch(updateStatusOrder(newOrder)),
-            dispatch({ type: NEW_MESSAGE, payload: deleteStatus(status._id) }),
-            dispatch({ type: NEW_MESSAGE, payload: updateStatusOrder(newOrder) })
+            dispatch(updateStatusOrder(newOrder))
         ])
     } catch (err) {
         dispatch(dispatchError(err))
@@ -73,11 +69,8 @@ export const chainReorder = (sourceStatus, startIndex, endIndex) => async (dispa
             dispatch({ type: LOADING }),
             fetchUpdateStatusAttribute({ _id: sourceStatus._id, attribute: "issues", value: issueOrder })
         ])
-        let payload = [updateIssueOrder(sourceStatus._id, issueOrder)]
-        await Promise.all([
-            dispatch(payload),
-            dispatch({ type: NEW_MESSAGE, payload: payload })
-        ])
+        await dispatch(updateIssueOrder(sourceStatus._id, issueOrder))
+        dispatch({ type: AUTHENTICATED })
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -125,24 +118,13 @@ export const chainMove = (sourceStatus, destinationStatus, startIndex, endIndex)
     }
 }
 
-export const createMultipleStatus = (list) => async dispatch => {
-    await Promise.all([
-        dispatch(appendSuccessStatus(list)),
-        dispatch({ type: NEW_MESSAGE, payload: appendSuccessStatus(list) })
-    ])
-}
-
 export const updateStatusName = (data) => async  dispatch => {
     try {
         await Promise.all([
             dispatch({ type: LOADING }),
             fetchUpdateStatusAttribute(data)
         ])
-        const payload = updateStatusNameAction(data)
-        await Promise.all([
-            dispatch(payload),
-            dispatch({ type: NEW_MESSAGE, payload: payload })
-        ])
+        dispatch(updateStatusNameAction(data))
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -155,27 +137,58 @@ export const deleteIssueFromStatus = (issueId, statusId) => (dispatch, getState)
         let statusCopy = { ...status }
         let issuesUpdated = statusCopy.issues.filter(item => item !== issueId)
         await fetchUpdateStatusAttribute({ _id: statusId, attribute: "issues", value: issuesUpdated })
-        return {
+        await dispatch(sendWsToServer({
             type: DELETE_ISSUE_FROM_STATUS,
             issueId: issueId,
             statusId: statusId
-        }
+        }))
     }
     catch (err) {
         dispatch(dispatchError(err))
     }
 }
 
-/**************************** Actions ***************************/
-export const moveIssue = (source, destination, issueId) => {
-    return {
+export const deleteStatus = (id) => async dispatch => {
+    await dispatch(sendWsToServer({
+        type: DELETE_STATUS,
+        id: id
+    }))
+}
+
+export const createStatus = (newStatus) => async dispatch => {
+    await dispatch(sendWsToServer({
+        type: CREATE_STATUS,
+        data: newStatus
+    }))
+}
+
+export const updateStatusNameAction = data => async dispatch => {
+    await dispatch(sendWsToServer({
+        type: UPDATE_STATUS_NAME,
+        data: data
+    }))
+}
+
+export const updateIssueOrder = (id, issueOrder) => async dispatch => {
+    await dispatch(sendWsToServer({ type: UPDATE_ISSUE_ORDER, _id: id, attribute: "issues", value: issueOrder, action: "update" }))
+}
+
+export const appendSuccessStatus = (data) => async dispatch => {
+    await dispatch(sendWsToServer({
+        type: APPEND_STATUS,
+        data: data
+    }))
+}
+
+export const moveIssue = (source, destination) => {
+    await dispatch(sendWsToServer({
         type: MOVE_ISSUE,
         source: source,
         destination: destination,
-
-    }
+    }))
 }
 
+/**************************** Actions ***************************/
 export const reorderToBotttom = (source, startIndex) => {
     return {
         type: REORDER_ISSUES,
@@ -185,39 +198,8 @@ export const reorderToBotttom = (source, startIndex) => {
     }
 }
 
-export function appendSuccessStatus(data) {
-    return {
-        type: APPEND_STATUS,
-        data: data
-    }
-}
 
-export const updateIssueOrder = (id, issueOrder) => {
-    return { type: UPDATE_ISSUE_ORDER, _id: id, attribute: "issues", value: issueOrder, action: "update" }
-}
 
-export const deleteStatus = (id) => {
-    return {
-        type: DELETE_STATUS,
-        id: id
-    }
-}
-
-export const createStatus = (newStatus) => {
-    return {
-        type: CREATE_STATUS,
-        data: newStatus,
-        action: "create"
-    }
-}
-
-export const updateStatusNameAction = data => {
-    return {
-        type: UPDATE_STATUS_NAME,
-        data: data,
-        action: "update"
-    }
-}
 
 
 /**************************** APIs ***************************/
