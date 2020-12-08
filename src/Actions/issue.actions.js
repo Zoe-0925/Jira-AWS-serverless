@@ -2,7 +2,7 @@
 import { API } from 'aws-amplify';
 import { updateIssueOrder, deleteIssueFromStatus, fetchUpdateStatusAttribute, moveIssue } from "./status.actions"
 import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
-import { NEW_MESSAGE } from './websocket.actions';
+import { NEW_MESSAGE, sendWsToServer } from './websocket.actions';
 
 export const CREATE_SUB_TASK = "CREATE_SUB_TASK"
 export const CREATE_ISSUE = "CREATE_ISSUE"
@@ -138,10 +138,7 @@ export const removeLabelFromIssues = labelId => async (dispatch, getState) => {
                 attribute: "label",
                 value: eachIssue.labels.filter(item => item !== labelId)
             })
-            await Promise.all([
-                dispatch(removeLabelFromIssue(labelId, eachIssue)),
-                dispatch({ type: NEW_MESSAGE, payload: removeLabelFromIssue(labelId, eachIssue) })
-            ])
+            await dispatch(sendWsToServer(removeLabelFromIssue(labelId, eachIssue)))
         })
     }
     catch (err) {

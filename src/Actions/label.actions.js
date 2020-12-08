@@ -1,6 +1,7 @@
 import API from '@aws-amplify/api';
 import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
 import { removeLabelFromIssues } from "./issue.actions"
+import { sendWsToServer } from "./websocket.actions"
 
 export const CREATE_LABEL = "CREATE_LABEL"
 export const DELETE_LABEL = "DELETE_LABEL"
@@ -22,12 +23,14 @@ export const getProjectLabels = (projectId) => async  dispatch => {
 }
 
 export const chainDeleteLabel = (id) => async  dispatch => {
-    
     try {
         await Promise.all([
             dispatch({ type: LOADING }),
+            await dispatch(removeLabelFromIssues(id))
+        ])
+        await fetchDeleteLabel(id)
+        await Promise.all([
             dispatch(deleteLabel(id)),
-            dispatch(removeLabelFromIssues(id))
         ])
         dispatch({ type: AUTHENTICATED })
     }
@@ -37,50 +40,23 @@ export const chainDeleteLabel = (id) => async  dispatch => {
 }
 
 export const createLabel = (newLabel) => async  dispatch => {
-    try {
-        const payload = {
-            type: CREATE_LABEL,
-            data: newLabel
-        }
-        await Promise.all([
-            dispatch({ type: LOADING }),
-            dispatch({ type: NEW_MESSAGE, payload: payload })])
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-    }
+    await dispatch(sendWsToServer({
+        type: CREATE_LABEL,
+        data: newLabel
+    }))
 }
 
 export const deleteLabel = (id) => async  dispatch => {
-    try {
-        const payload = {
-            type: DELETE_LABEL,
-            id: id
-        }
-        await Promise.all([
-            dispatch({ type: LOADING }),
-            dispatch({ type: NEW_MESSAGE, payload: payload })])
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-    }
+    await dispatch(sendWsToServer({
+        type: DELETE_LABEL,
+        id: id
+    }))
 }
-
-//TODO 
-//Check this later
-export const deleteLabelByProject = (projectId) => async dispatch => {
-    try {
-        dispatch({
-            type: "DELETE_PROJECT"
-        })
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-    }
-}
-
-
 
 export const fetchDeleteLabelByProject = async projectId => {
     await API.del("LabelApi", "/labels/project/" + projectId)
+}
+
+export const fetchDeleteLabel = async id => {
+    await API.del("LabelApi", "/labels/object/" + id)
 }
