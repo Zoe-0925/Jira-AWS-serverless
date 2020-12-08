@@ -1,5 +1,6 @@
 import API from '@aws-amplify/api';
-import { dispatchError, LOADING } from "./loading.actions"
+import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
+import { NEW_MESSAGE } from "./websocket.actions"
 
 export const CREATE_COMMENT = "CREATE_COMMENT"
 export const DELETE_COMMENT = "DELETE_COMMENT"
@@ -26,38 +27,79 @@ export const getCommentsForIssue = (issueId) => async  dispatch => {
     dispatch({ type: LOADING })
     try {
         const data = await API.get("CommentApi", "/comments/issue/" + issueId)
-        dispatch({
-            type: APPEND_COMMENTS,
-            data: data
-        })
+        await Promise.all([
+            dispatch({
+                type: APPEND_COMMENTS,
+                data: data
+            }),
+            dispatch({ type: NEW_MESSAGE, payload: payload })
+        ])
     }
     catch (err) {
         dispatch(dispatchError(err))
     }
 }
 
-export const createComment = (newComment) => dispatch => {
-    dispatch({ type: LOADING })
-    dispatch({
-        type: CREATE_COMMENT,
-        data: newComment
-    })
+export const createComment = (newComment) => async dispatch => {
+    try {
+        await Promise.all([
+            dispatch({ type: LOADING }),
+            API.push("CommentApi", "/comments/", { body: newComment })
+        ])
+        const payload = {
+            type: CREATE_COMMENT,
+            data: newComment
+        }
+        await Promise.all([
+            dispatch(payload),
+            dispatch({ type: NEW_MESSAGE, payload: payload })
+        ])
+        dispatch({ type: AUTHENTICATED })
+    } catch (err) {
+        dispatch(dispatchError(err))
+    }
 }
 
 export const updateCommentDescription = (comment) => dispatch => {
-    dispatch({ type: LOADING })
-    dispatch({
-        type: UPDATE_COMMENT,
-        data: comment
-    })
+    try {
+        await Promise.all([
+            dispatch({ type: LOADING }),
+            API.put("CommentApi", "/comments/description", { body: comment })
+        ])
+        const payload = {
+            type: UPDATE_COMMENT,
+            data: comment
+        }
+        await Promise.all([
+            dispatch(payload),
+            dispatch({ type: NEW_MESSAGE, payload: payload })
+        ])
+        dispatch({ type: AUTHENTICATED })
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+    }
 }
 
 export const deleteComment = (id) => dispatch => {
-    dispatch({ type: LOADING })
-    dispatch({
-        type: DELETE_COMMENT,
-        id: id
-    })
+    try {
+        await Promise.all([
+            dispatch({ type: LOADING }),
+            API.del("CommentApi", "/comments/object/" + id)
+        ])
+        const payload = {
+            type: DELETE_COMMENT,
+            id: id
+        }
+        await Promise.all([
+            dispatch(payload),
+            dispatch({ type: NEW_MESSAGE, payload: payload })
+        ])
+        dispatch({ type: AUTHENTICATED })
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+    }
 }
 
 //TODO

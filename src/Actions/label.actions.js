@@ -81,3 +81,9 @@ export const deleteLabelByProject = (projectId) => async dispatch => {
         dispatch(dispatchError(err))
     }
 }
+
+
+
+export const fetchDeleteLabelByProject = async projectId => {
+    await API.del("LabelApi", "/labels/project/" + projectId)
+}

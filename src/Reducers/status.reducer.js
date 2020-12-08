@@ -1,6 +1,6 @@
 import {
     CREATE_STATUS, DELETE_STATUS,
-   UPDATE_STATUS_NAME, APPEND_STATUS, MOVE_ISSUES,
+   UPDATE_STATUS_NAME, APPEND_STATUS, MOVE_ISSUE,
     DELETE_ISSUE_FROM_STATUS,  UPDATE_ISSUE_ORDER
 } from "../Actions/status.actions"
 
@@ -39,7 +39,7 @@ export default function StatusReducer(state = initialState, action) {
             status = {...status, issues:action.value}
             newState.status.set(action._id, status)
             return newState
-        case MOVE_ISSUES:
+        case MOVE_ISSUE:
             let sourceStatus = newState.status.get(action.source._id)
             sourceStatus.issues = action.source.value
             let destinationStatus = newState.status.get(action.destination._id)
