@@ -8,31 +8,20 @@ import { selectLoading } from '../../Reducers/Selectors';
 import { MenuItem, CircularProgress } from '@material-ui/core';
 import { AddTab, DotIconMenu } from "../Shared/Tabs"
 import { EditableText, Input } from "../Shared/EditableText"
-import {WarningFeedback} from "../Shared/Feedback"
+import { WarningFeedback } from "../Shared/Feedback"
 /**--------------Util-------------- */
-import { useEditText } from '../Shared/CustomHooks';
+import { useEditText, useDotIconMenu } from '../Shared/CustomHooks';
 import { addCreateAndUpdateDate } from "../Util"
 import { v4 as uuidv4 } from 'uuid'
 
-export function ColumnTitle({ status}) {
+export function ColumnTitle({ status }) {
     const { state, setState, edit, setEdit } = useEditText(status.name || "")
     const dispatch = useDispatch()
-
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const isOpen = Boolean(anchorEl);
-    const anchorRef = React.useRef(null);
-
     const [showWarning, setShowWarning] = React.useState(false)
 
-    const handleMenuClose = () => {
-        setAnchorEl(null);
-    };
+    const { anchorEl, isOpen, anchorRef, handleMenuClose, handleMenuOpen } = useDotIconMenu()
 
-    const handleMenuOpen = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-   // , displayNumber 
+    // , displayNumber 
     //Filter:
     // props.displayNumber? {props.displayNumber + " of " + status.issues.length
 
@@ -56,6 +45,7 @@ export function ColumnTitle({ status}) {
     )
 }
 
+//TODO refactor to container pattern
 export default function Column({ initialStatus, ...props }) {
     const dispatch = useDispatch()
     const { state, setState, edit, setEdit } = useEditText("")
@@ -63,10 +53,8 @@ export default function Column({ initialStatus, ...props }) {
 
     const handleSubmit = (value) => {
         let issue = {
-            ...addCreateAndUpdateDate({
-                _id: uuidv4(), description: "", issueType: "task", labels: [], assignee: "", reporter: "",
-                status: initialStatus._id, project: initialStatus.project, summary: value
-            })
+            _id: uuidv4(), description: "", issueType: "task", labels: [], assignee: "", reporter: "",
+            status: initialStatus._id, project: initialStatus.project, summary: value
         }
         dispatch(chainCreateIssueAndUpdateIssueOrder(issue, initialStatus.issues))
         setEdit(false)

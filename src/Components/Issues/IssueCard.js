@@ -6,23 +6,15 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import { Container, Row, Col } from 'reactstrap';
 import { DotIconMenu } from "../Shared/Tabs"
+import { useDotIconMenu } from "../Shared/CustomHooks"
 import { chainDeleteIssue, updateIssueAttribute } from "../../Actions/issue.actions"
 import { selectTaskById } from "../../Reducers/Selectors"
 
-const IssueCard = ({ issueId, openTaskDetail }) => {
+const IssueCardContainer = ({ issueId, openTaskDetail }) => {
     const dispatch = useDispatch()
     const task = useSelector(selectTaskById(issueId))
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const isOpen = Boolean(anchorEl);
-    const anchorRef = React.useRef(null);
 
-    const handleMenuClose = () => {
-        setAnchorEl(null);
-    };
-
-    const handleMenuOpen = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
+    const { anchorEl, isOpen, anchorRef, handleMenuClose, handleMenuOpen } = useDotIconMenu()
 
     const reorderToBotttom = (e, id, status) => {
         e.preventDefault()
@@ -40,48 +32,55 @@ const IssueCard = ({ issueId, openTaskDetail }) => {
         handleMenuClose()
     }
 
-    if (!task) return <div></div>
-
-    if (task) {
-        return (<Box boxShadow={1}
-            key={uuidv4()} className={!task.flag ? "epic-body" : "epic-body flagged"
-            } >
-            <Container>
-                <Row className="mt-0">
-                    <Col sm="10" onClick={() => openTaskDetail(task)}>
-                        {task.summary}
-                    </Col>
-                    <Col sm="2">
-                        <DotIconMenu className="dot-icon" anchorEl={anchorEl} isOpen={isOpen} anchorRef={anchorRef}
-                            handleMenuClose={handleMenuClose} handleMenuOpen={handleMenuOpen}>
-                            <MenuItem onClick={() => dispatch(updateIssueAttribute({ _id: task._id, attribute: "flag", value: !task.flag, updatedAt: task.updatedAt }))}>{!task.flag ? "Add flag" : "Remove flag"}</MenuItem>
-                            <MenuItem >Add parent</MenuItem>
-                            <MenuItem >Add label</MenuItem>
-                            <MenuItem onClick={e => handleDeleteTask(e, task._id, task.status)}>Delete</MenuItem>
-                            <MenuItem onClick={e => reorderToBotttom(e, task._id, task.status)} >Bottom of column</MenuItem>
-                        </DotIconMenu>
-                    </Col>
-                </Row>
-                <Row className="mt-0">
-                    {task.labels.length !== 0 && task.labels.map(each => <Col key={uuidv4()}><p key={uuidv4()} className="label">{each}</p></Col>)}
-                </Row>
-                <Row className="mt-0" onClick={() => openTaskDetail(task)}>
-                    <Col sm="1">
-                        <Tooltip title={task.issueType || ""} aria-label={task.issueType || ""}>
-                            <CheckBoxIcon className="icon" style={{ color: "#5BC2F2" }} />
-                        </Tooltip>
-                    </Col>
-                    <Col sm="8">
-                        {task.summary}
-                    </Col>
-                    <Col sm="1">
-                        <Tooltip title={task.assignee || ""} aria-label={task.assignee || ""}>
-                            <AccountCircleIcon /></Tooltip>
-                    </Col>
-                </Row>
-            </Container>
-        </Box>)
+    const toggleFlag = () => {
+        dispatch(updateIssueAttribute({ _id: task._id, attribute: "flag", value: !task.flag, updatedAt: task.updatedAt }))
     }
+
+    return (!task ? <div></div> : <IssueCard task={task} handleDeleteTask={handleDeleteTask}
+        anchorEl={anchorEl} isOpen={isOpen} anchorRef={anchorRef} handleMenuOpen={handleMenuOpen}
+        handleMenuClose={handleMenuClose} openTaskDetail={openTaskDetail} toggleFlag={toggleFlag} reorderToBotttom={reorderToBotttom}
+    />)
 }
 
-export default IssueCard
+const IssueCard = ({ task, handleDeleteTask, anchorEl, isOpen, anchorRef, handleMenuOpen, handleMenuClose, openTaskDetail, toggleFlag, reorderToBotttom }) => (
+    <Box boxShadow={1}
+        key={uuidv4()} className={!task.flag ? "epic-body" : "epic-body flagged"
+        } >
+        <Container>
+            <Row className="mt-0">
+                <Col sm="10" onClick={() => openTaskDetail(task)}>
+                    {task.summary}
+                </Col>
+                <Col sm="2">
+                    <DotIconMenu className="dot-icon" anchorEl={anchorEl} isOpen={isOpen} anchorRef={anchorRef}
+                        handleMenuClose={handleMenuClose} handleMenuOpen={handleMenuOpen}>
+                        <MenuItem onClick={toggleFlag}>{!task.flag ? "Add flag" : "Remove flag"}</MenuItem>
+                        <MenuItem >Add parent</MenuItem>
+                        <MenuItem >Add label</MenuItem>
+                        <MenuItem onClick={e => handleDeleteTask(e, task._id, task.status)}>Delete</MenuItem>
+                        <MenuItem onClick={e => reorderToBotttom(e, task._id, task.status)} >Bottom of column</MenuItem>
+                    </DotIconMenu>
+                </Col>
+            </Row>
+            <Row className="mt-0">
+                {task.labels.length !== 0 && task.labels.map(each => <Col key={uuidv4()}><p key={uuidv4()} className="label">{each}</p></Col>)}
+            </Row>
+            <Row className="mt-0" onClick={() => openTaskDetail(task)}>
+                <Col sm="1">
+                    <Tooltip title={task.issueType || ""} aria-label={task.issueType || ""}>
+                        <CheckBoxIcon className="icon" style={{ color: "#5BC2F2" }} />
+                    </Tooltip>
+                </Col>
+                <Col sm="8">
+                    {task.summary}
+                </Col>
+                <Col sm="1">
+                    <Tooltip title={task.assignee || ""} aria-label={task.assignee || ""}>
+                        <AccountCircleIcon /></Tooltip>
+                </Col>
+            </Row>
+        </Container>
+    </Box>
+)
+
+export default IssueCardContainer

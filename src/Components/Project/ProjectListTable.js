@@ -8,6 +8,7 @@ import {
 } from '@material-ui/core'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { DotIconMenu } from "../Shared/Tabs"
+import { useDotIconMenu } from "../Shared/CustomHooks"
 import history from "../../history"
 import Skeleton from '@material-ui/lab/Skeleton';
 
@@ -19,17 +20,8 @@ export default function ProjectListTable() {
 
     const dispatch = useDispatch()
 
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const isOpen = Boolean(anchorEl);
-    const anchorRef = React.useRef(null);
+    const { anchorEl, isOpen, anchorRef, handleMenuClose, handleMenuOpen } = useDotIconMenu()
 
-    const handleMenuClose = () => {
-        setAnchorEl(false);
-    };
-
-    const handleMenuOpen = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
 
     const goToBoardPage = (projectId) => {
         dispatch(setCurrentProject(projectId))
@@ -68,7 +60,7 @@ export default function ProjectListTable() {
                             </TableCell>
                                 <TableCell component="th" scope="row">
                                     <AccountCircleIcon />
-                                    {users.find(user => user._id === project.lead).name}</TableCell>
+                                    {users.find(user => user._id === project.lead) ? users.find(user => user._id === project.lead).name : ""}</TableCell>
                                 <TableCell component="th" scope="row" >
                                     <DotIconMenu className="dot-icon" anchorEl={anchorEl} isOpen={isOpen} anchorRef={anchorRef}
                                         handleMenuClose={handleMenuClose} handleMenuOpen={handleMenuOpen} >

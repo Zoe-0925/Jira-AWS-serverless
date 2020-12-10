@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from "react-redux"
 import Drawer from "../Components/Drawer/Drawer"
-import { DrawerInner } from "../Components/Drawer/DrawerInner"
+import { DrawerLinks} from "../Components/Drawer/DrawerLinks"
 import DragContext from "../Components/DragDrop/DragContext"
 import NavBar from "../Components/NavBar/NavBar"
 import { selectCurrentProject } from '../Reducers/Selectors';
@@ -70,7 +70,7 @@ export default function BoardDemo() {
         <div className={open ? "main drawer-close" : "main drawer-open"}>
             <NavBar openDrawer={() => setOpen(true)} />
             <Drawer handleClick={setOpen} open={open}>
-                <DrawerInner currentLocation="board" />
+                <DrawerLinks currentLocation="board" />
             </Drawer>
             <Breadcrumbs aria-label="breadcrumb" className="bread-crumbs" >
                 <Link color="inherit" href="/">Projects</Link>

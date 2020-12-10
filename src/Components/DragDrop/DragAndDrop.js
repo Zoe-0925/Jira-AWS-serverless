@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux"
 import IssueDetail from "../Issues/IssueUpdate"
 import { selectAllStatusInArrayWithIssues, selectLoading } from "../../Reducers/Selectors"
-import { MyDraggable, MyDroppable } from "./Droppable";
+import { MyDraggable, MyDroppable } from "./DraggableAndDroppable";
 import StatusCreate from "./StatusCreate"
 import Column from "./Column"
 import IssueCard from "../Issues/IssueCard"

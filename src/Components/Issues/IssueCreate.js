@@ -1,27 +1,20 @@
 import React, { Fragment, useState } from 'react';
-import { useDispatch } from "react-redux"
-import { useSelector } from "react-redux"
-import { Form, Field, withFormik } from 'formik';
+import { useDispatch, useSelector } from "react-redux"
+import { Form, withFormik } from 'formik';
 import { v4 as uuidv4 } from 'uuid'
-import Select from 'react-select';
-import { Row } from 'reactstrap';
 import {
     Button,
     Divider,
     Typography,
-    InputLabel,
-    TextareaAutosize,
     DialogActions, Dialog
 } from '@material-ui/core';
 import * as Yup from 'yup';
-import {
-    TextField,
-} from 'formik-material-ui';
+import { FormSelectField, FormTextField, FormTextAreaField } from "../Shared/FormFields"
 import { selectAllProjects, selectFirstStatus } from "../../Reducers/Selectors"
 import { chainCreateIssueAndUpdateIssueOrder } from "../../Actions/issue.actions"
 import { DialogCloseIcon } from "../Shared/Tabs"
 import { addCreateAndUpdateDate } from "../Util"
-import {SuccessfulFeedback} from "../Shared/Feedback"
+import { SuccessfulFeedback } from "../Shared/Feedback"
 
 const IssueForm = props => {
     const {
@@ -52,53 +45,15 @@ const IssueForm = props => {
             <p className="title">Create issue</p>
             <br />
             <Form onSubmit={handleSubmit}>
-                <InputLabel className="form-label" id="project">Project Name*</InputLabel>
-                <Select
-                    className="select"
-                    classNamePrefix="select"
-                    name="issueType"
-                    options={projectOptions}
-                    onChange={(e) => setFieldValue("project", e.value)}
-                />
-                <Row>
-                </Row>
-                <InputLabel className="form-label" id="issueType">Issue Type*</InputLabel>
-                <Select
-                    className="select"
-                    classNamePrefix="select"
-                    name="issueType"
-                    defaultValue={issueTypeOptions[0]}
-                    options={issueTypeOptions}
-                    onChange={(e) => setFieldValue("issueType", e.value)}
-                />
+                <FormSelectField id="project" inputLabel="Project Name*" options={projectOptions}
+                    handleChange={(e) => setFieldValue("project", e.value)} />
+                <FormSelectField id="issueType" inputLabel="Issue Type*" options={issueTypeOptions}
+                    handleChange={(e) => setFieldValue("issueType", e.value)} />
                 <Typography variant="caption">Some issue types are unavailable due to incompatible field configuration and/or workflow associations.</Typography>
-                <Row>
-                </Row>
                 <Divider />
-                <Row>
-                </Row>
-                <InputLabel className="form-label" id="summary">Summary*</InputLabel>
-                <Field
-                    className="field"
-                    component={TextField}
-                    name="summary"
-                    type="text"
-                    variant="outlined"
-                    size="small"
-                    onChange={handleChange}
-                    value={values.summary}
-                    margin="normal"
-                />
-                <InputLabel className="form-label" id="state">description*</InputLabel>
-                <TextareaAutosize
-                    className="field"
-                    name="description"
-                    type="text"
-                    variant="outlined"
-                    size="small"
-                    onChange={(e) => setFieldValue("description", e.target.value)}
-                    margin="normal"
-                    aria-label="minimum height" rowsMin={8}
+                <FormTextField id="summary" inputLabel="Summary*" value={values.summary}
+                    handleChange={handleChange} />
+                <FormTextAreaField id="description" inputLabel="Description" handleChange={(e) => setFieldValue("description", e.target.value)} rowsMin={8}
                 />
                 <DialogActions>
                     <Button className="cancel-btn" disabled={isSubmitting} onClick={handleClose}>Cancel</Button>

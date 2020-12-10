@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Drawer from "../Components/Drawer/Drawer"
-import { ProjectSetting } from "../Components/Drawer/DrawerInner"
+import { ProjectSetting } from "../Components/Drawer/DrawerLinks"
 import NavBar from "../Components/NavBar/NavBar"
 import {ProjectUpdateHOC} from '../Components/Project/ProjectUpdate';
 

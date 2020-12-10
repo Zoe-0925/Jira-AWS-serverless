@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import { v4 as uuidv4 } from 'uuid'
 import { Auth } from 'aws-amplify';
 import {
-    AppBar, Button, Menu, MenuItem, Badge, Divider, InputBase, IconButton, Toolbar,
+    AppBar, Button, Menu, MenuItem, Divider, InputBase, IconButton, Toolbar,
 } from '@material-ui/core'
 
 import history from "../../history"
@@ -12,12 +12,12 @@ import { ProjectCreateHOC } from "../Project/ProjectCreate"
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import SettingsIcon from '@material-ui/icons/Settings';
 import IssueCreateDialogue from "../Issues/IssueCreate"
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 /*******/
+import { useDotIconMenu } from "../Shared/CustomHooks"
 
 const useStyles = makeStyles((theme) => ({
     appBar: {
@@ -88,71 +88,13 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function NavBar({openDrawer}) {
+export default function NavBar({ openDrawer }) {
     const classes = useStyles();
     const [isCreateProjectOpen, setOpenCreateProject] = useState(false)
-    const [isProfileMenuOpen, setProfileAnchorEl] = useState(false);
-    const [isProjectMenuOpen, setProjectAnchorEl] = useState(false);
-    const [isAccountMenuOpen, setAccountAnchorEl] = useState(false);
-    const [isMobileMenuOpen, setMobileMoreAnchorEl] = useState(false);
-
-    const handleAccountMenuClose = () => {
-        setAccountAnchorEl(false);
-        handleMobileMenuClose();
-    };
-
-    const handleAccountMenuOpen = (event) => {
-        setAccountAnchorEl(event.currentTarget);
-    };
-
-    const handleProfileMenuClose = () => {
-        setProfileAnchorEl(false);
-        handleMobileMenuClose();
-    };
-
-    const handleProfileMenuOpen = (event) => {
-        setProfileAnchorEl(event.currentTarget);
-    };
-
-    const handleProjectMenuClose = () => {
-        setProjectAnchorEl(false);
-        handleMobileMenuClose();
-    };
-
-    const handleProjectMenuOpen = (event) => {
-        setProjectAnchorEl(event.currentTarget);
-    };
-
-    const handleMobileMenuClose = () => {
-        setMobileMoreAnchorEl(false);
-    };
-
-    const handleMobileMenuOpen = (event) => {
-        setMobileMoreAnchorEl(event.currentTarget);
-    };
 
     const handleSignOut = async () => {
         await Auth.signOut();
     }
-
-    const projectMenu = (
-        <Menu
-            anchorEl={isProjectMenuOpen}
-            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-            id={uuidv4()}
-            keepMounted
-            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-            open={isProjectMenuOpen}
-            onClose={handleProjectMenuClose}
-        >
-            <div className="menu-container">
-                <p className="menu-title">RECENT</p>
-                <Divider />
-                <MenuItem onClick={() => history.push("/projects/")}>View All Projects</MenuItem>
-                <MenuItem onClick={() => setOpenCreateProject(true)}>Create Project</MenuItem>
-            </div>
-        </Menu>
-    )
 
     return (
         <div className={classes.grow + " nav-bar"} >
@@ -168,9 +110,8 @@ export default function NavBar({openDrawer}) {
                         <MenuIcon />
                     </IconButton>
                     <Button onClick={() => history.push("/projects/")} className="nav-title">Jira Mock </Button>
-                    <Button className="nav-tab" onClick={handleProjectMenuOpen}>Projects <ExpandMoreIcon /></Button>
-                    {projectMenu}
-                    <IssueCreateDialogue/>
+                    <ProjectMenu handleCreateProject={() => setOpenCreateProject(true)} />
+                    <IssueCreateDialogue />
                     <div className={classes.grow} />
                     <div className={classes.sectionDesktop}>
                         <div className={classes.search}>
@@ -194,79 +135,76 @@ export default function NavBar({openDrawer}) {
                         >
                             <SettingsIcon style={{ "cursor": "pointer" }} className="icon" />
                         </IconButton>
-                        <IconButton
-                            edge="start"
-                            className={classes.menuButton}
-                            color="inherit"
-                            aria-label="open drawer"
-                            onClick={handleAccountMenuOpen}
-                        >
-                            <AccountCircle style={{ "cursor": "pointer" }} />
-                        </IconButton>
-                    </div>
-                    <div className={classes.sectionMobile}>
-                        <IconButton
-                            aria-label="show more"
-                            aria-controls={uuidv4()}
-                            aria-haspopup="true"
-                            onClick={handleMobileMenuOpen}
-                            color="inherit"
-                        >
-                            <MoreIcon />
-                        </IconButton>
+                        <AccountMenu handleSignOut={handleSignOut} />
                     </div>
                 </Toolbar>
             </AppBar>
-            <Menu
-                anchorEl={isMobileMenuOpen}
-                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                id={uuidv4()}
-                keepMounted
-                transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-                open={isMobileMenuOpen}
-                onClose={handleMobileMenuClose}
-            >
-                <MenuItem>
-                    <IconButton aria-label="show 4 new mails" color="inherit">
-                        <Badge badgeContent={4} color="secondary">
-                            <MailIcon />
-                        </Badge>
-                    </IconButton>
-                    <p>Messages</p>
+            <MobileMenu handleOpenProfile={() => { }} handleSignOut={handleSignOut} />
+            <ProjectCreateHOC open={isCreateProjectOpen} setOpen={setOpenCreateProject} />
+        </div>
+    );
+}
+
+const ProjectMenu = ({ handleCreateProject }) => {
+    const { anchorEl, isOpen, handleMenuClose, handleMenuOpen } = useDotIconMenu()
+
+    return (
+        <Fragment>
+            <Button className="nav-tab" onClick={handleMenuOpen}>Projects <ExpandMoreIcon /></Button>
+            <NavBarMenu anchorEl={anchorEl} isOpen={isOpen} handleMenuClose={handleMenuClose} >
+                <div className="menu-container">
+                    <p className="menu-title">RECENT</p>
+                    <Divider />
+                    <MenuItem onClick={() => history.push("/projects/")}>View All Projects</MenuItem>
+                    <MenuItem onClick={handleCreateProject}>Create Project</MenuItem>
+                </div>
+            </NavBarMenu>
+        </Fragment>
+    )
+}
+
+const MobileMenu = ({ handleOpenProfile, handleSignOut }) => {
+    const classes = useStyles();
+    const { anchorEl, isOpen, handleMenuClose, handleMenuOpen } = useDotIconMenu()
+
+    return (
+        <Fragment>
+            <div className={classes.sectionMobile}>
+                <IconButton
+                    aria-label="show more"
+                    aria-controls={uuidv4()}
+                    aria-haspopup="true"
+                    onClick={handleMenuOpen}
+                    color="inherit"
+                >
+                    <MoreIcon />
+                </IconButton>
+            </div>
+            <NavBarMenu anchorEl={anchorEl} isOpen={isOpen} handleMenuClose={handleMenuClose} >
+                <MenuItem onClick={handleOpenProfile}>
+                    <AccountMenu handleSignOut={handleSignOut} />
                 </MenuItem>
-                <MenuItem onClick={handleProfileMenuOpen}>
-                    <IconButton
-                        aria-label="account of current user"
-                        aria-controls="primary-search-account-menu"
-                        aria-haspopup="true"
-                        color="inherit"
-                    >
-                        <AccountCircle />
-                    </IconButton>
-                    <p>Profile</p>
-                </MenuItem>
-            </Menu>
-            <Menu
-                anchorEl={isProfileMenuOpen}
-                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                id={uuidv4()}
-                keepMounted
-                transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-                open={isProfileMenuOpen}
-                onClose={handleProfileMenuClose}
+            </NavBarMenu>
+        </Fragment>
+    )
+}
+
+const AccountMenu = ({ handleSignOut }) => {
+    const classes = useStyles();
+    const { anchorEl, isOpen, handleMenuClose, handleMenuOpen } = useDotIconMenu()
+
+    return (
+        <Fragment>
+            <IconButton
+                edge="start"
+                className={classes.menuButton}
+                color="inherit"
+                aria-label="open drawer"
+                onClick={handleMenuOpen}
             >
-                <MenuItem onClick={handleProfileMenuClose}>Profile</MenuItem>
-                <MenuItem onClick={handleProfileMenuClose}>My account</MenuItem>
-            </Menu>
-            <Menu
-                anchorEl={isAccountMenuOpen}
-                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                id={uuidv4()}
-                keepMounted
-                transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-                open={isAccountMenuOpen}
-                onClose={handleAccountMenuClose}
-            >
+                <AccountCircle style={{ "cursor": "pointer" }} />
+            </IconButton>
+            <NavBarMenu anchorEl={anchorEl} isOpen={isOpen} handleMenuClose={handleMenuClose} >
                 <div className="menu-container">
                     <p className="menu-title">MY ACCOUNT</p>
                     <Divider />
@@ -274,8 +212,22 @@ export default function NavBar({openDrawer}) {
                     <Divider />
                     <MenuItem onClick={handleSignOut}>Log Out</MenuItem>
                 </div>
-            </Menu>
-            <ProjectCreateHOC open={isCreateProjectOpen} setOpen={setOpenCreateProject} />
-        </div>
-    );
+            </NavBarMenu>
+        </Fragment>
+    )
 }
+
+
+const NavBarMenu = ({ anchorEl, isOpen, handleMenuClose, children }) => (
+    <Menu
+        anchorEl={anchorEl}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        id={uuidv4()}
+        keepMounted
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        open={isOpen}
+        onClose={handleMenuClose}
+    >
+        {children}
+    </Menu>
+)

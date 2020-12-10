@@ -14,22 +14,7 @@ export const SingleSelect = ({ onChange, onBlur, defaultValue, options, type }) 
         onBlur(type, true);
     };
 
-    return (
-        <div style={{ margin: '1rem 0' }}>
-            <label htmlFor="color">Topics (select at least 3) </label>
-            <Select
-                className="editable-select"
-                classNamePrefix="select"
-                defaultValue={defaultValue}
-                isClearable={true}
-                isSearchable={true}
-                name="assignee"
-                options={options}
-                onChange={handleChange}
-                onBlur={handleBlur}
-            />
-        </div>
-    );
+    return (<MySelect label="Topic" options={options} handleChange={handleChange} handleBlur={handleBlur} />);
 }
 
 export const MultiSelect = ({ onChange, onBlur, options, type }) => {
@@ -45,20 +30,21 @@ export const MultiSelect = ({ onChange, onBlur, options, type }) => {
         onBlur(type, true);
     };
 
-    return (
-        <div style={{ margin: '1rem 0' }}>
-            <label htmlFor="color">Topics (select at least 3) </label>
-            <Select
-                className="editable-select"
-                classNamePrefix="select"
-                defaultValue={options.length > 0 ? options : []}
-                isClearable={true}
-                isSearchable={true}
-                name="assignee"
-                options={options}
-                onChange={handleChange}
-                onBlur={handleBlur}
-            />
-        </div>
-    );
+    return (<MySelect label="Topics (select at least 3)" options={options} handleChange={handleChange} handleBlur={handleBlur} />);
 }
+
+export const MySelect = ({ label, options = [], defaultValue = "", handleChange, handleBlur }) => (
+    <div style={{ margin: '1rem 0' }}>
+        <label htmlFor="color">{label}</label>
+        <Select
+            className="editable-select"
+            classNamePrefix="select"
+            defaultValue={defaultValue}
+            isClearable={true}
+            isSearchable={true}
+            name="select"
+            options={options}
+            onChange={handleChange}
+            onBlur={handleBlur}
+        />
+    </div>)
