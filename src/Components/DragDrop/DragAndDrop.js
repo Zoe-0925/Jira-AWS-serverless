@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import { useSelector } from "react-redux"
 import IssueDetail from "../Issues/IssueUpdate"
 import { selectAllStatusInArrayWithIssues, selectLoading } from "../../Reducers/Selectors"
@@ -10,7 +10,7 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import { filterByLabel, filterByEpic } from "../Util"
 import { v4 as uuidv4 } from 'uuid'
 
-export default function DragAndDrop({ filters }) {
+export default function DragAndDropContainer({ filters }) {
     const columns = useSelector(selectAllStatusInArrayWithIssues)
     const loading = useSelector(selectLoading)
     const [filteredIssueIds, setFilter] = useState([])
@@ -39,22 +39,25 @@ export default function DragAndDrop({ filters }) {
         setIssue(task)
     }
 
-    return (
-        <div className="epic-list">
-            {open && <IssueDetail open={open} handleClose={() => setOpen(false)} issue={issueOpened} />}
-            {columns.length === 0 ? <div></div> : filteredIssueIds.map((el, ind) => {
-                if (!loading) {
-                    return <MyDroppable key={ind} el={el} ind={ind}>
-                        <Column initialStatus={el}>
-                            {el && el.map((issueId, index) => <MyDraggable id={issueId} index={index}>
-                                <IssueCard key={uuidv4()} issueId={issueId} openTaskDetail={openTaskDetail} />
-                            </MyDraggable>)}
-                        </Column>
-                    </MyDroppable>
-                }
-                return <Skeleton key={uuidv4()} variant="rect" animation="wave" width={230} height={240} style={{ marginRight: "1rem" }} />
-            })}
-            <StatusCreate />
-        </div>
-    );
+    return <DragAndDrop open={open} columns={columns} loading={loading} filteredIssueIds={filteredIssueIds}
+        issueOpened={issueOpened} openTaskDetail={openTaskDetail} />
 }
+
+export const DragAndDrop = ({ open = false, columns = [], loading = true, filteredIssueIds = [], issueOpened, openTaskDetail }) => (
+    <div className="epic-list">
+        <IssueDetail open={open} handleClose={() => setOpen(false)} issue={issueOpened} />
+        {columns.length === 0 ? <div></div> : filteredIssueIds.map((el, ind) => {
+            if (!loading) {
+                return <MyDroppable key={ind} el={el} ind={ind}>
+                    <Column initialStatus={el}>
+                        {el && el.map((issueId, index) => <MyDraggable id={issueId} index={index}>
+                            <IssueCard key={uuidv4()} issueId={issueId} openTaskDetail={openTaskDetail} />
+                        </MyDraggable>)}
+                    </Column>
+                </MyDroppable>
+            }
+            return <Skeleton key={uuidv4()} variant="rect" animation="wave" width={230} height={240} style={{ marginRight: "1rem" }} />
+        })}
+        <StatusCreate />
+    </div>
+)

@@ -44,8 +44,16 @@ export function ColumnTitle({ status }) {
     )
 }
 
-//TODO refactor to container pattern
-export default function Column({ initialStatus, ...props }) {
+export const Column = ({ loading, initialStatus, state, setState, edit, setEdit, handleSubmit }) => (
+    <div className="epic-box">
+        {initialStatus && <ColumnTitle status={initialStatus} />}
+        {props.children}
+        {loading ? <CircularProgress className="editable-input" /> : !edit ? <AddTab operationName="Create issue" handleClick={() => { setEdit(true) }} className="create-issue-tab" />
+            : <Input state={state} name="create-task-input" setState={setState} setEdit={setEdit} handleSubmit={() => handleSubmit(state.value)} />}
+    </div>
+)
+
+export default function ColumnContainer({ initialStatus, ...props }) {
     const dispatch = useDispatch()
     const { state, setState, edit, setEdit } = useEditText("")
     const loading = useSelector(selectLoading)
@@ -59,10 +67,6 @@ export default function Column({ initialStatus, ...props }) {
         setEdit(false)
     }
 
-    return (<div className="epic-box">
-        {initialStatus && <ColumnTitle status={initialStatus} />}
-        {props.children}
-        {loading ? <CircularProgress className="editable-input" /> : !edit ? <AddTab operationName="Create issue" handleClick={() => { setEdit(true) }} className="create-issue-tab" />
-            : <Input state={state} name="create-task-input" setState={setState} setEdit={setEdit} handleSubmit={() => handleSubmit(state.value)} />}
-    </div>)
+    return <Column loading={loading} initialStatus={initialStatus} state={state} setState={setState}
+        edit={edit} setEdit={setEdit} handleSubmit={handleSubmit} />
 }
