@@ -6,22 +6,14 @@ export const initiateProjectAndStatus = (projectData, currentUserId) => {
     const projectId = uuidv4()
     const statusIds = [uuidv4(), uuidv4(), uuidv4(), uuidv4()]
     const project = {
-        ...addCreateAndUpdateDate(projectData), _id: projectId, statusOrder: [statusIds],
+        ...projectData, _id: projectId, statusOrder: [statusIds],
         lead: currentUserId, default_assignee: "Project Lead", image: "", members: [currentUserId]
     }
-    const statusList = [{ ...addCreateAndUpdateDate({ project: projectId, issues: [] }), _id: statusIds[0], name: "TO DO" },
-    { ...addCreateAndUpdateDate({ project: projectId, issues: [] }), _id: statusIds[1], name: "IN PROGRESS" },
-    { ...addCreateAndUpdateDate({ project: projectId, issues: [] }), _id: statusIds[2], name: "TESTING" },
-    { ...addCreateAndUpdateDate({ project: projectId, issues: [] }), _id: statusIds[3], name: "DONE" }]
+    const statusList = [{ project: projectId, issues: [], _id: statusIds[0], name: "TO DO" },
+    { project: projectId, issues: [], _id: statusIds[1], name: "IN PROGRESS" },
+    { project: projectId, issues: [], _id: statusIds[2], name: "TESTING" },
+    { project: projectId, issues: [], _id: statusIds[3], name: "DONE" }]
     return { project, statusList }
-}
-
-export const addCreateAndUpdateDate = data => {
-    const today = new Date()
-    return {
-        ...data, createdAt: JSON.stringify(today),
-        updatedAt: JSON.stringify(today)
-    }
 }
 
 export const reorder = (list, startIndex, endIndex) => {

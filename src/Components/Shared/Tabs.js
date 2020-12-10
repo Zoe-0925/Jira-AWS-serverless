@@ -1,9 +1,8 @@
 import React from 'react'
 import AddIcon from '@material-ui/icons/Add';
-import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import {
-    Typography, Link, Menu, ListItem, IconButton
+    Typography,  Menu, ListItem, IconButton
 } from '@material-ui/core';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import CloseIcon from '@material-ui/icons/Close';
@@ -15,26 +14,6 @@ export function AddTab({ operationName, handleClick, className }) {
             <AddIcon className={className + "-icon"} />
             <Typography variant="subtitle2" gutterBottom>{operationName}</Typography>
         </ListItem>
-    )
-}
-
-export function BackTab({ operationName, handleClick }) {
-    return (
-        <ListItem button key="goBack" onClick={handleClick}>
-            <KeyboardBackspaceIcon />
-            <Typography variant="subtitle1" gutterBottom>{operationName}</Typography>
-        </ListItem>
-    )
-}
-
-export function ManageCategoryTab() {
-    return (
-        <div className="row tab">
-            <KeyboardBackspaceIcon />
-            <Link href="/Manage Category">
-                <Typography variant="subtitle1" gutterBottom>Manage Category</Typography>
-            </Link>
-        </div>
     )
 }
 

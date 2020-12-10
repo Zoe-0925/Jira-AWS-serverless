@@ -13,7 +13,6 @@ import { FormSelectField, FormTextField, FormTextAreaField } from "../Shared/For
 import { selectAllProjects, selectFirstStatus } from "../../Reducers/Selectors"
 import { chainCreateIssueAndUpdateIssueOrder } from "../../Actions/issue.actions"
 import { DialogCloseIcon } from "../Shared/Tabs"
-import { addCreateAndUpdateDate } from "../Util"
 import { SuccessfulFeedback } from "../Shared/Feedback"
 
 const IssueForm = props => {
@@ -92,10 +91,8 @@ export default function IssueCreate() {
 
     const submitCreateIssue = (value) => {
         let issue = {
-            ...addCreateAndUpdateDate({
-                _id: uuidv4(), status: defaultStatusId, issueType: "task",
-                labels: [], assignee: "", reporter: "",
-            }), ...value
+            _id: uuidv4(), status: defaultStatusId, issueType: "task",
+            labels: [], assignee: "", reporter: "", ...value
         }
         if (issue.issueTye === "epic") {
             const today = new Date()

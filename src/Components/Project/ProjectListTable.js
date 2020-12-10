@@ -20,9 +20,6 @@ export default function ProjectListTable() {
 
     const dispatch = useDispatch()
 
-    const { anchorEl, isOpen, anchorRef, handleMenuClose, handleMenuOpen } = useDotIconMenu()
-
-
     const goToBoardPage = (projectId) => {
         dispatch(setCurrentProject(projectId))
         history.push("/projects/board")
@@ -33,31 +30,33 @@ export default function ProjectListTable() {
         history.push("/projects/settings/details")
     }
 
+    const deleteProject = (id) => {
+        dispatch(chainDeleteProject(id))
+    }
+
+    const tableHeader = ["Name", "Key", "Type", "Lead", ""]
+
+    return <Table loading={loading} projects={projects} users={users} goToBoardPage={goToBoardPage}
+        goToProjectDetail={goToProjectDetail} tableHeader={tableHeader} deleteProject={deleteProject} />
+}
+
+const Table = ({ loading = true, projects = [], users = [], goToBoardPage, goToProjectDetail, tableHeader, deleteProject }) => {
+    const { anchorEl, isOpen, anchorRef, handleMenuClose, handleMenuOpen } = useDotIconMenu()
+
     return (
         <div className="project-list-table">
             <TableContainer component={Paper}>
                 <Table className="project-list-table" aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell>Name</TableCell>
-                            <TableCell align="left">Key</TableCell>
-                            <TableCell align="left">Type</TableCell>
-                            <TableCell align="left">Lead</TableCell>
-                            <TableCell align="left"> </TableCell>
+                            {tableHeader.map(each => <TableCell align="left">{each}</TableCell>)}
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {projects && projects.length > 0 && projects.map(project => (
+                        {projects.map(project => (
                             <TableRow key={project._id} className="table-body">
-                                <TableCell className="project-name" component="th" scope="row" onClick={() => goToBoardPage(project._id)}>
-                                    {project && project.name}
-                                </TableCell>
-                                <TableCell component="th" scope="row">
-                                    {project && project.key}
-                                </TableCell>
-                                <TableCell component="th" scope="row">
-                                    Software
-                            </TableCell>
+                                <TableCell align="left" onClick={goToBoardPage}>{project.name}</TableCell>
+                                {[project.key, "Software"].map(each => <TableCell align="left">{each}</TableCell>)}
                                 <TableCell component="th" scope="row">
                                     <AccountCircleIcon />
                                     {users.find(user => user._id === project.lead) ? users.find(user => user._id === project.lead).name : ""}</TableCell>
@@ -65,7 +64,7 @@ export default function ProjectListTable() {
                                     <DotIconMenu className="dot-icon" anchorEl={anchorEl} isOpen={isOpen} anchorRef={anchorRef}
                                         handleMenuClose={handleMenuClose} handleMenuOpen={handleMenuOpen} >
                                         <MenuItem onClick={() => goToProjectDetail(project._id)}>Project settings</MenuItem>
-                                        <MenuItem onClick={() => dispatch(chainDeleteProject(project._id))}>Move to trash</MenuItem>
+                                        <MenuItem onClick={() => deleteProject(project._id)}>Move to trash</MenuItem>
                                     </DotIconMenu>
                                 </TableCell>
                             </TableRow>

@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { useSelector, useDispatch } from "react-redux"
-import { IssueSummaryInput, IssueDescriptionInput } from "./IssueInputs"
+import { IssueSummaryInput, IssueDescriptionInput } from "./IssueInputsFields"
 import IssueAddEpic from "./IssueAddEpic"
 import { Row, Col } from 'reactstrap';
 import IssueUpdateSkeleton from "./IssueUpdateSkeleton"
