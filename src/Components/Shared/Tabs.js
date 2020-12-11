@@ -7,6 +7,7 @@ import {
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import CloseIcon from '@material-ui/icons/Close';
 import { Row, Col } from "reactstrap"
+import { v4 as uuidv4 } from 'uuid'
 
 export function AddTab({ operationName, handleClick, className }) {
     return (
@@ -71,3 +72,17 @@ export function DialogCloseIcon({ handleClose }) {
         </MuiDialogTitle>
     )
 }
+
+export const DropDownMenu = ({ anchorEl, isOpen, handleMenuClose, children }) => (
+    <Menu
+        anchorEl={anchorEl}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        id={uuidv4()}
+        keepMounted
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        open={isOpen}
+        onClose={handleMenuClose}
+    >
+        {children}
+    </Menu>
+)

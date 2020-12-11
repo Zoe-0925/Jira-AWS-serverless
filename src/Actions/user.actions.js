@@ -3,7 +3,7 @@ import API from '@aws-amplify/api';
 import history from "../history"
 import { getAllProjects, mockgetAllProjects, setCurrentProject, chainDeleteProject } from "./project.actions"
 import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
-import { getProjectIssues } from "./issue.actions"
+import { getProjectIssues, APPEND_ISSUES } from "./issue.actions"
 import { getProjectLabels } from "./label.actions"
 import { getProjectStatus, appendSuccessStatus } from "./status.actions"
 import { NEW_MESSAGE } from "./websocket.actions"
@@ -45,8 +45,6 @@ export function dispatchAddOtherUsers(userList) {
 }
 
 /******************* Thunk Actions  *****************************/
-//TODO 
-//remove the account from AWS Cognito as well
 export const chainDeleteUser = (id, projectIds) => async (dispatch, getState) => {
     try {
         const projects = getState().ProjectReducer.projects.map(each => each._id)
@@ -108,11 +106,23 @@ export const mockgetUserAndProjectData = () => async (dispatch) => {
             dispatch(login(user)),
             dispatch(mockgetAllProjects(user.projects))
         ])
-        //TODO:
-        //check if I forgot to set the currentProjectId
         dispatch(setCurrentProject("7c1f9838-dbd7-4432-b52c-aae87022d578"))
+        const now = new Date()
+        const dateString = JSON.stringify(now)
         await Promise.all([
-            dispatch(appendSuccessStatus([{ _id: "9729f490-fd5f-43ab-8efb-40e8d132bc68", issues: [], name: "DONE", project: "7c1f9838-dbd7-4432-b52c-aae87022d578" },
+            dispatch({
+                type: APPEND_ISSUES,
+                data: {
+                    tasks: [{
+                        _id: "1", summary: "Code feature A", description: "Coding...", updatedAt: dateString, createdAt: dateString, issueType: "task",
+                        labels: "", parent: ""
+                    }], epics: [{
+                        _id: "2", summary: "Feature A", description: "Test epic of feature A", updatedAt: dateString, createdAt: dateString, issueType: "task",
+                        labels: ""
+                    }]
+                }
+            }),
+            dispatch(appendSuccessStatus([{ _id: "9729f490-fd5f-43ab-8efb-40e8d132bc68", issues: [ "1"], name: "DONE", project: "7c1f9838-dbd7-4432-b52c-aae87022d578" },
             { _id: "efe83b13-9255-4339-a8f5-d5703beb9ffc", issues: [], name: "IN PROGRESS", project: "7c1f9838-dbd7-4432-b52c-aae87022d578" },
             { _id: "439c3d96-30eb-497d-b336-228873048bc3", issues: [], name: "TESTING", project: "7c1f9838-dbd7-4432-b52c-aae87022d578" },
             { _id: "f3a0e59f-635a-4b75-826f-b0f5bf24b5c4", issues: [], name: "TO DO", project: "7c1f9838-dbd7-4432-b52c-aae87022d578" }])),

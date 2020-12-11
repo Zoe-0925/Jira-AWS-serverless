@@ -17,8 +17,8 @@ const DragAndDrop = () => {
             {columns && columns.map((el, ind) => {
                 if (!loading) {
                     return <MyDroppable key={ind} el={el} ind={ind}>
-                        <Column initialStatus={el}>
-                            {el && el.issues.map((issueId, index) => <MyDraggable id={issueId} index={index}>
+                        <Column key={uuidv4()} initialStatus={el}>
+                            {el && el.issues.map((issueId, index) => <MyDraggable key={uuidv4()} id={issueId} index={index}>
                                 <IssueCardContainer key={uuidv4()} issueId={issueId} />
                             </MyDraggable>)}
                         </Column>

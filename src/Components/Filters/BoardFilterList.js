@@ -31,8 +31,8 @@ const BoardFilterList = () => {
             <Tooltip title="Add people" aria-label="Add people">
                 <PersonAddIcon className="icon item-3" fontSize="large" />
             </Tooltip>
-            {epics.length > 0 ? <FilterButton data={epics} buttonName="Epic" label="summary" handleSelect={setEpicFilter} /> : "Create Epic"}
-            {labels.length > 0 ? <FilterButton data={labels} buttonName="Label" label="name" handleSelect={setLabelFilter} /> : "Create Label"}
+            {epics.length > 0 && <FilterButton data={epics} buttonName="Epic" label="summary" handleSelect={setEpicFilter} />}
+            {labels.length > 0 && <FilterButton data={labels} buttonName="Label" label="name" handleSelect={setLabelFilter} />}
             <GroupBy className="item-5" />
         </div>
     )

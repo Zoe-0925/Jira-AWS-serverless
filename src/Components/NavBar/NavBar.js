@@ -18,6 +18,7 @@ import IssueCreateDialogue from "../Issues/IssueCreateForm"
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 /*******/
 import { useDotIconMenu } from "../Shared/CustomHooks"
+import { DropDownMenu } from "../Shared/Tabs"
 
 const useStyles = makeStyles((theme) => ({
     appBar: {
@@ -139,7 +140,7 @@ export default function NavBar({ openDrawer }) {
                     </div>
                 </Toolbar>
             </AppBar>
-            <MobileMenu  handleSignOut={handleSignOut} openDrawer={openDrawer}/>
+            <MobileMenu handleSignOut={handleSignOut} openDrawer={openDrawer} />
             <ProjectCreateHOC open={isCreateProjectOpen} setOpen={setOpenCreateProject} />
         </div>
     );
@@ -151,14 +152,14 @@ const ProjectMenu = ({ handleCreateProject }) => {
     return (
         <Fragment>
             <Button className="nav-tab" onClick={handleMenuOpen}>Projects <ExpandMoreIcon /></Button>
-            <NavBarMenu anchorEl={anchorEl} isOpen={isOpen} handleMenuClose={handleMenuClose} >
+            <DropDownMenu anchorEl={anchorEl} isOpen={isOpen} handleMenuClose={handleMenuClose} >
                 <div className="menu-container">
                     <p className="menu-title">RECENT</p>
                     <Divider />
                     <MenuItem onClick={() => history.push("/projects/")}>View All Projects</MenuItem>
                     <MenuItem onClick={handleCreateProject}>Create Project</MenuItem>
                 </div>
-            </NavBarMenu>
+            </DropDownMenu>
         </Fragment>
     )
 }
@@ -180,11 +181,11 @@ const MobileMenu = ({ openDrawer, handleSignOut }) => {
                     <MoreIcon />
                 </IconButton>
             </div>
-            <NavBarMenu anchorEl={anchorEl} isOpen={isOpen} handleMenuClose={handleMenuClose} >
+            <DropDownMenu anchorEl={anchorEl} isOpen={isOpen} handleMenuClose={handleMenuClose} >
                 <MenuItem onClick={handleMenuOpen}>
                     <AccountMenu handleSignOut={handleSignOut} />
                 </MenuItem>
-            </NavBarMenu>
+            </DropDownMenu>
         </Fragment>
     )
 }
@@ -204,7 +205,7 @@ const AccountMenu = ({ handleSignOut }) => {
             >
                 <AccountCircle style={{ "cursor": "pointer" }} />
             </IconButton>
-            <NavBarMenu anchorEl={anchorEl} isOpen={isOpen} handleMenuClose={handleMenuClose} >
+            <DropDownMenu anchorEl={anchorEl} isOpen={isOpen} handleMenuClose={handleMenuClose} >
                 <div className="menu-container">
                     <p className="menu-title">MY ACCOUNT</p>
                     <Divider />
@@ -212,22 +213,10 @@ const AccountMenu = ({ handleSignOut }) => {
                     <Divider />
                     <MenuItem onClick={handleSignOut}>Log Out</MenuItem>
                 </div>
-            </NavBarMenu>
+            </DropDownMenu>
         </Fragment>
     )
 }
 
 
-const NavBarMenu = ({ anchorEl, isOpen, handleMenuClose, children }) => (
-    <Menu
-        anchorEl={anchorEl}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        id={uuidv4()}
-        keepMounted
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        open={isOpen}
-        onClose={handleMenuClose}
-    >
-        {children}
-    </Menu>
-)
+

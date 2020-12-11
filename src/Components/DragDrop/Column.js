@@ -47,7 +47,7 @@ export function ColumnTitle({ id = "", name = "" }) {
 }
 
 export const Column = ({ loading, initialStatus = { _id: "", name: "" }, state, setState, edit, setEdit, handleSubmit, children }) => (
-    <div className="epic-box">
+    <div className="epic-box" key={uuidv4()}>
         <ColumnTitle id={initialStatus._id} name={initialStatus.name} />
         {children}
         {loading ? <CircularProgress className="editable-input" /> : !edit ? <AddTab operationName="Create issue" handleClick={() => { setEdit(true) }} className="create-issue-tab" />
