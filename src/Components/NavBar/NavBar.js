@@ -139,7 +139,7 @@ export default function NavBar({ openDrawer }) {
                     </div>
                 </Toolbar>
             </AppBar>
-            <MobileMenu handleOpenProfile={() => { }} handleSignOut={handleSignOut} />
+            <MobileMenu  handleSignOut={handleSignOut} openDrawer={openDrawer}/>
             <ProjectCreateHOC open={isCreateProjectOpen} setOpen={setOpenCreateProject} />
         </div>
     );
@@ -163,7 +163,7 @@ const ProjectMenu = ({ handleCreateProject }) => {
     )
 }
 
-const MobileMenu = ({ handleOpenProfile, handleSignOut }) => {
+const MobileMenu = ({ openDrawer, handleSignOut }) => {
     const classes = useStyles();
     const { anchorEl, isOpen, handleMenuClose, handleMenuOpen } = useDotIconMenu()
 
@@ -174,14 +174,14 @@ const MobileMenu = ({ handleOpenProfile, handleSignOut }) => {
                     aria-label="show more"
                     aria-controls={uuidv4()}
                     aria-haspopup="true"
-                    onClick={handleMenuOpen}
+                    onClick={openDrawer}
                     color="inherit"
                 >
                     <MoreIcon />
                 </IconButton>
             </div>
             <NavBarMenu anchorEl={anchorEl} isOpen={isOpen} handleMenuClose={handleMenuClose} >
-                <MenuItem onClick={handleOpenProfile}>
+                <MenuItem onClick={handleMenuOpen}>
                     <AccountMenu handleSignOut={handleSignOut} />
                 </MenuItem>
             </NavBarMenu>

@@ -25,7 +25,7 @@ const DragAndDrop = () => {
                     </MyDroppable>
                 }
                 return <Skeleton key={uuidv4()} variant="rect" animation="wave" width={230} height={240} style={{ marginRight: "1rem" }} />
-            }) }
+            })}
             <StatusCreate />
         </div>
     )

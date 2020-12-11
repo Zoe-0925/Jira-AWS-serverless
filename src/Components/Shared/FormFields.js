@@ -12,7 +12,7 @@ export const MyInputLabel = ({ id, inputLabel }) => (
 
 export const FormSelectField = ({ id, inputLabel, options, handleChange, defaultValue = "", isMulti = false }) => {
     return (
-        <Fragment>
+        <div className="input-container">
             <MyInputLabel id={id} inputLabel={inputLabel} />
             <Select
                 className="select"
@@ -23,11 +23,11 @@ export const FormSelectField = ({ id, inputLabel, options, handleChange, default
                 onChange={handleChange}
                 isMulti={isMulti}
             />
-        </Fragment>)
+        </div>)
 }
 
 export const FormTextField = ({ id, inputLabel, value, handleChange }) => {
-    return (<Fragment>
+    return (<div className="input-container">
         <MyInputLabel id={id} inputLabel={inputLabel} />
         <Field
             className="field"
@@ -40,7 +40,7 @@ export const FormTextField = ({ id, inputLabel, value, handleChange }) => {
             value={value}
             margin="normal"
         />
-    </Fragment>)
+    </div>)
 }
 
 

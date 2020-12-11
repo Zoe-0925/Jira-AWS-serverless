@@ -126,7 +126,9 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
 }
 
 .drawer-close {
-  margin-left: 260px;
+  @media (min-width: 401px) {
+    margin-left: 260px;
+  }
 }
 
 .main {
@@ -153,18 +155,6 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
 
   #button-file {
     width: 11rem;
-  }
-
-  .input-container {
-    width: 21.875rem;
-  }
-
-  .field {
-    width: inherit;
-    background-color: $bgc;
-    height: 2.5rem;
-    margin-top: 0;
-    padding-top: 0;
   }
 
   #key-field {
@@ -724,10 +714,6 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
       background-color: $bgc;
     }
 
-    .form-label {
-      @include label;
-    }
-
     .navbar-create-btn {
       @include call-to-action-button;
     }
@@ -946,23 +932,14 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
 .project-create-form {
   width: $full;
 
+  padding: 0;
+
   .navbar-create-btn {
     @include call-to-action-button;
-  }
 
-  .input-container {
-    width: 21.875rem;
-  }
-
-  .field {
-    width: $full;
-    background-color: $bgc;
-  }
-
-  .field-label {
-    @include fieldLabel;
-    padding: 0;
-    margin: 0;
+    @media (max-width: 400px) {
+      width: 50%;
+    }
   }
 }
 
@@ -992,5 +969,32 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
   color: rgb(23, 43, 77);
 }
 .confirm-btn {
+  @include call-to-action-button;
+}
+
+.input-container {
+  @media (max-width: 400px) {
+    width: 90%;
+  }
+
+  @media (min-width: 401px) {
+    width: 21.875rem;
+  }
+
+  .form-label {
+    @include label;
+    padding-left: 5%;
+  }
+
+  .field {
+    width: inherit;
+    background-color: $bgc;
+    height: 2.5rem;
+    margin-top: 0;
+    padding-top: 0;
+  }
+}
+
+.navbar-create-btn {
   @include call-to-action-button;
 }

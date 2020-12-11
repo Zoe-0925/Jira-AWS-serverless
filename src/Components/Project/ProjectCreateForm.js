@@ -2,12 +2,12 @@ import React, { Fragment } from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { selectCurrentUserId } from "../../Reducers/Selectors"
 import { chainCreactProject } from "../../Actions/project.actions"
-import { Form, Field } from 'formik';
+import { Form } from 'formik';
 import { withFormik } from 'formik';
-import { Typography, Button, InputLabel, Dialog } from '@material-ui/core';
-import { TextField } from 'formik-material-ui';
+import { Typography, Button, Dialog } from '@material-ui/core';
 import { DialogCloseIcon } from "../Shared/Tabs"
 import { initiateProjectAndStatus } from "../Util"
+import { FormTextField } from "../Shared/FormFields"
 
 export const ProjectCreateForm = ({
     values,
@@ -20,37 +20,8 @@ export const ProjectCreateForm = ({
         <div align="center"><Typography variant="h5">Create project</Typography></div>
         <div align="center" className="project-create-form">
             <Form onSubmit={handleSubmit}>
-                <div className="input-container">
-                    <InputLabel className="field-label">Name *</InputLabel>
-                    <Field
-                        id="name"
-                        className="field"
-                        component={TextField}
-                        name="name"
-                        type="text"
-                        margin="normal"
-                        variant="outlined"
-                        size="small"
-                        placeholder="Enter a project name"
-                        onChange={handleChange}
-                        value={values.name}
-                    />
-                </div>
-                <div className="input-container">
-                    <InputLabel className="field-label">Key *</InputLabel>
-                    <Field
-                        id="key-field"
-                        className="field"
-                        component={TextField}
-                        name="key"
-                        type="text"
-                        margin="normal"
-                        variant="outlined"
-                        size="small"
-                        onChange={handleChange}
-                        value={values.key}
-                    />
-                </div>
+                <FormTextField id="name" inputLabel="Name *" value={values.name} handleChange={handleChange} />
+                <FormTextField id="key" inputLabel="Key *" value={values.key} handleChange={handleChange} />
                 <br />
                 <br />
                 <Button
@@ -101,8 +72,6 @@ export const ProjectCreateHOC = ({ open, setOpen }) => {
         open={open}
         onClose={() => setOpen(false)}
         aria-labelledby="max-width-dialog-title"
-        maxWidth="lg"
-        className="dialog-container"
     >
         <ProjectCreateWrapper onContinue={submitForm} handleClose={() => setOpen(false)} />
     </Dialog>

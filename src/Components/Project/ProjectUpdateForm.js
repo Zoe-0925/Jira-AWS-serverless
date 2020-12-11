@@ -60,19 +60,11 @@ export const ProjectDetailForm = ({ values, loading, leadOptions, updateProjectL
             <div align="center"><Button>Change icon</Button></div>
             <div align="center" className="form">
                 <Form onSubmit={handleSubmit}>
-                    <div className="input-container">
-                        <FormTextField id="name" inputLabel="Name" value={values.name} handleChange={handleChange} />
-                    </div>
-                    <div className="input-container">
-                        <FormTextField id="key" inputLabel="Key" value={values.key} handleChange={handleChange} />
-                    </div>
-                    <div className="input-container">
-                        <FormSelectField id="lead" inputLabel="Project Lead" options={leadOptions} handleChange={updateProjectLead} />
-                    </div>
+                    <FormTextField id="name" inputLabel="Name" value={values.name} handleChange={handleChange} />
+                    <FormTextField id="key" inputLabel="Key" value={values.key} handleChange={handleChange} />
+                    <FormSelectField id="lead" inputLabel="Project Lead" options={leadOptions} handleChange={updateProjectLead} />
                     <br />
-                    <div className="input-container">
-                        <FormSelectField id="default_assignee" inputLabel="Default Assignee" options={[{ value: "lead", label: "Project Lead" }, { value: "", label: "None" }]} handleChange={updateDefaultAssignee} />
-                    </div>
+                    <FormSelectField id="default_assignee" inputLabel="Default Assignee" options={[{ value: "lead", label: "Project Lead" }, { value: "", label: "None" }]} handleChange={updateDefaultAssignee} />
                     <Divider />
                     <Button
                         disabled={loading}
