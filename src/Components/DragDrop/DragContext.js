@@ -1,39 +1,14 @@
-import React, { useState, Fragment, useEffect } from 'react'
+import React, { Fragment } from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { DragDropContext } from 'react-beautiful-dnd';
-import DragAndDrop from "./DragAndDrop"
+import withFilters from "./DragAndDrop"
 import { chainReorder, chainMove } from "../../Actions/status.actions"
-import { selectAllStatus, selectCurrentProject, selectLabels } from '../../Reducers/Selectors';
-import IssueFilter from "../Filters/IssueFilter"
-import { Tooltip } from '@material-ui/core'
-import PersonAddIcon from '@material-ui/icons/PersonAdd';
-import GroupBy from "../Filters/GroupBy"
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import { selectEpics } from '../../Reducers/Selectors';
-import { wsConnect } from "../../Actions/websocket.actions"
-import FilterButton from "../Filters/FilterButton"
+import { selectAllStatus } from '../../Reducers/Selectors';
 
-export default function DragContext() {
+export default function DragContextContainer() {
     const dispatch = useDispatch()
     const allStatus = useSelector(selectAllStatus)
-    const currentProject = useSelector(selectCurrentProject)
     const statusOrder = currentProject ? currentProject.statusOrder : []
-    const labels = useSelector(selectLabels)
-    const epics = useSelector(selectEpics)
-    const { filters, setFilters } = useState({ labels: [], epics: [] })
-
-    useEffect(() => {
-        const host = `ws://127.0.0.1:80/}`;
-        //  dispatch(wsConnect(host));
-    }, [])
-
-    const setLabelFilter = labelId => {
-        setFilters({ ...filters, labels: [...filters.labels, labelId] })
-    }
-
-    const setEpicFilter = epicId => {
-        setFilters({ ...filters, epics: [...filters.epics, epicId] })
-    }
 
     function onDragEnd(result) {
         const { source, destination } = result;
@@ -54,23 +29,16 @@ export default function DragContext() {
         }
     }
 
-    return (
-        <Fragment>
-            <div className="row filter-row">
-                <IssueFilter className="item-1" />
-                <AccountCircleIcon className="icon item-2" fontSize="large" />
-                <Tooltip title="Add people" aria-label="Add people">
-                    <PersonAddIcon className="icon item-3" fontSize="large" />
-                </Tooltip>
-                {epics.length > 0 ? <FilterButton data={epics} buttonName="Epic" label="summary" handleSelect={setEpicFilter} /> : "Create Epic"}
-                {labels.length > 0 ? <FilterButton data={labels} buttonName="Label" label="name" handleSelect={setLabelFilter} /> : "Create Label"}
-                <GroupBy className="item-5" />
-            </div>
-            <DragDropContext onDragEnd={onDragEnd}>
-                <div className="board-container">
-                    <DragAndDrop filters={filters} />
-                </div>
-            </DragDropContext>
-        </Fragment>
-    )
+    return <DragContext onDragEnd={onDragEnd} />
 }
+
+
+export const DragContext = ({ onDragEnd }) => (
+    <Fragment>
+        <DragDropContext onDragEnd={onDragEnd}>
+            <div className="board-container">
+                <withFilters />
+            </div>
+        </DragDropContext>
+    </Fragment>
+)

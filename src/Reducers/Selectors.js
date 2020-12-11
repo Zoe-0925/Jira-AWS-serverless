@@ -46,8 +46,6 @@ export const selectDefaultIssueOrder = state => state.StatusReducer.status.get(s
 
 
 /****************** Selectors - Project  *********************/
-export const selectAllProjects = state => state.ProjectReducer.projects
-
 export const selectCurrentProjectId = state => state.ProjectReducer.currentProjectId
 
 export const selectCurrentProject = state => state.ProjectReducer.projects.find(item => item._id === state.ProjectReducer.currentProjectId)
@@ -74,19 +72,9 @@ export const selectProjectMembers = state => {
 }
 /****************** Selectors - Issue  *********************/
 
-export const selectEpics = state => state.IssueReducer.epics
-
-export const selectTaskById = (issueId) => state => state.IssueReducer.tasks.get(issueId)
-
 export const selectIssueUpdatedTimeById = (issueId) => state => state.IssueReducer.tasks.get(issueId).updatedAt
 
 export const selectTaskByIds = (issueIdList) => state => issueIdList.map(each => state.IssueReducer.tasks.get(each))
-
-
-/****************** Selectors - Labels  *********************/
-export const selectLabels = state => state.LabelReducer.labels
-
-export const selectLabelNames = state => state.LabelReducer.labels.map(each => each.name)
 
 /****************** Selectors - Comments  *********************/
 export const selectCommentByIssue = id => state => state.CommentReducer.comments.filter(comment => comment.issue === id)
@@ -98,6 +86,10 @@ export const selectUserById = (id) => state => {
 }
 
 /****************** Reselectors - Projects  *********************/
+export const selectAllProjects = createSelector(
+    selectProjectReducer,
+    reducer => reducer.projects
+)
 
 export const selectMemberNames = createSelector(
     selectProjectMembers,
@@ -131,5 +123,28 @@ export const selectUsersForProjectMember = createSelector(
     selectProjectMembers,
     selectAllUsers,
     (memberIds, allUsers) => memberIds.map(each => allUsers.find(user => user._id === each))
+)
+
+/****************** Reselectors - Labels  *********************/
+export const selectLabels = createSelector(
+    selectLabelReducer,
+    reducer => reducer.labels
+)
+
+export const selectLabels = createSelector(
+    selectIssueReducer,
+    reducer => reducer.epics
+)
+
+export const selectLabelNames = createSelector(
+    selectLabels,
+    labels => labels.map(each => each.name)
+)
+
+/****************** Reselectors - Issues  *********************/
+
+export const selectTaskById = (issueId) => createSelector(
+    selectIssueReducer,
+    reducer => reducer.tasks.get(issueId)
 )
 

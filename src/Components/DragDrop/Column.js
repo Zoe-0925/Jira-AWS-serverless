@@ -13,7 +13,7 @@ import { WarningFeedback } from "../Shared/Feedback"
 import { useEditText, useDotIconMenu } from '../Shared/CustomHooks';
 import { v4 as uuidv4 } from 'uuid'
 
-export function ColumnTitle({ status }) {
+export function ColumnTitle({ id = "", name = "" }) {
     const { state, setState, edit, setEdit } = useEditText(status.name || "")
     const dispatch = useDispatch()
     const [showWarning, setShowWarning] = React.useState(false)
@@ -26,11 +26,11 @@ export function ColumnTitle({ status }) {
 
 
     return (
-        <div className="flex-row epic-title" id={status !== undefined ? status._id : ""}>
+        <div className="flex-row epic-title" id={id}>
             <EditableText name="epic-summary" className="epic-summary"
-                edit={edit} text={state.value || status.name} setEdit={setEdit}>
+                edit={edit} text={state.value || name} setEdit={setEdit}>
                 <Input name="status-title-input" state={state} setState={setState} setEdit={setEdit} handleSubmit={() => {
-                    dispatch(updateStatusName({ _id: status._id, value: state.value, attribute: "name", updatedAt: status.updatedAt }))
+                    dispatch(updateStatusName({ _id: id, value: state.value, attribute: "name" }))
                 }} />
             </EditableText>
             <DotIconMenu className="dot-icon" anchorEl={anchorEl} isOpen={isOpen} anchorRef={anchorRef}
@@ -38,22 +38,24 @@ export function ColumnTitle({ status }) {
                 <MenuItem>Set column limit</MenuItem>
                 <MenuItem onClick={() => setShowWarning(true)}>Delete</MenuItem>
             </DotIconMenu>
-            {showWarning && <WarningFeedback title="Deleting this column will remove all issues inside" message="Do you want to delete all issues?"
-                handleClose={() => setShowWarning(false)} handleConfirm={() => dispatch(chaninDeleteStatus(status))} />}
+            {
+                showWarning && <WarningFeedback title="Deleting this column will remove all issues inside" message="Do you want to delete all issues?"
+                    handleClose={() => setShowWarning(false)} handleConfirm={() => dispatch(chaninDeleteStatus(status))} />
+            }
         </div>
     )
 }
 
-export const Column = ({ loading, initialStatus, state, setState, edit, setEdit, handleSubmit }) => (
+export const Column = ({ loading, initialStatus = { _id: "", name: "" }, state, setState, edit, setEdit, handleSubmit, children }) => (
     <div className="epic-box">
-        {initialStatus && <ColumnTitle status={initialStatus} />}
-        {props.children}
+        <ColumnTitle id={initialStatus._id} name={initialStatus.name} />
+        {children}
         {loading ? <CircularProgress className="editable-input" /> : !edit ? <AddTab operationName="Create issue" handleClick={() => { setEdit(true) }} className="create-issue-tab" />
             : <Input state={state} name="create-task-input" setState={setState} setEdit={setEdit} handleSubmit={() => handleSubmit(state.value)} />}
     </div>
 )
 
-export default function ColumnContainer({ initialStatus, ...props }) {
+export default function ColumnContainer({ initialStatus = { _id: "", project: "", issues: [] }, children }) {
     const dispatch = useDispatch()
     const { state, setState, edit, setEdit } = useEditText("")
     const loading = useSelector(selectLoading)
@@ -68,5 +70,5 @@ export default function ColumnContainer({ initialStatus, ...props }) {
     }
 
     return <Column loading={loading} initialStatus={initialStatus} state={state} setState={setState}
-        edit={edit} setEdit={setEdit} handleSubmit={handleSubmit} />
+        edit={edit} setEdit={setEdit} handleSubmit={handleSubmit} children={children} />
 }
