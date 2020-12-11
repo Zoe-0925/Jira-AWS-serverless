@@ -30,11 +30,11 @@ export const ProjectDetailFormContainer = ({
         setFieldValue("default_assignee", e.value)
     }
 
-    return <ProjectDetailForm loading={loading} leadOptions={leadOptions} updateProjectLead={updateProjectLead}
+    return <ProjectDetailForm values={values} loading={loading} leadOptions={leadOptions} updateProjectLead={updateProjectLead}
         updateDefaultAssignee={updateDefaultAssignee} handleChange={handleChange} handleSubmit={handleSubmit} removeProject={removeProject} />
 }
 
-export const ProjectDetailForm = ({ loading, leadOptions, updateProjectLead, updateDefaultAssignee, handleChange, handleSubmit, removeProject }) => {
+export const ProjectDetailForm = ({ values, loading, leadOptions, updateProjectLead, updateDefaultAssignee, handleChange, handleSubmit, removeProject }) => {
     const { anchorEl, isOpen, anchorRef, handleMenuClose, handleMenuOpen } = useDotIconMenu()
 
     return (

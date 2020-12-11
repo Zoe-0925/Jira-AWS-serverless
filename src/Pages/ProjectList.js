@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from "react-redux"
 import ProjectListTable from "../Components/Project/ProjectListTable"
 import NavBar from "../Components/NavBar/NavBar"
-import { ProjectCreateHOC } from "../Components/Project/ProjectCreate"
+import { ProjectCreateHOC } from "../Components/Project/ProjectCreateForm"
 import { Button } from '@material-ui/core'
 import { Row, Col } from "reactstrap"
 import { selectCurrentUserId } from "../Reducers/Selectors"

@@ -1,14 +1,14 @@
 import React, { Fragment } from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { DragDropContext } from 'react-beautiful-dnd';
-import withFilters from "./DragAndDrop"
+import WithFilters from "./WithFilters"
 import { chainReorder, chainMove } from "../../Actions/status.actions"
-import { selectAllStatus } from '../../Reducers/Selectors';
+import { selectAllStatus, selectStatusOrder } from '../../Reducers/Selectors';
 
 export default function DragContextContainer() {
     const dispatch = useDispatch()
     const allStatus = useSelector(selectAllStatus)
-    const statusOrder = currentProject ? currentProject.statusOrder : []
+   const statusOrder = useSelector(selectStatusOrder)
 
     function onDragEnd(result) {
         const { source, destination } = result;
@@ -36,9 +36,7 @@ export default function DragContextContainer() {
 export const DragContext = ({ onDragEnd }) => (
     <Fragment>
         <DragDropContext onDragEnd={onDragEnd}>
-            <div className="board-container">
-                <withFilters />
-            </div>
+                <WithFilters />
         </DragDropContext>
     </Fragment>
 )

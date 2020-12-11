@@ -24,7 +24,7 @@ const socketMiddleware = () => {
 
     // the middleware part of this function
     return store => next => action => {
-        console.log("action in web socket", action)
+       // console.log("action in web socket", action)
         switch (action.type) {
             case actions.WS_CONNECT:
                 if (socket !== null) {
@@ -47,7 +47,6 @@ const socketMiddleware = () => {
                 socket.send(JSON.stringify(action));
                 break;
             default:
-                console.log('the next action:', action);
                 return next(action);
         }
     };

@@ -13,7 +13,7 @@ import history from "../../history"
 import Skeleton from '@material-ui/lab/Skeleton';
 
 
-export default function ProjectListTable() {
+export default function ProjectListTableContainer() {
     const loading = useSelector(selectLoading)
     let projects = useSelector(selectAllProjects)
     const users = useSelector(selectAllUsers)
@@ -36,11 +36,11 @@ export default function ProjectListTable() {
 
     const tableHeader = ["Name", "Key", "Type", "Lead", ""]
 
-    return <Table loading={loading} projects={projects} users={users} goToBoardPage={goToBoardPage}
+    return <ProjectListTable loading={loading} projects={projects} users={users} goToBoardPage={goToBoardPage}
         goToProjectDetail={goToProjectDetail} tableHeader={tableHeader} deleteProject={deleteProject} />
 }
 
-const Table = ({ loading = true, projects = [], users = [], goToBoardPage, goToProjectDetail, tableHeader, deleteProject }) => {
+const ProjectListTable = ({ loading = true, projects = [], users = [], goToBoardPage, goToProjectDetail, tableHeader, deleteProject }) => {
     const { anchorEl, isOpen, anchorRef, handleMenuClose, handleMenuOpen } = useDotIconMenu()
 
     return (

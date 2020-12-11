@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux"
 import IssueFilter from "./IssueFilter"
 import { Tooltip } from '@material-ui/core'
@@ -13,6 +13,16 @@ import { selectEpics, selectLabels } from '../../Reducers/Selectors';
 const BoardFilterList = () => {
     const labels = useSelector(selectLabels)
     const epics = useSelector(selectEpics)
+
+    const [filters, setFilter] = useState({ labels: [], epics: [], issueId: "" })
+
+    const setEpicFilter = (newList) => {
+        setFilter({ ...filters, epics: newList })
+    }
+
+    const setLabelFilter = (newList) => {
+        setFilter({ ...filters, labels: newList })
+    }
 
     return (
         <div className="row filter-row">

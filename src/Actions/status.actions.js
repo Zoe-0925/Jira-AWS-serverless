@@ -45,8 +45,9 @@ export const chainCreateStatus = data => async (dispatch, getState) => {
     }
 }
 
-export const chaninDeleteStatus = (status) => async (dispatch, getState) => {
+export const chaninDeleteStatus = (statusId) => async (dispatch, getState) => {
     try {
+        const status = getState().StatusReducer.status.get(statusId)
         const project = getState().ProjectReducer.projects.find(project => project._id === status.project)
         let newOrder = project.statusOrder.filter(item => item._id !== status._id)
         await Promise.all([
@@ -171,11 +172,11 @@ export const updateIssueOrder = (id, issueOrder) => async dispatch => {
     await dispatch(sendWsToServer({ type: UPDATE_ISSUE_ORDER, _id: id, attribute: "issues", value: issueOrder, action: "update" }))
 }
 
-export const appendSuccessStatus = (data) => async dispatch => {
-    await dispatch(sendWsToServer({
+export const appendSuccessStatus = (data) => {
+    return {
         type: APPEND_STATUS,
         data: data
-    }))
+    }
 }
 
 export const moveIssue = (source, destination) => async dispatch => {
@@ -186,7 +187,7 @@ export const moveIssue = (source, destination) => async dispatch => {
     }))
 }
 
-export const fetchCreateMultipleStatus = list =>async dispatch => {
+export const fetchCreateMultipleStatus = list => async dispatch => {
     list.forEach(element => {
         API.post("StatusApi", "/status", {
             body: element

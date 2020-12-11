@@ -8,13 +8,13 @@ import { v4 as uuidv4 } from 'uuid'
 import IssueCardContainer from "../Issues/IssueCard";
 import { selectAllStatusInArrayWithIssues, selectLoading } from "../../Reducers/Selectors"
 
-const DragAndDrop = ({ filteredIssueIds = [] }) => {
+const DragAndDrop = () => {
     const columns = useSelector(selectAllStatusInArrayWithIssues)
     const loading = useSelector(selectLoading)
 
     return (
         <div className="epic-list">
-            {!columns || columns.length === 0 ? <div></div> : filteredIssueIds.map((el, ind) => {
+            {columns && columns.issues ? columns.issues.map((el, ind) => {
                 if (!loading) {
                     return <MyDroppable key={ind} el={el} ind={ind}>
                         <Column initialStatus={el}>
@@ -25,7 +25,7 @@ const DragAndDrop = ({ filteredIssueIds = [] }) => {
                     </MyDroppable>
                 }
                 return <Skeleton key={uuidv4()} variant="rect" animation="wave" width={230} height={240} style={{ marginRight: "1rem" }} />
-            })}
+            }) : <div></div>}
             <StatusCreate />
         </div>
     )

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { v4 as uuidv4 } from 'uuid'
 import { useDispatch, useSelector } from "react-redux"
 import { Container, Row, Col } from 'reactstrap';
@@ -37,13 +37,13 @@ const IssueCardContainer = ({ issueId }) => {
         dispatch(updateIssueAttribute({ _id: task._id, attribute: "flag", value: !task.flag, updatedAt: task.updatedAt }))
     }
 
-    return (!task ? <div></div> : <IssueCard task={task} handleDeleteTask={handleDeleteTask} openDetail={openDetail}
-        setOpen={setOpen} anchorEl={anchorEl} isOpen={isOpen} anchorRef={anchorRef} handleMenuOpen={handleMenuOpen}
-        handleMenuClose={handleMenuClose} openTaskDetail={openTaskDetail} toggleFlag={toggleFlag} reorderToBotttom={reorderToBotttom}
+    return (!task ? <div></div> : <IssueCard task={task} handleDeleteTask={handleDeleteTask} anchorEl={anchorEl}
+        isOpen={isOpen} anchorRef={anchorRef} handleMenuOpen={handleMenuOpen} issueId={issueId}
+        handleMenuClose={handleMenuClose} toggleFlag={toggleFlag} reorderToBotttom={reorderToBotttom}
     />)
 }
 
-const IssueCard = ({ task, handleDeleteTask, anchorEl, isOpen, anchorRef, handleMenuOpen, handleMenuClose, openTaskDetail, toggleFlag, reorderToBotttom }) => {
+const IssueCard = ({ task, handleDeleteTask, anchorEl, isOpen, anchorRef, issueId, handleMenuOpen, handleMenuClose, openTaskDetail, toggleFlag, reorderToBotttom }) => {
     const [openDetail, setOpen] = useState(false)
 
     return (<>

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Drawer from "../Components/Drawer/Drawer"
 import { ProjectSetting } from "../Components/Drawer/DrawerLinks"
 import NavBar from "../Components/NavBar/NavBar"
-import { ProjectUpdate } from '../Components/Project/ProjectUpdate';
+import { ProjectUpdate } from '../Components/Project/ProjectUpdateForm';
 
 export default function ProjectDetail() {
     const [open, setOpen] = useState(true);

@@ -14,7 +14,7 @@ import { useEditText, useDotIconMenu } from '../Shared/CustomHooks';
 import { v4 as uuidv4 } from 'uuid'
 
 export function ColumnTitle({ id = "", name = "" }) {
-    const { state, setState, edit, setEdit } = useEditText(status.name || "")
+    const { state, setState, edit, setEdit } = useEditText(name)
     const dispatch = useDispatch()
     const [showWarning, setShowWarning] = React.useState(false)
 
@@ -40,7 +40,7 @@ export function ColumnTitle({ id = "", name = "" }) {
             </DotIconMenu>
             {
                 showWarning && <WarningFeedback title="Deleting this column will remove all issues inside" message="Do you want to delete all issues?"
-                    handleClose={() => setShowWarning(false)} handleConfirm={() => dispatch(chaninDeleteStatus(status))} />
+                    handleClose={() => setShowWarning(false)} handleConfirm={() => dispatch(chaninDeleteStatus(id))} />
             }
         </div>
     )

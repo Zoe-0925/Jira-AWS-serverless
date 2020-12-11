@@ -131,7 +131,7 @@ export const selectLabels = createSelector(
     reducer => reducer.labels
 )
 
-export const selectLabels = createSelector(
+export const selectEpics = createSelector(
     selectIssueReducer,
     reducer => reducer.epics
 )
@@ -148,3 +148,8 @@ export const selectTaskById = (issueId) => createSelector(
     reducer => reducer.tasks.get(issueId)
 )
 
+/****************** Reselectors - Status  *********************/
+export const selectStatusOrder = () => createSelector(
+    selectCurrentProject,
+    project => project.statusOrder
+)

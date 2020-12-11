@@ -1,10 +1,10 @@
-import React from "react";
+import React, {useState} from "react";
 import { selectEpics, selectCurrentProject, selectLabels } from '../../Reducers/Selectors';
 import { selectAllStatusInArrayWithIssues, selectLoading } from "../../Reducers/Selectors"
 import DragAndDrop from "./DragAndDrop"
 import BoardFilterList from "../Filters/BoardFilterList"
 
-const withFilters = () => {
+const WithFilters = () => {
 
     const { filters, setFilters } = useState({ labels: [], epics: [] })
 
@@ -17,11 +17,11 @@ const withFilters = () => {
     }
 
     return (
-        <>
+        <div className="board-container">
             <BoardFilterList />
-            <DragAndDrop columns={columns} loading={loading} />
-        </>
+            <DragAndDrop />
+        </div>
     )
 }
 
-export default withFilters
+export default WithFilters
