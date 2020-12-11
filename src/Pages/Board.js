@@ -18,9 +18,8 @@ export default function Board() {
     useEffect(() => {
         //dispatch(getUserAndProjectData())
         dispatch(mockgetUserAndProjectData())
-        //const host = `ws://localhost:8080/`;
-        const host = `ws://pure-atoll-32256.herokuapp.com`;
-        dispatch(wsConnect(host));
+       // const host = `ws://pure-atoll-32256.herokuapp.com`;
+      //  dispatch(wsConnect(host));
     }, [])
 
     return (

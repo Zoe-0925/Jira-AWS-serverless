@@ -19,7 +19,7 @@ const initialState = {
     status: new Map(),
 }
 
-export default function StatusReducer(state = testState, action) {
+export default function StatusReducer(state = initialState, action) {
     let newState = Object.assign({}, state)
     let status
     switch (action.type) {

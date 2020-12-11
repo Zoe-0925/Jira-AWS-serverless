@@ -14,18 +14,18 @@ const DragAndDrop = () => {
 
     return (
         <div className="epic-list">
-            {columns && columns.issues ? columns.issues.map((el, ind) => {
+            {columns && columns.map((el, ind) => {
                 if (!loading) {
                     return <MyDroppable key={ind} el={el} ind={ind}>
                         <Column initialStatus={el}>
-                            {el && el.map((issueId, index) => <MyDraggable id={issueId} index={index}>
+                            {el && el.issues.map((issueId, index) => <MyDraggable id={issueId} index={index}>
                                 <IssueCardContainer key={uuidv4()} issueId={issueId} />
                             </MyDraggable>)}
                         </Column>
                     </MyDroppable>
                 }
                 return <Skeleton key={uuidv4()} variant="rect" animation="wave" width={230} height={240} style={{ marginRight: "1rem" }} />
-            }) : <div></div>}
+            }) }
             <StatusCreate />
         </div>
     )
