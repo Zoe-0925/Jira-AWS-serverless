@@ -3,9 +3,9 @@ import {
    UPDATE_STATUS_NAME, APPEND_STATUS, MOVE_ISSUE,
     DELETE_ISSUE_FROM_STATUS,  UPDATE_ISSUE_ORDER
 } from "../Actions/status.actions"
+const { Map } = require('immutable');
 
-
-const status = new Map()
+const status = Map()
 status.set("1", { _id: "1", name: "TO DO", issues: ["hdkahdjaskdh"] })
 status.set("2", { _id: "2", name: "IN PROGRESS", issues: [] })
 status.set("3", { _id: "3", name: "DONE", issues: [] })
@@ -16,7 +16,7 @@ const testState = {
 }
 
 const initialState = {
-    status: new Map(),
+    status: Map(),
 }
 
 export default function StatusReducer(state = initialState, action) {

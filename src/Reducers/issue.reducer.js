@@ -1,11 +1,12 @@
 import {
     DELETE_TASK, UPDATE_TASK, DELETE_EPIC,
-    UPDATE_EPIC, UPDATE_ISSUE_GROUP,  DELETE_SUB_TASK,
+    UPDATE_EPIC, UPDATE_ISSUE_GROUP, DELETE_SUB_TASK,
     ADD_TASK_TO_EPIC, REMOVE_TASK_FROM_EPIC, ADD_SUBTASK_TO_TASK, REMOVE_SUBTASK_FROM_TASK,
     APPEND_ISSUES, CREATE_ISSUE,
     UPDATE_TASK_ATTRIBUTE, UPDATE_ISSUE_AFTER_DELETE_STATUS, REMOVE_LABEL_FROM_ISSUE
 
 } from "../Actions/issue.actions"
+const { Map } = require('immutable');
 
 /** 
 const issues = new Map()
@@ -21,7 +22,7 @@ const testState = {
 }*/
 
 const initialState = {
-    tasks: new Map(), //Map()
+    tasks: Map(), //Map()
     epics: [],
     subtasks: [],
 }
@@ -32,7 +33,7 @@ export default function IssueReducer(state = initialState, action) {
     let tasks
     switch (action.type) {
         case APPEND_ISSUES:
-            tasks = new Map()
+            tasks = Map()
             if (action.data.tasks.length > 0) { action.data.tasks.map(each => tasks.set(each._id, each)) }
             return { ...state, tasks: tasks, epics: action.data.epics, subtasks: action.data.subtasks }
         case CREATE_ISSUE:
