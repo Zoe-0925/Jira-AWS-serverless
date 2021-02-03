@@ -34,6 +34,12 @@ $ninty: 90%;
 $one-third: 33%;
 
 $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+@mixin centered-form-field {
+  display: block;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
 
 @mixin call-to-action-button {
   align-items: baseline;
@@ -62,26 +68,16 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
 }
 
 @mixin label {
+  @include centered-form-field;
+
   font-family: "Segoe UI", Roboto, Oxygen, Ubuntu, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   color: #5e6c84;
   font-size: 0.75rem;
   font-weight: 600;
   line-height: 1rem;
   float: none;
-  display: block;
   text-align: left;
-  width: auto;
-  margin: 0;
-}
-
-@mixin fieldLabel {
-  float: left;
-  color: rgb(107, 119, 140);
-  font-size: 0.8rem;
-  font-weight: 600;
-  line-height: 1.33333;
   margin-top: 0;
-  padding-top: 0.4rem;
   margin-bottom: 0;
   padding-bottom: 0.2rem;
 }
@@ -167,7 +163,7 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
   }
 
   .field-label {
-    @include fieldLabel;
+    @include label;
   }
 
   .project-icon {
@@ -673,15 +669,11 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
 
       .field,
       .select {
-        display: block;
-        width: 90%;
-        margin-left: auto;
-        margin-right: auto;
+        @include centered-form-field;
       }
 
       .form-label {
-        display: block;
-        margin-left: 5%;
+        @include label;
       }
 
       #description {
@@ -969,7 +961,7 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
   }
 
   .field {
-    width: inherit;
+    @include centered-form-field;
     background-color: $bgc;
     height: 2.5rem;
     margin-top: 0;

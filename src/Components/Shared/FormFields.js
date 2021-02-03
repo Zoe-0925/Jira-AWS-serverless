@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import Select from 'react-select';
 import { InputLabel, TextareaAutosize } from '@material-ui/core';
 import { Field } from 'formik';
