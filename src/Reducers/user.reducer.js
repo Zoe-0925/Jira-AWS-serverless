@@ -2,12 +2,6 @@ import {
 	UPDATE_USER, LOGIN, LOGOUT, ADD_OTHER_USERS, UPDATE_PROJECTS, CLEAR
 } from "../Actions/user.actions"
 
-/** 
-const testState = {
-	currentUserId: "testUserId",
-	users: [{ _id: "testUserId", name: "userName", email: "test email", projects: [] }],
-}*/
-
 const initialState = {
 	currentUserId: "",
 	users: []

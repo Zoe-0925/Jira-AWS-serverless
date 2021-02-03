@@ -8,7 +8,8 @@ import {
 } from "../Actions/issue.actions"
 const { Map } = require('immutable');
 
-/** 
+/**
+ * 
 const issues = new Map()
 issues.set("hdkahdjaskdh", {
     _id: "hdkahdjaskdh", summary: "test 1", key: "test key 1", labels: ["test"], assignee: "testUserId",
@@ -19,7 +20,7 @@ const testState = {
     tasks: issues, //Map()
     epics: [],
     subtasks: [],
-}*/
+} */
 
 const initialState = {
     tasks: Map(), //Map()
@@ -30,16 +31,23 @@ const initialState = {
 export default function IssueReducer(state = initialState, action) {
     let newState = { ...state }
     let task
-    let tasks
     switch (action.type) {
         case APPEND_ISSUES:
-            tasks = Map()
-            if (action.data.tasks.length > 0) { action.data.tasks.map(each => tasks.set(each._id, each)) }
-            return { ...state, tasks: tasks, epics: action.data.epics, subtasks: action.data.subtasks }
+            newState.tasks = Map(action.data.tasks.map(each => [each._id, each])) || Map()
+            newState.epics = action.data.epics || []
+            newState.subtasks = action.data.subtasks || []
+            return newState
         case CREATE_ISSUE:
-            if (action.data.issueType === "task") { newState.tasks.set(action.data._id, action.data) }
-            if (action.data.issueType === "epic") { newState.epics.push(action.data) }
-            if (action.data.issueType === "subtask") { newState.subtasks.push(action.data) }
+            //TODO bug
+            if (action.data.issueType === "task") {
+                newState.tasks = newState.tasks.merge({[action.data._id]: [action.data]})
+            }
+            if (action.data.issueType === "epic") {
+                newState.epics.push(action.data)
+            }
+            if (action.data.issueType === "subtask") {
+                newState.subtasks.push(action.data)
+            }
             return newState
         case DELETE_TASK:
             newState.tasks.delete(action.id)

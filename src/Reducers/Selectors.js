@@ -25,13 +25,12 @@ export const selectAllStatusInArray = state => {
     return statusOrder.map(each => state.StatusReducer.status.get(each))
 }
 
-
 export const selectAllStatusInArrayWithIssues = state => {
     const project = state.ProjectReducer.projects.find(project => project._id === state.ProjectReducer.currentProjectId)
     const statusOrder = project ? project.statusOrder : []
     let status = statusOrder.map(each => state.StatusReducer.status.get(each))
     status.map(each => {
-        if (each && each.issues.length > 0) {
+        if (each && each.issues ) {
             each.issues = each.issues.map(issueId => state.IssueReducer.tasks.get(issueId))
         }
     })
@@ -54,7 +53,6 @@ export const selectCurrentProjectName = state => {
     const project = state.ProjectReducer.projects.find(item => item._id === state.ProjectReducer.currentProjectId)
     return project && project.name ? project.name : ""
 }
-
 
 export const selectFirstStatus = state => {
     if (state.ProjectReducer.projects) {
@@ -90,6 +88,7 @@ export const selectAllProjects = createSelector(
     selectProjectReducer,
     reducer => reducer.projects
 )
+
 
 export const selectMemberNames = createSelector(
     selectProjectMembers,

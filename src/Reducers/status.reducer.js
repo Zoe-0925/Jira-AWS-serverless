@@ -1,7 +1,7 @@
 import {
     CREATE_STATUS, DELETE_STATUS,
-   UPDATE_STATUS_NAME, APPEND_STATUS, MOVE_ISSUE,
-    DELETE_ISSUE_FROM_STATUS,  UPDATE_ISSUE_ORDER
+    UPDATE_STATUS_NAME, APPEND_STATUS, MOVE_ISSUE,
+    DELETE_ISSUE_FROM_STATUS, UPDATE_ISSUE_ORDER
 } from "../Actions/status.actions"
 const { Map } = require('immutable');
 
@@ -36,19 +36,22 @@ export default function StatusReducer(state = initialState, action) {
             return newState
         case UPDATE_ISSUE_ORDER:
             status = newState.status.get(action._id)
-            status = {...status, issues:action.value}
-            newState.status.set(action._id, status)
+            status = { ...status, issues: action.value }
+            newState.status  = newState.status.merge({[action._id]: [status]})
             return newState
         case MOVE_ISSUE:
             let sourceStatus = newState.status.get(action.source._id)
             sourceStatus.issues = action.source.value
             let destinationStatus = newState.status.get(action.destination._id)
             destinationStatus.issues = action.destination.value
+            //TODO
+            //check if this works
             newState.status.set(action.source._id, sourceStatus)
             newState.status.set(action.destination._id, destinationStatus)
             return newState
         case APPEND_STATUS:
-            action.data.map(each => newState.status.set(each._id, each))
+            status = action.data.map(each => [each._id, each])
+            newState.status = Map(status)
             return newState
         case DELETE_ISSUE_FROM_STATUS:
             const newIssueList = newState.status.get(action.statusId).issues.filter(id => id !== action.issueId)

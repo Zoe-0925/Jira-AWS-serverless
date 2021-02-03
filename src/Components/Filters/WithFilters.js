@@ -1,8 +1,8 @@
 import React, {useState} from "react";
 import { selectEpics, selectCurrentProject, selectLabels } from '../../Reducers/Selectors';
 import { selectAllStatusInArrayWithIssues, selectLoading } from "../../Reducers/Selectors"
-import DragAndDrop from "./DragAndDrop"
-import BoardFilterList from "../Filters/BoardFilterList"
+import DragAndDrop from "../DragDrop/DragAndDrop"
+import BoardFilterList from "./BoardFilterList"
 
 const WithFilters = () => {
 

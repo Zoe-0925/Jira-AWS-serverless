@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import { useDispatch, useSelector } from "react-redux"
-import { selectAllProjects, selectAllUsers, selectLoading } from "../../Reducers/Selectors"
+import { selectCurrentProject, selectAllUsers, selectLoading } from "../../Reducers/Selectors"
 import { updateProjectDetail } from "../../Actions/project.actions"
 import { Form, withFormik } from 'formik';
 import { DotIconMenu } from "../Shared/Tabs"
@@ -21,7 +21,6 @@ export const ProjectDetailFormContainer = ({
 
     const loading = useSelector(selectLoading)
     const leadOptions = values.memberObjects.map(each => { return { value: each._id, label: each.name } })
-
     const updateProjectLead = (e) => {
         setFieldValue("lead", e.value)
     }
@@ -85,7 +84,7 @@ export const ProjectDetailWrapper = withFormik({
         key: project.key,
         default_assignee: project.default_assignee,
         lead: project !== project.lead,
-        memberObjects: members
+        memberObjects: project.members
     }),
 
     validate: values => {
@@ -109,7 +108,7 @@ export const ProjectDetailWrapper = withFormik({
 
 export const ProjectUpdate = () => {
     const dispatch = useDispatch()
-    const project = useSelector(selectAllProjects)
+    const project = useSelector(selectCurrentProject)  //bug. Select current project
     const members = useSelector(selectAllUsers)
 
     const submitForm = values => {

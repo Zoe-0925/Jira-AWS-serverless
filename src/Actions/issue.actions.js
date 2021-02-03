@@ -56,11 +56,16 @@ export const getProjectIssues = (projectId) => async  dispatch => {
 export const chainCreateIssueAndUpdateIssueOrder = (data) => async (dispatch, getState) => {
     try {
         const issueOrder = getState().StatusReducer.status.get(data.status).issues
+
+        //TODO: 
+        //Uncomment below to enable API calls.
+        /** 
         await Promise.all([
             dispatch({ type: LOADING }),
             fetchCreateIssue(data),
             fetchUpdateStatusAttribute({ _id: data.status, attribute: "issues", value: [...issueOrder, data._id] })
         ])
+        */
         await Promise.all([
             dispatch(createIssue(data)),
             dispatch(updateIssueOrder(data.status, [...issueOrder, data._id])),
@@ -77,14 +82,17 @@ export const chainUpdateIssueStatus = (data, previousStatusId) => async (dispatc
         const allStatus = getState().StatusReducer.status
         const updatedPreviousStatus = allStatus.get(previousStatusId).issues.filter(item => item._id !== data._id)
         const updatedCurrentStatus = [...allStatus.get(data.status).issues, data._id]
+        //TODO: 
+        //Uncomment below to enable API calls.
+        /** 
         await Promise.all([
             dispatch({ type: LOADING }),
             fetchUpdateIssueAttribute(data),
             fetchUpdateStatusAttribute({ _id: previousStatusId, value: updatedPreviousStatus, attribute: "issues" })
         ])
         await fetchUpdateStatusAttribute({ _id: data.status, value: updatedCurrentStatus, attribute: "issues" })
+        */
         await Promise.all([
-            dispatch({ type: LOADING }),
             dispatch(updateIssueAttribute(data)),
             dispatch(moveIssue({ _id: previousStatusId, value: updatedPreviousStatus },
                 { _id: updatedCurrentStatus, value: data.status }))
@@ -101,13 +109,16 @@ export const chainDeleteIssue = (issueId, statusId, issueType) => async (dispatc
         if (issueType !== "task" && issueType !== "epic" && issueType !== "subtask") { return }
         let targetStatus = getState().StatusReducer.status.get(statusId)
         targetStatus.issues = targetStatus.issues.filter(item => item._id !== issueId)
+        //TODO: 
+        //Uncomment below to enable API calls.
+        /** 
         await Promise.all([
             dispatch({ type: LOADING }),
             fetchDeleteIssue(issueId),
             fetchUpdateStatusAttribute({ _id: targetStatus._id, attribute: "issues", value: targetStatus.issues })
         ])
+         */
         await Promise.all([
-            dispatch({ type: LOADING }),
             dispatch(deleteIssue(issueId, issueType)),
             dispatch(deleteIssueFromStatus(issueId, statusId)),
             dispatch({ type: NEW_MESSAGE, payload: deleteIssue(issueId, issueType) }),
@@ -127,6 +138,9 @@ export const removeLabelFromIssues = labelId => async (dispatch, getState) => {
                 tasksToUpdate = [...tasksToUpdate, key]
             }
         })
+        //TODO: 
+        //Uncomment below to enable API calls.
+        /** 
         tasksToUpdate.forEach(async eachIssue => {
             await fetchUpdateIssueAttribute({
                 _id: eachIssue._id,
@@ -135,6 +149,7 @@ export const removeLabelFromIssues = labelId => async (dispatch, getState) => {
             })
             await dispatch(removeLabelFromIssue(labelId, eachIssue))
         })
+           */
     }
     catch (err) {
         return dispatch(dispatchError(err))
@@ -142,6 +157,17 @@ export const removeLabelFromIssues = labelId => async (dispatch, getState) => {
 }
 
 export const updateIssueAttribute = (data) => async dispatch => {
+    await dispatch({
+        type: UPDATE_TASK_ATTRIBUTE,
+        id: data._id,
+        key: data.attribute,
+        value: data.value,
+        action: "update"
+    })
+
+    //TODO
+    //Uncomment below to enable web socket server
+    /*
     await dispatch(sendWsToServer({
         type: UPDATE_TASK_ATTRIBUTE,
         id: data._id,
@@ -149,22 +175,42 @@ export const updateIssueAttribute = (data) => async dispatch => {
         value: data.value,
         action: "update"
     }))
+    */
 }
 
 export const removeLabelFromIssue = (labelId, task) => async dispatch => {
+    await dispatch({
+        type: REMOVE_LABEL_FROM_ISSUE,
+        id: labelId,
+        data: task
+    })
+
+    //TODO
+    //Uncomment below to enable web socket server
+    /*
     await dispatch(sendWsToServer({
         type: REMOVE_LABEL_FROM_ISSUE,
         id: labelId,
         data: task
-    }))
+    })) 
+    */
 }
 
 export const createIssue = data => async dispatch => {
+    await dispatch({
+        type: CREATE_ISSUE,
+        data: data,
+        action: "create"
+    })
+    //TODO
+    //Uncomment below to enable web socket server
+    /*
     await dispatch(sendWsToServer({
         type: CREATE_ISSUE,
         data: data,
         action: "create"
     }))
+    */
 }
 
 export const deleteIssue = (issueId, issueType) => async dispatch => {
@@ -195,7 +241,12 @@ export const deleteIssue = (issueId, issueType) => async dispatch => {
         default:
             return
     }
+    await dispatch((result))
+     //TODO
+    //Uncomment below to enable web socket server
+    /*
     await dispatch(sendWsToServer(result))
+    */
 }
 
 

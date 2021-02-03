@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { DragDropContext } from 'react-beautiful-dnd';
-import WithFilters from "./WithFilters"
+import WithFilters from "../Filters/WithFilters"
 import { chainReorder, chainMove } from "../../Actions/status.actions"
 import { selectAllStatus, selectStatusOrder } from '../../Reducers/Selectors';
 

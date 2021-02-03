@@ -136,11 +136,20 @@ export const deleteIssueFromStatus = (issueId, statusId) => async (dispatch, get
         let statusCopy = { ...status }
         let issuesUpdated = statusCopy.issues.filter(item => item !== issueId)
         await fetchUpdateStatusAttribute({ _id: statusId, attribute: "issues", value: issuesUpdated })
-        await dispatch(sendWsToServer({
+        await dispatch({
             type: DELETE_ISSUE_FROM_STATUS,
             issueId: issueId,
             statusId: statusId
-        }))
+        })
+        //TODO
+        //Uncomment below to enable web socket
+        /**
+            await dispatch(sendWsToServer({
+                type: DELETE_ISSUE_FROM_STATUS,
+                issueId: issueId,
+                statusId: statusId
+            }))
+            */
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -148,28 +157,63 @@ export const deleteIssueFromStatus = (issueId, statusId) => async (dispatch, get
 }
 
 export const deleteStatus = (id) => async dispatch => {
+    await dispatch({
+        type: DELETE_STATUS,
+        id: id
+    })
+
+    //TODO
+    //Uncomment below to enable web socket
+    /**
     await dispatch(sendWsToServer({
         type: DELETE_STATUS,
         id: id
     }))
+    */
 }
 
 export const createStatus = (newStatus) => async dispatch => {
+    await dispatch({
+        type: CREATE_STATUS,
+        data: newStatus
+    })
+
+
+    //TODO
+    //Uncomment below to enable web socket
+    /**
     await dispatch(sendWsToServer({
         type: CREATE_STATUS,
         data: newStatus
     }))
+      */
 }
 
 export const updateStatusNameAction = data => async dispatch => {
+    await dispatch({
+        type: UPDATE_STATUS_NAME,
+        data: data
+    })
+
+    //TODO
+    //Uncomment below to enable web socket
+    /**
     await dispatch(sendWsToServer({
         type: UPDATE_STATUS_NAME,
         data: data
     }))
+     */
 }
 
 export const updateIssueOrder = (id, issueOrder) => async dispatch => {
-    await dispatch(sendWsToServer({ type: UPDATE_ISSUE_ORDER, _id: id, attribute: "issues", value: issueOrder, action: "update" }))
+    await dispatch({ type: UPDATE_ISSUE_ORDER, _id: id, attribute: "issues", value: issueOrder, action: "update" })
+
+    //TODO
+    //Uncomment below to enable web socket
+    /**
+     *     await dispatch(sendWsToServer({ type: UPDATE_ISSUE_ORDER, _id: id, attribute: "issues", value: issueOrder, action: "update" }))
+
+     */
 }
 
 export const appendSuccessStatus = (data) => {

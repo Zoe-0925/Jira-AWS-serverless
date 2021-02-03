@@ -7,6 +7,7 @@ import GroupBy from "./GroupBy"
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import FilterButton from "./FilterButton"
 import { selectEpics, selectLabels } from '../../Reducers/Selectors';
+import { v4 as uuidv4 } from 'uuid'
 
 //TODO
 //It receives an event handler to change filters
@@ -25,14 +26,14 @@ const BoardFilterList = () => {
     }
 
     return (
-        <div className="row filter-row">
+        <div key={uuidv4()} className="row filter-row">
             <IssueFilter className="item-1" />
             <AccountCircleIcon className="icon item-2" fontSize="large" />
             <Tooltip title="Add people" aria-label="Add people">
                 <PersonAddIcon className="icon item-3" fontSize="large" />
             </Tooltip>
-            {epics.length > 0 && <FilterButton data={epics} buttonName="Epic" label="summary" handleSelect={setEpicFilter} />}
-            {labels.length > 0 && <FilterButton data={labels} buttonName="Label" label="name" handleSelect={setLabelFilter} />}
+            {epics.length > 0 && <FilterButton key={uuidv4()} data={epics} buttonName="Epic" label="summary" handleSelect={setEpicFilter} />}
+            {labels.length > 0 && <FilterButton key={uuidv4()} data={labels} buttonName="Label" label="name" handleSelect={setLabelFilter} />}
             <GroupBy className="item-5" />
         </div>
     )
