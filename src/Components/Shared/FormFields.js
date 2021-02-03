@@ -35,6 +35,7 @@ export const FormTextField = ({ id, inputLabel, value, handleChange }) => {
             name={id}
             type="text"
             variant="outlined"
+            fullWidth={true}
             size="small"
             onChange={handleChange}
             value={value}
@@ -45,7 +46,7 @@ export const FormTextField = ({ id, inputLabel, value, handleChange }) => {
 
 
 export const FormTextAreaField = ({ id, inputLabel, rowsMin, handleChange }) => {
-    return (<Fragment>
+    return (<div className="input-container">
         <MyInputLabel id={id} inputLabel={inputLabel} />
         <TextareaAutosize
             className="field"
@@ -57,5 +58,5 @@ export const FormTextAreaField = ({ id, inputLabel, rowsMin, handleChange }) => 
             margin="normal"
             aria-label="minimum height" rowsMin={rowsMin}
         />
-    </Fragment>)
+  </div>)
 }

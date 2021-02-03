@@ -388,35 +388,6 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
   border: 2px solid #000;
 }
 
-.Issue-form {
-  display: grid;
-  background-color: white;
-  height: $full;
-
-  .form-title {
-    font-family: $sm-font;
-    margin-left: 5%;
-    width: 18%;
-  }
-  .blank {
-    width: 20%;
-  }
-
-  .right {
-    margin-left: 30%;
-    display: inline-flex;
-    flex-direction: row-reverse;
-  }
-
-  .summary {
-    width: 700px;
-  }
-
-  .btn-row {
-    margin-right: 5%;
-  }
-}
-
 .full-length-center {
   width: $ninty;
   margin-left: 5%;
@@ -532,7 +503,6 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
       width: 50%;
       flex-direction: column;
     }
-
   }
 
   .flagged {
@@ -697,22 +667,35 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
 .issue-form-in-modal {
   @media (max-width: 400px) {
     width: $full;
+
+    .form {
+      width: $full;
+
+      .field,
+      .select {
+        display: block;
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .form-label {
+        display: block;
+        margin-left: 5%;
+      }
+
+      #description {
+        @include label;
+        display: block;
+        margin-left: 5%;
+      }
+    }
   }
 
   @media (min-width: 401px) {
     width: 46.875rem;
     padding: 1.5rem;
     text-align: left;
-
-    .field {
-      width: $full;
-      background-color: $bgc;
-    }
-
-    .select {
-      width: $full;
-      background-color: $bgc;
-    }
 
     .navbar-create-btn {
       @include call-to-action-button;
@@ -909,7 +892,7 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
-    cursor:pointer;
+    cursor: pointer;
   }
 
   table-body:hover {
@@ -974,7 +957,7 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
 
 .input-container {
   @media (max-width: 400px) {
-    width: 90%;
+    width: $full;
   }
 
   @media (min-width: 401px) {
@@ -983,7 +966,6 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
 
   .form-label {
     @include label;
-    padding-left: 5%;
   }
 
   .field {

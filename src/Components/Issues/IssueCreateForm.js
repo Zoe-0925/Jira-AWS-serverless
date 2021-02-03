@@ -43,16 +43,16 @@ const IssueForm = props => {
         <div className="issue-form-in-modal">
             <p className="title">Create issue</p>
             <br />
-            <Form onSubmit={handleSubmit}>
-                <FormSelectField id="project" inputLabel="Project Name*" options={projectOptions}
+            <Form className="form" onSubmit={handleSubmit}>
+                <FormSelectField className="field" id="project" inputLabel="Project Name*" options={projectOptions}
                     handleChange={(e) => setFieldValue("project", e.value)} />
-                <FormSelectField id="issueType" inputLabel="Issue Type*" options={issueTypeOptions}
+                <FormSelectField className="field" id="issueType" inputLabel="Issue Type*" options={issueTypeOptions}
                     handleChange={(e) => setFieldValue("issueType", e.value)} />
-                <Typography variant="caption">Some issue types are unavailable due to incompatible field configuration and/or workflow associations.</Typography>
+                <Typography className="field" variant="caption">Some issue types are unavailable due to incompatible field configuration and/or workflow associations.</Typography>
                 <Divider />
-                <FormTextField id="summary" inputLabel="Summary*" value={values.summary}
+                <FormTextField className="field" id="summary" inputLabel="Summary*" value={values.summary}
                     handleChange={handleChange} />
-                <FormTextAreaField id="description" inputLabel="Description" handleChange={(e) => setFieldValue("description", e.target.value)} rowsMin={8}
+                <FormTextAreaField  className="field" id="description" inputLabel="Description" handleChange={(e) => setFieldValue("description", e.target.value)} rowsMin={8}
                 />
                 <DialogActions>
                     <Button className="cancel-btn" disabled={isSubmitting} onClick={handleClose}>Cancel</Button>
