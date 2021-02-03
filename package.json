@@ -17,7 +17,7 @@
     "formik-material-ui": "^3.0.0-alpha.0",
     "immutable": "^4.0.0-rc.12",
     "lodash": "^4.17.20",
-    "node-sass": "^5.0.0",
+    "node-sass": "^4.14.1",
     "pusher-js": "^7.0.0",
     "react": "^16.13.1",
     "react-app-rewire-hot-loader": "^2.0.1",
