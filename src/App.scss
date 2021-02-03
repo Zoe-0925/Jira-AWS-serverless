@@ -171,9 +171,11 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
   }
 
   .project-icon {
+    display: block;
     width: 9.375rem;
     height: 9.375rem;
-    margin-left: 42%;
+    margin-left: auto;
+    margin-right: auto;
   }
   .button {
     margin-left: 43%;
