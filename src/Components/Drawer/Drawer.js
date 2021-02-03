@@ -45,14 +45,13 @@ const useStyles = makeStyles((theme) => ({
 export default function SideDrawer({ handleClick, open, ...props }) {
     const theme = useTheme();
     const classes = useStyles();
-    const [mobileOpen, setMobileOpen] = React.useState(false);
     const title = useSelector(selectCurrentProjectName)
 
-    function handleDrawerToggle() {
-        setMobileOpen(!mobileOpen)
+    function closeDrawer() {
+        handleClick(false)
     }
 
-    const closeButton = (<IconButton onClick={handleDrawerToggle} className={classes.closeMenuButton}>
+    const closeButton = (<IconButton onClick={closeDrawer} className={classes.closeMenuButton}>
         <CloseIcon />
     </IconButton>)
 
@@ -63,8 +62,8 @@ export default function SideDrawer({ handleClick, open, ...props }) {
                 <Drawer
                     variant="temporary"
                     anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-                    open={mobileOpen}
-                    onClose={handleDrawerToggle}
+                    open={open}
+                    onClose={closeDrawer}
                     classes={{
                         paper: classes.drawerPaper,
                     }}
