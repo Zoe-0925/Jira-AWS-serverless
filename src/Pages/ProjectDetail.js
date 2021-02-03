@@ -8,7 +8,7 @@ export default function ProjectDetail() {
     const [open, setOpen] = useState(true);
 
     return <div className={open ? "main drawer-close" : "main drawer-open"}>
-        <NavBar />
+        <NavBar openDrawer={() => setOpen(true)} />
         <Drawer open={open} handleClick={setOpen}>
             <ProjectSetting currentLocation="detail" />
         </Drawer>

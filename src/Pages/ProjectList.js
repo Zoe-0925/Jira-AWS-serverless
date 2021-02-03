@@ -20,7 +20,7 @@ const ProjectList = () => {
     }, [])
 
     return (<div className="main">
-        <NavBar />
+        <NavBar/>
         <div className="body">
             <Row>
                 <Col md="1">  <p align="left" className="project-list-title">Project</p></Col>
