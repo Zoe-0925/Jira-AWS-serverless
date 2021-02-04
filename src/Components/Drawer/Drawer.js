@@ -60,6 +60,7 @@ export default function SideDrawer({ handleClick, open, ...props }) {
             {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
             <Hidden smUp implementation="css">
                 <Drawer
+                    className="mobile-drawer"
                     variant="temporary"
                     anchor={theme.direction === 'rtl' ? 'right' : 'left'}
                     open={open}
@@ -73,14 +74,14 @@ export default function SideDrawer({ handleClick, open, ...props }) {
                 >
                     {closeButton}
                     <div className="title">
-                        <ProjectHeaderTab title={title||""} subtite="Software project" imgSrc="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcT2sa8Zxht8_5o8aMA9I1rHmr9FVXEoxoDVfw&usqp=CAU" />
+                        <ProjectHeaderTab title={title || ""} subtite="Software project" imgSrc="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcT2sa8Zxht8_5o8aMA9I1rHmr9FVXEoxoDVfw&usqp=CAU" />
                     </div>
                     {props.children}
                 </Drawer>
             </Hidden>
             <Hidden xsDown implementation="css">
                 <Drawer
-                    className={classes.drawer}
+                    className={classes.drawer + " desktop-drawer"}
                     variant="persistent"
                     open={open}
                     classes={{
@@ -89,7 +90,7 @@ export default function SideDrawer({ handleClick, open, ...props }) {
                 >
                     <div className={classes.toolbar} />
                     <div className="title">
-                        <ProjectHeaderTab title={title||""} subtite="Software project" imgSrc="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcT2sa8Zxht8_5o8aMA9I1rHmr9FVXEoxoDVfw&usqp=CAU" />
+                        <ProjectHeaderTab title={title || ""} subtite="Software project" imgSrc="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcT2sa8Zxht8_5o8aMA9I1rHmr9FVXEoxoDVfw&usqp=CAU" />
                         <IconButton className="close-drawer-icon" onClick={open ? () => { handleClick(false) } : () => { handleClick(true) }}>
                             {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
                         </IconButton>

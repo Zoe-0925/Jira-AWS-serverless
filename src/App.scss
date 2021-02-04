@@ -321,6 +321,15 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
   font-size: $xs-font-size;
   color: $drawer-color;
 
+  @media (max-width: 400px) {
+    .mobile-drawer {
+      display: none;
+    }
+    .desktop-drawer {
+      display: block;
+    }
+  }
+
   .container {
     color: $drawer-color;
   }
@@ -661,20 +670,20 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
 }
 
 .issue-form-in-modal {
+  .field,
+  .select {
+    @include centered-form-field;
+  }
+
+  .form-label {
+    @include label;
+  }
+
   @media (max-width: 400px) {
     width: $full;
 
     .form {
       width: $full;
-
-      .field,
-      .select {
-        @include centered-form-field;
-      }
-
-      .form-label {
-        @include label;
-      }
 
       #description {
         @include label;
@@ -696,6 +705,8 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
     .title {
       @include title;
     }
+
+
   }
 }
 
@@ -865,7 +876,7 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
     color: grey;
     display: block;
     margin-left: 0rem;
-    margin-right:auto;
+    margin-right: auto;
   }
 }
 
