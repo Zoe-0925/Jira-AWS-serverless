@@ -115,19 +115,7 @@ export default function NavBar({ openDrawer }) {
                     <IssueCreateDialogue />
                     <div className={classes.grow} />
                     <div className={classes.sectionDesktop}>
-                        <div className={classes.search}>
-                            <div className={classes.searchIcon}>
-                                <SearchIcon />
-                            </div>
-                            <InputBase
-                                placeholder="Search…"
-                                classes={{
-                                    root: classes.inputRoot,
-                                    input: classes.inputInput,
-                                }}
-                                inputProps={{ 'aria-label': 'search' }}
-                            />
-                        </div>
+                 
                         <IconButton
                             edge="start"
                             className={classes.menuButton}
@@ -220,3 +208,21 @@ const AccountMenu = ({ handleSignOut }) => {
 
 
 
+
+/**
+ * Removed: Search box in the navigation bar
+ * 
+ *        <div className={classes.search}>
+                            <div className={classes.searchIcon}>
+                                <SearchIcon />
+                            </div>
+                            <InputBase
+                                placeholder="Search…"
+                                classes={{
+                                    root: classes.inputRoot,
+                                    input: classes.inputInput,
+                                }}
+                                inputProps={{ 'aria-label': 'search' }}
+                            />
+                        </div>
+ */
