@@ -860,9 +860,12 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
 .issue-detail-dialogue {
   .close-btn {
     position: absolute;
-    padding-right: 1rem;
+    width: 1rem;
     padding-top: 1rem;
     color: grey;
+    display: block;
+    margin-left: 0rem;
+    margin-right:auto;
   }
 }
 

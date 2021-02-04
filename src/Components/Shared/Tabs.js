@@ -2,7 +2,7 @@ import React from 'react'
 import AddIcon from '@material-ui/icons/Add';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import {
-    Typography,  Menu, ListItem, IconButton
+    Typography, Menu, ListItem, IconButton
 } from '@material-ui/core';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import CloseIcon from '@material-ui/icons/Close';
@@ -61,14 +61,9 @@ export function DotIconMenu({ className, anchorEl, isOpen, anchorRef, handleMenu
 export function DialogCloseIcon({ handleClose }) {
     return (
         <MuiDialogTitle disableTypography className="title">
-            <Row>
-                <Col xs lg="1">
-                    <IconButton aria-label="close" className="close-btn" onClick={handleClose}>
-                        <CloseIcon />
-                    </IconButton>
-                </Col>
-                <Col xs lg="11"></Col>
-            </Row>
+            <IconButton aria-label="close" className="close-btn" onClick={handleClose}>
+                <CloseIcon />
+            </IconButton>
         </MuiDialogTitle>
     )
 }
