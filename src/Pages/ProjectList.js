@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from "react-redux"
-import ProjectTable from "../Components/Project/ProjectTable"
+import ProjectTableHOC from "../Components/Project/ProjectTableHOC"
 import NavBar from "../Components/NavBar/NavBar"
 import { ProjectCreateHOC } from "../Components/Project/ProjectCreateForm"
 import { Button } from '@material-ui/core'
@@ -27,7 +27,7 @@ const ProjectList = () => {
                 <Col ></Col>
                 <Col md="2">  <Button align="right" className="create-pj-btn" onClick={() => setOpenCreateProject(true)}>Create project</Button></Col>
             </Row>
-            <ProjectTable />
+            <ProjectTableHOC />
             <ProjectCreateHOC open={isCreateProjectOpen} setOpen={setOpenCreateProject} />
         </div>
     </div>)

@@ -1,12 +1,8 @@
 import React, { Fragment } from 'react'
-import { useDispatch, useSelector } from "react-redux"
-import { selectCurrentUserId } from "../../Reducers/Selectors"
-import { chainCreactProject } from "../../Actions/project.actions"
 import { Form } from 'formik';
 import { withFormik } from 'formik';
-import { Typography, Button, Dialog } from '@material-ui/core';
+import { Typography, Button } from '@material-ui/core';
 import { DialogCloseIcon } from "../Shared/Tabs"
-import { initiateProjectAndStatus } from "../Util"
 import { FormTextField } from "../Shared/FormFields"
 
 export const ProjectCreateForm = ({
@@ -56,25 +52,3 @@ export const ProjectCreateWrapper = withFormik({
     },
     displayName: 'BasicForm',
 })(ProjectCreateForm);
-
-export const ProjectCreateHOC = ({ open, setOpen }) => {
-    const dispatch = useDispatch()
-    const userId = useSelector(selectCurrentUserId)
-
-    const submitForm = values => {
-        const { project, statusList } = initiateProjectAndStatus(values, userId)
-        dispatch(chainCreactProject(project, statusList))
-        setOpen(false)
-    }
-
-    return <Dialog
-        fullScreen
-        open={open}
-        onClose={() => setOpen(false)}
-        aria-labelledby="max-width-dialog-title"
-    >
-        <ProjectCreateWrapper onContinue={submitForm} handleClose={() => setOpen(false)} />
-    </Dialog>
-}
-
-

@@ -22,14 +22,14 @@ export const DialogContentContainer = ({ handleClose, dialogClassName = "", titl
     </Fragment>
 )
 
-export const MyDialog = ({ open, handleClose, maxWidth, children }) => (
+export const MyDialog = ({ open, handleClose, maxWidth, children, fullWidth = false }) => (
     <Fragment>
         <Dialog
             open={open}
             onClose={handleClose}
             aria-labelledby="max-width-dialog-title"
             maxWidth={maxWidth}
-            fullWidth={true}
+            fullWidth={fullWidth}
             className="dialog-container"
         >
             {children}
