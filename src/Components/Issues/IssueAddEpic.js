@@ -12,8 +12,9 @@ import * as Yup from 'yup';
 import { selectEpics } from "../../Reducers/Selectors"
 import { updateIssueAttribute } from "../../Actions/issue.actions"
 import { DialogCloseIcon } from "../Shared/Tabs"
-import {SuccessfulFeedback} from "../Shared/Feedback"
+import { SuccessfulFeedback } from "../Shared/Feedback"
 import CreateIcon from '@material-ui/icons/Create';
+import { SubmitCancelButtonSet } from "../Shared/Buttons"
 
 const IssueAddEpicForm = props => {
     const {
@@ -47,8 +48,7 @@ const IssueAddEpicForm = props => {
                     onChange={(e) => setFieldValue("epic", e.value)}
                 />
                 <DialogActions>
-                    <Button className="navbar-create-btn" disabled={isSubmitting} onClick={handleSubmit}>Done</Button>
-                    <Button className="cancel-btn" disabled={isSubmitting} onClick={handleClose}>Cancel</Button>
+                    <SubmitCancelButtonSet rowClassName="action-btns" isSubmitting={isSubmitting} handleSave={handleSubmit} handleCancel={handleClose} submitLabel="Done" />
                 </DialogActions>
             </Form>
         </div>
@@ -78,7 +78,7 @@ const IssueAddEpic = ({ issueId }) => {
 
         //TODO 
         //Need last updated at.....
-        
+
         dispatch(updateIssueAttribute({ _id: issueId, attribute: "epic", value: value.epic })).then(
             result => {
                 if (result) {

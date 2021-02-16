@@ -2,6 +2,7 @@ import React, { Fragment } from 'react'
 import { ListItem, Button, TextareaAutosize } from '@material-ui/core';
 import { v4 as uuidv4 } from 'uuid'
 import { Container, Row } from "reactstrap"
+import { SubmitCancelButtonSet } from "../Shared/Buttons"
 
 export function Input({ state, setState, setEdit, handleSubmit }) {
 
@@ -83,10 +84,7 @@ export function TextareaWithActionBtns({ isSubmitting, handleChange, handleCance
                     aria-label="minimum height" rowsMin={5}
                 />
             </Row>
-            <Row className="action-btns">
-                <Button className="navbar-create-btn" disabled={isSubmitting} onClick={handleSave}>Save</Button>
-                <Button className="cancel-btn" disabled={isSubmitting} onClick={handleCancel}>Cancel</Button>
-            </Row>
+            <SubmitCancelButtonSet rowClassName="action-btns" isSubmitting={isSubmitting} handleSave={handleSave} handleCancel={handleCancel} submitLabel="Save" />
         </Container>
     )
 }

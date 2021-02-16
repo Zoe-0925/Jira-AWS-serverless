@@ -52,11 +52,10 @@ const IssueForm = props => {
                 <Divider />
                 <FormTextField className="field" id="summary" inputLabel="Summary*" value={values.summary}
                     handleChange={handleChange} />
-                <FormTextAreaField  className="field" id="description" inputLabel="Description" handleChange={(e) => setFieldValue("description", e.target.value)} rowsMin={8}
+                <FormTextAreaField className="field" id="description" inputLabel="Description" handleChange={(e) => setFieldValue("description", e.target.value)} rowsMin={8}
                 />
                 <DialogActions>
-                    <Button className="cancel-btn" disabled={isSubmitting} onClick={handleClose}>Cancel</Button>
-                    <Button className="navbar-create-btn" disabled={isSubmitting} onClick={handleSubmit}>Create</Button>
+                    <SubmitCancelButtonSet rowClassName="action-btns" isSubmitting={isSubmitting} handleSave={handleSubmit} handleCancel={handleClose} submitLabel="Create" />
                 </DialogActions>
             </Form>
         </div>
@@ -82,7 +81,7 @@ const IssueCreateContent = withFormik({
     displayName: 'MyForm',
 })(IssueForm);
 
-export default function IssueCreate() {
+export default function CreatIssue() {
     const dispatch = useDispatch()
     const defaultStatusId = useSelector(selectFirstStatus)
     const [open, setOpen] = useState(false)
@@ -113,15 +112,17 @@ export default function IssueCreate() {
     return (
         <Fragment>
             {projects && <Button className="navbar-create-btn" onClick={() => setOpen(true)}>Create</Button>}
-            {projects && <Dialog
-                open={open}
-                onClose={() => setOpen(false)}
-                aria-labelledby="max-width-dialog-title"
-                maxWidth="lg"
-                className="dialog-container"
-            >
-                <IssueCreateContent onContinue={submitCreateIssue} handleClose={() => setOpen(false)} />
-            </Dialog>}
+            {projects && (
+                <Dialog
+                    open={open}
+                    onClose={() => setOpen(false)}
+                    aria-labelledby="max-width-dialog-title"
+                    maxWidth="lg"
+                    className="dialog-container"
+                >
+                    <IssueCreateContent onContinue={submitCreateIssue} handleClose={() => setOpen(false)} />
+                </Dialog>
+            )}
             {sucessful && <SuccessfulFeedback open={sucessful} message="Issue created successfully!" />}
         </Fragment>
     )

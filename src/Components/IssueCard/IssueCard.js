@@ -29,7 +29,7 @@ const IssueCardContainer = ({ issueId }) => {
 
     const handleDeleteTask = (e, id, status) => {
         e.preventDefault()
-        dispatch(chainDeleteIssue(id, status, "task", task.updatedAt))
+        dispatch(chainDeleteIssue(id, status, "task", task.updatedAt))  //TODO update
         handleMenuClose()
     }
 
