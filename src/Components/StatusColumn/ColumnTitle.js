@@ -4,13 +4,13 @@ import { useDispatch } from "react-redux"
 import { updateStatusName, chaninDeleteStatus } from "../../Actions/status.actions"
 /**--------------UI-------------- */
 import { MenuItem } from '@material-ui/core';
-import {  DotIconMenu } from "../Shared/Tabs"
+import { DotIconMenu } from "../Shared/Tabs"
 import { EditableText, Input } from "../Shared/EditableText"
 import { WarningFeedback } from "../Shared/Feedback"
 /**--------------Util-------------- */
 import { useEditText, useDotIconMenu } from '../Shared/CustomHooks';
 
-const ColumnTitle = ({ id = "", name = "" }) =>{
+const ColumnTitle = ({ id = "", name = "" }) => {
     const { state, setState, edit, setEdit } = useEditText(name)
     const dispatch = useDispatch()
     const [showWarning, setShowWarning] = React.useState(false)

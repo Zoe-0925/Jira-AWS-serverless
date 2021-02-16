@@ -81,7 +81,7 @@ export const selectCurrentProject = createSelector(
 
 export const selectCurrentProjectName = createSelector(
     selectCurrentProject,
-    project => project.name || ""
+    project => project && project.name ? project.name : ""
 )
 
 export const selectMemberNames = createSelector(
