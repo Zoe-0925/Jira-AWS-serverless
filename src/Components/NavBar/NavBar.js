@@ -6,14 +6,13 @@ import {
 } from '@material-ui/core'
 
 import history from "../../history"
-import { ProjectCreateHOC } from "../Project/ProjectCreateForm"
+import CreateProjectDialog from "../Project/CreateProjectDialog"
 /***** Icons ****/
 import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import SettingsIcon from '@material-ui/icons/Settings';
-import IssueCreateDialogue from "../Issues/IssueCreateForm"
+import IssueCreateDialogue from "../Issues/CreateIssueDialog"
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 /*******/
 import { useDotIconMenu } from "../Shared/CustomHooks"
@@ -128,7 +127,7 @@ export default function NavBar({ openDrawer }) {
                 </Toolbar>
             </AppBar>
             <MobileMenu handleSignOut={handleSignOut} openDrawer={openDrawer} />
-            <ProjectCreateHOC open={isCreateProjectOpen} setOpen={setOpenCreateProject} />
+            <CreateProjectDialog open={isCreateProjectOpen} setOpen={setOpenCreateProject} />
         </div>
     );
 }

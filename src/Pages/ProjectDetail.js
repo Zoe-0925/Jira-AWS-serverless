@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Drawer from "../Components/Drawer/Drawer"
 import { ProjectSetting } from "../Components/Drawer/DrawerLinks"
 import NavBar from "../Components/NavBar/NavBar"
-import { ProjectUpdate } from '../Components/Project/ProjectUpdateForm';
+import UpdateProject from '../Components/Project/UpdateProject';
 
 export default function ProjectDetail() {
     const [open, setOpen] = useState(true);
@@ -12,6 +12,6 @@ export default function ProjectDetail() {
         <Drawer open={open} handleClick={setOpen}>
             <ProjectSetting currentLocation="detail" />
         </Drawer>
-        <ProjectUpdate />
+        <UpdateProject />
     </div>
 }

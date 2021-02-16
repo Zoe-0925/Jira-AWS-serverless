@@ -5,7 +5,7 @@ import { Typography, Button } from '@material-ui/core';
 import { DialogCloseIcon } from "../Shared/Tabs"
 import { FormTextField } from "../Shared/FormFields"
 
-export const ProjectCreateForm = ({
+export const CreateProjectForm = ({
     values,
     handleChange,
     handleSubmit,
@@ -29,7 +29,7 @@ export const ProjectCreateForm = ({
     </Fragment>
 }
 
-export const ProjectCreateWrapper = withFormik({
+const CreateProjectFormHOC = withFormik({
 
     mapPropsToValues: () => ({
         name: "",
@@ -51,4 +51,6 @@ export const ProjectCreateWrapper = withFormik({
         });
     },
     displayName: 'BasicForm',
-})(ProjectCreateForm);
+})(CreateProjectForm);
+
+export default CreateProjectFormHOC

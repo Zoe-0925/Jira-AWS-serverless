@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from "react-redux"
 import ProjectTableHOC from "../Components/Project/ProjectTableHOC"
 import NavBar from "../Components/NavBar/NavBar"
-import { ProjectCreateHOC } from "../Components/Project/ProjectCreateForm"
+import CreateProjectDialog from "../Components/Project/CreateProjectDialog"
 import { Button } from '@material-ui/core'
 import { Row, Col } from "reactstrap"
 import { selectCurrentUserId } from "../Reducers/Selectors"
@@ -28,7 +28,7 @@ const ProjectList = () => {
                 <Col md="2">  <Button align="right" className="create-pj-btn" onClick={() => setOpenCreateProject(true)}>Create project</Button></Col>
             </Row>
             <ProjectTableHOC />
-            <ProjectCreateHOC open={isCreateProjectOpen} setOpen={setOpenCreateProject} />
+            <CreateProjectDialog open={isCreateProjectOpen} setOpen={setOpenCreateProject} />
         </div>
     </div>)
 }

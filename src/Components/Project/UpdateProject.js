@@ -4,7 +4,7 @@ import { selectCurrentProject, selectAllUsers } from "../../Reducers/Selectors"
 import { updateProjectDetail } from "../../Actions/project.actions"
 import UpdateProjectFormHOC from "../Forms/UpdateProjectForm"
 
-export const ProjectUpdate = () => {
+const UpdateProject = () => {
     const dispatch = useDispatch()
     const project = useSelector(selectCurrentProject)  //bug. Select current project
     const members = useSelector(selectAllUsers)
@@ -18,4 +18,4 @@ export const ProjectUpdate = () => {
     )
 }
 
-
+export default UpdateProject

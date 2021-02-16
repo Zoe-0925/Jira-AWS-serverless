@@ -103,6 +103,6 @@ const UpdateProjectFormHOC = withFormik({
         });
     },
     displayName: 'BasicForm',
-})(ProjectDetailFormContainer);
+})(UpdateProjectForm);
 
 export default UpdateProjectFormHOC
