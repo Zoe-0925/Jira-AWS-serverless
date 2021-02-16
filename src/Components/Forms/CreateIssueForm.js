@@ -32,7 +32,7 @@ const CreateIssueForm = props => {
 
     return (
         <DialogContentContainer handleClose={handleClose} dialogClassName="issue-form-in-modal" title="Create issue"
-            handleSubmit={handleSubmit} isSubmitting={isSubmitting} handleSubmit={handleSubmit} handleCancel={handleClose} submitLabel="Create">
+           isSubmitting={isSubmitting} handleSubmit={handleSubmit} handleCancel={handleClose} submitLabel="Create">
             <FormSelectField className="field" id="project" inputLabel="Project Name*" options={projectOptions}
                 handleChange={(e) => setFieldValue("project", e.value)} />
             <FormSelectField className="field" id="issueType" inputLabel="Issue Type*" options={issueTypeOptions}

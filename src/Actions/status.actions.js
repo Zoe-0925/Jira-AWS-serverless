@@ -62,8 +62,8 @@ export const chainMove = (sourceStatus, destinationStatus, startIndex, endIndex)
         let destinationIssueorder = [...destinationStatus.issues]
         const [removedToMove] = sourceIssueorder.splice(startIndex, 1);
         destinationIssueorder.splice(endIndex, 0, removedToMove);
-        const sourceUpdated = { _id: sourceStatus._id, value: sourceIssueorder, attribute: "issues" }
-        const destinationUpdated = { _id: destinationStatus._id, value: destinationIssueorder, attribute: "issues" }
+        // const sourceUpdated = { _id: sourceStatus._id, value: sourceIssueorder, attribute: "issues" }
+        //   const destinationUpdated = { _id: destinationStatus._id, value: destinationIssueorder, attribute: "issues" }
 
         //TODO
         //Move issues

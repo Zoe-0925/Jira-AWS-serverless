@@ -41,7 +41,7 @@ export const mockgetUserAndProjectData = () => async (dispatch) => {
         ])
         dispatch(setCurrentProject("7c1f9838-dbd7-4432-b52c-aae87022d578"))
         const now = new Date()
-        const dateString = JSON.stringify(now)
+      //  const dateString = JSON.stringify(now)
         await Promise.all([
             /**   dispatch({
                   type: APPEND_ISSUES,

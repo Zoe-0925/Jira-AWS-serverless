@@ -15,8 +15,8 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import IssueCreateDialogue from "../Issues/CreateIssueDialog"
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 /*******/
-import { useDotIconMenu } from "../Shared/CustomHooks"
-import { DropDownMenu } from "../Shared/Tabs"
+import { useDotIconMenu } from "./CustomHooks"
+import { DropDownMenu } from "./Tabs"
 
 const useStyles = makeStyles((theme) => ({
     appBar: {

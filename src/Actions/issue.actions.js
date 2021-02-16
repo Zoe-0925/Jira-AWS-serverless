@@ -1,6 +1,6 @@
 
 import { updateIssueOrder, deleteIssueFromStatus, moveIssue } from "./status.actions"
-import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
+import { dispatchError,  AUTHENTICATED } from "./loading.actions"
 
 export const CREATE_SUB_TASK = "CREATE_SUB_TASK"
 export const CREATE_ISSUE = "CREATE_ISSUE"

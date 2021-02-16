@@ -16,7 +16,7 @@ console.log("columns", columns)
 
     return (
         <div className="epic-list">
-            {columns && typeof columns==="Array" &&  columns.map((el, ind) => {
+            {columns && typeof columns==="object" &&  columns.map((el, ind) => {
                 if (!loading) {
                     console.log("columns", columns)
                     return <MyDroppable key={ind} el={el} ind={ind}>

@@ -3,10 +3,10 @@ import { useSelector, useDispatch } from "react-redux"
 import Drawer from "../Components/Drawer/Drawer"
 import { DrawerLinks } from "../Components/Drawer/DrawerLinks"
 import DragContext from "../Components/DragDrop/DragContext"
-import NavBar from "../Components/NavBar/NavBar"
+import NavBar from "../Components/Shared/NavBar"
 import { selectCurrentProjectName } from '../Reducers/Selectors';
 import { Typography, Link, Breadcrumbs } from "@material-ui/core"
-import {  mockgetUserAndProjectData } from "../Actions/user.actions"
+import { mockgetUserAndProjectData } from "../Actions/user.actions"
 
 export default function Board() {
     const dispatch = useDispatch()
@@ -15,6 +15,7 @@ export default function Board() {
 
     useEffect(() => {
         dispatch(mockgetUserAndProjectData())
+        // eslint-disable-next-line
     }, [])
 
     return (

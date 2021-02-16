@@ -30,7 +30,7 @@ const IssueAddEpicForm = props => {
     return (
         <DialogContentContainer handleClose={handleClose} dialogClassName="issue-form-in-modal" title="Add epic"
             subtitle="Select a parent issue for this issue. Issues can only belong to one parent issue at a time."
-            handleSubmit={handleSubmit} isSubmitting={isSubmitting} handleSubmit={handleSubmit} handleCancel={handleClose} submitLabel="Done">
+             isSubmitting={isSubmitting} handleSubmit={handleSubmit} handleCancel={handleClose} submitLabel="Done">
             <InputLabel className="form-label" id="project">Epic</InputLabel>
             <Select
                 className="select"
