@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react'
-import { useDispatch, useSelector } from "react-redux"
-import { selectCurrentProject, selectAllUsers, selectLoading } from "../../Reducers/Selectors"
-import { updateProjectDetail } from "../../Actions/project.actions"
+import { useSelector } from "react-redux"
+import { selectLoading } from "../../Reducers/Selectors"
 import { Form, withFormik } from 'formik';
 import { DotIconMenu } from "../Shared/Tabs"
 import {
@@ -11,7 +10,7 @@ import { useDotIconMenu } from "../Shared/CustomHooks"
 import { Container, Row, Col } from "reactstrap"
 import { FormTextField, FormSelectField } from "../Shared/FormFields"
 
-export const ProjectDetailFormContainer = ({
+export const UpdateProjectForm = ({
     values,
     handleChange,
     handleSubmit,
@@ -76,7 +75,7 @@ export const ProjectDetailForm = ({ values, loading, leadOptions, updateProjectL
     )
 }
 
-export const ProjectDetailWrapper = withFormik({
+const UpdateProjectFormHOC = withFormik({
 
     mapPropsToValues: ({ project = { _id: "", name: "", key: "", default_assignee: "", lead: "" }, members = [] }) => ({
         _id: project._id,
@@ -106,18 +105,4 @@ export const ProjectDetailWrapper = withFormik({
     displayName: 'BasicForm',
 })(ProjectDetailFormContainer);
 
-export const ProjectUpdate = () => {
-    const dispatch = useDispatch()
-    const project = useSelector(selectCurrentProject)  //bug. Select current project
-    const members = useSelector(selectAllUsers)
-
-    const submitForm = values => {
-        const formattedValues = { ...values, members: project.members }
-        dispatch(updateProjectDetail(formattedValues))
-    }
-
-    return (project === undefined ? <p>Loading</p> : <ProjectDetailWrapper members={members} project={project} onContinue={submitForm} />
-    )
-}
-
-
+export default UpdateProjectFormHOC
