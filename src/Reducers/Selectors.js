@@ -28,15 +28,6 @@ export const selectDefaultIssueOrder = state => state.StatusReducer.status.get(s
 
 
 /****************** Selectors - Project  *********************/
-export const selectCurrentProjectId = state => state.ProjectReducer.currentProjectId
-
-export const selectCurrentProject = state => state.ProjectReducer.projects.find(item => item._id === state.ProjectReducer.currentProjectId)
-
-export const selectCurrentProjectName = state => {
-    const project = state.ProjectReducer.projects.find(item => item._id === state.ProjectReducer.currentProjectId)
-    return project && project.name ? project.name : ""
-}
-
 export const selectFirstStatus = state => {
     if (state.ProjectReducer.projects) {
         const currentProject = state.ProjectReducer.projects.find(item => item._id === state.ProjectReducer.currentProjectId)
@@ -72,6 +63,26 @@ export const selectAllProjects = createSelector(
     reducer => reducer.projects
 )
 
+export const selectCurrentProjectId = createSelector(
+    selectProjectReducer,
+    reducer => reducer.currentProjectId
+)
+
+export const selectProjects = createSelector(
+    selectProjectReducer,
+    reducer => reducer.projects
+)
+
+export const selectCurrentProject = createSelector(
+    selectCurrentProjectId,
+    selectProjects,
+    (currentProjectId, projects) => projects.find(item => item._id === currentProjectId)
+)
+
+export const selectCurrentProjectName = createSelector(
+    selectCurrentProject,
+    project => project.name || ""
+)
 
 export const selectMemberNames = createSelector(
     selectProjectMembers,
