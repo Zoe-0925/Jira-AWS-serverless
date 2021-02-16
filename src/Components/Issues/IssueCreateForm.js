@@ -1,19 +1,14 @@
 import React, { Fragment, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux"
-import { Form, withFormik } from 'formik';
+import {  withFormik } from 'formik';
 import { v4 as uuidv4 } from 'uuid'
-import {
-    Button,
-    Divider,
-    Typography,
-    DialogActions, Dialog
-} from '@material-ui/core';
+import { Button, Divider, Typography,Dialog} from '@material-ui/core';
 import * as Yup from 'yup';
 import { FormSelectField, FormTextField, FormTextAreaField } from "../Shared/FormFields"
 import { selectAllProjects, selectFirstStatus } from "../../Reducers/Selectors"
 import { chainCreateIssueAndUpdateIssueOrder } from "../../Actions/issue.actions"
-import { DialogCloseIcon } from "../Shared/Tabs"
 import { SuccessfulFeedback } from "../Shared/Feedback"
+import { DialogContentContainer } from "../Shared/Dialog"
 
 const IssueForm = props => {
     const {
@@ -38,28 +33,21 @@ const IssueForm = props => {
         { value: 'epic', label: 'epic' },
     ]
 
-    return <Fragment>
-        <DialogCloseIcon handleClose={handleClose} />
-        <div className="issue-form-in-modal">
-            <p className="title">Create issue</p>
-            <br />
-            <Form className="form" onSubmit={handleSubmit}>
-                <FormSelectField className="field" id="project" inputLabel="Project Name*" options={projectOptions}
-                    handleChange={(e) => setFieldValue("project", e.value)} />
-                <FormSelectField className="field" id="issueType" inputLabel="Issue Type*" options={issueTypeOptions}
-                    handleChange={(e) => setFieldValue("issueType", e.value)} />
-                <Typography className="field" variant="caption">Some issue types are unavailable due to incompatible field configuration and/or workflow associations.</Typography>
-                <Divider />
-                <FormTextField className="field" id="summary" inputLabel="Summary*" value={values.summary}
-                    handleChange={handleChange} />
-                <FormTextAreaField className="field" id="description" inputLabel="Description" handleChange={(e) => setFieldValue("description", e.target.value)} rowsMin={8}
-                />
-                <DialogActions>
-                    <SubmitCancelButtonSet rowClassName="action-btns" isSubmitting={isSubmitting} handleSave={handleSubmit} handleCancel={handleClose} submitLabel="Create" />
-                </DialogActions>
-            </Form>
-        </div>
-    </Fragment>
+    return (
+        <DialogContentContainer handleClose={handleClose} dialogClassName="issue-form-in-modal" title="Create issue"
+            handleSubmit={handleSubmit} isSubmitting={isSubmitting} handleSubmit={handleSubmit} handleCancel={handleClose} submitLabel="Create">
+            <FormSelectField className="field" id="project" inputLabel="Project Name*" options={projectOptions}
+                handleChange={(e) => setFieldValue("project", e.value)} />
+            <FormSelectField className="field" id="issueType" inputLabel="Issue Type*" options={issueTypeOptions}
+                handleChange={(e) => setFieldValue("issueType", e.value)} />
+            <Typography className="field" variant="caption">Some issue types are unavailable due to incompatible field configuration and/or workflow associations.</Typography>
+            <Divider />
+            <FormTextField className="field" id="summary" inputLabel="Summary*" value={values.summary}
+                handleChange={handleChange} />
+            <FormTextAreaField className="field" id="description" inputLabel="Description" handleChange={(e) => setFieldValue("description", e.target.value)} rowsMin={8} />
+
+        </DialogContentContainer>
+    )
 }
 
 const IssueCreateContent = withFormik({

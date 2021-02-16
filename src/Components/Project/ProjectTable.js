@@ -36,11 +36,11 @@ export default function ProjectListTableContainer() {
 
     const tableHeader = ["Name", "Key", "Type", "Lead", ""]
 
-    return <ProjectListTable key={uuidv4()} loading={loading} projects={projects} users={users} goToBoardPage={goToBoardPage}
+    return <ProjectTable key={uuidv4()} loading={loading} projects={projects} users={users} goToBoardPage={goToBoardPage}
         goToProjectDetail={goToProjectDetail} tableHeader={tableHeader} deleteProject={deleteProject} />
 }
 
-const ProjectListTable = ({ loading = true, projects = [], users = [], goToBoardPage, goToProjectDetail, tableHeader, deleteProject }) => {
+const ProjectTable = ({ loading = true, projects = [], users = [], goToBoardPage, goToProjectDetail, tableHeader, deleteProject }) => {
     const { anchorEl, isOpen, anchorRef, handleMenuClose, handleMenuOpen } = useDotIconMenu()
 
     return (

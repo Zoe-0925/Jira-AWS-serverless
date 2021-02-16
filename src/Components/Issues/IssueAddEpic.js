@@ -1,20 +1,15 @@
 import React, { Fragment, useState } from 'react';
 import { useDispatch } from "react-redux"
 import { useSelector } from "react-redux"
-import { Form, withFormik } from 'formik';
+import { withFormik } from 'formik';
 import Select from 'react-select';
-import {
-    Button,
-    InputLabel,
-    DialogActions, Dialog
-} from '@material-ui/core';
+import {Button, InputLabel, Dialog} from '@material-ui/core';
 import * as Yup from 'yup';
 import { selectEpics } from "../../Reducers/Selectors"
 import { updateIssueAttribute } from "../../Actions/issue.actions"
-import { DialogCloseIcon } from "../Shared/Tabs"
 import { SuccessfulFeedback } from "../Shared/Feedback"
 import CreateIcon from '@material-ui/icons/Create';
-import { SubmitCancelButtonSet } from "../Shared/Buttons"
+import { DialogContentContainer } from "../Shared/Dialog"
 
 const IssueAddEpicForm = props => {
     const {
@@ -32,27 +27,20 @@ const IssueAddEpicForm = props => {
         }
     })
 
-    return <Fragment>
-        <DialogCloseIcon handleClose={handleClose} />
-        <div className="issue-form-in-modal">
-            <p className="title">Add epic</p>
-            <p className="sub-title">Select a parent issue for this issue. Issues can only belong to one parent issue at a time.</p>
-            <br />
-            <Form onSubmit={handleSubmit}>
-                <InputLabel className="form-label" id="project">Epic</InputLabel>
-                <Select
-                    className="select"
-                    classNamePrefix="select"
-                    name="issueType"
-                    options={epicOptions}
-                    onChange={(e) => setFieldValue("epic", e.value)}
-                />
-                <DialogActions>
-                    <SubmitCancelButtonSet rowClassName="action-btns" isSubmitting={isSubmitting} handleSave={handleSubmit} handleCancel={handleClose} submitLabel="Done" />
-                </DialogActions>
-            </Form>
-        </div>
-    </Fragment>
+    return (
+        <DialogContentContainer handleClose={handleClose} dialogClassName="issue-form-in-modal" title="Add epic"
+            subtitle="Select a parent issue for this issue. Issues can only belong to one parent issue at a time."
+            handleSubmit={handleSubmit} isSubmitting={isSubmitting} handleSubmit={handleSubmit} handleCancel={handleClose} submitLabel="Done">
+            <InputLabel className="form-label" id="project">Epic</InputLabel>
+            <Select
+                className="select"
+                classNamePrefix="select"
+                name="issueType"
+                options={epicOptions}
+                onChange={(e) => setFieldValue("epic", e.value)}
+            />
+        </DialogContentContainer>
+    )
 }
 
 const IssueAddEpicContent = withFormik({
