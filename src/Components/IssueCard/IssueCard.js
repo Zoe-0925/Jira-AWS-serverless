@@ -9,7 +9,7 @@ import { DotIconMenu } from "../Shared/Tabs"
 import { useDotIconMenu } from "../Shared/CustomHooks"
 import { chainDeleteIssue, updateIssueAttribute } from "../../Actions/issue.actions"
 import { selectTaskById } from "../../Reducers/Selectors"
-import IssueDetail from "../Issues/IssueUpdateForm"
+import UpdateIssueDialog from "../Issues/UpdateIssueDialog"
 
 const IssueCardContainer = ({ issueId }) => {
     const dispatch = useDispatch()
@@ -47,7 +47,7 @@ const IssueCard = ({ task, handleDeleteTask, anchorEl, isOpen, anchorRef, issueI
     const [openDetail, setOpen] = useState(false)
 
     return (<>
-        {openDetail && <IssueDetail open={openDetail} handleClose={() => setOpen(false)} issue={issueId} />}
+        {openDetail && <UpdateIssueDialog open={openDetail} handleClose={() => setOpen(false)} issueId={issueId} />}
         <Box boxShadow={1}
             key={uuidv4()} className={!task.flag ? "epic-body" : "epic-body flagged"
             } >

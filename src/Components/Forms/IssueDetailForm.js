@@ -1,16 +1,11 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from "react-redux"
 import { IssueSummaryInput, IssueDescriptionInput } from "./IssueInputsFields"
 import IssueAddEpic from "./IssueAddEpic"
 import { Row, Col } from 'reactstrap';
-import IssueUpdateSkeleton from "./IssueUpdateSkeleton"
+import { Divider, Breadcrumbs, IconButton} from '@material-ui/core';
 import {
-    Divider,
-    Breadcrumbs,
-    IconButton, Dialog
-} from '@material-ui/core';
-import {
-    selectStatusById, selectLabels, selectProjectMembers,
+    selectStatusById, selectLabels, selectProjectMembers, selectTaskByIds,
     selectUserById, selectIssueUpdatedTimeById, selectAllStatusInArray
 } from "../../Reducers/Selectors"
 import {
@@ -20,33 +15,14 @@ import CommentHOC from "../Comment/CommentHOC"
 import CloseIcon from '@material-ui/icons/Close';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import { formatDate } from "../Util"
-import {FormSelectField} from "../Shared/FormFields"
+import { FormSelectField } from "../Shared/FormFields"
 
-
-export const IssueDetail = ({ issue, open, handleClose }) => {
-
-    return (<Fragment>
-        <Dialog
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="max-width-dialog-title"
-            maxWidth="md"
-            fullWidth={true}
-            className="dialog-container"
-        >
-            {(issue === undefined || issue === "") && <IssueUpdateSkeleton handleClose={handleClose} />}
-            {issue !== "" && <IssueDetailForm issue={issue} handleClose={handleClose} />}
-        </Dialog>
-    </Fragment>)
-}
-
-const IssueDetailForm = ({ issue, handleClose }) => {
+const IssueDetailForm = ({ issueId, handleClose }) => {
     const dispatch = useDispatch()
-
-    const updatedTime = useSelector(selectIssueUpdatedTimeById(issue._id))
+    const issue = useSelector(selectTaskByIds)
+    const updatedTime = useSelector(selectIssueUpdatedTimeById(issueId))
     const assignee = useSelector(selectUserById(issue.assignee || ""))
     const reporter = issue.reporter ? issue.reporter : ""
-
 
     const currentLabels = []
     const defaultStatus = useSelector(selectStatusById(issue.status))
@@ -146,6 +122,4 @@ const IssueDetailForm = ({ issue, handleClose }) => {
 }
 
 
-export default IssueDetail
-
-
+export default IssueDetailForm

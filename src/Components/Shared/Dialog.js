@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { Form } from 'formik';
-import { DialogActions } from '@material-ui/core';
+import { DialogActions, Dialog } from '@material-ui/core';
 import { DialogCloseIcon } from "../Shared/Tabs"
 import { SubmitCancelButtonSet } from "../Shared/Buttons"
 
@@ -19,5 +19,20 @@ export const DialogContentContainer = ({ handleClose, dialogClassName = "", titl
                 </DialogActions>
             </Form>
         </div>
+    </Fragment>
+)
+
+export const MyDialog = ({ open, handleClose, maxWidth, children }) => (
+    <Fragment>
+        <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="max-width-dialog-title"
+            maxWidth={maxWidth}
+            fullWidth={true}
+            className="dialog-container"
+        >
+            {children}
+        </Dialog>
     </Fragment>
 )
