@@ -1,0 +1,82 @@
+{
+  "permissions": {
+    "storage": {
+      "User": [
+        "read"
+      ],
+      "Project": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "Label": [
+        "read",
+        "delete"
+      ],
+      "Issue": [
+        "read",
+        "delete"
+      ],
+      "Status": [
+        "read",
+        "delete"
+      ]
+    },
+    "function": {
+      "UserLambda": [
+        "create",
+        "read",
+        "delete"
+      ],
+      "ProjectLambda": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "CommentLambda": [
+        "read",
+        "delete"
+      ],
+      "LabelLambda": [
+        "read",
+        "delete"
+      ],
+      "IssueLambda": [
+        "read",
+        "delete"
+      ]
+    },
+    "auth": {
+      "cognitoac4cce4b": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    },
+    "api": {
+      "UserApi": [
+        "read",
+        "delete"
+      ],
+      "ProjectApi": [
+        "read",
+        "delete"
+      ],
+      "CommentApi": [
+        "read"
+      ],
+      "LabelApi": [
+        "read"
+      ],
+      "IssueApi": [
+        "read",
+        "update",
+        "delete"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}

@@ -1,0 +1,988 @@
+$sm-font-size: 1.25rem;
+$sm-font: "Roboto", sans-serif;
+$xs-font-size: 1rem;
+$card-font-size: 0.75rem;
+$link-font-size: 1rem;
+$box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 1px 2px 0 rgba(0, 0, 0, 0.19);
+
+$search: 18.75rem;
+$wide-search: 37.5rem;
+
+$margin-1: 1rem;
+
+$header-color: #6b778c;
+$black: black;
+$white: white;
+$bgc: rgb(244, 245, 247);
+$call-to-action-color: rgb(0, 82, 204);
+$card-color: rgb(94, 108, 132);
+$drawer-color: rgb(66, 82, 110);
+$body-color: #172b4d;
+
+//$epic-color:
+$task-color: #5bc2f2;
+$subtask-color: #a64bed;
+
+$full: 100%;
+$half: 50%;
+$quarter: 25%;
+$ten: 10%;
+
+$forty: 40%;
+$eighty: 80%;
+$ninty: 90%;
+$one-third: 33%;
+
+$title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+@mixin centered-form-field {
+  display: block;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@mixin call-to-action-button {
+  align-items: baseline;
+  box-sizing: border-box;
+  font-weight: 500;
+  max-width: $full;
+  text-align: center;
+  white-space: nowrap;
+  box-shadow: transparent 0px 0px 0px 2px;
+  background: $call-to-action-color;
+  height: 2.28571em;
+  line-height: 2.28571em;
+  vertical-align: middle;
+  width: auto;
+  border-width: 0;
+  color: rgb(255, 255, 255);
+  border-radius: 3px;
+  padding: 0.1875rem 0.75rem 0.375rem 0.75rem;
+  margin: 0;
+  cursor: pointer;
+  transition: background 0.1s ease-out 0s, box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
+  transition-property: background, box-shadow;
+  transition-duration: 0.1s, 0.15s;
+  transition-timing-function: ease-out, cubic-bezier(0.47, 0.03, 0.49, 1.38);
+  transition-delay: 0s, 0s;
+}
+
+@mixin label {
+  @include centered-form-field;
+
+  font-family: "Segoe UI", Roboto, Oxygen, Ubuntu, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  color: #5e6c84;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1rem;
+  float: none;
+  text-align: left;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-bottom: 0.2rem;
+}
+
+@mixin title {
+  color: #333;
+  font-weight: normal;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.App {
+  width: $full;
+  height: $full;
+  background-color: white;
+}
+
+.nav-title {
+  font-family: $title-font-family;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 400;
+  text-decoration-skip-ink: auto;
+  text-align: center;
+  width: auto;
+  height: auto;
+}
+
+.nav-tab {
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 400;
+  text-decoration-skip-ink: auto;
+  text-align: center;
+  width: auto;
+  height: auto;
+}
+
+.drawer-close {
+  @media (min-width: 416px) {
+    margin-left: 16.25rem;
+  }
+}
+
+.main {
+  padding-left: 3%;
+  padding-right: 3%;
+
+  .nav-bar {
+    font-size: 1rem;
+    font-family: Roboto, sans-serif;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+    .dot-icon {
+      display: none;
+    }
+    .dot-icon:hover {
+      display: block;
+      height: $full;
+      cursor: pointer;
+    }
+    .navbar-create-btn {
+      @include call-to-action-button;
+    }
+  }
+
+  #button-file {
+    width: 11rem;
+  }
+
+  #key-field {
+    width: 40%;
+  }
+
+  .navbar-create-btn {
+    @include call-to-action-button;
+    margin-top: 1rem;
+  }
+
+  .field-label {
+    @include label;
+  }
+
+  .project-icon {
+    display: block;
+    width: 9.375rem;
+    height: 9.375rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .button {
+    margin-left: 43%;
+    background-color: $bgc;
+    margin-top: 0.625rem;
+  }
+
+  .project-detail-dot {
+    padding: 0;
+  }
+
+  .bread-crumbs {
+    margin-top: 5rem;
+  }
+
+  .board-name {
+    cursor: text;
+    font-family: $sm-font;
+    font-size: 1.5rem;
+    width: auto;
+    max-width: 22.5rem;
+  }
+  .board-name:hover {
+    background-color: $bgc;
+  }
+}
+
+.close-drawer {
+  width: 6.25rem;
+  background-color: $bgc;
+  color: $bgc;
+}
+
+.open-drawer-icon {
+  padding-top: 3.125rem;
+  margin-top: 3.125rem;
+}
+
+.login-wrapper {
+  width: 100vw;
+  height: 100vh;
+
+  .form {
+    @media (max-width: 415px) {
+      width: $full;
+    }
+    width: 30%;
+    margin-left: 35%;
+    margin-right: 35%;
+
+    form {
+      background-color: $white;
+      background-position: center;
+      padding-left: 10%;
+      padding-right: 10%;
+      align-self: center;
+      width: 80%;
+      font-size: $sm-font-size;
+      font-family: $sm-font;
+      text-align: center;
+      box-shadow: $box-shadow;
+
+      .logo {
+        width: 2rem;
+        height: 2rem;
+      }
+
+      .title {
+        font-size: 1rem;
+        color: rgb(94, 108, 132);
+        padding-top: 2rem;
+        font-weight: 600;
+      }
+
+      .full {
+        width: $full;
+      }
+
+      .link {
+        font-size: 0.875rem;
+        padding-bottom: 2rem;
+      }
+
+      .blank-divider {
+        margin-top: 2rem;
+      }
+      .text-field {
+        background-color: $bgc;
+      }
+
+      .or-label {
+        color: grey;
+        font-size: 0.75rem;
+        text-align: center;
+      }
+
+      .main-submit-btn {
+        font-weight: bold;
+        align-items: baseline;
+        box-sizing: border-box;
+        font-weight: 500;
+        width: $full;
+        text-align: center;
+        white-space: nowrap;
+        box-shadow: transparent 0px 0px 0px 2px;
+        background: $call-to-action-color;
+        height: 2.5rem;
+        line-height: 2.28571em;
+        vertical-align: middle;
+        color: rgb(255, 255, 255);
+        border-radius: 3px;
+        padding: 3px 12px 6px 12px;
+        cursor: pointer;
+        transition: background 0.1s ease-out 0s, box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
+        transition-property: background, box-shadow;
+        transition-duration: 0.1s, 0.15s;
+        transition-timing-function: ease-out, cubic-bezier(0.47, 0.03, 0.49, 1.38);
+      }
+
+      .submit-btn {
+        color: rgb(66, 82, 110);
+        box-shadow: $box-shadow;
+        font-weight: 600;
+        font-size: 0.875rem;
+      }
+    }
+  }
+}
+
+.search-box {
+  height: 2.28571em;
+  width: $search;
+}
+
+.clicked {
+  width: $wide-search;
+  height: 2.28571em;
+}
+
+.drawer {
+  position: relative;
+  display: grid;
+  width: 250px;
+  background-color: $bgc;
+  height: $full;
+  font-family: $sm-font;
+  font-size: $xs-font-size;
+  color: $drawer-color;
+
+  .container {
+    color: $drawer-color;
+  }
+
+  .list-item {
+    max-height: 3rem;
+  }
+
+  .title {
+    display: inline-flex;
+    width: $ninty;
+    align-items: center;
+    padding-left: 5%;
+    padding-right: 5%;
+
+    p {
+      padding-left: 1rem;
+    }
+
+    .line2 {
+      align-self: baseline;
+    }
+  }
+
+  .right-icon {
+    display: none;
+  }
+
+  .project-settings:hover {
+    .right-icon {
+      display: block;
+    }
+  }
+  .tab {
+    cursor: pointer;
+    background-color: $bgc;
+    /*
+    on hover change color.
+    */
+  }
+}
+
+@media (min-width: 416px) {
+  .mobile-drawer {
+    display: none;
+  }
+  .desktop-drawer {
+    display: block;
+  }
+}
+
+@media (max-width: 415px) {
+  .mobile-drawer {
+    display: none;
+  }
+  .desktop-drawer {
+    display: block;
+  }
+}
+
+.modal {
+  position: absolute;
+  overflow: scroll;
+  width: $half;
+  height: auto;
+  margin-left: $quarter;
+  margin-right: $quarter;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  border: 2px solid #000;
+}
+
+.full-length-center {
+  width: $ninty;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+.right-align {
+  flex-direction: row-reverse;
+}
+
+.issue-filter-clicked {
+  width: 200px;
+}
+
+.issue-filter {
+  width: 100px;
+}
+
+.filter-row {
+  display: grid;
+  grid-gap: 0.5rem;
+  grid-auto-flow: column;
+
+  .item-1 {
+    grid-column: 1;
+  }
+
+  .issue-filter:hover,
+  .issue-filter-clicked:hover {
+    background-color: $bgc;
+  }
+
+  .item-2 {
+    grid-column: 2;
+  }
+
+  .item-5 {
+    grid-column: 10;
+  }
+}
+
+.grid-row {
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: 0.2rem;
+}
+
+.avator-card {
+  width: 600px;
+
+  .blue-bg {
+    width: $full;
+    background-color: $call-to-action-color;
+  }
+
+  .white-bg {
+    width: $full;
+    background-color: white;
+  }
+}
+
+.cursor {
+  cursor: pointer;
+}
+
+.project-header {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: 80px auto;
+
+  .item-left {
+    margin-left: 10%;
+  }
+}
+
+.drawer-img {
+  width: 50px;
+  height: 50px;
+}
+
+.flex-row {
+  display: flex;
+  width: 100%;
+}
+
+.board-container {
+  padding: 2.5rem;
+}
+
+.epic-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  grid-gap: 1rem;
+  color: $card-color;
+  font-size: $card-font-size;
+
+  .column {
+    background-color: $bgc;
+  }
+
+  .epic-body {
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
+    background-color: white;
+    padding-top: 0.7rem;
+    padding-bottom: 0.7rem;
+    margin: 0.3rem;
+    border-radius: 3%;
+    min-height: 5rem;
+
+    .col {
+      width: 50%;
+      flex-direction: column;
+    }
+  }
+
+  .flagged {
+    background-color: yellow;
+  }
+
+  .epic-body:hover {
+    background-color: $bgc;
+  }
+
+  .epic-title {
+    font-family: $sm-font;
+    justify-content: space-between;
+    text-align: center;
+    height: 3rem;
+
+    .epic-summary {
+      padding: 1rem 1rem 1rem 1rem;
+    }
+
+    .editable-create-issue {
+      background-color: white;
+      width: $full;
+      height: 5rem;
+      font-size: 2rem;
+      font-family: inherit;
+    }
+
+    .create-new-task-editable {
+      font-size: 2rem;
+      font-family: inherit;
+    }
+
+    .dot-icon {
+      display: none;
+    }
+  }
+
+  .epic-title:hover {
+    .dot-icon {
+      display: block;
+      padding: 0.5rem;
+    }
+  }
+
+  .epic-box {
+    min-height: 10rem;
+
+    background-color: $bgc;
+    .create-issue-tab {
+      display: none;
+    }
+
+    .editable-input {
+      height: 2rem;
+    }
+  }
+
+  .epic-box:hover {
+    .create-issue-tab {
+      display: block;
+      display: flex;
+      text-align: bottom;
+      padding-top: 1rem;
+      font-size: inherit;
+      height: 2.25rem;
+      .create-issue-tab-icon {
+        padding-bottom: 0.5rem;
+        font-size: inherit;
+        padding-right: 0.5rem;
+      }
+    }
+  }
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.inline-text_copy--active,
+.inline-text_input--active {
+  font: inherit;
+  color: inherit;
+  text-align: inherit;
+  padding: 0;
+  background: none;
+  border: none;
+  border-bottom: 1px dashed #666666;
+}
+.inline-text_copy--active {
+  cursor: pointer;
+}
+.inline-text_copy--hidden,
+.inline-text_input--hidden {
+  display: none;
+}
+.inline-text_input--active {
+  border-bottom: 1px solid #666666;
+  text-align: left;
+}
+
+.Login-Signup-Page {
+  background-color: skyblue;
+}
+
+.logo-title {
+  text-align: center;
+}
+
+.editable-input {
+  height: $full;
+  width: 230px;
+  text-align: left;
+}
+
+.editable-label {
+  height: $full;
+  width: $full;
+  text-align: left;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.is-dragging {
+  background-color: lightblue;
+}
+
+.drag-over {
+  background-color: #5bc2f2;
+}
+
+.show {
+  display: block;
+}
+
+.hide {
+  display: none;
+}
+
+.menu-container {
+  width: 300px;
+  padding: 1rem;
+  color: $body-color;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
+  font-size: 0.8rem;
+  font-style: normal;
+  font-weight: 400;
+
+  .menu-title {
+    font-size: 0.7rem;
+    line-height: 1.45455;
+    font-weight: 700;
+    color: rgb(107, 119, 140);
+    padding: 0px 20px;
+  }
+}
+
+.full-width {
+  width: $full;
+}
+
+.issue-form-in-modal {
+  .field,
+  .select {
+    @include centered-form-field;
+  }
+
+  .form-label {
+    @include label;
+  }
+
+  @media (max-width: 415px) {
+    width: $full;
+
+    .form {
+      width: $full;
+
+      #description {
+        @include label;
+        display: block;
+        margin-left: 5%;
+      }
+    }
+  }
+
+  @media (min-width: 416px) {
+    width: 46.875rem;
+    padding: 1.5rem;
+    text-align: left;
+
+    .navbar-create-btn {
+      @include call-to-action-button;
+    }
+
+    .title {
+      @include title;
+    }
+
+
+  }
+}
+
+.cancel-btn {
+  color: $call-to-action-color;
+  cursor: pointer;
+  font-family: $sm-font;
+  margin-left: 0.9375rem;
+  margin-right: 0.9375rem;
+}
+
+.cancel-btn:hover {
+  text-decoration: underline;
+}
+
+.add-epic-btn {
+  width: 7rem;
+  font-size: 0.7rem;
+}
+
+.issue-detail-form {
+  width: $full;
+
+  .divider {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .margin {
+    margin-bottom: 1rem;
+  }
+
+  .issue-title {
+    font-size: 2rem;
+  }
+
+  .select {
+    width: $full;
+    margin: 0;
+    padding: 0;
+  }
+
+  .left-container {
+    margin-left: 1.5rem;
+    width: $full;
+  }
+  @media (max-width: 415px) {
+    width: $full;
+  }
+
+  @media (min-width: 416px) {
+    padding: 1.5rem;
+    text-align: left;
+    max-height: 43.75rem;
+
+    .navbar-create-btn {
+      @include call-to-action-button;
+    }
+
+    .editable-input {
+      height: 2rem;
+      font-size: 1.8rem;
+    }
+
+    .summary {
+      @include title;
+    }
+
+    .label {
+      font-size: 1em;
+      font-style: inherit;
+      font-weight: 600;
+      letter-spacing: -0.003em;
+      margin-top: 1rem;
+      line-height: 1.5rem;
+      color: rgb(23, 43, 77);
+      overflow-wrap: break-word;
+    }
+
+    .small-label {
+      font-family: "Segoe UI", Roboto, Oxygen, Ubuntu, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+      color: #5e6c84;
+      font-size: 0.75rem;
+      font-weight: 600;
+      line-height: 1rem;
+      float: none;
+      display: block;
+      text-align: left;
+      width: auto;
+      margin: 0;
+    }
+
+    .time {
+      color: rgb(107, 119, 140);
+      padding-top: 0.125rem;
+      white-space: nowrap;
+      margin-top: 0;
+      font-size: 0.75rem;
+      line-height: 1.33333;
+    }
+  }
+}
+
+.CommentBox {
+  .title {
+    @include label;
+  }
+
+  .CommentContent {
+    width: $full;
+
+    .primary {
+      margin-left: 0.1rem;
+    }
+
+    .author {
+      display: inline;
+      cursor: pointer;
+    }
+
+    .author:hover {
+      color: grey;
+    }
+
+    .date {
+      color: grey;
+    }
+  }
+
+  .CommentInput {
+    .container {
+      padding: 0;
+      margin: 0;
+
+      .action-btns {
+        display: flex;
+        float: left;
+
+        .cancel-btn {
+          margin-right: 0.5rem;
+        }
+
+        .navbar-create-btn {
+          @include call-to-action-button;
+        }
+      }
+    }
+  }
+}
+
+.container {
+  margin: 0;
+  padding: 0;
+}
+
+.input-form {
+  width: $full;
+  margin: 0;
+  padding: 0;
+}
+
+.issue-detail-dialogue {
+  .close-btn {
+    position: absolute;
+    width: 1rem;
+    padding-top: 1rem;
+    color: grey;
+    display: block;
+    margin-left: 0rem;
+    margin-right: auto;
+  }
+}
+
+.project-list-title {
+  font-size: 1.71429em;
+  font-style: inherit;
+  color: rgb(23, 43, 77);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 2rem;
+  margin-top: 2.5rem;
+}
+
+.project-list-table {
+  .table-body {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  table-body:hover {
+    background-color: $bgc;
+  }
+
+  th {
+    font-family: BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, "Fira Sans", "Droid Sans", "Helvetica Neue",
+      sans-serif;
+    font-size: 0.875rem;
+    color: #172b4d;
+  }
+
+  .project-name {
+    cursor: pointer;
+    color: #0c47be;
+  }
+}
+
+.project-create-form {
+  width: $full;
+
+  padding: 0;
+
+  .navbar-create-btn {
+    @include call-to-action-button;
+
+    @media (max-width: 415px) {
+      width: 50%;
+    }
+  }
+}
+
+.body {
+  margin-top: 4rem;
+
+  .create-pj-btn {
+    @include call-to-action-button;
+  }
+}
+
+.loading-btn {
+  .root {
+    height: 1.5rem;
+  }
+}
+
+.issue-summary {
+  font-size: 1.71429em;
+  font-style: inherit;
+  line-height: 1.16667;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  color: rgb(23, 43, 77);
+}
+.confirm-btn {
+  @include call-to-action-button;
+}
+
+.input-container {
+  @media (max-width: 415px) {
+    width: $full;
+  }
+
+  @media (min-width: 416px) {
+    width: 21.875rem;
+  }
+
+  .form-label {
+    @include label;
+  }
+
+  .field {
+    @include centered-form-field;
+    background-color: $bgc;
+    height: 2.5rem;
+    margin-top: 0;
+    padding-top: 0;
+  }
+}
+
+.navbar-create-btn {
+  @include call-to-action-button;
+}

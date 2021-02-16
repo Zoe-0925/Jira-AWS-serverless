@@ -1,0 +1,42 @@
+{
+    "paths": [
+        {
+            "name": "/status",
+            "lambdaFunction": "StatusLambda",
+            "privacy": {
+                "private": true,
+                "auth": [
+                    "/POST",
+                    "/GET",
+                    "/PUT",
+                    "/PATCH",
+                    "/DELETE"
+                ]
+            },
+            "policyResourceName": "/status"
+        }
+    ],
+    "resourceName": "StatusApi",
+    "apiName": "StatusApi",
+    "functionArns": [
+        {
+            "lambdaFunction": "StatusLambda"
+        }
+    ],
+    "privacy": {
+        "auth": 1,
+        "unauth": 0,
+        "authRoleName": "amplify-jiraserverless-dev-90420-authRole",
+        "unAuthRoleName": "amplify-jiraserverless-dev-90420-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "StatusLambda",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}

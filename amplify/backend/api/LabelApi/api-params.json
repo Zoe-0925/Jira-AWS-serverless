@@ -1,0 +1,42 @@
+{
+    "paths": [
+        {
+            "name": "/labels",
+            "lambdaFunction": "LabelLambda",
+            "privacy": {
+                "private": true,
+                "auth": [
+                    "/POST",
+                    "/GET",
+                    "/PUT",
+                    "/PATCH",
+                    "/DELETE"
+                ]
+            },
+            "policyResourceName": "/labels"
+        }
+    ],
+    "resourceName": "LabelApi",
+    "apiName": "LabelApi",
+    "functionArns": [
+        {
+            "lambdaFunction": "LabelLambda"
+        }
+    ],
+    "privacy": {
+        "auth": 1,
+        "unauth": 0,
+        "authRoleName": "amplify-jiraserverless-dev-90420-authRole",
+        "unAuthRoleName": "amplify-jiraserverless-dev-90420-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "LabelLambda",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}
