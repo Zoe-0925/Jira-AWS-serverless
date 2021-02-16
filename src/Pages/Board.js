@@ -11,7 +11,6 @@ import {  mockgetUserAndProjectData } from "../Actions/user.actions"
 export default function Board() {
     const dispatch = useDispatch()
     const projectName = useSelector(selectCurrentProjectName)
-
     const [open, setOpen] = useState(true);
 
     useEffect(() => {

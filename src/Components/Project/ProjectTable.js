@@ -49,14 +49,14 @@ const ProjectTable = ({ loading = true, projects = [], users = [], goToBoardPage
                 <Table className="project-list-table" aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            {tableHeader.map(each => <TableCell align="left">{each}</TableCell>)}
+                            {tableHeader.map(each => <TableCell key={each} align="left">{each}</TableCell>)}
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {projects.map(project => (
                             <TableRow key={project._id} className="table-body">
                                 <TableCell align="left" onClick={goToBoardPage}>{project.name}</TableCell>
-                                {[project.key, "Software"].map(each => <TableCell align="left">{each}</TableCell>)}
+                                {[project.key, "Software"].map(each => <TableCell key={each} align="left">{each}</TableCell>)}
                                 <TableCell component="th" scope="row">
                                     <AccountCircleIcon />
                                     {users.find(user => user._id === project.lead) ? users.find(user => user._id === project.lead).name : ""}</TableCell>

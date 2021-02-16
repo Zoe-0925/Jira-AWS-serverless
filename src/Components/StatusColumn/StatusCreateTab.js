@@ -18,9 +18,6 @@ export function EmptyColumn({ hide }) {
         hide()
     }
 
-    //TODO 
-    // the  <div className="flex-row epic-title" > 
-    // used to have the id property
     return (<div className="epic-box">
         <div className="flex-row epic-title" >
             <input

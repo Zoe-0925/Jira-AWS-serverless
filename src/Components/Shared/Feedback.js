@@ -1,16 +1,14 @@
 import React from 'react';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
-import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import { DialogContentContainer } from "../Shared/Dialog"
 
 export const SuccessfulFeedback = ({ open, message }) => {
 
-    function Alert(props) {
+    const Alert = (props) => {
         return <MuiAlert elevation={6} variant="filled" {...props} />;
     }
 
@@ -23,31 +21,22 @@ export const SuccessfulFeedback = ({ open, message }) => {
     )
 }
 
-export const WarningFeedback = ({ open, title, message, handleClose, handleConfirm }) => {
-
-    return (
-        <div>
-            <Dialog
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-            >
-                <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
+export const WarningFeedback = ({ open, title, message, handleClose, handleConfirm }) => (
+    <div>
+        <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+        >
+            <DialogContentContainer handleClose={handleClose} title={title} handleSubmit={handleSubmit}
+                isSubmitting={false} handleSubmit={handleConfirm} handleCancel={handleClose} submitLabel="Delete">
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
                         {message}
                     </DialogContentText>
                 </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleConfirm} className="confirm-btn">
-                        Delete
-            </Button>
-                    <Button onClick={handleClose} className="cancel-btn" autoFocus>
-                        Cancel
-            </Button>
-                </DialogActions>
-            </Dialog>
-        </div>
-    );
-}
+            </DialogContentContainer>
+        </Dialog>
+    </div>
+)
