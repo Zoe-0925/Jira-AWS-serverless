@@ -1,5 +1,4 @@
 
-import { API } from 'aws-amplify';
 import { updateIssueOrder, deleteIssueFromStatus, moveIssue } from "./status.actions"
 import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
 
@@ -22,36 +21,6 @@ export const UPDATE_ISSUE_AFTER_DELETE_STATUS = "UPDATE_ISSUE_AFTER_DELETE_STATU
 export const REMOVE_LABEL_FROM_ISSUE = "REMOVE_LABEL_FROM_ISSUE"
 
 /**********************************  Thunk Actions  ******************************************/
-export const getProjectIssues = (projectId) => async  dispatch => {
-    try {
-        const issues = await API.get("IssueApi", "/issues/project/" + projectId)
-        let tasks = []
-        let epics = []
-        let subtasks = []
-        issues.map(each => {
-            if (each.issueType === "task") {
-                tasks = [...tasks, each]
-                return
-            }
-            if (each.issueType === "epic") {
-                epics = [...epics, each]
-                return
-            }
-            if (each.issueType === "subtask") {
-                subtasks = [...subtasks, each]
-                return
-            }
-        })
-        dispatch({
-            type: APPEND_ISSUES,
-            data: { tasks: tasks, epics: epics, subtasks: subtasks }
-        })
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-    }
-}
-
 export const chainCreateIssueAndUpdateIssueOrder = (data) => async (dispatch, getState) => {
     try {
         const issueOrder = getState().StatusReducer.status.get(data.status).issues

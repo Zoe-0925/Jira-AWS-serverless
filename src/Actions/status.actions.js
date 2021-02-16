@@ -1,4 +1,3 @@
-import API from '@aws-amplify/api';
 import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
 import { reorder } from "../Components/Util"
 import { updateProjectAttribute, updateStatusOrder } from "./project.actions"
@@ -48,17 +47,13 @@ export const chainReorder = (sourceStatus, startIndex, endIndex) => async (dispa
     try {
         const issueOrder = reorder(sourceStatus.issues, startIndex, endIndex)
         dispatch({ type: LOADING })
-            await dispatch(updateIssueOrder(sourceStatus._id, issueOrder))
+        await dispatch(updateIssueOrder(sourceStatus._id, issueOrder))
         dispatch({ type: AUTHENTICATED })
     }
     catch (err) {
         dispatch(dispatchError(err))
     }
 }
-
-//TODO 
-//Needs to update///
-//Because the reducer accepts 2 arrays of results
 
 export const chainMove = (sourceStatus, destinationStatus, startIndex, endIndex) => async (dispatch) => {
     dispatch({ type: LOADING })
@@ -70,23 +65,9 @@ export const chainMove = (sourceStatus, destinationStatus, startIndex, endIndex)
         const sourceUpdated = { _id: sourceStatus._id, value: sourceIssueorder, attribute: "issues" }
         const destinationUpdated = { _id: destinationStatus._id, value: destinationIssueorder, attribute: "issues" }
 
-
-
-
-
-        await API.put("StatusApi", "/status/update/attribute", {
-            body: {
-                sourceUpdated
-            }
-        })
-        await API.put("StatusApi", "/status/update/attribute", {
-            body: {
-                destinationUpdated
-            }
-        })
-
         //TODO
-        //broadcast moveIssue()
+        //Move issues
+
 
     }
     catch (err) {

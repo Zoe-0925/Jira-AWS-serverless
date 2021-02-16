@@ -1,7 +1,6 @@
 import React, { useState, Fragment } from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import { v4 as uuidv4 } from 'uuid'
-import { Auth } from 'aws-amplify';
 import {
     AppBar, Button, Menu, MenuItem, Divider, InputBase, IconButton, Toolbar,
 } from '@material-ui/core'
@@ -94,7 +93,7 @@ export default function NavBar({ openDrawer }) {
     const [isCreateProjectOpen, setOpenCreateProject] = useState(false)
 
     const handleSignOut = async () => {
-        await Auth.signOut();
+        //TODO 
     }
 
     return (

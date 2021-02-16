@@ -9,7 +9,7 @@ import { DotIconMenu } from "../Shared/Tabs"
 import { useDotIconMenu } from "../Shared/CustomHooks"
 import { chainDeleteIssue, updateIssueAttribute } from "../../Actions/issue.actions"
 import { selectTaskById } from "../../Reducers/Selectors"
-import IssueDetail from "./IssueUpdateForm"
+import IssueDetail from "../Issues/IssueUpdateForm"
 
 const IssueCardContainer = ({ issueId }) => {
     const dispatch = useDispatch()

@@ -5,7 +5,7 @@ import StatusCreate from "../StatusColumn/StatusCreateTab"
 import Column from "../StatusColumn/Column"
 import Skeleton from '@material-ui/lab/Skeleton';
 import { v4 as uuidv4 } from 'uuid'
-import IssueCard from "../Issues/IssueCard";
+import IssueCard from "../IssueCard/IssueCard";
 import { selectAllStatusInArrayWithIssues, selectLoading } from "../../Reducers/Selectors"
 
 const DragAndDrop = () => {

@@ -8,7 +8,7 @@ const initialState = {
 }
 
 const UserReducer = (state = initialState, action) => {
-	let newState = Object.assign({}, state)
+	let newState = { ...state }
 	switch (action.type) {
 		case ADD_OTHER_USERS:
 			newState.users = newState.users.concat(action.data)

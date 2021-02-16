@@ -1,4 +1,3 @@
-import API from '@aws-amplify/api';
 import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
 
 export const CREATE_COMMENT = "CREATE_COMMENT"
@@ -25,7 +24,7 @@ export function deleteSuccessCommentByProject(id) {
 export const getCommentsForIssue = (issueId) => async  dispatch => {
     dispatch({ type: LOADING })
     try {
-        const data = await API.get("CommentApi", "/comments/issue/" + issueId)
+        const data = [] //TODO fix
         dispatch({
             type: APPEND_COMMENTS,
             data: data
@@ -39,11 +38,7 @@ export const getCommentsForIssue = (issueId) => async  dispatch => {
 
 export const createComment = (newComment) => async dispatch => {
     try {
-        await Promise.all([
-            dispatch({ type: LOADING }),
-            API.push("CommentApi", "/comments/", { body: newComment })
-        ])
-
+        dispatch({ type: LOADING })
         dispatch({ type: AUTHENTICATED })
     } catch (err) {
         dispatch(dispatchError(err))
@@ -52,10 +47,7 @@ export const createComment = (newComment) => async dispatch => {
 
 export const updateCommentDescription = (data) => async dispatch => {
     try {
-        await Promise.all([
-            dispatch({ type: LOADING }),
-            API.put("CommentApi", "/comments/description", { body: data })
-        ])
+        dispatch({ type: LOADING })
         dispatch(updateCommentDescription(data))
         dispatch({ type: AUTHENTICATED })
     }
@@ -66,10 +58,7 @@ export const updateCommentDescription = (data) => async dispatch => {
 
 export const deleteComment = (id) => async dispatch => {
     try {
-        await Promise.all([
-            dispatch({ type: LOADING }),
-            API.del("CommentApi", "/comments/object/" + id)
-        ])
+        dispatch({ type: LOADING })
         dispatch(deleteCommentAction(id))
         dispatch({ type: AUTHENTICATED })
     }

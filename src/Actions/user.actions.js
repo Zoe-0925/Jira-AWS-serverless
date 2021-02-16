@@ -1,10 +1,6 @@
-import { Auth } from 'aws-amplify';
-import API from '@aws-amplify/api';
 import history from "../history"
-import { getAllProjects, mockgetAllProjects, setCurrentProject, chainDeleteProject } from "./project.actions"
+import {  mockgetAllProjects, setCurrentProject } from "./project.actions"
 import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
-import { getProjectIssues, APPEND_ISSUES } from "./issue.actions"
-import { getProjectLabels } from "./label.actions"
 import {  appendSuccessStatus } from "./status.actions"
 
 export const LOGIN = "LOGIN"
@@ -98,20 +94,6 @@ export const mockgetUserAndProjectData = () => async (dispatch) => {
     }
 }
 
-export const getCurrentUser = () => async  dispatch => {
-    try {
-        const credential = await Auth.currentAuthenticatedUser({
-            bypassCache: true  // Optional, By default is false. If set to true, this call will send a request to Cognito to get the latest user data
-        })
-        if (credential) {
-            return await dispatch(searchUserByEmail(credential.username))
-        }
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-    }
-}
-
 export const updateUserProjects = projects => async (dispatch) => {
     const payload = {
         type: UPDATE_PROJECTS,
@@ -119,14 +101,3 @@ export const updateUserProjects = projects => async (dispatch) => {
     }
     dispatch(payload)
 }
-
-export const searchUserByEmail = email => async (dispatch) => {
-    try {
-        const user = await API.get("UserApi", "/users/email/" + email)
-        return user
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-    }
-}
-

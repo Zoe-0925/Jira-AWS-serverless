@@ -1,8 +1,5 @@
-import API from '@aws-amplify/api';
 import {  appendSuccessStatus } from "./status.actions"
 import { updateUserProjects } from "./user.actions"
-import { getProjectIssues} from "./issue.actions"
-import { getProjectLabels } from "./label.actions"
 import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
 
 export const CREATE_PROJECT = "CREATE_PROJECT"
@@ -17,23 +14,6 @@ export const UPDATE_STATUS_ORDER = "UPDATE_STATUS_ORDER"
 export const REMOVE_STATUS_FROM_ORDER = "REMOVE_STATUS_FROM_ORDER"
 
 /*****************  Thunk Actions  ****************/
-
-export const getAllProjects = (idList) => async dispatch => {
-    try {
-        idList.map(projectId => API.get("ProjectApi", "/projects/object/" + projectId).then(
-            project => {
-                dispatch({
-                    type: CREATE_PROJECT,
-                    data: project.Item
-                })
-            }
-        ))
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-    }
-}
-
 export const mockgetAllProjects = () => async dispatch => {
     try {
         let projects = [{

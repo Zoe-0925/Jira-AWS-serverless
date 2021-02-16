@@ -6,11 +6,11 @@ import {
 const { Map } = require('immutable');
 
 const initialState = {
-    status: Map(),
+    status: Map()
 }
 
 export default function StatusReducer(state = initialState, action) {
-    let newState = Object.assign({}, state)
+    let newState = { ...state }
     let status
     switch (action.type) {
         case CREATE_STATUS:
@@ -28,7 +28,7 @@ export default function StatusReducer(state = initialState, action) {
         case UPDATE_ISSUE_ORDER:
             status = newState.status.get(action._id)
             status = { ...status, issues: action.value }
-            newState.status  = newState.status.merge({[action._id]: [status]})
+            newState.status = newState.status.merge({ [action._id]: [status] })
             return newState
         case MOVE_ISSUE:
             let sourceStatus = newState.status.get(action.source._id)
