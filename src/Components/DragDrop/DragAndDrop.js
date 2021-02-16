@@ -6,19 +6,19 @@ import Column from "../StatusColumn/Column"
 import Skeleton from '@material-ui/lab/Skeleton';
 import { v4 as uuidv4 } from 'uuid'
 import IssueCard from "../IssueCard/IssueCard";
-import { selectAllStatusInArrayWithIssues, selectLoading } from "../../Reducers/Selectors"
+import { selectAllStatusInArray, selectStatus, selectNonOrderedAllStatusInArray, selectLoading } from "../../Reducers/Selectors"
 
 const DragAndDrop = () => {
-    const columns = useSelector(selectAllStatusInArrayWithIssues) //TODO undefined
+    let columns = useSelector(selectAllStatusInArray) //TODO undefined
+    // columns = [...columns.values()]
     const loading = useSelector(selectLoading)
 
-console.log("columns", columns)
+    console.log("columns", columns)
 
     return (
         <div className="epic-list">
-            {columns && typeof columns==="object" &&  columns.map((el, ind) => {
-                if (!loading) {
-                    console.log("columns", columns)
+            {columns && columns.map((el, ind) => {
+                if (!loading && el) {
                     return <MyDroppable key={ind} el={el} ind={ind}>
                         <Column key={uuidv4()} initialStatus={el}>
                             {el && el.issues && el.issues.map((issueId, index) => <MyDraggable key={uuidv4()} id={issueId} index={index}>

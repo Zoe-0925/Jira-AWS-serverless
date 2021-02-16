@@ -19,12 +19,6 @@ export const selectLoadingReducer = state => state.LoadingReducer
 export const selectLoading = state => state.LoadingReducer.loading
 
 /****************** Selectors - Status  *********************/
-export const selectAllStatusInArray = state => {
-    const project = state.ProjectReducer.projects.find(project => project._id === state.ProjectReducer.currentProjectId)
-    const statusOrder = project ? project.statusOrder : []
-    return statusOrder.map(each => state.StatusReducer.status.get(each))
-}
-
 
 export const selectAllStatus = state => state.StatusReducer.status
 
@@ -137,21 +131,18 @@ export const selectTaskById = (issueId) => createSelector(
 )
 
 /****************** Reselectors - Status  *********************/
-export const selectStatusOrder = () => createSelector(
+export const selectStatusOrder = createSelector(
     selectCurrentProject,
-    project => project.statusOrder
+    project => project ? project.statusOrder : []
 )
 
-//TODO
-//Create issue bug is located here.
-//Seletors worked faster than the update.
-export const selectAllStatusInArrayWithIssues = () => createSelector(
-    selectAllStatusInArray,
-    selectIssueReducer,
-    (statusList, issueReducer) => {
-
-        //TODO
-    }
+export const selectStatus = createSelector(
+    selectStatusReducer,
+    statusReducer => statusReducer.status
 )
 
-
+export const selectAllStatusInArray = createSelector(
+    selectStatusOrder,
+    selectStatus,
+    (statusOrder, statusMap) => statusOrder.map(each => statusMap.get(each))
+)  
