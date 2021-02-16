@@ -2,7 +2,7 @@ import React, { useState, Fragment } from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import { v4 as uuidv4 } from 'uuid'
 import {
-    AppBar, Button, Menu, MenuItem, Divider, InputBase, IconButton, Toolbar,
+    AppBar, Button, MenuItem, Divider, IconButton, Toolbar,
 } from '@material-ui/core'
 
 import history from "../../history"
@@ -114,7 +114,7 @@ export default function NavBar({ openDrawer }) {
                     <IssueCreateDialogue />
                     <div className={classes.grow} />
                     <div className={classes.sectionDesktop}>
-                 
+
                         <IconButton
                             edge="start"
                             className={classes.menuButton}
@@ -204,24 +204,3 @@ const AccountMenu = ({ handleSignOut }) => {
         </Fragment>
     )
 }
-
-
-
-
-/**
- * Removed: Search box in the navigation bar
- * 
- *        <div className={classes.search}>
-                            <div className={classes.searchIcon}>
-                                <SearchIcon />
-                            </div>
-                            <InputBase
-                                placeholder="Search…"
-                                classes={{
-                                    root: classes.inputRoot,
-                                    input: classes.inputInput,
-                                }}
-                                inputProps={{ 'aria-label': 'search' }}
-                            />
-                        </div>
- */

@@ -43,7 +43,7 @@ export function EmptyColumn({ hide }) {
     </div>)
 }
 
-export default function StatusCreate() {
+export default function CreateStatusTab() {
     const [showNewEditable, setShowEditable] = useState(false)
 
     return (

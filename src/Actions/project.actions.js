@@ -39,7 +39,7 @@ export const chainCreactProject = (project, status) => async (dispatch, getState
     await Promise.all([
         dispatch(createProject(project)),
         dispatch(appendSuccessStatus(status)),
-        dispatch(updateUserProjects(project._id))
+        dispatch(updateUserProjects(projectsUpdated))
     ])
     dispatch({ type: AUTHENTICATED })
 }
@@ -62,28 +62,6 @@ export const updateProjectDetail = (data) => async  dispatch => {
             data: data
         })
         dispatch({ type: AUTHENTICATED })
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-    }
-}
-
-export const addMember = (projectId, userId, members) => async dispatch => {
-    try {
-        const param = { _id: projectId, value: [...members, userId], attribute: "members" }
-        await dispatch(updateProjectAttribute(param))
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-    }
-}
-
-export const subMembers = (projectId, userId, members) => async dispatch => {
-    try {
-        let updated = [...members]
-        updated = updated.filter(member => member === userId)
-        const param = { _id: projectId, value: updated, attribute: "members" }
-        await dispatch(updateProjectAttribute(param))
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -117,7 +95,6 @@ export const updateProjectAttribute = (data) => async dispatch => {
         data: data
     })
 }
-/*****************  Actions  ****************/
 
 export const setCurrentProject = id => {
     return {

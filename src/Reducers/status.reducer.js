@@ -20,8 +20,7 @@ export default function StatusReducer(state = initialState, action) {
             newState.status.detele(action.id)
             return newState
         case UPDATE_STATUS_NAME:
-            status = newState.status.get(action.data._id)
-            console.log("action.data", action.data)
+            status = { ...newState.status.get(action.data._id) }
             status.name = action.data.name
             newState.status.set(action.data._id, status)
             return newState

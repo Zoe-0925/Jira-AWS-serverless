@@ -21,7 +21,7 @@ export const chainCreateStatus = data => async (dispatch, getState) => {
         dispatch({ type: LOADING })
         await Promise.all([
             dispatch(createStatus(data)),
-            dispatch(updateProjectAttribute(data)),
+            dispatch(updateProjectAttribute(projectAttributePayload)),
         ])
     } catch (err) {
         dispatch(dispatchError(err))
@@ -138,8 +138,6 @@ export const moveIssue = (source, destination) => async dispatch => {
     })
 }
 
-
-/**************************** Actions ***************************/
 export const reorderToBotttom = (source, startIndex) => {
     return {
         type: REORDER_ISSUES,

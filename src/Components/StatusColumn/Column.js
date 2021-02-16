@@ -12,7 +12,7 @@ import ColumnTitle from "./ColumnTitle"
 import { useEditText } from '../Shared/CustomHooks';
 import { v4 as uuidv4 } from 'uuid'
 
-const Column = ({ loading, status = { _id: "", project: "", issues: [], name: "" }, children }) => {
+const Column = ({ status = { _id: "", project: "", issues: [], name: "" }, children }) => {
     const dispatch = useDispatch()
     const { state, setState, edit, setEdit } = useEditText("")
     const loading = useSelector(selectLoading)
@@ -25,7 +25,6 @@ const Column = ({ loading, status = { _id: "", project: "", issues: [], name: ""
         dispatch(chainCreateIssueAndUpdateIssueOrder(issue, status.issues))
         setEdit(false)
     }
-    
 
     return (
         <div className="epic-box" key={uuidv4()}>

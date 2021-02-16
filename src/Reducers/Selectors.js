@@ -148,22 +148,10 @@ export const selectStatusOrder = () => createSelector(
 export const selectAllStatusInArrayWithIssues = () => createSelector(
     selectAllStatusInArray,
     selectIssueReducer,
-    (status, issueReducer) => {
-        let valid = true
-        status.map(each => {
-            if (!each || !each.issues) { valid = false }
-            //each.issues = each.issues.map(issueId => state.IssueReducer.tasks.get(issueId))
-        })
-        if (valid) {
-            status.map(each => {
-                each.issues = each.issues.map(issueId => issueReducer.tasks.get(issueId))
-                return each
-            })
-        }
-        console.log("status", status)
-        return status
-    }
+    (statusList, issueReducer) => {
 
+        //TODO
+    }
 )
 
 

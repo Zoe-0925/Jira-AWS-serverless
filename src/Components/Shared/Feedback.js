@@ -29,8 +29,8 @@ export const WarningFeedback = ({ open, title, message, handleClose, handleConfi
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
         >
-            <DialogContentContainer handleClose={handleClose} title={title} handleSubmit={handleSubmit}
-                isSubmitting={false} handleSubmit={handleConfirm} handleCancel={handleClose} submitLabel="Delete">
+            <DialogContentContainer handleClose={handleClose} title={title} isSubmitting={false}
+                handleSubmit={handleConfirm} handleCancel={handleClose} submitLabel="Delete">
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
                         {message}

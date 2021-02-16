@@ -6,7 +6,6 @@ import {
 } from '@material-ui/core';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import CloseIcon from '@material-ui/icons/Close';
-import { Row, Col } from "reactstrap"
 import { v4 as uuidv4 } from 'uuid'
 
 export function AddTab({ operationName, handleClick, className }) {

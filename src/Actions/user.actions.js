@@ -1,4 +1,3 @@
-import history from "../history"
 import {  mockgetAllProjects, setCurrentProject } from "./project.actions"
 import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
 import {  appendSuccessStatus } from "./status.actions"
@@ -31,26 +30,6 @@ export function updateUser(data) {
         data: data
     }
 }
-
-export function dispatchAddOtherUsers(userList) {
-    return {
-        type: ADD_OTHER_USERS,
-        data: userList
-    }
-}
-
-/******************* Thunk Actions  *****************************/
-export const chainDeleteUser = () => async (dispatch) => {
-    try {
-       dispatch({ type: LOADING })
-        dispatch({ type: CLEAR })
-        history.push("/")
-    }
-    catch (err) {
-        return dispatch(dispatchError(err))
-    }
-}
-
 
 export const mockgetUserAndProjectData = () => async (dispatch) => {
     try {
