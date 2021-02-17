@@ -122,7 +122,7 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
 }
 
 .drawer-close {
-  @media (min-width: 401px) {
+  @media (min-width: 416px) {
     margin-left: 16.25rem;
   }
 }
@@ -215,7 +215,7 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
   height: 100vh;
 
   .form {
-    @media (max-width: 400px) {
+    @media (max-width: 415px) {
       width: $full;
     }
     width: 30%;
@@ -321,15 +321,6 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
   font-size: $xs-font-size;
   color: $drawer-color;
 
-  @media (max-width: 400px) {
-    .mobile-drawer {
-      display: none;
-    }
-    .desktop-drawer {
-      display: block;
-    }
-  }
-
   .container {
     color: $drawer-color;
   }
@@ -372,13 +363,22 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
   }
 }
 
-.col {
-  display: grid;
+@media (min-width: 416px) {
+  .mobile-drawer {
+    display: none;
+  }
+  .desktop-drawer {
+    display: block;
+  }
 }
 
-.row {
-  display: flex;
-  align-items: center;
+@media (max-width: 415px) {
+  .mobile-drawer {
+    display: none;
+  }
+  .desktop-drawer {
+    display: block;
+  }
 }
 
 .modal {
@@ -679,7 +679,7 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
     @include label;
   }
 
-  @media (max-width: 400px) {
+  @media (max-width: 415px) {
     width: $full;
 
     .form {
@@ -693,7 +693,7 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
     }
   }
 
-  @media (min-width: 401px) {
+  @media (min-width: 416px) {
     width: 46.875rem;
     padding: 1.5rem;
     text-align: left;
@@ -753,11 +753,11 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
     margin-left: 1.5rem;
     width: $full;
   }
-  @media (max-width: 400px) {
+  @media (max-width: 415px) {
     width: $full;
   }
 
-  @media (min-width: 401px) {
+  @media (min-width: 416px) {
     padding: 1.5rem;
     text-align: left;
     max-height: 43.75rem;
@@ -926,7 +926,7 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
   .navbar-create-btn {
     @include call-to-action-button;
 
-    @media (max-width: 400px) {
+    @media (max-width: 415px) {
       width: 50%;
     }
   }
@@ -962,11 +962,11 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
 }
 
 .input-container {
-  @media (max-width: 400px) {
+  @media (max-width: 415px) {
     width: $full;
   }
 
-  @media (min-width: 401px) {
+  @media (min-width: 416px) {
     width: 21.875rem;
   }
 
