@@ -27,38 +27,27 @@ export const getProjectStatus = (projectId) => async  dispatch => {
     }
 }
 
-export const chainCreateStatus = data => async (dispatch, getState) => {
+export const chainCreateStatus = data => async (dispatch) => {
     try {
-        const project = getState().ProjectReducer.projects.find(item => item._id === data.project)
-        const projectAttributePayload = { _id: data.project, attribute: "statusOrder", value: [...project.statusOrder, data._id] }
         await Promise.all([
             dispatch({ type: LOADING }),
             fetchCreateStatus(data),
-            fetchUpdateProjectAttribute(projectAttributePayload)
         ])
-        await Promise.all([
-            dispatch(createStatus(data)),
-            dispatch(updateProjectAttribute(data)),
-        ])
+        dispatch(createStatus(data))
+        dispatch({ type: AUTHENTICATED })
     } catch (err) {
         dispatch(dispatchError(err))
     }
 }
 
-export const chaninDeleteStatus = (statusId) => async (dispatch, getState) => {
+export const deleteStatus = (statusId) => async (dispatch) => {
     try {
-        const status = getState().StatusReducer.status.get(statusId)
-        const project = getState().ProjectReducer.projects.find(project => project._id === status.project)
-        let newOrder = project.statusOrder.filter(item => item._id !== status._id)
         await Promise.all([
             dispatch({ type: LOADING }),
-            fetchDeleteStatus(status._id),
-            fetchUpdateProjectAttribute({ _id: status.project, attribute: "statusOrder", value: newOrder })
+            fetchDeleteStatus(statusId),
         ])
-        await Promise.all([
-            dispatch(deleteStatus(status._id)),
-            dispatch(updateStatusOrder(newOrder))
-        ])
+        dispatch(deleteStatusAction(statusId))
+        dispatch({ type: AUTHENTICATED })
     } catch (err) {
         dispatch(dispatchError(err))
     }
@@ -79,24 +68,15 @@ export const chainReorder = (sourceStatus, startIndex, endIndex) => async (dispa
     }
 }
 
-//TODO 
-//Needs to update///
-//Because the reducer accepts 2 arrays of results
-
 export const chainMove = (sourceStatus, destinationStatus, startIndex, endIndex) => async (dispatch) => {
     dispatch({ type: LOADING })
     try {
-        let sourceIssueorder = [...sourceStatus.issues]
-        let destinationIssueorder = [...destinationStatus.issues]
+        let sourceIssueorder = sourceStatus.issues.map(each => each._id)
+        let destinationIssueorder = destinationStatus.issues.map(each => each._id)
         const [removedToMove] = sourceIssueorder.splice(startIndex, 1);
         destinationIssueorder.splice(endIndex, 0, removedToMove);
         const sourceUpdated = { _id: sourceStatus._id, value: sourceIssueorder, attribute: "issues" }
         const destinationUpdated = { _id: destinationStatus._id, value: destinationIssueorder, attribute: "issues" }
-
-
-
-
-
         await API.put("StatusApi", "/status/update/attribute", {
             body: {
                 sourceUpdated
@@ -107,7 +87,11 @@ export const chainMove = (sourceStatus, destinationStatus, startIndex, endIndex)
                 destinationUpdated
             }
         })
-
+        Promise.all([
+            dispatch({ type: LOADING }),
+            dispatch(updateStatusAttribute(sourceUpdated)),
+            dispatch(updateStatusAttribute(destinationUpdated))
+        ])
         //TODO
         //broadcast moveIssue()
 
@@ -117,17 +101,32 @@ export const chainMove = (sourceStatus, destinationStatus, startIndex, endIndex)
     }
 }
 
-export const updateStatusName = (data) => async  dispatch => {
-    try {
-        await Promise.all([
-            dispatch({ type: LOADING }),
-            fetchUpdateStatusAttribute(data)
-        ])
-        dispatch(updateStatusNameAction(data))
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-    }
+export const appendNewIssue = (statusId, issueId) => dispatch => {
+    dispatch({ type: LOADING })
+
+    //TODO
+    //Update API
+
+
+    dispatch({
+        type: APPEND_NEW_ISSUE,
+        status: statusId,
+        issue: issueId
+    })
+    dispatch({ type: AUTHENTICATED })
+}
+
+//TODO 
+//Update API
+export const updateStatusAttribute = (data) => dispatch => {
+    dispatch({ type: LOADING })
+    dispatch({
+        type: UPDATE_STATUS_ATTRIBUTE,
+        _id: data._id,
+        attribute: data.attribute,
+        value: data.value
+    })
+    dispatch({ type: AUTHENTICATED })
 }
 
 export const deleteIssueFromStatus = (issueId, statusId) => async (dispatch, getState) => {
@@ -156,7 +155,7 @@ export const deleteIssueFromStatus = (issueId, statusId) => async (dispatch, get
     }
 }
 
-export const deleteStatus = (id) => async dispatch => {
+export const deleteStatusAction = (id) => async dispatch => {
     await dispatch({
         type: DELETE_STATUS,
         id: id
@@ -189,22 +188,6 @@ export const createStatus = (newStatus) => async dispatch => {
       */
 }
 
-export const updateStatusNameAction = data => async dispatch => {
-    await dispatch({
-        type: UPDATE_STATUS_NAME,
-        data: data
-    })
-
-    //TODO
-    //Uncomment below to enable web socket
-    /**
-    await dispatch(sendWsToServer({
-        type: UPDATE_STATUS_NAME,
-        data: data
-    }))
-     */
-}
-
 export const updateIssueOrder = (id, issueOrder) => async dispatch => {
     await dispatch({ type: UPDATE_ISSUE_ORDER, _id: id, attribute: "issues", value: issueOrder, action: "update" })
 
@@ -231,18 +214,6 @@ export const moveIssue = (source, destination) => async dispatch => {
     }))
 }
 
-export const fetchCreateMultipleStatus = list => async dispatch => {
-    list.forEach(element => {
-        API.post("StatusApi", "/status", {
-            body: element
-        }).catch(err => {
-            dispatch(dispatchError(err))
-        })
-    })
-}
-
-
-/**************************** Actions ***************************/
 export const reorderToBotttom = (source, startIndex) => {
     return {
         type: REORDER_ISSUES,
@@ -251,10 +222,6 @@ export const reorderToBotttom = (source, startIndex) => {
         endIndex: -1
     }
 }
-
-
-
-
 
 /**************************** APIs ***************************/
 
@@ -272,4 +239,14 @@ export const fetchDeleteStatus = async id => {
 
 export const fetchCreateStatus = async data => {
     await API.post("StatusApi", "/status/", { body: data })
+}
+
+export const fetchCreateMultipleStatus = list => async dispatch => {
+    list.forEach(element => {
+        API.post("StatusApi", "/status", {
+            body: element
+        }).catch(err => {
+            dispatch(dispatchError(err))
+        })
+    })
 }
