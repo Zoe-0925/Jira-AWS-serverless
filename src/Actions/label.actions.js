@@ -24,6 +24,7 @@ export const getProjectLabels = (projectId) => async  dispatch => {
 
 export const chainDeleteLabel = (id) => async  dispatch => {
     try {
+        //TODO add API calls
         await Promise.all([
             dispatch({ type: LOADING }),
             await dispatch(removeLabelFromIssues(id))

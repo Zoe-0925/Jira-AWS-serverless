@@ -18,6 +18,8 @@ export const UPDATE_STATUS_ORDER = "UPDATE_STATUS_ORDER"
 export const REMOVE_STATUS_FROM_ORDER = "REMOVE_STATUS_FROM_ORDER"
 
 /*****************  Thunk Actions  ****************/
+//TODO
+//check if the reducer is updated right
 export const chainGetProjectData = (id) => async dispatch => {
     await Promise.all([
         dispatch({ type: LOADING }),
@@ -65,8 +67,8 @@ export const chainCreactProject = (project, status) => async (dispatch, getState
     const userReducer = getState().UserReducer
     let projects = userReducer.users.find(user => user._id === userReducer.currentUserId).projects
     let projectsUpdated = [...projects, project._id]
+    dispatch({ type: LOADING })
     await Promise.all([
-        dispatch({ type: LOADING }),
         fetchCreateProject(project),
         fetchCreateMultipleStatus(status),
         fetchUpdateUserProjects(userReducer.currentUserId, projectsUpdated)
@@ -79,6 +81,8 @@ export const chainCreactProject = (project, status) => async (dispatch, getState
     dispatch({ type: AUTHENTICATED })
 }
 
+//TODO
+//check API and dynamodb
 export const chainDeleteProject = (projectId) => async dispatch => {
     try {
         await Promise.all([
@@ -124,6 +128,7 @@ export const addMember = (projectId, userId, members) => async dispatch => {
     }
 }
 
+//TODO checck both locally and API
 export const subMembers = (projectId, userId, members) => async dispatch => {
     try {
         let updated = [...members]
@@ -137,6 +142,9 @@ export const subMembers = (projectId, userId, members) => async dispatch => {
     }
 }
 
+//TODO
+//check in thunk
+// I should delete project and also clear other related states.
 export const deleteProject = (id) => async  dispatch => {
     await dispatch(sendWsToServer({
         type: DELETE_PROJECT,
@@ -151,20 +159,12 @@ export const createProject = (newProject) => async dispatch => {
     }))
 }
 
-export const updateStatusOrder = data => async dispatch => {
-    await dispatch(sendWsToServer({
-        type: UPDATE_STATUS_ORDER,
-        data: data
-    }))
-}
-
 export const updateProjectAttribute = (data) => async dispatch => {
     await dispatch(sendWsToServer({
         type: UPDATE_PROJECT_ATTRIBUTE,
         data: data
     }))
 }
-/*****************  Actions  ****************/
 
 export const setCurrentProject = id => {
     return {
