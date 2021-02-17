@@ -152,5 +152,8 @@ export const selectStatus = createSelector(
 export const selectStatusWithIssue = createSelector(
     selectStatus,
     selectAllTasks,
-    (statusList, tasks) => statusList.map(each => each.issues.map(issueId => tasks.get(issueId))) 
+    (statusList, tasks) => statusList.map(each => {
+        each.issues= each.issues.map(issueId => tasks.get(issueId))
+        return each
+    }) 
 )  

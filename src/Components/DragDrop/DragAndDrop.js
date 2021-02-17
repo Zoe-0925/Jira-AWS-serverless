@@ -12,7 +12,7 @@ const DragAndDrop = () => {
     let columns = useSelector(selectStatusWithIssue)
     const loading = useSelector(selectLoading)
 
-    //console.log("columns", columns, "loading", loading)
+    console.log("columns", columns, "loading", loading)
 
     return (
         <div className="epic-list">
