@@ -161,8 +161,6 @@ export const selectAllStatusInArray = createSelector(
     (statusOrder, statusMap) => statusOrder.map(each => statusMap.get(each))
 )
 
-//TODO 
-//bug
 export const selectAllStatusInArrayWithIssue = createSelector(
     selectAllStatusInArray,
     selectAllTasks,

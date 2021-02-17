@@ -3,7 +3,6 @@ import { updateUserProjects } from "./user.actions"
 import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
 
 export const CREATE_PROJECT = "CREATE_PROJECT"
-export const DELETE_PROJECT = "DELETE_PROJECT"
 export const UPDATE_PROJECT_ATTRIBUTE = "UPDATE_PROJECT_ATTRIBUTE"
 export const UPDATE_PROJECT_DETAIL = "UPDATE_PROJECT_DETAIL"
 export const APPEND_PROJECTS = "APPEND_PROJECTS"
@@ -70,7 +69,7 @@ export const updateProjectDetail = (data) => async  dispatch => {
 
 export const deleteProject = (id) => async  dispatch => {
     await dispatch({
-        type: DELETE_PROJECT,
+        type: "CLEAR_PROJECT",
         id: id
     })
 }

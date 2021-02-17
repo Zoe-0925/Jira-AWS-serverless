@@ -22,9 +22,7 @@ export default function LabelReducer(state = initialState, action) {
             return { labels: newState.labels.filter(item => item._id !== action.id) }
         case APPEND_LABELS:
             return { labels: newState.labels.concat(action.data) }
-        case "DELETE_PROJECT":
-            return initialState
-        case "CLEAR":
+        case "CLEAR_LABEL":
             return initialState
         default:
             return state;

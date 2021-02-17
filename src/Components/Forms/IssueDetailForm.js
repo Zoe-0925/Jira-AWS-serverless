@@ -3,39 +3,32 @@ import { useSelector, useDispatch } from "react-redux"
 import { IssueSummaryInput, IssueDescriptionInput } from "../Issues/IssueInputsFields"
 import IssueAddEpic from "../Issues/IssueAddEpic"
 import { Row, Col } from 'reactstrap';
-import { Divider, Breadcrumbs, IconButton} from '@material-ui/core';
+import { Divider, Breadcrumbs, IconButton } from '@material-ui/core';
 import {
-    selectStatusById, selectLabels, selectProjectMembers, selectTaskById,
-    selectUserById, selectIssueUpdatedTimeById, selectAllStatusInArray
+    selectStatusById, selectLabels, selectProjectMembers, selectUserById,selectAllStatusInArray
 } from "../../Reducers/Selectors"
-import {
-    chainUpdateIssueStatus, updateIssueAttribute
-} from "../../Actions/issue.actions"
+import { chainUpdateIssueStatus, updateIssueAttribute } from "../../Actions/issue.actions"
 import CommentHOC from "../Comment/CommentHOC"
 import CloseIcon from '@material-ui/icons/Close';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import { formatDate } from "../Util"
 import { FormSelectField } from "../Shared/FormFields"
 
-const IssueDetailForm = ({ issueId, handleClose }) => {
+const IssueDetailForm = ({ issue, handleClose }) => {
     const dispatch = useDispatch()
-    const issue = useSelector(selectTaskById(issueId))
-    const updatedTime = useSelector(selectIssueUpdatedTimeById(issueId))
     const assignee = useSelector(selectUserById(issue.assignee || ""))
     const reporter = issue.reporter ? issue.reporter : ""
-
-    const currentLabels = []
+    const currentLabels = useSelector(selectLabels)
     const defaultStatus = useSelector(selectStatusById(issue.status))
     const allStatus = useSelector(selectAllStatusInArray)
     let statusOptions = allStatus.map(each => { return { label: each.name, value: each._id } })
-
     const defaultAssignee = assignee === "" ? { label: "Not assigned", value: "" } : { label: assignee.name, value: assignee }
 
     const assigneeOptions = useSelector(selectProjectMembers).map(each => {
         return { label: each.name, value: each._id }
     }).push({ label: "Not assigned", value: "" })
 
-    const labelOptions = useSelector(selectLabels).map(each => {
+    const labelOptions = currentLabels.map(each => {
         return { label: each.name, value: each._id }
     })
 
@@ -113,7 +106,7 @@ const IssueDetailForm = ({ issueId, handleClose }) => {
                         <Divider />
                         <br />
                         <p className="time">{"Created " + formatDate(issue.createdAt)}</p>
-                        <p className="time">{"Updated " + formatDate(updatedTime)}</p>
+                        <p className="time">{"Updated " + formatDate(issue.updatedAt)}</p>
                     </Col>
                 </Row>
             </div>

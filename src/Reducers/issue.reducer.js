@@ -123,9 +123,6 @@ export default function IssueReducer(state = initialState, action) {
 
 
 
-
-        case "DELETE_PROJECT":
-            return initialState
         case "CLEAR":
             return initialState
         default:

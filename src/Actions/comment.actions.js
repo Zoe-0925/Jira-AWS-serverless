@@ -79,7 +79,7 @@ export const deleteCommentByIssue = (issueId) => async  dispatch => {
         //TODO
         //update batch write item and update the api call
         dispatch({
-            type: "DELETE_PROJECT"
+            type: "CLEAR_COMMENT"
         })
     }
     catch (err) {
