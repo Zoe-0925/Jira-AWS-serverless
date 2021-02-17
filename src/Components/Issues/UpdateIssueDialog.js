@@ -3,13 +3,12 @@ import IssueUpdateSkeleton from "./IssueUpdateSkeleton"
 import IssueDetailForm from "../Forms/IssueDetailForm"
 import { MyDialog } from "../Shared/Dialog"
 
-export const UpdateIssueDialog = ({ issueId = "", open, handleClose }) => {
+export const UpdateIssueDialog = ({ issue, open, handleClose }) => (
+<MyDialog open={open} handleClose={handleClose} maxWidth="lg">
+    {!issue ? <IssueUpdateSkeleton handleClose={handleClose} />
+        : <IssueDetailForm issue={issue} handleClose={handleClose} />}
+</MyDialog>)
 
-    return (<MyDialog open={open} handleClose={handleClose} maxWidth="md">
-        {issueId === "" ? <IssueUpdateSkeleton handleClose={handleClose} />
-            : <IssueDetailForm issue={issueId} handleClose={handleClose} />}
-    </MyDialog>)
-}
 
 export default UpdateIssueDialog
 

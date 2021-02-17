@@ -5,7 +5,7 @@ import IssueAddEpic from "../Issues/IssueAddEpic"
 import { Row, Col } from 'reactstrap';
 import { Divider, Breadcrumbs, IconButton } from '@material-ui/core';
 import {
-    selectStatusById, selectLabels, selectProjectMembers, selectUserById,selectStatus
+    selectStatusById, selectLabels, selectProjectMembers, selectUserById, selectStatus
 } from "../../Reducers/Selectors"
 import { chainUpdateIssueStatus, updateIssueAttribute } from "../../Actions/issue.actions"
 import CommentHOC from "../Comment/CommentHOC"
@@ -20,6 +20,7 @@ const IssueDetailForm = ({ issue, handleClose }) => {
     const reporter = issue.reporter ? issue.reporter : ""
     const currentLabels = useSelector(selectLabels)
     const defaultStatus = useSelector(selectStatusById(issue.status))
+
     const allStatus = useSelector(selectStatus)
     let statusOptions = allStatus.map(each => { return { label: each.name, value: each._id } })
     const defaultAssignee = assignee === "" ? { label: "Not assigned", value: "" } : { label: assignee.name, value: assignee }
@@ -87,7 +88,7 @@ const IssueDetailForm = ({ issue, handleClose }) => {
                         <br />
                     </Col>
                     <Col sm="12" md="5">
-                        <FormSelectField id="status" inputLabel="Status" options={statusOptions} defaultValue={{ label: defaultStatus.name, value: issue.status }}
+                        <FormSelectField id="status" inputLabel="Status" options={statusOptions} defaultValue={{ label: defaultStatus.name || "", value: issue.status }}
                             handleChange={changeStatus}
                         />
                         <br />

@@ -44,6 +44,8 @@ const IssueCardHOC = ({ issue }) => {
 const IssueCard = ({ issue, handleDeleteIssue, anchorEl, isOpen, anchorRef, handleMenuOpen, handleMenuClose, toggleFlag, reorderToBotttom }) => {
     const [isIssueDetailOpen, setOpen] = useState(false)
 
+console.log("issue in issue card", issue, "isIssueDetailOpen", isIssueDetailOpen)
+
     return (<>
         {isIssueDetailOpen && issue && <UpdateIssueDialog open={isIssueDetailOpen} handleClose={() => setOpen(false)} issue={issue} />}
         <Box boxShadow={1}

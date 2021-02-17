@@ -49,7 +49,7 @@ export const mockgetUserAndProjectData = () => async (dispatch) => {
                 data: {
                     tasks: [{
                         _id: "issueId1", summary: "Code feature A", description: "Coding...", updatedAt: dateString, createdAt: dateString, issueType: "task",
-                        labels: [], parent: ""
+                        labels: [], parent: "", status:  "9729f490-fd5f-43ab-8efb-40e8d132bc68", project:"7c1f9838-dbd7-4432-b52c-aae87022d578"
                     }]
                 }
             }),
