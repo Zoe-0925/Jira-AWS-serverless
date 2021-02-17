@@ -147,8 +147,6 @@ export const selectStatus = createSelector(
     statusReducer => statusReducer.status
 )
 
-
-//TODO bug.
 export const selectStatusWithIssue = createSelector(
     selectStatus,
     selectAllTasks,
