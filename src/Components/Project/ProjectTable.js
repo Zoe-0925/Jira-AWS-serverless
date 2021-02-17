@@ -1,7 +1,4 @@
 import React, { Fragment } from 'react'
-import { useDispatch, useSelector } from "react-redux"
-import { setCurrentProject, chainDeleteProject } from "../../Actions/project.actions"
-import { selectAllUsers, selectAllProjects, selectLoading } from "../../Reducers/Selectors"
 import {
     Table, TableBody, TableCell, TableContainer, TableHead,
     TableRow, Paper, MenuItem
@@ -9,38 +6,10 @@ import {
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { DotIconMenu } from "../Shared/Tabs"
 import { useDotIconMenu } from "../Shared/CustomHooks"
-import history from "../../history"
 import Skeleton from '@material-ui/lab/Skeleton';
 import { v4 as uuidv4 } from 'uuid'
 
-export default function ProjectListTableContainer() {
-    const loading = useSelector(selectLoading)
-    let projects = useSelector(selectAllProjects)
-    const users = useSelector(selectAllUsers)
-
-    const dispatch = useDispatch()
-
-    const goToBoardPage = (projectId) => {
-        dispatch(setCurrentProject(projectId))
-        history.push("/projects/board")
-    }
-
-    const goToProjectDetail = (projectId) => {
-        dispatch(setCurrentProject(projectId))
-        history.push("/projects/settings/details")
-    }
-
-    const deleteProject = (id) => {
-        dispatch(chainDeleteProject(id))
-    }
-
-    const tableHeader = ["Name", "Key", "Type", "Lead", ""]
-
-    return <ProjectListTable key={uuidv4()} loading={loading} projects={projects} users={users} goToBoardPage={goToBoardPage}
-        goToProjectDetail={goToProjectDetail} tableHeader={tableHeader} deleteProject={deleteProject} />
-}
-
-const ProjectListTable = ({ loading = true, projects = [], users = [], goToBoardPage, goToProjectDetail, tableHeader, deleteProject }) => {
+const ProjectTable = ({ loading = true, projects = [], users = [], goToBoardPage, goToProjectDetail, tableHeader, deleteProject }) => {
     const { anchorEl, isOpen, anchorRef, handleMenuClose, handleMenuOpen } = useDotIconMenu()
 
     return (
@@ -49,14 +18,14 @@ const ProjectListTable = ({ loading = true, projects = [], users = [], goToBoard
                 <Table className="project-list-table" aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            {tableHeader.map(each => <TableCell align="left">{each}</TableCell>)}
+                            {tableHeader.map(each => <TableCell key={each} align="left">{each}</TableCell>)}
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {projects.map(project => (
                             <TableRow key={project._id} className="table-body">
                                 <TableCell align="left" onClick={goToBoardPage}>{project.name}</TableCell>
-                                {[project.key, "Software"].map(each => <TableCell align="left">{each}</TableCell>)}
+                                {[project.key, "Software"].map(each => <TableCell key={each} align="left">{each}</TableCell>)}
                                 <TableCell component="th" scope="row">
                                     <AccountCircleIcon />
                                     {users.find(user => user._id === project.lead) ? users.find(user => user._id === project.lead).name : ""}</TableCell>
@@ -79,3 +48,5 @@ const ProjectListTable = ({ loading = true, projects = [], users = [], goToBoard
         </div>
     )
 }
+
+export default ProjectTable
