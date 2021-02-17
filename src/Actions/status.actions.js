@@ -5,8 +5,8 @@ import { updateProjectAttribute, updateStatusOrder } from "./project.actions"
 export const ADD_ISSUE_TO_TAIL = "ADD_ISSUE_TO_TAIL"
 export const CREATE_STATUS = "CREATE_STATUS"
 export const DELETE_STATUS = "DELETE_STATUS"
-export const UPDATE_STATUS_NAME = "UPDATE_STATUS_NAME"
 export const UPDATE_ISSUE_ORDER = "UPDATE_ISSUE_ORDER"
+export const UPDATE_STATUS_ATTRIBUTE = "UPDATE_STATUS_ATTRIBUTE"
 export const APPEND_STATUS = "APPEND_STATUS"
 export const REORDER_ISSUES = "REORDER_ISSUES"
 export const MOVE_ISSUE = "MOVE_ISSUE"
@@ -75,15 +75,18 @@ export const chainMove = (sourceStatus, destinationStatus, startIndex, endIndex)
     }
 }
 
-export const updateStatusName = (data) => async  dispatch => {
-    try {
-        dispatch({ type: LOADING })
-        dispatch(updateStatusNameAction(data))
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-    }
+
+export const updateStatusAttribute = (data) => dispatch => {
+    dispatch({ type: LOADING })
+    dispatch({
+        type: UPDATE_STATUS_ATTRIBUTE,
+        _id: data._id,
+        attribute: data.attribute,
+        value: data.value
+    })
+    dispatch({ type: AUTHENTICATED })
 }
+
 
 export const deleteIssueFromStatus = (issueId, statusId) => async (dispatch) => {
     try {
@@ -109,13 +112,6 @@ export const createStatus = (newStatus) => async dispatch => {
     await dispatch({
         type: CREATE_STATUS,
         data: newStatus
-    })
-}
-
-export const updateStatusNameAction = data => async dispatch => {
-    await dispatch({
-        type: UPDATE_STATUS_NAME,
-        data: data
     })
 }
 

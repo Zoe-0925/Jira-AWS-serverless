@@ -1,7 +1,7 @@
 import React from 'react'
 /**--------------Redux-------------- */
 import { useDispatch } from "react-redux"
-import { updateStatusName, chaninDeleteStatus } from "../../Actions/status.actions"
+import { updateStatusAttribute, chaninDeleteStatus } from "../../Actions/status.actions"
 /**--------------UI-------------- */
 import { MenuItem } from '@material-ui/core';
 import { DotIconMenu } from "../Shared/Tabs"
@@ -22,7 +22,7 @@ const ColumnTitle = ({ id = "", name = "" }) => {
             <EditableText name="epic-summary" className="epic-summary"
                 edit={edit} text={state.value || name} setEdit={setEdit}>
                 <Input name="status-title-input" state={state} setState={setState} setEdit={setEdit} handleSubmit={() => {
-                    dispatch(updateStatusName({ _id: id, value: state.value, attribute: "name" }))
+                    dispatch(updateStatusAttribute({ _id: id, value: state.value, attribute: "name" }))
                 }} />
             </EditableText>
             <DotIconMenu className="dot-icon" anchorEl={anchorEl} isOpen={isOpen} anchorRef={anchorRef}
