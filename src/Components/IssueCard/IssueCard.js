@@ -46,8 +46,10 @@ const IssueCardContainer = ({ issueId }) => {
 const IssueCard = ({ task, handleDeleteTask, anchorEl, isOpen, anchorRef, issueId, handleMenuOpen, handleMenuClose, openTaskDetail, toggleFlag, reorderToBotttom }) => {
     const [openDetail, setOpen] = useState(false)
 
+    console.log("task", task)
+
     return (<>
-        {openDetail && <UpdateIssueDialog open={openDetail} handleClose={() => setOpen(false)} issueId={issueId} />}
+        {openDetail && task && <UpdateIssueDialog open={openDetail} handleClose={() => setOpen(false)} issueId={issueId} />}
         <Box boxShadow={1}
             key={uuidv4()} className={!task.flag ? "epic-body" : "epic-body flagged"
             } >
@@ -68,7 +70,7 @@ const IssueCard = ({ task, handleDeleteTask, anchorEl, isOpen, anchorRef, issueI
                     </Col>
                 </Row>
                 <Row className="mt-0">
-                    {task.labels.length !== 0 && task.labels.map(each => <Col key={uuidv4()}><p key={uuidv4()} className="label">{each}</p></Col>)}
+                    {task.labels && task.labels.length > 0 && task.labels.map(each => <Col key={uuidv4()}><p key={uuidv4()} className="label">{each}</p></Col>)}
                 </Row>
                 <Row className="mt-0" onClick={() => openTaskDetail(task)}>
                     <Col sm="1">

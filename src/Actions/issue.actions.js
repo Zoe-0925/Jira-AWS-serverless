@@ -1,6 +1,6 @@
 
-import { updateIssueOrder, deleteIssueFromStatus, moveIssue } from "./status.actions"
-import { dispatchError,  AUTHENTICATED } from "./loading.actions"
+import { appendNewIssue, deleteIssueFromStatus, moveIssue } from "./status.actions"
+import { dispatchError, AUTHENTICATED } from "./loading.actions"
 
 export const CREATE_SUB_TASK = "CREATE_SUB_TASK"
 export const CREATE_ISSUE = "CREATE_ISSUE"
@@ -21,12 +21,11 @@ export const UPDATE_ISSUE_AFTER_DELETE_STATUS = "UPDATE_ISSUE_AFTER_DELETE_STATU
 export const REMOVE_LABEL_FROM_ISSUE = "REMOVE_LABEL_FROM_ISSUE"
 
 /**********************************  Thunk Actions  ******************************************/
-export const chainCreateIssueAndUpdateIssueOrder = (data) => async (dispatch, getState) => {
+export const chainCreateIssueAndUpdateIssueOrder = (data) => async (dispatch) => {
     try {
-        const issueOrder = getState().StatusReducer.status.get(data.status).issues
         await Promise.all([
             dispatch(createIssue(data)),
-            dispatch(updateIssueOrder(data.status, [...issueOrder, data._id])),
+            dispatch(appendNewIssue(data.status, data._id))
         ])
         dispatch({ type: AUTHENTICATED })
     }
@@ -60,7 +59,7 @@ export const chainDeleteIssue = (issueId, statusId, issueType) => async (dispatc
         await Promise.all([
             dispatch(deleteIssue(issueId, issueType)),
             dispatch(deleteIssueFromStatus(issueId, statusId)),
-      ])
+        ])
     }
     catch (err) {
         dispatch(dispatchError(err))

@@ -2,6 +2,7 @@ import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
 import { reorder } from "../Components/Util"
 import { updateProjectAttribute, updateStatusOrder } from "./project.actions"
 
+export const APPEND_NEW_ISSUE = "APPEND_NEW_ISSUE"
 export const ADD_ISSUE_TO_TAIL = "ADD_ISSUE_TO_TAIL"
 export const CREATE_STATUS = "CREATE_STATUS"
 export const DELETE_STATUS = "DELETE_STATUS"
@@ -74,6 +75,18 @@ export const chainMove = (sourceStatus, destinationStatus, startIndex, endIndex)
         dispatch(dispatchError(err))
     }
 }
+
+
+export const appendNewIssue = (statusId, issueId) => dispatch => {
+    dispatch({ type: LOADING })
+    dispatch({
+        type: APPEND_NEW_ISSUE,
+        status: statusId,
+        issue: issueId
+    })
+    dispatch({ type: AUTHENTICATED })
+}
+
 
 
 export const updateStatusAttribute = (data) => dispatch => {

@@ -11,6 +11,7 @@ import ColumnTitle from "./ColumnTitle"
 /**--------------Util-------------- */
 import { useEditText } from '../Shared/CustomHooks';
 import { v4 as uuidv4 } from 'uuid'
+import Issue from "../Issues/Issue"
 
 const Column = ({ status = { _id: "", project: "", issues: [], name: "" }, children }) => {
     const dispatch = useDispatch()
@@ -18,10 +19,7 @@ const Column = ({ status = { _id: "", project: "", issues: [], name: "" }, child
     const loading = useSelector(selectLoading)
 
     const handleSubmit = (value) => {
-        let issue = {
-            _id: uuidv4(), description: "", issueType: "task", labels: [], assignee: "", reporter: "",
-            status: status._id, project: status.project, summary: value
-        }
+        let issue = Issue(value, status._id, status.project, "task")
         dispatch(chainCreateIssueAndUpdateIssueOrder(issue, status.issues))
         setEdit(false)
     }
