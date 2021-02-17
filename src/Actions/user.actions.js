@@ -45,6 +45,9 @@ export function dispatchAddOtherUsers(userList) {
 }
 
 /******************* Thunk Actions  *****************************/
+//TODO
+//Update it so that when delete the user
+//Use GSI to delete projects
 export const chainDeleteUser = (id, projectIds) => async (dispatch, getState) => {
     try {
         const projects = getState().ProjectReducer.projects.map(each => each._id)
@@ -62,6 +65,8 @@ export const chainDeleteUser = (id, projectIds) => async (dispatch, getState) =>
     }
 }
 
+//TODO
+//Move the projects out of the user
 export const getUserAndProjects = () => async dispatch => {
     try {
         dispatch({ type: LOADING })
@@ -77,6 +82,8 @@ export const getUserAndProjects = () => async dispatch => {
     }
 }
 
+//TODO
+//Move the projects out of the user
 export const getUserAndProjectData = () => async (dispatch, getState) => {
     try {
         dispatch({ type: LOADING })
@@ -98,6 +105,8 @@ export const getUserAndProjectData = () => async (dispatch, getState) => {
     }
 }
 
+//TODO
+//remove eventually
 export const mockgetUserAndProjectData = () => async (dispatch) => {
     try {
         dispatch({ type: LOADING })
@@ -110,25 +119,16 @@ export const mockgetUserAndProjectData = () => async (dispatch) => {
         const now = new Date()
         const dateString = JSON.stringify(now)
         await Promise.all([
-            /**   dispatch({
-                  type: APPEND_ISSUES,
-                  data: {
-                      tasks: [{
-                          _id: "issueId1", summary: "Code feature A", description: "Coding...", updatedAt: dateString, createdAt: dateString, issueType: "task",
-                          labels: "", parent: ""
-                      },
-                      {
-                          _id: "issueId3", summary: "Code feature B", description: "Coding...", updatedAt: dateString, createdAt: dateString, issueType: "task",
-                          labels: "", parent: ""
-                      }], epics: [{
-                          _id: "issueId2", summary: "Feature A", description: "Test epic of feature A", updatedAt: dateString, createdAt: dateString, issueType: "task",
-                          labels: ""
-                      }]
-                  }
-              }),*/
-
-
-            dispatch(appendSuccessStatus([{ _id: "9729f490-fd5f-43ab-8efb-40e8d132bc68", issues: [], name: "TO DO", project: "7c1f9838-dbd7-4432-b52c-aae87022d578" },
+            dispatch({
+                type: APPEND_ISSUES,
+                data: {
+                    tasks: [{
+                        _id: "issueId1", summary: "Code feature A", description: "Coding...", updatedAt: dateString, createdAt: dateString, issueType: "task",
+                        labels: [], parent: "", status:  "9729f490-fd5f-43ab-8efb-40e8d132bc68", project:"7c1f9838-dbd7-4432-b52c-aae87022d578"
+                    }]
+                }
+            }),
+            dispatch(appendSuccessStatus([{ _id: "9729f490-fd5f-43ab-8efb-40e8d132bc68", issues: ["issueId1"], name: "TO DO", project: "7c1f9838-dbd7-4432-b52c-aae87022d578" },
             { _id: "efe83b13-9255-4339-a8f5-d5703beb9ffc", issues: [], name: "IN PROGRESS", project: "7c1f9838-dbd7-4432-b52c-aae87022d578" },
             { _id: "439c3d96-30eb-497d-b336-228873048bc3", issues: [], name: "TESTING", project: "7c1f9838-dbd7-4432-b52c-aae87022d578" },
             { _id: "f3a0e59f-635a-4b75-826f-b0f5bf24b5c4", issues: [], name: "DONE", project: "7c1f9838-dbd7-4432-b52c-aae87022d578" }])),
@@ -154,6 +154,8 @@ export const getCurrentUser = () => async  dispatch => {
     }
 }
 
+//TODO
+//move projects away from the user
 export const updateUserProjects = projects => async (dispatch) => {
     const payload = {
         type: UPDATE_PROJECTS,
@@ -175,6 +177,7 @@ export const searchUserByEmail = email => async (dispatch) => {
     }
 }
 
+//TODO move projects away from the user
 export const fetchUpdateUserProjects = async (userId, projects) => {
     await API.put("UserApi", "/users/projects/", {
         body: {
