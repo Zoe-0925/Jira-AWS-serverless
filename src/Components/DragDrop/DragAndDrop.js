@@ -3,7 +3,6 @@ import { useSelector } from "react-redux"
 import { MyDraggable, MyDroppable } from "./DraggableAndDroppable";
 import CreateStatusTab from "../StatusColumn/CreateStatusTab"
 import Column from "../StatusColumn/Column"
-import Skeleton from '@material-ui/lab/Skeleton';
 import { v4 as uuidv4 } from 'uuid'
 import IssueCard from "../IssueCard/IssueCard";
 import { selectStatusWithIssue, selectLoading } from "../../Reducers/Selectors"
@@ -11,8 +10,6 @@ import { selectStatusWithIssue, selectLoading } from "../../Reducers/Selectors"
 const DragAndDrop = () => {
     let columns = useSelector(selectStatusWithIssue)
     const loading = useSelector(selectLoading)
-
-    console.log("columns", columns, "loading", loading)
 
     return (
         <div className="epic-list">

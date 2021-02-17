@@ -49,17 +49,19 @@ export const chainReorder = (sourceStatus, startIndex, endIndex) => async (dispa
 export const chainMove = (sourceStatus, destinationStatus, startIndex, endIndex) => async (dispatch) => {
     dispatch({ type: LOADING })
     try {
-        let sourceIssueorder = [...sourceStatus.issues]
-        let destinationIssueorder = [...destinationStatus.issues]
+        let sourceIssueorder = sourceStatus.issues.map(each=>each._id)
+        let destinationIssueorder = destinationStatus.issues.map(each=>each._id)
         const [removedToMove] = sourceIssueorder.splice(startIndex, 1);
-        destinationIssueorder.splice(endIndex, 0, removedToMove);
-        // const sourceUpdated = { _id: sourceStatus._id, value: sourceIssueorder, attribute: "issues" }
-        //   const destinationUpdated = { _id: destinationStatus._id, value: destinationIssueorder, attribute: "issues" }
+        destinationIssueorder.splice(endIndex, 0, removedToMove)
+        const sourceUpdated = { _id: sourceStatus._id, value: sourceIssueorder, attribute: "issues" }
+        const destinationUpdated = { _id: destinationStatus._id, value: destinationIssueorder, attribute: "issues" }
 
-        //TODO
-        //Move issues
-
-
+        Promise.all([
+            dispatch({ type: LOADING }),
+            dispatch(updateStatusAttribute(sourceUpdated)),
+            dispatch(updateStatusAttribute(destinationUpdated))
+        ])
+        dispatch({ type: AUTHENTICATED })
     }
     catch (err) {
         dispatch(dispatchError(err))
