@@ -16,15 +16,15 @@ const DragAndDrop = () => {
 
     return (
         <div className="epic-list">
-            {columns && columns.map((el, ind) => {
-                (!loading && el) ? <MyDroppable key={ind} el={el} ind={ind}>
-                    <Column key={uuidv4()} status={el}>
-                        {el && el.issues && el.issues.map((issue, index) => <MyDraggable key={uuidv4()} id={issue._id} index={index}>
-                            <IssueCard key={uuidv4()} issue={issue} />
-                        </MyDraggable>)}
-                    </Column>
-                </MyDroppable> : <Skeleton key={uuidv4()} variant="rect" animation="wave" width={230} height={240} style={{ marginRight: "1rem" }} />
-            })}
+            {columns.map((el, ind) => <MyDroppable key={ind} el={el} ind={ind}>
+                <Column key={uuidv4()} status={el}>
+                    {el.issues.map((issue, index) => <MyDraggable key={uuidv4()} id={issue._id} index={index}>
+                        <IssueCard key={uuidv4()} issue={issue} />
+                    </MyDraggable>
+                    )}
+                </Column>
+            </MyDroppable>
+            )}
             <CreateStatusTab />
         </div>
     )
