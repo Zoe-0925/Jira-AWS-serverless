@@ -28,7 +28,7 @@ const UserReducer = (state = initialState, action) => {
 			tempUsers.push(action.data)
 			newState.users = tempUsers
 			return newState
-		case CLEAR:
+		case CLEAR_USER:
 			return initialState
 		default:
 			return state

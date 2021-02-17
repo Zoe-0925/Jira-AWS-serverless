@@ -1,6 +1,6 @@
 
 import {
-    CREATE_PROJECT, APPEND_PROJECTS, SET_CURRENT_PROJECT, UPDATE_PROJECT_ATTRIBUTE, UPDATE_PROJECT_DETAIL
+   CLEAR_PROJECT, CREATE_PROJECT, APPEND_PROJECTS, SET_CURRENT_PROJECT, UPDATE_PROJECT_ATTRIBUTE, UPDATE_PROJECT_DETAIL
 } from "../Actions/project.actions"
 
 
@@ -50,7 +50,7 @@ export default function ProjectReducer(state = testState, action) {
             target.name = action.data.name
             target.key = action.data.key
             return newState
-        case "CLEAR_PROJECT":
+        case CLEAR_PROJECT:
             return initialState
         default:
             return state

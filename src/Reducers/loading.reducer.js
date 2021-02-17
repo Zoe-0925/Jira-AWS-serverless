@@ -11,8 +11,6 @@ export default function LoadingReducer(state = initialState, action) {
             return { ...initialState, authenticated: true }
         case CANCEL_LOADING:
             return initialState
-        case "CLEAR":
-            return initialState
         default:
             return state;
     }

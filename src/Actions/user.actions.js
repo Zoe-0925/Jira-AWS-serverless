@@ -1,12 +1,13 @@
 import { Auth } from 'aws-amplify';
 import API from '@aws-amplify/api';
 import history from "../history"
-import { getAllProjects, mockgetAllProjects, setCurrentProject, chainDeleteProject } from "./project.actions"
-import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
-import { getProjectIssues, APPEND_ISSUES } from "./issue.actions"
-import { getProjectLabels } from "./label.actions"
-import { getProjectStatus, appendSuccessStatus } from "./status.actions"
-import { NEW_MESSAGE } from "./websocket.actions"
+import { CLEAR_PROJECT, mockgetAllProjects, setCurrentProject, getProjects } from "./project.actions"
+import { dispatchError, LOADING, AUTHENTICATED, CANCEL_LOADING } from "./loading.actions"
+import { getProjectIssues, APPEND_ISSUES, CLEAR_ISSUE } from "./issue.actions"
+import { getProjectLabels, CLEAR_LABEL } from "./label.actions"
+import { CLEAR_STATUS, getProjectStatus, appendSuccessStatus } from "./status.actions"
+import { CLEAR_COMMENT } from "./comment.actions"
+//import { NEW_MESSAGE } from "./websocket.actions"
 
 export const LOGIN = "LOGIN"
 export const LOGOUT = "LOGOUT"
@@ -16,6 +17,7 @@ export const CLEAR = "CLEAR"
 export const SAVE_TOKENS = "SAVE_TOKENS"
 export const FINISH_LOADING = "FINISH_LOADING"
 export const UPDATE_PROJECTS = "UPDATE_PROJECTS"
+export const CLEAR_USER = "CLEAR_USER"
 
 export function login(data) {
     return {
@@ -45,19 +47,21 @@ export function dispatchAddOtherUsers(userList) {
 }
 
 /******************* Thunk Actions  *****************************/
-//TODO
-//Update it so that when delete the user
-//Use GSI to delete projects
-export const chainDeleteUser = (id, projectIds) => async (dispatch, getState) => {
+export const chainDeleteUser = (id) => async (dispatch) => {
     try {
-        const projects = getState().ProjectReducer.projects.map(each => each._id)
         dispatch({ type: LOADING })
-        await API.del("UserApi", "/users/object/" + id)
-        projects.forEach(projectId => {
-            dispatch(chainDeleteProject(projectId))
-        })
-        dispatch({ type: CLEAR })
-        await Auth.signOut({ global: true });
+        await Promise.all([
+            fetchDeleteUser(id),
+            fetchDeleteUserFromProjects(id),
+            dispatch({ type: CLEAR_USER }),
+            dispatch({ type: CLEAR_COMMENT }),
+            dispatch({ type: CLEAR_PROJECT }),
+            dispatch({ type: CLEAR_LABEL }),
+            dispatch({ type: CLEAR_ISSUE }),
+            dispatch({ type: CLEAR_STATUS }),
+            dispatch({ type: CANCEL_LOADING }),
+            Auth.signOut({ global: true })
+        ])
         history.push("/")
     }
     catch (err) {
@@ -65,44 +69,46 @@ export const chainDeleteUser = (id, projectIds) => async (dispatch, getState) =>
     }
 }
 
-//TODO
-//Move the projects out of the user
-export const getUserAndProjects = () => async dispatch => {
+export const loadProjectTablePage = async () => {
     try {
         dispatch({ type: LOADING })
-        const user = await dispatch(getCurrentUser())
-        await Promise.all([
-            dispatch(login(user)),
-            dispatch(getAllProjects(user.projects))
-        ])
+        const userId = await dispatch(getUser())
+        await dispatch(getProjects(userId))
         dispatch({ type: AUTHENTICATED })
     }
     catch (err) {
         return dispatch(dispatchError(err))
     }
+
 }
 
-//TODO
-//Move the projects out of the user
-export const getUserAndProjectData = () => async (dispatch, getState) => {
+export const getUser = () => async (dispatch) => {
     try {
-        dispatch({ type: LOADING })
-        await dispatch(getUserAndProjects())
-        let id = getState().ProjectReducer.currentProjectId
-        if (!id || id === "") {
-            history.push("/projects")
-            return
+        const user = await dispatch(fetchCurrentUser())
+        if (user) {
+            dispatch(login(user))
+            return user._id
+        } else {
+            dispatch(dispatchError("Invalid email address."))
         }
-        await Promise.all([
-            dispatch(getProjectStatus(id)),
-            dispatch(getProjectIssues(id)),
-            dispatch(getProjectLabels(id))
-        ])
-        dispatch({ type: AUTHENTICATED })
+    } catch (err) {
+        return dispatch(dispatchError(err))
     }
-    catch (err) {
-        dispatch(dispatchError(err))
+}
+
+export const getCurrentProjectData = () => async (dispatch, getState) => {
+    let projectId = getState().ProjectReducer.currentProjectId
+    if (!id || id === "") {
+        history.push("/projects")
+        return
     }
+    dispatch({ type: LOADING })
+    await Promise.all([
+        dispatch(getProjectStatus(projectId)),
+        dispatch(getProjectIssues(projectId)),
+        dispatch(getProjectLabels(projectId))
+    ])
+    dispatch({ type: AUTHENTICATED })
 }
 
 //TODO
@@ -124,7 +130,7 @@ export const mockgetUserAndProjectData = () => async (dispatch) => {
                 data: {
                     tasks: [{
                         _id: "issueId1", summary: "Code feature A", description: "Coding...", updatedAt: dateString, createdAt: dateString, issueType: "task",
-                        labels: [], parent: "", status:  "9729f490-fd5f-43ab-8efb-40e8d132bc68", project:"7c1f9838-dbd7-4432-b52c-aae87022d578"
+                        labels: [], parent: "", status: "9729f490-fd5f-43ab-8efb-40e8d132bc68", project: "7c1f9838-dbd7-4432-b52c-aae87022d578"
                     }]
                 }
             }),
@@ -140,39 +146,23 @@ export const mockgetUserAndProjectData = () => async (dispatch) => {
     }
 }
 
-export const getCurrentUser = () => async  dispatch => {
-    try {
-        const credential = await Auth.currentAuthenticatedUser({
-            bypassCache: true  // Optional, By default is false. If set to true, this call will send a request to Cognito to get the latest user data
-        })
-        if (credential) {
-            return await dispatch(searchUserByEmail(credential.username))
-        }
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
+export const fetchCurrentUser = async () => {
+    const credential = await Auth.currentAuthenticatedUser({
+        bypassCache: true  // This call will send a request to Cognito to get the latest user data
+    })
+    if (credential) {
+        return await fetchUserByEmail(credential.username)
     }
 }
 
-//TODO
-//move projects away from the user
-export const updateUserProjects = projects => async (dispatch) => {
-    const payload = {
-        type: UPDATE_PROJECTS,
-        data: projects
-    }
-    await Promise.all([
-        dispatch(payload),
-        dispatch({ type: NEW_MESSAGE, payload: payload })
-    ])
+export const fetchUserByEmail = async email => {
+    return await API.get("UserApi", "/users/email/" + email)
 }
 
-export const searchUserByEmail = email => async (dispatch) => {
-    try {
-        const user = await API.get("UserApi", "/users/email/" + email)
-        return user
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-    }
+export const fetchDeleteUser = async id => {
+    await API.del("UserApi", "/users/object/" + id)
+}
+
+export const fetchDeleteUserFromProjects = async id => {
+    await API.del("ProjectMemberApi", "/members/" + id)
 }

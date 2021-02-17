@@ -2,8 +2,9 @@
 import { API } from 'aws-amplify';
 import { appendNewIssue, deleteIssueFromStatus, fetchUpdateStatusAttribute, moveIssue } from "./status.actions"
 import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
-import { NEW_MESSAGE, sendWsToServer } from './websocket.actions';
+//import { NEW_MESSAGE, sendWsToServer } from './websocket.actions';
 
+export const CLEAR_ISSUE = "CLEAR_ISSUE"
 export const CREATE_SUB_TASK = "CREATE_SUB_TASK"
 export const CREATE_ISSUE = "CREATE_ISSUE"
 export const DELETE_TASK = "DELETE_TASK"

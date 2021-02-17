@@ -11,37 +11,9 @@ export const UPDATE_PROJECT_ATTRIBUTE = "UPDATE_PROJECT_ATTRIBUTE"
 export const UPDATE_PROJECT_DETAIL = "UPDATE_PROJECT_DETAIL"
 export const APPEND_PROJECTS = "APPEND_PROJECTS"
 export const SET_CURRENT_PROJECT = "SET_CURRENT_PROJECT"
-export const LEAVE_PROJECT = "LEAVE_PROJECT"  
+export const LEAVE_PROJECT = "LEAVE_PROJECT"
 
 /*****************  Thunk Actions  ****************/
-//TODO
-//check if the reducer is updated right
-export const chainGetProjectData = (id) => async dispatch => {
-    await Promise.all([
-        dispatch({ type: LOADING }),
-        dispatch(getProjectStatus(id)),
-        dispatch(getProjectIssues(id)),
-        dispatch(getProjectLabels(id))
-    ])
-    dispatch({ type: AUTHENTICATED })
-}
-
-export const getAllProjects = (idList) => async dispatch => {
-    try {
-        idList.map(projectId => API.get("ProjectApi", "/projects/object/" + projectId).then(
-            project => {
-                dispatch({
-                    type: CREATE_PROJECT,
-                    data: project.Item
-                })
-            }
-        ))
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-    }
-}
-
 export const mockgetAllProjects = () => async dispatch => {
     try {
         let projects = [{
@@ -49,15 +21,23 @@ export const mockgetAllProjects = () => async dispatch => {
             image: "", key: "TestProject1", lead: "tsidadsjkdhiueiurt", members: ["tsidadsjkdhiueiurt"], name: "TestProject1",
             statusOrder: ["9729f490-fd5f-43ab-8efb-40e8d132bc68", "efe83b13-9255-4339-a8f5-d5703beb9ffc", "439c3d96-30eb-497d-b336-228873048bc3", "f3a0e59f-635a-4b75-826f-b0f5bf24b5c4"]
         }]
-        dispatch({
-            type: APPEND_PROJECTS,
-            data: projects //an array
-        })
+        dispatch(appendProjects(projects))
     }
     catch (err) {
         dispatch(dispatchError(err))
     }
 }
+
+export const getProjects = (userId) => async (dispatch) => {
+    try {
+        //TODO check respons syntax
+        const projects = await fetchProjects(userId)
+        dispatch(appendProjects(projects))
+    } catch (err) {
+        return dispatch(dispatchError(err))
+    }
+}
+
 
 //Create a project with 4 default status - TO DO, IN PROGRESS, TESTING, DONE
 export const chainCreactProject = (project, status) => async (dispatch) => {
@@ -165,6 +145,14 @@ export const createProject = (newProject) => dispatch => {
     })
 }
 
+export const appendProjects = (projectList) => dispatch => {
+    dispatch({
+        type: APPEND_PROJECTS,
+        data: projectList
+    })
+}
+
+
 export const updateProjectAttribute = (data) => dispatch => {
     //TODO: Uncomment to enable web socket
     /**     await dispatch(sendWsToServer({
@@ -204,4 +192,10 @@ export const fetchDeleteProject = async id => {
 
 export const fetchUpdateProjectDetail = async data => {
     await API.put("ProjectApi", "/projects/detail", data)
+}
+
+//TODO
+//After updating Amplify, check if the data format is correct
+export const fetchProjects = async userId => {
+    await API.get("ProjectMemberApi", "/members/" + userId)
 }

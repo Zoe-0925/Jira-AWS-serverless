@@ -1,5 +1,5 @@
 import {
-    DELETE_TASK, UPDATE_TASK, DELETE_EPIC,
+    DELETE_TASK, UPDATE_TASK, DELETE_EPIC, CLEAR_ISSUE,
     UPDATE_EPIC, UPDATE_ISSUE_GROUP, DELETE_SUB_TASK,
     ADD_TASK_TO_EPIC, REMOVE_TASK_FROM_EPIC, ADD_SUBTASK_TO_TASK, REMOVE_SUBTASK_FROM_TASK,
     APPEND_ISSUES, CREATE_ISSUE,
@@ -40,7 +40,7 @@ export default function IssueReducer(state = initialState, action) {
         case CREATE_ISSUE:
             //TODO bug
             if (action.data.issueType === "task") {
-                newState.tasks = newState.tasks.merge({[action.data._id]: [action.data]})
+                newState.tasks = newState.tasks.merge({ [action.data._id]: [action.data] })
             }
             if (action.data.issueType === "epic") {
                 newState.epics.push(action.data)
@@ -123,7 +123,7 @@ export default function IssueReducer(state = initialState, action) {
 
 
 
-        case "CLEAR":
+        case CLEAR_ISSUE:
             return initialState
         default:
             return state;

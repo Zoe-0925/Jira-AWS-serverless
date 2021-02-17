@@ -2,6 +2,7 @@ import API from '@aws-amplify/api';
 import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
 import { sendWsToServer } from "./websocket.actions"
 
+export const CLEAR_COMMENT = "CLEAR_COMMENT"
 export const CREATE_COMMENT = "CREATE_COMMENT"
 export const DELETE_COMMENT = "DELETE_COMMENT"
 export const UPDATE_COMMENT_DESCRIPTION = "UPDATE_COMMENT_DESCRIPTION"

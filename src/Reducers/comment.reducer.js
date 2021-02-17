@@ -1,4 +1,5 @@
 import {
+    CLEAR_COMMENT,
     CREATE_COMMENT,
     DELETE_COMMENT,
     APPEND_COMMENTS,
@@ -32,7 +33,7 @@ export default function CommentReducer(state = initialState, action) {
         case DELETE_COMMENT_BY_ISSUE:
             newState.comments.filter(item => item.issue !== action.id)
             return newState
-        case "CLEAR_COMMENT":
+        case CLEAR_COMMENT:
             return initialState
         default:
             return state;
