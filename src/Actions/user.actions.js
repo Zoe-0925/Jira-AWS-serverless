@@ -95,21 +95,6 @@ export const getUser = () => async (dispatch) => {
     }
 }
 
-export const getCurrentProjectData = () => async (dispatch, getState) => {
-    let projectId = getState().ProjectReducer.currentProjectId
-    if (!id || id === "") {
-        history.push("/projects")
-        return
-    }
-    dispatch({ type: LOADING })
-    await Promise.all([
-        dispatch(getProjectStatus(projectId)),
-        dispatch(getProjectIssues(projectId)),
-        dispatch(getProjectLabels(projectId))
-    ])
-    dispatch({ type: AUTHENTICATED })
-}
-
 //TODO
 //remove eventually
 export const mockgetUserAndProjectData = () => async (dispatch) => {

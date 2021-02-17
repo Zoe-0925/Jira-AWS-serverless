@@ -28,6 +28,22 @@ export const mockgetAllProjects = () => async dispatch => {
     }
 }
 
+export const loadBoardPage = () => async (dispatch, getState) => {
+    let projectId = getState().ProjectReducer.currentProjectId
+    if (!id || id === "") {
+        history.push("/projects")
+        return
+    }
+    dispatch({ type: LOADING })
+    await Promise.all([
+        dispatch(getProjectStatus(projectId)),
+        dispatch(getProjectIssues(projectId)),
+        dispatch(getProjectLabels(projectId))
+    ])
+    dispatch({ type: AUTHENTICATED })
+}
+
+
 export const getProjects = (userId) => async (dispatch) => {
     try {
         //TODO check respons syntax
