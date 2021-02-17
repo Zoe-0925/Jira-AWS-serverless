@@ -6,13 +6,13 @@ import Column from "../StatusColumn/Column"
 import Skeleton from '@material-ui/lab/Skeleton';
 import { v4 as uuidv4 } from 'uuid'
 import IssueCard from "../IssueCard/IssueCard";
-import { selectAllStatusInArrayWithIssue, selectLoading } from "../../Reducers/Selectors"
+import { selectStatusWithIssue, selectLoading } from "../../Reducers/Selectors"
 
 const DragAndDrop = () => {
-    let columns = useSelector(selectAllStatusInArrayWithIssue)
+    let columns = useSelector(selectStatusWithIssue)
     const loading = useSelector(selectLoading)
 
-    console.log("columns", columns,"loading", loading )
+    //console.log("columns", columns, "loading", loading)
 
     return (
         <div className="epic-list">

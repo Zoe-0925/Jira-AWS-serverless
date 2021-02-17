@@ -37,7 +37,7 @@ export default function StatusReducer(state = initialState, action) {
             destinationStatus.issues = action.destination.value
             return newState
         case APPEND_STATUS:
-            newState.status = action.data.map(each => [each._id, each])
+            newState.status = action.data
             return newState
         case DELETE_ISSUE_FROM_STATUS:
             status = newState.status.find(aStatus => aStatus._id === action.statusId)

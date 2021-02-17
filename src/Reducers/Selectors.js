@@ -142,27 +142,15 @@ export const selectAllTasks = createSelector(
 )
 
 /****************** Reselectors - Status  *********************/
-export const selectStatusOrder = createSelector(
-    selectCurrentProject,
-    project => project ? project.statusOrder : []
-)
-
 export const selectStatus = createSelector(
     selectStatusReducer,
     statusReducer => statusReducer.status
 )
 
-export const selectAllStatusInArray = createSelector(
-    selectStatusOrder,
-    selectStatus,
-    (statusOrder, statusMap) => statusOrder.map(each => statusMap.get(each))
-)
 
-export const selectAllStatusInArrayWithIssue = createSelector(
-    selectAllStatusInArray,
+//TODO bug.
+export const selectStatusWithIssue = createSelector(
+    selectStatus,
     selectAllTasks,
-    (statusList, tasks) => statusList.map(each => {
-        if (each) { each.issues = each.issues.map(issueId => tasks.get(issueId)) }
-        return each
-    })
+    (statusList, tasks) => statusList.map(each => each.issues.map(issueId => tasks.get(issueId))) 
 )  
