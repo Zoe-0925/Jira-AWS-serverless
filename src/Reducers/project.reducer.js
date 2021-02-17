@@ -1,6 +1,6 @@
 
 import {
-    CREATE_PROJECT, DELETE_PROJECT, APPEND_PROJECTS, SET_CURRENT_PROJECT, UPDATE_PROJECT_ATTRIBUTE, UPDATE_PROJECT_DETAIL
+    CREATE_PROJECT, APPEND_PROJECTS, SET_CURRENT_PROJECT, UPDATE_PROJECT_ATTRIBUTE, UPDATE_PROJECT_DETAIL
 } from "../Actions/project.actions"
 
 
@@ -24,17 +24,6 @@ const initialState = {
     currentProjectId: ""
 }
 
-/**
- * 
- * @param {{
-        _id:"7c1f9838-dbd7-4432-b52c-aae87022d578", key:"TestProject1", lead:"tsidadsjkdhiueiurt",
-        name:"TestProject1", members:["tsidadsjkdhiueiurt"], default_assignee:"Project Lead", 
-        updatedAt:"2020-11-09T03:06:10.823Z", createdAt:"2020-11-09T03:06:10.823Z",
-        statusOrder:["9729f490-fd5f-43ab-8efb-40e8d132bc68", "efe83b13-9255-4339-a8f5-d5703beb9ffc", "439c3d96-30eb-497d-b336-228873048bc3", "f3a0e59f-635a-4b75-826f-b0f5bf24b5c4"]
-    }} state 
- * @param {*} action 
- */
-
 export default function ProjectReducer(state = testState, action) {
     let newState = { ...state }
     let target
@@ -43,7 +32,7 @@ export default function ProjectReducer(state = testState, action) {
             return { ...state, currentProjectId: action.id }
         case CREATE_PROJECT:
             return { ...state, projects: [...state.projects, action.data] }
-        case DELETE_PROJECT:
+        case "DELETE_PROJECT":
             newState.projects = newState.projects.filter(item => item._id !== action.id)
             if (newState.currentProjectId === action.id) {
                 newState.currentProjectId = ""
@@ -61,7 +50,7 @@ export default function ProjectReducer(state = testState, action) {
             target.name = action.data.name
             target.key = action.data.key
             return newState
-        case "CLEAR":
+        case "CLEAR_PROJECT":
             return initialState
         default:
             return state

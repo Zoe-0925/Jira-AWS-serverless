@@ -19,41 +19,12 @@ export const selectLoadingReducer = state => state.LoadingReducer
 export const selectLoading = state => state.LoadingReducer.loading
 
 /****************** Selectors - Status  *********************/
-export const selectAllStatusInArray = state => {
-    const project = state.ProjectReducer.projects.find(project => project._id === state.ProjectReducer.currentProjectId)
-    const statusOrder = project ? project.statusOrder : []
-    return statusOrder.map(each => state.StatusReducer.status.get(each))
-}
-
-export const selectAllStatusInArrayWithIssues = state => {
-    const project = state.ProjectReducer.projects.find(project => project._id === state.ProjectReducer.currentProjectId)
-    const statusOrder = project ? project.statusOrder : []
-    let status = statusOrder.map(each => state.StatusReducer.status.get(each))
-    status.map(each => {
-        if (each && each.issues ) {
-            each.issues = each.issues.map(issueId => state.IssueReducer.tasks.get(issueId))
-        }
-    })
-    return status
-}
 
 export const selectAllStatus = state => state.StatusReducer.status
 
-export const selectStatusById = (id) => state => state.StatusReducer.status.get(id)
-
-export const selectDefaultIssueOrder = state => state.StatusReducer.status.get(selectFirstStatus(state)) !== undefined ? state.StatusReducer.status.get(selectFirstStatus(state)).issues : []
-
+export const selectStatusById = (id) => state => state.StatusReducer.status.find(aStatus => aStatus._id === id)
 
 /****************** Selectors - Project  *********************/
-export const selectCurrentProjectId = state => state.ProjectReducer.currentProjectId
-
-export const selectCurrentProject = state => state.ProjectReducer.projects.find(item => item._id === state.ProjectReducer.currentProjectId)
-
-export const selectCurrentProjectName = state => {
-    const project = state.ProjectReducer.projects.find(item => item._id === state.ProjectReducer.currentProjectId)
-    return project && project.name ? project.name : ""
-}
-
 export const selectFirstStatus = state => {
     if (state.ProjectReducer.projects) {
         const currentProject = state.ProjectReducer.projects.find(item => item._id === state.ProjectReducer.currentProjectId)
@@ -72,8 +43,6 @@ export const selectProjectMembers = state => {
 
 export const selectIssueUpdatedTimeById = (issueId) => state => state.IssueReducer.tasks.get(issueId).updatedAt
 
-export const selectTaskByIds = (issueIdList) => state => issueIdList.map(each => state.IssueReducer.tasks.get(each))
-
 /****************** Selectors - Comments  *********************/
 export const selectCommentByIssue = id => state => state.CommentReducer.comments.filter(comment => comment.issue === id)
 
@@ -89,6 +58,26 @@ export const selectAllProjects = createSelector(
     reducer => reducer.projects
 )
 
+export const selectCurrentProjectId = createSelector(
+    selectProjectReducer,
+    reducer => reducer.currentProjectId
+)
+
+export const selectProjects = createSelector(
+    selectProjectReducer,
+    reducer => reducer.projects
+)
+
+export const selectCurrentProject = createSelector(
+    selectCurrentProjectId,
+    selectProjects,
+    (currentProjectId, projects) => projects.find(item => item._id === currentProjectId)
+)
+
+export const selectCurrentProjectName = createSelector(
+    selectCurrentProject,
+    project => project && project.name ? project.name : ""
+)
 
 export const selectMemberNames = createSelector(
     selectProjectMembers,
@@ -147,8 +136,22 @@ export const selectTaskById = (issueId) => createSelector(
     reducer => reducer.tasks.get(issueId)
 )
 
-/****************** Reselectors - Status  *********************/
-export const selectStatusOrder = () => createSelector(
-    selectCurrentProject,
-    project => project.statusOrder
+export const selectAllTasks = createSelector(
+    selectIssueReducer,
+    reducer => reducer.tasks
 )
+
+/****************** Reselectors - Status  *********************/
+export const selectStatus = createSelector(
+    selectStatusReducer,
+    statusReducer => statusReducer.status
+)
+
+export const selectStatusWithIssue = createSelector(
+    selectStatusReducer,
+    selectAllTasks,
+    (statusReducer, tasks) => statusReducer.status.map(each => {
+        each.issues= each.issues.map(issueId => tasks.get(issueId))
+        return each
+    }) 
+)  
