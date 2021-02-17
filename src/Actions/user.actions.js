@@ -79,7 +79,6 @@ export const loadProjectTablePage = async () => {
     catch (err) {
         return dispatch(dispatchError(err))
     }
-
 }
 
 export const getUser = () => async (dispatch) => {
@@ -146,6 +145,8 @@ export const mockgetUserAndProjectData = () => async (dispatch) => {
     }
 }
 
+
+/******************* API CALLS ******************************/
 export const fetchCurrentUser = async () => {
     const credential = await Auth.currentAuthenticatedUser({
         bypassCache: true  // This call will send a request to Cognito to get the latest user data
@@ -160,9 +161,9 @@ export const fetchUserByEmail = async email => {
 }
 
 export const fetchDeleteUser = async id => {
-    await API.del("UserApi", "/users/object/" + id)
+    return await API.del("UserApi", "/users/object/" + id)
 }
 
 export const fetchDeleteUserFromProjects = async id => {
-    await API.del("ProjectMemberApi", "/members/" + id)
+    return await API.del("ProjectMemberApi", "/members/" + id)
 }
