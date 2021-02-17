@@ -61,17 +61,17 @@ export default function IssueReducer(state = initialState, action) {
             //delete the subtask
             newState.subtasks.filter(item => item._id !== action.id)
             // remove the subtask's id from the task
-            let parentEpic = newState.issues.find(item => item.subtasks.includes(action.id))
+            let parentEpic = newState.tasks.find(item => item.subtasks.includes(action.id))
             parentEpic.filter(id => id !== action.id)
             return newState
         case UPDATE_TASK:
-            newState.issues.set(action.data._id, action.data)
+            newState.tasks.set(action.data._id, action.data)
             return newState
         case UPDATE_TASK_ATTRIBUTE:
-            task = newState.issues.get(action._id)
+            task = newState.tasks.get(action._id)
             task[action.key] = action.value
             task.updatedAt = action.updatedAt
-            newState.issues.set(action._id, task)
+            newState.tasks.set(action._id, task)
             return newState
         case UPDATE_ISSUE_AFTER_DELETE_STATUS:
             newState.tasks.forEach((value, key) => {
@@ -117,7 +117,7 @@ export default function IssueReducer(state = initialState, action) {
             newState.epics.push(action.data)
             return newState
         case UPDATE_ISSUE_GROUP:
-            const change = newState.issues.get(action.id)
+            const change = newState.tasks.get(action.id)
             newState.splice(newState.indexOf(change), 1, action.data);
             return newState
 
