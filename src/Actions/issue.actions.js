@@ -1,6 +1,6 @@
 
 import { API } from 'aws-amplify';
-import { updateIssueOrder, deleteIssueFromStatus, fetchUpdateStatusAttribute, moveIssue } from "./status.actions"
+import { appendNewIssue, deleteIssueFromStatus, fetchUpdateStatusAttribute, moveIssue } from "./status.actions"
 import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
 import { NEW_MESSAGE, sendWsToServer } from './websocket.actions';
 
