@@ -1,7 +1,7 @@
 import React from 'react'
 /**--------------Redux-------------- */
 import { useDispatch } from "react-redux"
-import { updateStatusAttribute, chaninDeleteStatus } from "../../Actions/status.actions"
+import { updateStatusAttribute, deleteStatus } from "../../Actions/status.actions"
 /**--------------UI-------------- */
 import { MenuItem } from '@material-ui/core';
 import { DotIconMenu } from "../Shared/Tabs"
@@ -31,7 +31,7 @@ const ColumnTitle = ({ id = "", name = "" }) => {
             </DotIconMenu>
             {
                 showWarning && <WarningFeedback title="Deleting this column will remove all issues inside" message="Do you want to delete all issues?"
-                    handleClose={() => setShowWarning(false)} handleConfirm={() => dispatch(chaninDeleteStatus(id))} />
+                    handleClose={() => setShowWarning(false)} handleConfirm={() => dispatch(deleteStatus(id))} />
             }
         </div>
     )

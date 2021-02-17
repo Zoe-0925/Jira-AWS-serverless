@@ -37,12 +37,12 @@ export const chainCreateIssueAndUpdateIssueOrder = (data) => async (dispatch) =>
 export const chainUpdateIssueStatus = (data, previousStatusId) => async (dispatch, getState) => {
     try {
         const allStatus = getState().StatusReducer.status
-        const updatedPreviousStatus = allStatus.get(previousStatusId).issues.filter(item => item._id !== data._id)
-        const updatedCurrentStatus = [...allStatus.get(data.status).issues, data._id]
+        const previousStatusIssueOrders = allStatus.find(aStatus => aStatus._id === previousStatusId).issues.filter(item => item._id !== data._id)
+        const currentStatusIssueOrders = [...allStatus.find(aStatus => aStatus._id === data.status).issues, data._id]
         await Promise.all([
             dispatch(updateIssueAttribute(data)),
-            dispatch(moveIssue({ _id: previousStatusId, value: updatedPreviousStatus },
-                { _id: updatedCurrentStatus, value: data.status }))
+            dispatch(moveIssue({ _id: previousStatusId, value: previousStatusIssueOrders },
+                { _id: data.status, value: currentStatusIssueOrders }))
         ])
         dispatch({ type: AUTHENTICATED })
     }
@@ -54,7 +54,7 @@ export const chainUpdateIssueStatus = (data, previousStatusId) => async (dispatc
 export const chainDeleteIssue = (issueId, statusId, issueType) => async (dispatch, getState) => {
     try {
         if (issueType !== "task" && issueType !== "epic" && issueType !== "subtask") { return }
-        let targetStatus = getState().StatusReducer.status.get(statusId)
+        let targetStatus = getState().StatusReducer.status.find(aStatus => aStatus._id === statusId)
         targetStatus.issues = targetStatus.issues.filter(item => item._id !== issueId)
         await Promise.all([
             dispatch(deleteIssue(issueId, issueType)),

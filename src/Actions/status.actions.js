@@ -1,6 +1,5 @@
 import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
 import { reorder } from "../Components/Util"
-import { updateProjectAttribute, updateStatusOrder } from "./project.actions"
 
 export const APPEND_NEW_ISSUE = "APPEND_NEW_ISSUE"
 export const ADD_ISSUE_TO_TAIL = "ADD_ISSUE_TO_TAIL"
@@ -15,30 +14,21 @@ export const DELETE_ISSUE_FROM_STATUS = "DELETE_ISSUE_FROM_STATUS"
 export const DELETE_STATUS_BY_PROJECT = "DELETE_STATUS_BY_PROJECT"
 
 /**************************** Thunk Actions ***************************/
-export const chainCreateStatus = data => async (dispatch, getState) => {
+export const chainCreateStatus = data => async (dispatch) => {
     try {
-        const project = getState().ProjectReducer.projects.find(item => item._id === data.project)
-        const projectAttributePayload = { _id: data.project, attribute: "statusOrder", value: [...project.statusOrder, data._id] }
         dispatch({ type: LOADING })
-        await Promise.all([
-            dispatch(createStatus(data)),
-            dispatch(updateProjectAttribute(projectAttributePayload)),
-        ])
+        dispatch(createStatus(data))
+        dispatch({ type: AUTHENTICATED })
     } catch (err) {
         dispatch(dispatchError(err))
     }
 }
 
-export const chaninDeleteStatus = (statusId) => async (dispatch, getState) => {
+export const deleteStatus = (statusId) => (dispatch) => {
     try {
-        const status = getState().StatusReducer.status.get(statusId)
-        const project = getState().ProjectReducer.projects.find(project => project._id === status.project)
-        let newOrder = project.statusOrder.filter(item => item._id !== status._id)
         dispatch({ type: LOADING })
-        await Promise.all([
-            dispatch(deleteStatus(status._id)),
-            dispatch(updateStatusOrder(newOrder))
-        ])
+        dispatch(deleteStatusAction(statusId))
+        dispatch({ type: AUTHENTICATED })
     } catch (err) {
         dispatch(dispatchError(err))
     }
@@ -114,7 +104,7 @@ export const deleteIssueFromStatus = (issueId, statusId) => async (dispatch) => 
     }
 }
 
-export const deleteStatus = (id) => async dispatch => {
+export const deleteStatusAction = (id) => async dispatch => {
     await dispatch({
         type: DELETE_STATUS,
         id: id

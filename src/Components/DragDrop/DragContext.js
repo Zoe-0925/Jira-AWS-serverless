@@ -3,12 +3,11 @@ import { useDispatch, useSelector } from "react-redux"
 import { DragDropContext } from 'react-beautiful-dnd';
 import WithFilters from "../Filters/WithFilters"
 import { chainReorder, chainMove } from "../../Actions/status.actions"
-import { selectAllStatus, selectStatusOrder } from '../../Reducers/Selectors';
+import { selectAllStatus } from '../../Reducers/Selectors';
 
 export default function DragContextContainer() {
     const dispatch = useDispatch()
     const allStatus = useSelector(selectAllStatus)
-    const statusOrder = useSelector(selectStatusOrder)
 
     function onDragEnd(result) {
         const { source, destination } = result;
@@ -19,8 +18,8 @@ export default function DragContextContainer() {
 
         const sInd = +source.droppableId;  //The index in statusOrder
         const dInd = +destination.droppableId;
-        const sourceStatus = allStatus.get(statusOrder[0][sInd])
-        const destinationStatus = allStatus.get(statusOrder[0][dInd])
+        const sourceStatus = allStatus[sInd]
+        const destinationStatus = allStatus[dInd]
 
         if (sInd === dInd) {
             dispatch(chainReorder(sourceStatus, sInd, dInd))
@@ -36,7 +35,7 @@ export default function DragContextContainer() {
 export const DragContext = ({ onDragEnd }) => (
     <Fragment>
         <DragDropContext onDragEnd={onDragEnd}>
-                <WithFilters />
+            <WithFilters />
         </DragDropContext>
     </Fragment>
 )

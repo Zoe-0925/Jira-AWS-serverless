@@ -22,10 +22,7 @@ export const selectLoading = state => state.LoadingReducer.loading
 
 export const selectAllStatus = state => state.StatusReducer.status
 
-export const selectStatusById = (id) => state => state.StatusReducer.status.get(id)
-
-export const selectDefaultIssueOrder = state => state.StatusReducer.status.get(selectFirstStatus(state)) !== undefined ? state.StatusReducer.status.get(selectFirstStatus(state)).issues : []
-
+export const selectStatusById = (id) => state => state.StatusReducer.status.find(aStatus => aStatus._id === id)
 
 /****************** Selectors - Project  *********************/
 export const selectFirstStatus = state => {

@@ -21,7 +21,6 @@ export default function StatusReducer(state = initialState, action) {
         case UPDATE_STATUS_ATTRIBUTE:
             status = newState.status.find(aStatus => aStatus._id === action._id)
             status[action.attribute] = action.value
-            newState.status.set(action._id, status)
             return newState
         case APPEND_NEW_ISSUE:
             status = newState.status.find(aStatus => aStatus._id === action._id)
