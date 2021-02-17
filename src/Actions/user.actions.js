@@ -176,13 +176,3 @@ export const searchUserByEmail = email => async (dispatch) => {
         dispatch(dispatchError(err))
     }
 }
-
-//TODO move projects away from the user
-export const fetchUpdateUserProjects = async (userId, projects) => {
-    await API.put("UserApi", "/users/projects/", {
-        body: {
-            _id: userId,//reducer.currentUserId,
-            projects: projects//projectsUpdated
-        }
-    })
-}

@@ -1,10 +1,9 @@
 import API from '@aws-amplify/api';
 import { getProjectStatus, fetchDeleteStatusByProject, appendSuccessStatus, fetchCreateMultipleStatus } from "./status.actions"
-import { updateUserProjects, fetchUpdateUserProjects } from "./user.actions"
 import { getProjectIssues, fetchDeleteIssueByProject } from "./issue.actions"
 import { getProjectLabels, fetchDeleteLabelByProject } from "./label.actions"
 import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
-import { sendWsToServer } from "./websocket.actions"
+//import { sendWsToServer } from "./websocket.actions"
 
 export const CREATE_PROJECT = "CREATE_PROJECT"
 export const DELETE_PROJECT = "DELETE_PROJECT"
@@ -12,10 +11,7 @@ export const UPDATE_PROJECT_ATTRIBUTE = "UPDATE_PROJECT_ATTRIBUTE"
 export const UPDATE_PROJECT_DETAIL = "UPDATE_PROJECT_DETAIL"
 export const APPEND_PROJECTS = "APPEND_PROJECTS"
 export const SET_CURRENT_PROJECT = "SET_CURRENT_PROJECT"
-export const APPEDN_CURRENT_PROJECT = "APPEDN_CURRENT_PROJECT"
-export const LEAVE_PROJECT = "LEAVE_PROJECT"  //Remove a user from a project...
-export const UPDATE_STATUS_ORDER = "UPDATE_STATUS_ORDER"
-export const REMOVE_STATUS_FROM_ORDER = "REMOVE_STATUS_FROM_ORDER"
+export const LEAVE_PROJECT = "LEAVE_PROJECT"  
 
 /*****************  Thunk Actions  ****************/
 //TODO
@@ -63,20 +59,14 @@ export const mockgetAllProjects = () => async dispatch => {
     }
 }
 
-export const chainCreactProject = (project, status) => async (dispatch, getState) => {
-    const userReducer = getState().UserReducer
-    let projects = userReducer.users.find(user => user._id === userReducer.currentUserId).projects
-    let projectsUpdated = [...projects, project._id]
+//Create a project with 4 default status - TO DO, IN PROGRESS, TESTING, DONE
+export const chainCreactProject = (project, status) => async (dispatch) => {
     dispatch({ type: LOADING })
     await Promise.all([
         fetchCreateProject(project),
         fetchCreateMultipleStatus(status),
-        fetchUpdateUserProjects(userReducer.currentUserId, projectsUpdated)
-    ])
-    await Promise.all([
         dispatch(createProject(project)),
-        dispatch(appendSuccessStatus(status)),
-        dispatch(updateUserProjects(project._id))
+        dispatch(appendSuccessStatus(status))
     ])
     dispatch({ type: AUTHENTICATED })
 }
@@ -85,14 +75,14 @@ export const chainCreactProject = (project, status) => async (dispatch, getState
 //check API and dynamodb
 export const chainDeleteProject = (projectId) => async dispatch => {
     try {
+        dispatch({ type: LOADING })
         await Promise.all([
-            dispatch({ type: LOADING }),
             dispatch(fetchDeleteProject(projectId)),
             dispatch(fetchDeleteIssueByProject(projectId)), //Query the items in the back end by project and then loop over to delete
             dispatch(fetchDeleteStatusByProject(projectId)),
-            dispatch(fetchDeleteLabelByProject(projectId))
+            dispatch(fetchDeleteLabelByProject(projectId)),
+            dispatch(deleteProject(projectId))
         ])
-        dispatch(deleteProject(projectId))
         dispatch({ type: AUTHENTICATED })
     }
     catch (err) {
@@ -102,14 +92,22 @@ export const chainDeleteProject = (projectId) => async dispatch => {
 
 export const updateProjectDetail = (data) => async  dispatch => {
     try {
+        dispatch({ type: LOADING })
         await Promise.all([
-            dispatch({ type: LOADING }),
-            fetchUpdateProjectDetail(data)
+            fetchUpdateProjectDetail(data),
+            await dispatch({
+                type: UPDATE_PROJECT_DETAIL,
+                data: data
+            })
         ])
-        await dispatch(sendWsToServer({
+
+        //TODO uncomment to enable web socket
+        /**
+         *     await dispatch(sendWsToServer({
             type: UPDATE_PROJECT_DETAIL,
             data: data
         }))
+         */
         dispatch({ type: AUTHENTICATED })
     }
     catch (err) {
@@ -120,8 +118,10 @@ export const updateProjectDetail = (data) => async  dispatch => {
 export const addMember = (projectId, userId, members) => async dispatch => {
     try {
         const param = { _id: projectId, value: [...members, userId], attribute: "members" }
-        await fetchUpdateProjectAttribute(param)
-        await dispatch(updateProjectAttribute(param))
+        await Promise.all([
+            fetchUpdateProjectAttribute(param),
+            dispatch(updateProjectAttribute(param))
+        ])
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -145,25 +145,38 @@ export const subMembers = (projectId, userId, members) => async dispatch => {
 //TODO
 //check in thunk
 // I should delete project and also clear other related states.
-export const deleteProject = (id) => async  dispatch => {
-    await dispatch(sendWsToServer({
+export const deleteProject = (id) => dispatch => {
+    dispatch({
+        type: DELETE_PROJECT,
+        id: id
+    })
+    //TODO: Uncomment to enable web socket
+    /**    await dispatch(sendWsToServer({
         type: DELETE_PROJECT,
         id: id
     }))
+     */
 }
 
-export const createProject = (newProject) => async dispatch => {
-    await dispatch(sendWsToServer({
+export const createProject = (newProject) => dispatch => {
+    dispatch({
         type: CREATE_PROJECT,
         data: newProject
-    }))
+    })
 }
 
-export const updateProjectAttribute = (data) => async dispatch => {
-    await dispatch(sendWsToServer({
+export const updateProjectAttribute = (data) => dispatch => {
+    //TODO: Uncomment to enable web socket
+    /**     await dispatch(sendWsToServer({
         type: UPDATE_PROJECT_ATTRIBUTE,
         data: data
     }))
+     */
+
+    await dispatch({
+        type: UPDATE_PROJECT_ATTRIBUTE,
+        data: data
+    })
 }
 
 export const setCurrentProject = id => {
