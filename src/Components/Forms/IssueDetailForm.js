@@ -5,7 +5,7 @@ import IssueAddEpic from "../Issues/IssueAddEpic"
 import { Row, Col } from 'reactstrap';
 import { Divider, Breadcrumbs, IconButton} from '@material-ui/core';
 import {
-    selectStatusById, selectLabels, selectProjectMembers, selectTaskByIds,
+    selectStatusById, selectLabels, selectProjectMembers, selectTaskById,
     selectUserById, selectIssueUpdatedTimeById, selectAllStatusInArray
 } from "../../Reducers/Selectors"
 import {
@@ -19,7 +19,7 @@ import { FormSelectField } from "../Shared/FormFields"
 
 const IssueDetailForm = ({ issueId, handleClose }) => {
     const dispatch = useDispatch()
-    const issue = useSelector(selectTaskByIds)
+    const issue = useSelector(selectTaskById(issueId))
     const updatedTime = useSelector(selectIssueUpdatedTimeById(issueId))
     const assignee = useSelector(selectUserById(issue.assignee || ""))
     const reporter = issue.reporter ? issue.reporter : ""

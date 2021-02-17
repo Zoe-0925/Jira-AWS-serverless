@@ -11,9 +11,8 @@ import { chainDeleteIssue, updateIssueAttribute } from "../../Actions/issue.acti
 import { selectTaskById } from "../../Reducers/Selectors"
 import UpdateIssueDialog from "../Issues/UpdateIssueDialog"
 
-const IssueCardContainer = ({ issueId }) => {
+const IssueCardHOC = ({ task }) => {
     const dispatch = useDispatch()
-    const task = useSelector(selectTaskById(issueId))
 
     const { anchorEl, isOpen, anchorRef, handleMenuClose, handleMenuOpen } = useDotIconMenu()
 
@@ -38,18 +37,18 @@ const IssueCardContainer = ({ issueId }) => {
     }
 
     return (!task ? <div></div> : <IssueCard task={task} handleDeleteTask={handleDeleteTask} anchorEl={anchorEl}
-        isOpen={isOpen} anchorRef={anchorRef} handleMenuOpen={handleMenuOpen} issueId={issueId}
+        isOpen={isOpen} anchorRef={anchorRef} handleMenuOpen={handleMenuOpen} task={task}
         handleMenuClose={handleMenuClose} toggleFlag={toggleFlag} reorderToBotttom={reorderToBotttom}
     />)
 }
 
-const IssueCard = ({ task, handleDeleteTask, anchorEl, isOpen, anchorRef, issueId, handleMenuOpen, handleMenuClose, openTaskDetail, toggleFlag, reorderToBotttom }) => {
+const IssueCard = ({ task, handleDeleteTask, anchorEl, isOpen, anchorRef, handleMenuOpen, handleMenuClose, openTaskDetail, toggleFlag, reorderToBotttom }) => {
     const [openDetail, setOpen] = useState(false)
 
     console.log("task", task)
 
     return (<>
-        {openDetail && task && <UpdateIssueDialog open={openDetail} handleClose={() => setOpen(false)} issueId={issueId} />}
+        {openDetail && task && <UpdateIssueDialog open={openDetail} handleClose={() => setOpen(false)} issueId={task._id} />}
         <Box boxShadow={1}
             key={uuidv4()} className={!task.flag ? "epic-body" : "epic-body flagged"
             } >
@@ -91,4 +90,4 @@ const IssueCard = ({ task, handleDeleteTask, anchorEl, isOpen, anchorRef, issueI
     </>)
 }
 
-export default IssueCardContainer
+export default IssueCardHOC

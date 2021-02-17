@@ -6,11 +6,10 @@ import Column from "../StatusColumn/Column"
 import Skeleton from '@material-ui/lab/Skeleton';
 import { v4 as uuidv4 } from 'uuid'
 import IssueCard from "../IssueCard/IssueCard";
-import { selectAllStatusInArray, selectStatus, selectNonOrderedAllStatusInArray, selectLoading } from "../../Reducers/Selectors"
+import { selectAllStatusInArray, selectAllStatusInArrayWithIssue, selectLoading } from "../../Reducers/Selectors"
 
 const DragAndDrop = () => {
-    let columns = useSelector(selectAllStatusInArray) //TODO undefined
-    // columns = [...columns.values()]
+    let columns = useSelector(selectAllStatusInArrayWithIssue)
     const loading = useSelector(selectLoading)
 
     console.log("columns", columns)
@@ -21,8 +20,8 @@ const DragAndDrop = () => {
                 if (!loading && el) {
                     return <MyDroppable key={ind} el={el} ind={ind}>
                         <Column key={uuidv4()} status={el}>
-                            {el && el.issues && el.issues.map((issueId, index) => <MyDraggable key={uuidv4()} id={issueId} index={index}>
-                                <IssueCard key={uuidv4()} issueId={issueId} />
+                            {el && el.issues && el.issues.map((issue, index) => <MyDraggable key={uuidv4()} id={issue._id} index={index}>
+                                <IssueCard key={uuidv4()} task={issue} />
                             </MyDraggable>)}
                         </Column>
                     </MyDroppable>
