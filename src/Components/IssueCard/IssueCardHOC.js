@@ -30,7 +30,7 @@ const IssueCardHOC = ({ issue }) => {
     }
 
     return (!issue ? <div></div> : <IssueCard issue={issue} handleDeleteIssue={handleDeleteIssue} 
-        isOpen={isOpen} anchorRef={anchorRef} handleMenuOpen={handleMenuOpen} issue={issue}
+        isOpen={isOpen} anchorRef={anchorRef} handleMenuOpen={handleMenuOpen} 
         handleMenuClose={handleMenuClose} toggleFlag={toggleFlag} reorderToBotttom={reorderToBotttom}
     />)
 }
