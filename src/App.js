@@ -5,9 +5,7 @@ import React from 'react';
 import { Router } from 'react-router-dom';
 import { Switch, Route } from "react-router-dom";
 /**    Pages     */
-import ProjectList from "./Pages/ProjectList"
-//import Login from "./Pages/Login"
-//import Signup from "./Pages/Signup"
+import ProjectTable from "./Pages/ProjectTable"
 import Board from "./Pages/Board"
 import ProjectDetail from "./Pages/ProjectDetail"
 import './App.scss';
@@ -25,7 +23,7 @@ const App = () => {
     <div className="App">
       <Router history={history}>
         <Switch>
-          <Route path="/" exact component={ProjectList} />
+          <Route path="/" exact component={ProjectTable} />
           <Route path="/projects" exact component={ProjectList} />
           <Route path="/projects/roadmap" component={App} />
           <Route path="/projects/board" exact component={Board} />
@@ -35,12 +33,6 @@ const App = () => {
     </div>
   )
 }
-
-/**
- *           <Route path="/login" exact component={Login} />
-          <Route path="/signup" exact component={Signup} />
-          <Route path="/confirmSignup" exact component={App} />
- */
 
 export default process.env.NODE_ENV === "development" ? hot(App) : App
 

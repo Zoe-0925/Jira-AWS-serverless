@@ -3,9 +3,9 @@ import API from '@aws-amplify/api';
 import history from "../history"
 import { CLEAR_PROJECT, mockgetAllProjects, setCurrentProject, getProjects } from "./project.actions"
 import { dispatchError, LOADING, AUTHENTICATED, CANCEL_LOADING } from "./loading.actions"
-import { getProjectIssues, APPEND_ISSUES, CLEAR_ISSUE } from "./issue.actions"
-import { getProjectLabels, CLEAR_LABEL } from "./label.actions"
-import { CLEAR_STATUS, getProjectStatus, appendSuccessStatus } from "./status.actions"
+import { APPEND_ISSUES, CLEAR_ISSUE } from "./issue.actions"
+import {  CLEAR_LABEL } from "./label.actions"
+import { CLEAR_STATUS, appendSuccessStatus } from "./status.actions"
 import { CLEAR_COMMENT } from "./comment.actions"
 //import { NEW_MESSAGE } from "./websocket.actions"
 
@@ -129,7 +129,6 @@ export const mockgetUserAndProjectData = () => async (dispatch) => {
         dispatch(dispatchError(err))
     }
 }
-
 
 /******************* API CALLS ******************************/
 export const fetchCurrentUser = async () => {

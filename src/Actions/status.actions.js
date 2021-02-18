@@ -20,7 +20,6 @@ export const getProjectStatus = (projectId) => async  dispatch => {
     try {
         const status = await API.get("StatusApi", "/status/project/" + projectId)
         await dispatch(appendSuccessStatus(status))
-        dispatch({ type: AUTHENTICATED })
     }
     catch (err) {
         dispatch(dispatchError(err))

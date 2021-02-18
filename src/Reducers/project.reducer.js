@@ -1,6 +1,7 @@
 
 import {
-   CLEAR_PROJECT, CREATE_PROJECT, APPEND_PROJECTS, SET_CURRENT_PROJECT, UPDATE_PROJECT_ATTRIBUTE, UPDATE_PROJECT_DETAIL
+   CLEAR_PROJECT, CREATE_PROJECT, APPEND_PROJECTS, SET_CURRENT_PROJECT, DELETE_PROJECT,
+   UPDATE_PROJECT_ATTRIBUTE, UPDATE_PROJECT_DETAIL
 } from "../Actions/project.actions"
 
 
@@ -32,7 +33,7 @@ export default function ProjectReducer(state = testState, action) {
             return { ...state, currentProjectId: action.id }
         case CREATE_PROJECT:
             return { ...state, projects: [...state.projects, action.data] }
-        case "DELETE_PROJECT":
+        case DELETE_PROJECT:
             newState.projects = newState.projects.filter(item => item._id !== action.id)
             if (newState.currentProjectId === action.id) {
                 newState.currentProjectId = ""

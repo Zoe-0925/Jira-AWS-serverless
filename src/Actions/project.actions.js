@@ -29,20 +29,24 @@ export const mockgetAllProjects = () => async dispatch => {
 }
 
 export const loadBoardPage = () => async (dispatch, getState) => {
-    let projectId = getState().ProjectReducer.currentProjectId
-    if (!id || id === "") {
-        history.push("/projects")
-        return
+    try {
+        let projectId = getState().ProjectReducer.currentProjectId
+        if (!id || id === "") {
+            history.push("/projects")
+            return
+        }
+        dispatch({ type: LOADING })
+        await Promise.all([
+            dispatch(getProjectStatus(projectId)),
+            dispatch(getProjectIssues(projectId)),
+            dispatch(getProjectLabels(projectId))
+        ])
+        dispatch({ type: AUTHENTICATED })
     }
-    dispatch({ type: LOADING })
-    await Promise.all([
-        dispatch(getProjectStatus(projectId)),
-        dispatch(getProjectIssues(projectId)),
-        dispatch(getProjectLabels(projectId))
-    ])
-    dispatch({ type: AUTHENTICATED })
+    catch (err) {
+        dispatch(dispatchError(err))
+    }
 }
-
 
 export const getProjects = (userId) => async (dispatch) => {
     try {
@@ -53,7 +57,6 @@ export const getProjects = (userId) => async (dispatch) => {
         return dispatch(dispatchError(err))
     }
 }
-
 
 //Create a project with 4 default status - TO DO, IN PROGRESS, TESTING, DONE
 export const chainCreactProject = (project, status) => async (dispatch) => {
@@ -130,7 +133,6 @@ export const subMembers = (projectId, userId, members) => async dispatch => {
         let updated = [...members]
         updated = updated.filter(member => member === userId)
         const param = { _id: projectId, value: updated, attribute: "members" }
-        await fetchUpdateProjectAttribute(param)
         await dispatch(updateProjectAttribute(param))
     }
     catch (err) {
@@ -138,9 +140,6 @@ export const subMembers = (projectId, userId, members) => async dispatch => {
     }
 }
 
-//TODO
-//check in thunk
-// I should delete project and also clear other related states.
 export const deleteProject = (id) => dispatch => {
     dispatch({
         type: DELETE_PROJECT,
@@ -167,7 +166,6 @@ export const appendProjects = (projectList) => dispatch => {
         data: projectList
     })
 }
-
 
 export const updateProjectAttribute = (data) => dispatch => {
     //TODO: Uncomment to enable web socket
