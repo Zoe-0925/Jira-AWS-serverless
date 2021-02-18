@@ -8,7 +8,6 @@ import {
     selectStatusById, selectLabels, selectProjectMembers, selectUserById, selectStatus
 } from "../../Reducers/Selectors"
 import { chainUpdateIssueStatus, updateIssueAttribute } from "../../Actions/issue.actions"
-import CommentHOC from "../Comment/CommentHOC"
 import CloseIcon from '@material-ui/icons/Close';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import { formatDate } from "../Util"
@@ -82,7 +81,6 @@ const IssueDetailForm = ({ issue, handleClose }) => {
                                 <br />
                                 <Divider className="divider" />
                                 <br />
-                                <CommentHOC />
                             </div>
                         </Row>
                         <br />

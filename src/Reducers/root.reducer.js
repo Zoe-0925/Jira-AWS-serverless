@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux';
 import ProjectReducer from "./project.reducer"
 import IssueReducer from "./issue.reducer"
-import CommentReducer from "./comment.reducer"
 import LabelReducer from "./label.reducer"
 import StatusReducer from "./status.reducer"
 import UserReducer from "./user.reducer"
@@ -11,7 +10,7 @@ import { connectRouter } from 'connected-react-router'
 
 
 const RootReducer = (history) => combineReducers({
-    ProjectReducer, IssueReducer, CommentReducer, LabelReducer, StatusReducer, UserReducer,
+    ProjectReducer, IssueReducer, LabelReducer, StatusReducer, UserReducer,
     FilterReducer, LoadingReducer, router: connectRouter(history)
 });
 
