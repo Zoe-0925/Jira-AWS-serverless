@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from "react-redux"
-import ProjectListTable from "../Components/ProjectTable/ProjectTable"
+import ProjectListTableHOC from "../Components/ProjectTable/ProjectTableHOC"
 import NavBar from "../Components/Shared/NavBar"
 import { Row, Col } from "reactstrap"
 import { selectCurrentUserId } from "../Reducers/Selectors"
@@ -25,7 +25,7 @@ const ProjectTable = () => {
                     <Col md="1">  <p align="left" className="project-list-title">Project</p></Col>
                     <Col ml="auto"></Col>
                 </Row>
-                <ProjectListTable />
+                <ProjectListTableHOC />
             </div>
         </div>
     )

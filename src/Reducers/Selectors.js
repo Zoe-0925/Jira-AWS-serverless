@@ -16,6 +16,9 @@ export const selectLoadingReducer = state => state.LoadingReducer
 
 export const selectLoading = state => state.LoadingReducer.loading
 
+export const selectAllProjects = state => state.ProjectReducer.projects
+
+
 /****************** Selectors - Status  *********************/
 
 export const selectAllStatus = state => state.StatusReducer.status
@@ -48,10 +51,6 @@ export const selectUserById = (id) => state => {
 }
 
 /****************** Reselectors - Projects  *********************/
-export const selectAllProjects = createSelector(
-    selectProjectReducer,
-    reducer => reducer.projects
-)
 
 export const selectCurrentProjectId = createSelector(
     selectProjectReducer,
