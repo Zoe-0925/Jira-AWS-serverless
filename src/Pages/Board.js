@@ -6,7 +6,8 @@ import DragContext from "../Components/DragDrop/DragContext"
 import NavBar from "../Components/NavBar/NavBar"
 import { selectCurrentProjectName } from '../Reducers/Selectors';
 import { Typography, Link, Breadcrumbs } from "@material-ui/core"
-import { getUserAndProjectData, mockgetUserAndProjectData } from "../Actions/user.actions"
+import { mockgetUserAndProjectData } from "../Actions/user.actions"
+import { loadBoardPage } from "../Actions/loading.actions"
 import { wsConnect } from "../Actions/websocket.actions"
 
 export default function Board() {
@@ -16,10 +17,10 @@ export default function Board() {
     const [open, setOpen] = useState(true);
 
     useEffect(() => {
-        //dispatch(getUserAndProjectData())
+        //dispatch(loadBoardPage())
         dispatch(mockgetUserAndProjectData())
-       // const host = `ws://pure-atoll-32256.herokuapp.com`;
-      //  dispatch(wsConnect(host));
+        // const host = `ws://pure-atoll-32256.herokuapp.com`;
+        //  dispatch(wsConnect(host));
     }, [])
 
     return (

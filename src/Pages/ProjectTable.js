@@ -6,7 +6,8 @@ import { ProjectCreateHOC } from "../Components/Project/ProjectCreateForm"
 import { Button } from '@material-ui/core'
 import { Row, Col } from "reactstrap"
 import { selectCurrentUserId } from "../Reducers/Selectors"
-import { loadProjectTablePage, mockgetUserAndProjectData } from "../Actions/user.actions"
+import { mockgetUserAndProjectData } from "../Actions/user.actions"
+import { loadProjectTablePage } from "../Actions/loading.actions"
 
 const ProjectTable = () => {
     const dispatch = useDispatch()

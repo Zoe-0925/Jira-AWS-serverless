@@ -69,18 +69,6 @@ export const chainDeleteUser = (id) => async (dispatch) => {
     }
 }
 
-export const loadProjectTablePage = async () => {
-    try {
-        dispatch({ type: LOADING })
-        const userId = await dispatch(getUser())
-        await dispatch(getProjects(userId))
-        dispatch({ type: AUTHENTICATED })
-    }
-    catch (err) {
-        return dispatch(dispatchError(err))
-    }
-}
-
 export const getUser = () => async (dispatch) => {
     try {
         const user = await dispatch(fetchCurrentUser())
