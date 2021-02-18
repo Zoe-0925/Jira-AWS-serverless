@@ -3,7 +3,7 @@ import { Form } from 'formik';
 import { withFormik } from 'formik';
 import { Typography, Button } from '@material-ui/core';
 import { DialogCloseIcon } from "../Shared/Tabs"
-import { FormTextField } from "../Shared/FormFields"
+import { FormTextField } from "./FormFields"
 
 export const CreateProjectForm = ({
     values,

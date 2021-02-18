@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core';
 import { useDotIconMenu } from "../Shared/CustomHooks"
 import { Container, Row, Col } from "reactstrap"
-import { FormTextField, FormSelectField } from "../Shared/FormFields"
+import { FormTextField, FormSelectField } from "./FormFields"
 
 export const UpdateProjectForm = ({
     values,
