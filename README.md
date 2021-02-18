@@ -1,7 +1,7 @@
 # Jira Clone
 
 This is a Jira full-stack web application built with React, Redux, RESTful API and AWS.
-## Demo:   (To be updated)
+## Demo:   https://jira-serverless-demo.herokuapp.com/
 
 ![alt text](https://github.com/Zoe-0925/Jira-AWS-Frontend/blob/master/public/Demo-1.png)
 ![alt text](https://github.com/Zoe-0925/Jira-AWS-Frontend/blob/master/public/Demo-2.png)

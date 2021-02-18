@@ -14,9 +14,11 @@ const DragAndDrop = () => {
         <div className="epic-list">
             {columns.map((el, ind) => <MyDroppable key={ind} el={el} ind={ind}>
                 <Column key={uuidv4()} status={el}>
-                    {el.issues.map((issue, index) => <MyDraggable key={uuidv4()} id={issue._id} index={index}>
-                        <IssueCardHOC key={uuidv4()} issue={issue} />
-                    </MyDraggable>
+                    {el.issues.map((issue, index) => {
+                        issue ? <MyDraggable key={uuidv4()} id={issue._id} index={index}>
+                            <IssueCardHOC key={uuidv4()} issue={issue} />
+                        </MyDraggable> : <div></div>
+                    }
                     )}
                 </Column>
             </MyDroppable>
