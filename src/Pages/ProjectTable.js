@@ -18,6 +18,7 @@ const ProjectTable = () => {
             //TODO: Uncomment to switch
             //dispatch(loadProjectTablePage())
         }
+        // eslint-disable-next-line
     }, [])
 
     return (
