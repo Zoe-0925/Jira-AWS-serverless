@@ -6,13 +6,13 @@ import {
 } from '@material-ui/core'
 
 import history from "../../history"
-import CreateProjectDialog from "../Project/CreateProjectDialog"
+import CreateProjectDialog from "../Forms/CreateProjectDialog"
+import CreateIssueDialog from "../Forms/CreateIssueDialog"
 /***** Icons ****/
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import SettingsIcon from '@material-ui/icons/Settings';
-import IssueCreateDialogue from "../Issues/CreateIssueDialog"
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 /*******/
 import { useDotIconMenu } from "./CustomHooks"

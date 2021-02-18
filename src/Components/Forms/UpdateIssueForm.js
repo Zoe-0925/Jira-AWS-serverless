@@ -12,7 +12,7 @@ import CommentHOC from "../Comment/CommentHOC"
 import CloseIcon from '@material-ui/icons/Close';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import { formatDate } from "../Util"
-import { FormSelectField } from "../Shared/FormFields"
+import { FormSelectField } from "./FormFields"
 
 const IssueDetailForm = ({ issue, handleClose }) => {
     const dispatch = useDispatch()

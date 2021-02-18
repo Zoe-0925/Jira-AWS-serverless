@@ -1,50 +1,14 @@
 import React, { useState } from "react";
 import { v4 as uuidv4 } from 'uuid'
-import { useDispatch } from "react-redux"
 import { Container, Row, Col } from 'reactstrap';
 import { Tooltip, MenuItem, Box } from '@material-ui/core';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import { DotIconMenu } from "../Shared/Tabs"
-import { useDotIconMenu } from "../Shared/CustomHooks"
-import { chainDeleteIssue, updateIssueAttribute } from "../../Actions/issue.actions"
 import UpdateIssueDialog from "../Issues/UpdateIssueDialog"
-
-const IssueCardHOC = ({ issue }) => {
-    const dispatch = useDispatch()
-
-    const { anchorEl, isOpen, anchorRef, handleMenuClose, handleMenuOpen } = useDotIconMenu()
-
-    const reorderToBotttom = (e, id, status) => {
-        e.preventDefault()
-
-        //TODO
-        //reorder to bottom
-
-
-        handleMenuClose()
-    }
-
-    const handleDeleteIssue = (e, id, status) => {
-        e.preventDefault()
-        dispatch(chainDeleteIssue(id, status, "task", issue.updatedAt))  //TODO update
-        handleMenuClose()
-    }
-
-    const toggleFlag = () => {
-        dispatch(updateIssueAttribute({ _id: issue._id, attribute: "flag", value: !issue.flag }))
-    }
-
-    return (!issue ? <div></div> : <IssueCard issue={issue} handleDeleteIssue={handleDeleteIssue} anchorEl={anchorEl}
-        isOpen={isOpen} anchorRef={anchorRef} handleMenuOpen={handleMenuOpen} issue={issue}
-        handleMenuClose={handleMenuClose} toggleFlag={toggleFlag} reorderToBotttom={reorderToBotttom}
-    />)
-}
 
 const IssueCard = ({ issue, handleDeleteIssue, anchorEl, isOpen, anchorRef, handleMenuOpen, handleMenuClose, toggleFlag, reorderToBotttom }) => {
     const [isIssueDetailOpen, setOpen] = useState(false)
-
-console.log("issue in issue card", issue, "isIssueDetailOpen", isIssueDetailOpen)
 
     return (<>
         {isIssueDetailOpen && issue && <UpdateIssueDialog open={isIssueDetailOpen} handleClose={() => setOpen(false)} issue={issue} />}
@@ -89,4 +53,4 @@ console.log("issue in issue card", issue, "isIssueDetailOpen", isIssueDetailOpen
     </>)
 }
 
-export default IssueCardHOC
+export default IssueCard

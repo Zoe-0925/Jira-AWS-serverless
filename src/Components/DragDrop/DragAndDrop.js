@@ -4,7 +4,7 @@ import { MyDraggable, MyDroppable } from "./DraggableAndDroppable";
 import CreateStatusTab from "../StatusColumn/CreateStatusTab"
 import Column from "../StatusColumn/Column"
 import { v4 as uuidv4 } from 'uuid'
-import IssueCard from "../IssueCard/IssueCard";
+import IssueCardHOC from "../IssueCard/IssueCardHOC";
 import { selectStatusWithIssue, selectLoading } from "../../Reducers/Selectors"
 
 const DragAndDrop = () => {
@@ -16,7 +16,7 @@ const DragAndDrop = () => {
             {columns.map((el, ind) => <MyDroppable key={ind} el={el} ind={ind}>
                 <Column key={uuidv4()} status={el}>
                     {el.issues.map((issue, index) => <MyDraggable key={uuidv4()} id={issue._id} index={index}>
-                        <IssueCard key={uuidv4()} issue={issue} />
+                        <IssueCardHOC key={uuidv4()} issue={issue} />
                     </MyDraggable>
                     )}
                 </Column>
