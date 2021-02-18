@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from "react-redux"
+//import { useSelector } from "react-redux"
 import Pusher from 'pusher-js';
 import CommentBox from "./CommentBox"
-import { selectCommentByIssue } from "../../Reducers/Selectors"
+//import { selectCommentByIssue } from "../../Reducers/Selectors"
 
 require('dotenv').config()  //Enable access to the ".env" file
 
 export default function CommentHOC({ issueId }) {
     const [comments, setState] = useState([])
 
-    const data = useSelector(selectCommentByIssue)
+    //    const data = useSelector(selectCommentByIssue)
 
     useEffect(() => {
         const pusher = new Pusher(process.env.REACT_APP_PUSHER_APP_KEY || "", {

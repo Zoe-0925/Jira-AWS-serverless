@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from "react-redux"
-import ProjectListTable from "../Components/Project/ProjectTable"
-import NavBar from "../Components/NavBar/NavBar"
+import ProjectListTable from "../Components/ProjectTable/ProjectTable"
+import NavBar from "../Components/Shared/NavBar"
 import { Row, Col } from "reactstrap"
 import { selectCurrentUserId } from "../Reducers/Selectors"
 import { mockgetUserAndProjectData } from "../Actions/user.actions"
@@ -14,6 +14,7 @@ const ProjectTable = () => {
         if (currentUserId === "") {
             dispatch(mockgetUserAndProjectData())
         }
+        // eslint-disable-next-line
     }, [])
 
     return (

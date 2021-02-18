@@ -6,7 +6,7 @@ import IssueCard from "./IssueCard"
 
 const IssueCardHOC = ({ issue }) => {
     const dispatch = useDispatch()
-
+    // eslint-disable-next-line
     const { anchorEl, isOpen, anchorRef, handleMenuClose, handleMenuOpen } = useDotIconMenu()
 
     const reorderToBotttom = (e, id, status) => {
@@ -29,8 +29,8 @@ const IssueCardHOC = ({ issue }) => {
         dispatch(updateIssueAttribute({ _id: issue._id, attribute: "flag", value: !issue.flag }))
     }
 
-    return (!issue ? <div></div> : <IssueCard issue={issue} handleDeleteIssue={handleDeleteIssue} anchorEl={anchorEl}
-        isOpen={isOpen} anchorRef={anchorRef} handleMenuOpen={handleMenuOpen} issue={issue}
+    return (!issue ? <div></div> : <IssueCard issue={issue} handleDeleteIssue={handleDeleteIssue}
+        isOpen={isOpen} anchorRef={anchorRef} handleMenuOpen={handleMenuOpen} 
         handleMenuClose={handleMenuClose} toggleFlag={toggleFlag} reorderToBotttom={reorderToBotttom}
     />)
 }

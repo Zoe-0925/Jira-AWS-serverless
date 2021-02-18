@@ -110,7 +110,7 @@ export default function NavBar({ openDrawer }) {
                     </IconButton>
                     <Button onClick={() => history.push("/projects/")} className="nav-title">Jira Mock </Button>
                     <ProjectMenu handleCreateProject={() => setOpenCreateProject(true)} />
-                    <IssueCreateDialogue />
+                    <CreateIssueDialog />
                     <div className={classes.grow} />
                     <div className={classes.sectionDesktop}>
 

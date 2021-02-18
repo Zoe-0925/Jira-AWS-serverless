@@ -5,11 +5,10 @@ import CreateStatusTab from "../StatusColumn/CreateStatusTab"
 import Column from "../StatusColumn/Column"
 import { v4 as uuidv4 } from 'uuid'
 import IssueCardHOC from "../IssueCard/IssueCardHOC";
-import { selectStatusWithIssue, selectLoading } from "../../Reducers/Selectors"
+import { selectStatusWithIssue } from "../../Reducers/Selectors"
 
 const DragAndDrop = () => {
     let columns = useSelector(selectStatusWithIssue)
-    const loading = useSelector(selectLoading)
 
     return (
         <div className="epic-list">

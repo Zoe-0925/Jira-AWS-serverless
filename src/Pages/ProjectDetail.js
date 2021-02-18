@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Drawer from "../Components/Drawer/Drawer"
 import { ProjectSetting } from "../Components/Drawer/DrawerLinks"
-import NavBar from "../Components/NavBar/NavBar"
+import NavBar from "../Components/Shared/NavBar"
 import UpdateProject from '../Components/Forms/UpdateProject';
 
 export default function ProjectDetail() {

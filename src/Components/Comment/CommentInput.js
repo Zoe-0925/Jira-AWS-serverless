@@ -1,10 +1,11 @@
 import React from 'react'
-import { useDispatch } from "react-redux"
+//import { useDispatch } from "react-redux"
 import { useEditText } from '../Shared/CustomHooks';
 import { EditableText, TextareaWithActionBtns } from "../Shared/EditableText"
 
 export default function CommentInput() {
-    const dispatch = useDispatch()
+    //   const dispatch = useDispatch()
+    // eslint-disable-next-line
     const { state, setState, edit, setEdit } = useEditText("Add a comment...")
     const isSubmitting = false
 
@@ -12,7 +13,7 @@ export default function CommentInput() {
         //TODO
         //state is a text,
         //so _id, issue, 
-       // dispatch(createComment(state))
+        // dispatch(createComment(state))
         //) create comment, 
         //isSubmitting is selected from loading
 

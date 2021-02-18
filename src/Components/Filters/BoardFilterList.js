@@ -8,7 +8,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import FilterButton from "./FilterButton"
 import { selectEpics, selectLabels } from '../../Reducers/Selectors';
 import { v4 as uuidv4 } from 'uuid'
-import { Container, Row, Col } from 'reactstrap';
+import { Row } from 'reactstrap';
 
 //TODO
 //It receives an event handler to change filters

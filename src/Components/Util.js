@@ -34,6 +34,7 @@ export const formatDate = dateString => {
 
 export const filterByLabel = (issues, labelIds) => {
     let result = []
+    // eslint-disable-next-line
     labelIds.map(labelId => {
         let midResult = issues.filter(issue => issue.labels.includes(labelId))
         if (midResult.length > 0) { result.concat(midResult.map(each => each._id)) }
@@ -43,6 +44,7 @@ export const filterByLabel = (issues, labelIds) => {
 
 export const filterByEpic = (issues, epicIds) => {
     let result = []
+    // eslint-disable-next-line
     epicIds.map(epicId => {
         let midResult = issues.filter(issue => issue.epic && issue.epic === epicId)
         if (midResult.length > 0) { result.concat(midResult.map(each => each._id)) }
