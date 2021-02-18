@@ -2,7 +2,6 @@ import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
 import { reorder } from "../Components/Util"
 
 export const APPEND_NEW_ISSUE = "APPEND_NEW_ISSUE"
-export const ADD_ISSUE_TO_TAIL = "ADD_ISSUE_TO_TAIL"
 export const CREATE_STATUS = "CREATE_STATUS"
 export const DELETE_STATUS = "DELETE_STATUS"
 export const UPDATE_ISSUE_ORDER = "UPDATE_ISSUE_ORDER"

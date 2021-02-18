@@ -4,7 +4,7 @@ import React from 'react';
 import { Router } from 'react-router-dom';
 import { Switch, Route } from "react-router-dom";
 /**    Pages     */
-import ProjectList from "./Pages/ProjectList"
+import ProjectTable from "./Pages/ProjectTable"
 import Board from "./Pages/Board"
 import ProjectDetail from "./Pages/ProjectDetail"
 import './App.scss';
@@ -16,8 +16,8 @@ const App = () => {
     <div className="App">
       <Router history={history}>
         <Switch>
-          <Route path="/" exact component={ProjectList} />
-          <Route path="/projects" exact component={ProjectList} />
+          <Route path="/" exact component={ProjectTable} />
+          <Route path="/projects" exact component={ProjectTable} />
           <Route path="/projects/roadmap" component={App} />
           <Route path="/projects/board" exact component={Board} />
           <Route path="/projects/settings/details" exact component={ProjectDetail} />

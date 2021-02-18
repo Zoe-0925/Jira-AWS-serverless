@@ -1,4 +1,4 @@
-import {  appendSuccessStatus } from "./status.actions"
+import { appendSuccessStatus } from "./status.actions"
 import { updateUserProjects } from "./user.actions"
 import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
 
@@ -67,9 +67,12 @@ export const updateProjectDetail = (data) => async  dispatch => {
     }
 }
 
+//TODO
+//check in thunk
+// I should delete project and also clear other related states.
 export const deleteProject = (id) => async  dispatch => {
     await dispatch({
-        type: "CLEAR_PROJECT",
+        type: DELETE_PROJECT,
         id: id
     })
 }
@@ -78,13 +81,6 @@ export const createProject = (newProject) => async dispatch => {
     await dispatch({
         type: CREATE_PROJECT,
         data: newProject
-    })
-}
-
-export const updateStatusOrder = data => async dispatch => {
-    await dispatch({
-        type: UPDATE_STATUS_ORDER,
-        data: data
     })
 }
 
