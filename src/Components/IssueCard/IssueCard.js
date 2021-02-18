@@ -5,7 +5,7 @@ import { Tooltip, MenuItem, Box } from '@material-ui/core';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import { DotIconMenu } from "../Shared/Tabs"
-import UpdateIssueDialog from "../Issues/UpdateIssueDialog"
+import UpdateIssueDialog from "../Forms/UpdateIssueDialog"
 
 const IssueCard = ({ issue, handleDeleteIssue, anchorEl, isOpen, anchorRef, handleMenuOpen, handleMenuClose, toggleFlag, reorderToBotttom }) => {
     const [isIssueDetailOpen, setOpen] = useState(false)

@@ -12,7 +12,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import SettingsIcon from '@material-ui/icons/Settings';
-import IssueCreateDialogue from "../Issues/CreateIssueDialog"
+import CreateIssueDialog from "../Issues/CreateIssueDialog"
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 /*******/
 import { useDotIconMenu } from "./CustomHooks"
@@ -110,7 +110,7 @@ export default function NavBar({ openDrawer }) {
                     </IconButton>
                     <Button onClick={() => history.push("/projects/")} className="nav-title">Jira Mock </Button>
                     <ProjectMenu handleCreateProject={() => setOpenCreateProject(true)} />
-                    <IssueCreateDialogue />
+                    <CreateIssueDialog />
                     <div className={classes.grow} />
                     <div className={classes.sectionDesktop}>
 
