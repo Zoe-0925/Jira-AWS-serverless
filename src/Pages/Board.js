@@ -7,8 +7,8 @@ import NavBar from "../Components/NavBar/NavBar"
 import { selectCurrentProjectName } from '../Reducers/Selectors';
 import { Typography, Link, Breadcrumbs } from "@material-ui/core"
 import { mockgetUserAndProjectData } from "../Actions/user.actions"
-import { loadBoardPage } from "../Actions/loading.actions"
-import { wsConnect } from "../Actions/websocket.actions"
+//import { loadBoardPage } from "../Actions/loading.actions"
+//import { wsConnect } from "../Actions/websocket.actions"
 
 export default function Board() {
     const dispatch = useDispatch()

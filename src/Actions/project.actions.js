@@ -1,10 +1,11 @@
 import API from '@aws-amplify/api';
-import { getProjectStatus, fetchDeleteStatusByProject, appendSuccessStatus, fetchCreateMultipleStatus } from "./status.actions"
-import { getProjectIssues, fetchDeleteIssueByProject } from "./issue.actions"
-import { getProjectLabels, fetchDeleteLabelByProject } from "./label.actions"
+import { fetchDeleteStatusByProject, appendSuccessStatus, fetchCreateMultipleStatus } from "./status.actions"
+import { fetchDeleteIssueByProject } from "./issue.actions"
+import { fetchDeleteLabelByProject } from "./label.actions"
 import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
 //import { sendWsToServer } from "./websocket.actions"
 
+export const CLEAR_PROJECT = "CLEAR_PROJECT"
 export const CREATE_PROJECT = "CREATE_PROJECT"
 export const DELETE_PROJECT = "DELETE_PROJECT"
 export const UPDATE_PROJECT_ATTRIBUTE = "UPDATE_PROJECT_ATTRIBUTE"
@@ -155,7 +156,7 @@ export const updateProjectAttribute = (data) => dispatch => {
     }))
      */
 
-    await dispatch({
+    dispatch({
         type: UPDATE_PROJECT_ATTRIBUTE,
         data: data
     })

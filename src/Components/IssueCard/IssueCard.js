@@ -8,7 +8,7 @@ import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import { DotIconMenu } from "../Shared/Tabs"
 import { useDotIconMenu } from "../Shared/CustomHooks"
 import { chainDeleteIssue, updateIssueAttribute } from "../../Actions/issue.actions"
-import UpdateIssueDialog from "../Issues/UpdateIssueDialog"
+import UpdateIssueDialog from "../Forms/UpdateIssueDialog"
 
 const IssueCardHOC = ({ issue }) => {
     const dispatch = useDispatch()

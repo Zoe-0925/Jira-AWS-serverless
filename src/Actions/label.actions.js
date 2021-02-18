@@ -3,6 +3,7 @@ import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
 import { removeLabelFromIssues } from "./issue.actions"
 import { sendWsToServer } from "./websocket.actions"
 
+export const CLEAR_LABEL="CLEAR_LABEL"
 export const CREATE_LABEL = "CREATE_LABEL"
 export const DELETE_LABEL = "DELETE_LABEL"
 export const APPEND_LABELS = "APPEND_LABELS"

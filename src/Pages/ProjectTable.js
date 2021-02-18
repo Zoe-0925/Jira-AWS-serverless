@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from "react-redux"
-import ProjectListTable from "../Components/Project/ProjectListTable"
+import ProjectListTable from "../Components/Project/ProjectTable"
 import NavBar from "../Components/NavBar/NavBar"
-import { ProjectCreateHOC } from "../Components/Project/ProjectCreateForm"
-import { Button } from '@material-ui/core'
 import { Row, Col } from "reactstrap"
 import { selectCurrentUserId } from "../Reducers/Selectors"
 import { mockgetUserAndProjectData } from "../Actions/user.actions"
@@ -11,7 +9,6 @@ import { loadProjectTablePage } from "../Actions/loading.actions"
 
 const ProjectTable = () => {
     const dispatch = useDispatch()
-    const [isCreateProjectOpen, setOpenCreateProject] = useState(false)
     const currentUserId = useSelector(selectCurrentUserId)
 
     useEffect(() => {
@@ -29,11 +26,9 @@ const ProjectTable = () => {
             <div className="body">
                 <Row>
                     <Col md="1">  <p align="left" className="project-list-title">Project</p></Col>
-                    <Col ></Col>
-                    <Col md="2">  <Button align="right" className="create-pj-btn" onClick={() => setOpenCreateProject(true)}>Create project</Button></Col>
+                    <Col ml="auto"></Col>
                 </Row>
                 <ProjectListTable />
-                <ProjectCreateHOC open={isCreateProjectOpen} setOpen={setOpenCreateProject} />
             </div>
         </div>
     )

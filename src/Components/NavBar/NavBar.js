@@ -3,18 +3,17 @@ import { fade, makeStyles } from '@material-ui/core/styles';
 import { v4 as uuidv4 } from 'uuid'
 import { Auth } from 'aws-amplify';
 import {
-    AppBar, Button, Menu, MenuItem, Divider, InputBase, IconButton, Toolbar,
+    AppBar, Button, MenuItem, Divider, IconButton, Toolbar,
 } from '@material-ui/core'
 
 import history from "../../history"
-import { ProjectCreateHOC } from "../Project/ProjectCreateForm"
+import CreateProjectDialog from "../Forms/CreateProjectDialog"
 /***** Icons ****/
 import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import SettingsIcon from '@material-ui/icons/Settings';
-import IssueCreateDialogue from "../Issues/IssueCreateForm"
+import CreateIssueDialog from "../Forms/CreateIssueDialog"
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 /*******/
 import { useDotIconMenu } from "../Shared/CustomHooks"
@@ -112,10 +111,10 @@ export default function NavBar({ openDrawer }) {
                     </IconButton>
                     <Button onClick={() => history.push("/projects/")} className="nav-title">Jira Mock </Button>
                     <ProjectMenu handleCreateProject={() => setOpenCreateProject(true)} />
-                    <IssueCreateDialogue />
+                    <CreateIssueDialog />
                     <div className={classes.grow} />
                     <div className={classes.sectionDesktop}>
-                 
+
                         <IconButton
                             edge="start"
                             className={classes.menuButton}
@@ -129,7 +128,7 @@ export default function NavBar({ openDrawer }) {
                 </Toolbar>
             </AppBar>
             <MobileMenu handleSignOut={handleSignOut} openDrawer={openDrawer} />
-            <ProjectCreateHOC open={isCreateProjectOpen} setOpen={setOpenCreateProject} />
+            <CreateProjectDialog open={isCreateProjectOpen} setOpen={setOpenCreateProject} />
         </div>
     );
 }
@@ -211,7 +210,7 @@ const AccountMenu = ({ handleSignOut }) => {
 
 /**
  * Removed: Search box in the navigation bar
- * 
+ *
  *        <div className={classes.search}>
                             <div className={classes.searchIcon}>
                                 <SearchIcon />

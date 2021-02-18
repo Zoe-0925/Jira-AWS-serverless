@@ -1,10 +1,11 @@
 import API from '@aws-amplify/api';
 import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
 import { reorder } from "../Components/Util"
-import { updateProjectAttribute, fetchUpdateProjectAttribute, updateStatusOrder } from "./project.actions"
 import { sendWsToServer } from "./websocket.actions"
 
-export const ADD_ISSUE_TO_TAIL = "ADD_ISSUE_TO_TAIL"
+export const UPDATE_STATUS_ATTRIBUTE="UPDATE_STATUS_ATTRIBUTE"
+export const CLEAR_STATUS = "CLEAR_STATUS"
+export const APPEND_NEW_ISSUE = "APPEND_NEW_ISSUE"
 export const CREATE_STATUS = "CREATE_STATUS"
 export const DELETE_STATUS = "DELETE_STATUS"
 export const UPDATE_STATUS_NAME = "UPDATE_STATUS_NAME"

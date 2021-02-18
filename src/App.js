@@ -24,7 +24,7 @@ const App = () => {
       <Router history={history}>
         <Switch>
           <Route path="/" exact component={ProjectTable} />
-          <Route path="/projects" exact component={ProjectList} />
+          <Route path="/projects" exact component={ProjectTable} />
           <Route path="/projects/roadmap" component={App} />
           <Route path="/projects/board" exact component={Board} />
           <Route path="/projects/settings/details" exact component={ProjectDetail} />

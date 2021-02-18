@@ -3,6 +3,7 @@ import { getProjects } from "./project.actions"
 import { getProjectStatus } from "./status.actions"
 import { getProjectIssues } from "./issue.actions"
 import { getProjectLabels } from "./label.actions"
+import history from "../history"
 
 export const LOADING = "LOADING"
 export const ERROR = "ERROR"
@@ -16,7 +17,7 @@ export function dispatchError(data) {
     }
 }
 
-export const loadProjectTablePage = async () => {
+export const loadProjectTablePage = () => async (dispatch) => {
     try {
         dispatch({ type: LOADING })
         const userId = await dispatch(getUser())
@@ -31,7 +32,7 @@ export const loadProjectTablePage = async () => {
 export const loadBoardPage = () => async (dispatch, getState) => {
     try {
         let projectId = getState().ProjectReducer.currentProjectId
-        if (!id || id === "") {
+        if (!projectId || projectId === "") {
             history.push("/projects")
             return
         }
