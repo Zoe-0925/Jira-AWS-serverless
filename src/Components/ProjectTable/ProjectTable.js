@@ -9,7 +9,7 @@ import { useDotIconMenu } from "../Shared/CustomHooks"
 import Skeleton from '@material-ui/lab/Skeleton';
 import { v4 as uuidv4 } from 'uuid'
 
-const ProjectTable = ({ loading = true, projects = [], users = [], goToBoardPage, goToProjectDetail, tableHeader, deleteProject }) => {
+const ProjectTable = ({ loading = true, projects = [], users = [], goToBoardPage, goToProjectDetail, tableHeader = [], deleteProject }) => {
     const { anchorEl, isOpen, anchorRef, handleMenuClose, handleMenuOpen } = useDotIconMenu()
 
     return (
