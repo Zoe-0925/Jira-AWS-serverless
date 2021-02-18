@@ -29,7 +29,7 @@ const IssueCardHOC = ({ issue }) => {
         dispatch(updateIssueAttribute({ _id: issue._id, attribute: "flag", value: !issue.flag }))
     }
 
-    return (!issue ? <div></div> : <IssueCard issue={issue} handleDeleteIssue={handleDeleteIssue} anchorEl={anchorEl}
+    return (!issue ? <div></div> : <IssueCard issue={issue} handleDeleteIssue={handleDeleteIssue} 
         isOpen={isOpen} anchorRef={anchorRef} handleMenuOpen={handleMenuOpen} issue={issue}
         handleMenuClose={handleMenuClose} toggleFlag={toggleFlag} reorderToBotttom={reorderToBotttom}
     />)
