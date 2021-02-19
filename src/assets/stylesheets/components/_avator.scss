@@ -1,0 +1,13 @@
+.avator-card {
+  width: 600px;
+
+  .blue-bg {
+    width: $full;
+    background-color: $call-to-action-color;
+  }
+
+  .white-bg {
+    width: $full;
+    background-color: white;
+  }
+}

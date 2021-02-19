@@ -1,4 +1,4 @@
-@import "../themes/default";
+@import "../abstracts/variables";
 
 @media (min-width: 416px) {
   .drawer-close {
@@ -38,24 +38,6 @@
 
   .tab {
     background-color: $bgc;
-  }
-}
-
-@media (min-width: 416px) {
-  .mobile-drawer {
-    display: none;
-  }
-  .desktop-drawer {
-    display: block;
-  }
-}
-
-@media (max-width: 415px) {
-  .mobile-drawer {
-    display: none;
-  }
-  .desktop-drawer {
-    display: block;
   }
 }
 

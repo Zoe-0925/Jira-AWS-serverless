@@ -1,35 +1,16 @@
 @charset "UTF-8";
 
 // 1. Configuration and helpers
-@import
-  'abstracts/variables',
-  'abstracts/functions',
-  'abstracts/mixins';
+@import "abstracts/variables", "abstracts/mixins";
 
-// 2. Vendors
-@import
-  'vendors/normalize';
+// 2. Base stuff
+@import "base/base";
 
-// 3. Base stuff
-@import
-  'base/base',
-  'base/fonts',
-  'base/typography',
-  'base/helpers';
+// 3. Layout-related sections
+@import "layout/header", "layout/drawer";
 
-// 4. Layout-related sections
-@import
-  'layout/header',
-  'layout/footer';
+// 4. Components
+@import "components/button", "components/avator", "components/dragdrop", "components/form", "components/editable";
 
-// 5. Components
-@import
-  'components/button';
-
-// 6. Page-specific styles
-@import
-  'pages/home';
-
-// 7. Themes
-@import
-  'themes/default';
+// 5. Page-specific styles
+@import "pages/board", "pages/project_table";

@@ -1,0 +1,187 @@
+.issue-form-in-modal {
+  text-align: left;
+  .field,
+  .select {
+    @include centered-form-field;
+  }
+}
+
+@media (max-width: 415px) {
+  .issue-form-in-modal {
+    width: $full;
+
+    .form {
+      width: $full;
+
+      #description {
+        @include label;
+        display: block;
+        margin-left: 5%;
+      }
+    }
+  }
+}
+
+@media (min-width: 416px) {
+  .issue-form-in-modal {
+    width: 46.875rem;
+    padding: 1.5rem;
+
+    .navbar-create-btn {
+      @include call-to-action-button;
+    }
+
+    .title {
+      @include title;
+    }
+  }
+}
+
+.issue-detail-form {
+  width: $full;
+
+  .divider {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .left-container {
+    margin-left: 1.5rem;
+    width: $full;
+  }
+
+  //TODO move this outside the  .issue-detail-form
+  @media (max-width: 415px) {
+    width: $full;
+  }
+
+  //TODO move this outside the  .issue-detail-form
+  @media (min-width: 416px) {
+    padding: 1.5rem;
+    text-align: left;
+    max-height: 43.75rem;
+
+    .navbar-create-btn {
+      @include call-to-action-button;
+    }
+
+    .editable-input {
+      height: 2rem;
+      font-size: 1.8rem;
+    }
+
+    .summary {
+      @include title;
+    }
+
+    .label {
+      font-size: 1em;
+      font-style: inherit;
+      font-weight: 600;
+      letter-spacing: -0.003em;
+      margin-top: 1rem;
+      line-height: 1.5rem;
+      color: rgb(23, 43, 77);
+      overflow-wrap: break-word;
+    }
+
+    .small-label {
+      font-family: "Segoe UI", Roboto, Oxygen, Ubuntu, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+      color: #5e6c84;
+      font-size: 0.75rem;
+      font-weight: 600;
+      line-height: 1rem;
+      float: none;
+      display: block;
+      text-align: left;
+      width: auto;
+      margin: 0;
+    }
+
+    .time {
+      color: rgb(107, 119, 140);
+      padding-top: 0.125rem;
+      white-space: nowrap;
+      margin-top: 0;
+      font-size: 0.75rem;
+      line-height: 1.33333;
+    }
+  }
+}
+
+.CommentBox {
+  .title {
+    @include label;
+  }
+
+  .CommentContent {
+    width: $full;
+
+    .primary {
+      margin-left: 0.1rem;
+    }
+
+    .author {
+      display: inline;
+      cursor: pointer;
+    }
+
+    .author:hover {
+      color: grey;
+    }
+
+    .date {
+      color: grey;
+    }
+  }
+
+  .CommentInput {
+    .container {
+      padding: 0;
+      margin: 0;
+
+      .action-btns {
+        display: flex;
+        float: left;
+
+        .cancel-btn {
+          margin-right: 0.5rem;
+        }
+
+        .navbar-create-btn {
+          @include call-to-action-button;
+        }
+      }
+    }
+  }
+}
+
+.project-create-form {
+  width: $full;
+
+  padding: 0px;
+
+  @media (max-width: 415px) {
+    .navbar-create-btn {
+      width: 50%;
+    }
+  }
+}
+
+.input-container {
+  @media (max-width: 415px) {
+    width: $full;
+  }
+
+  @media (min-width: 416px) {
+    width: 21.875rem;
+  }
+
+  .field {
+    @include centered-form-field;
+    background-color: $bgc;
+    height: 2.5rem;
+    margin-top: 0;
+    padding-top: 0;
+  }
+}
