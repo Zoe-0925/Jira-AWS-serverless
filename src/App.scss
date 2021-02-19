@@ -1,39 +1,26 @@
-$sm-font-size: 1.25rem;
-$sm-font: "Roboto", sans-serif;
-$xs-font-size: 1rem;
-$card-font-size: 0.75rem;
-$link-font-size: 1rem;
-$box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 1px 2px 0 rgba(0, 0, 0, 0.19);
-
-$search: 18.75rem;
-$wide-search: 37.5rem;
-
-$margin-1: 1rem;
-
+/****Theme *****/
+$blue: #5bc2f2;
+$puple: #a64bed;
 $header-color: #6b778c;
 $black: black;
 $white: white;
-$bgc: rgb(244, 245, 247);
-$call-to-action-color: rgb(0, 82, 204);
-$card-color: rgb(94, 108, 132);
+$off-white: rgb(244, 245, 247);
+$navy-blue: rgb(0, 82, 204);
+$nearly-black: #172b4d;
+
+$bgc: $off-white;
+$primary-bgc: rgb(94, 108, 132);
+$secondary-bgc: rgb(66, 82, 110);
+$call-to-action-color: $navy-blue;
+$card-color: $primary-bgc;
 $drawer-color: rgb(66, 82, 110);
-$body-color: #172b4d;
+$body-color: $nearly-black;
+$task-color: $blue;
+$subtask-color: $puple;
 
-//$epic-color:
-$task-color: #5bc2f2;
-$subtask-color: #a64bed;
 
-$full: 100%;
-$half: 50%;
-$quarter: 25%;
-$ten: 10%;
+/**Mixins */
 
-$forty: 40%;
-$eighty: 80%;
-$ninty: 90%;
-$one-third: 33%;
-
-$title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 @mixin centered-form-field {
   display: block;
   width: 90%;
@@ -68,8 +55,12 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
 }
 
 @mixin label {
-  @include centered-form-field;
-
+  display: block;
+  width: 90%;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: auto;
+  margin-right: auto;
   font-family: "Segoe UI", Roboto, Oxygen, Ubuntu, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   color: #5e6c84;
   font-size: 0.75rem;
@@ -77,9 +68,18 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
   line-height: 1rem;
   float: none;
   text-align: left;
-  margin-top: 0;
-  margin-bottom: 0;
   padding-bottom: 0.2rem;
+}
+
+@mixin form_label {
+  font-size: 1em;
+  font-style: inherit;
+  font-weight: 600;
+  letter-spacing: -0.003em;
+  margin-top: 1rem;
+  line-height: 1.5rem;
+  color: rgb(23, 43, 77);
+  overflow-wrap: break-word;
 }
 
 @mixin title {
@@ -94,10 +94,117 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
   white-space: nowrap;
 }
 
+
+/*Typography*/
+$sm-font-size: 1.25rem;
+$sm-font: "Roboto", sans-serif;
+$xs-font-size: 1rem;
+$card-font-size: 0.75rem;
+$link-font-size: 1rem;
+$box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 1px 2px 0 rgba(0, 0, 0, 0.19);
+$title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+
+/***  Layout ***/
+$margin-1: 1rem;
+$full: 100%;
+$half: 50%;
+$quarter: 25%;
+$ten: 10%;
+
+%no-padding {
+  padding: 0px;
+}
+
+$forty: 40%;
+$eighty: 80%;
+$ninty: 90%;
+$one-third: 33%;
+
+$search: 18.75rem;
+$wide-search: 37.5rem;
+
+/***  Base ***/
+
+.cursor {
+  cursor: pointer;
+}
+
+@mixin select {
+  width: $full;
+  margin: 0px;
+  padding: 0px;
+}
+
+.text-area {
+  width: $full;
+  margin: 0;
+  padding: 0;
+}
+
+.select {
+  @include select;
+}
+
+.form-label {
+  @include label;
+}
+
+.navbar-create-btn {
+  @include call-to-action-button;
+}
+
 .App {
   width: $full;
   height: $full;
   background-color: white;
+}
+
+@media (min-width: 416px) {
+  .drawer-close {
+    margin-left: 16.25rem;
+  }
+}
+
+.main {
+  padding-left: 3%;
+  padding-right: 3%;
+
+  //At forms
+  .project-icon {
+    display: block;
+    width: 9.375rem;
+    height: 9.375rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  //At forms
+  .project-detail-dot {
+    padding: 0;
+  }
+
+  //base
+  .bread-crumbs {
+    margin-top: 5rem;
+  }
+}
+
+.nav-bar {
+  font-size: 1rem;
+  font-family: Roboto, sans-serif;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+  .dot-icon {
+    display: none;
+  }
+  .dot-icon:hover {
+    display: block;
+    height: $full;
+    cursor: pointer;
+  }
+  .navbar-create-btn {
+    @include call-to-action-button;
+  }
 }
 
 .nav-title {
@@ -121,95 +228,7 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
   height: auto;
 }
 
-.drawer-close {
-  @media (min-width: 416px) {
-    margin-left: 16.25rem;
-  }
-}
-
-.main {
-  padding-left: 3%;
-  padding-right: 3%;
-
-  .nav-bar {
-    font-size: 1rem;
-    font-family: Roboto, sans-serif;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-
-    .dot-icon {
-      display: none;
-    }
-    .dot-icon:hover {
-      display: block;
-      height: $full;
-      cursor: pointer;
-    }
-    .navbar-create-btn {
-      @include call-to-action-button;
-    }
-  }
-
-  #button-file {
-    width: 11rem;
-  }
-
-  #key-field {
-    width: 40%;
-  }
-
-  .navbar-create-btn {
-    @include call-to-action-button;
-    margin-top: 1rem;
-  }
-
-  .field-label {
-    @include label;
-  }
-
-  .project-icon {
-    display: block;
-    width: 9.375rem;
-    height: 9.375rem;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .button {
-    margin-left: 43%;
-    background-color: $bgc;
-    margin-top: 0.625rem;
-  }
-
-  .project-detail-dot {
-    padding: 0;
-  }
-
-  .bread-crumbs {
-    margin-top: 5rem;
-  }
-
-  .board-name {
-    cursor: text;
-    font-family: $sm-font;
-    font-size: 1.5rem;
-    width: auto;
-    max-width: 22.5rem;
-  }
-  .board-name:hover {
-    background-color: $bgc;
-  }
-}
-
-.close-drawer {
-  width: 6.25rem;
-  background-color: $bgc;
-  color: $bgc;
-}
-
-.open-drawer-icon {
-  padding-top: 3.125rem;
-  margin-top: 3.125rem;
-}
-
+// Deprecated
 .login-wrapper {
   width: 100vw;
   height: 100vh;
@@ -301,16 +320,6 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
   }
 }
 
-.search-box {
-  height: 2.28571em;
-  width: $search;
-}
-
-.clicked {
-  width: $wide-search;
-  height: 2.28571em;
-}
-
 .drawer {
   position: relative;
   display: grid;
@@ -339,27 +348,11 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
     p {
       padding-left: 1rem;
     }
-
-    .line2 {
-      align-self: baseline;
-    }
   }
 
-  .right-icon {
-    display: none;
-  }
-
-  .project-settings:hover {
-    .right-icon {
-      display: block;
-    }
-  }
   .tab {
     cursor: pointer;
     background-color: $bgc;
-    /*
-    on hover change color.
-    */
   }
 }
 
@@ -381,28 +374,7 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
   }
 }
 
-.modal {
-  position: absolute;
-  overflow: scroll;
-  width: $half;
-  height: auto;
-  margin-left: $quarter;
-  margin-right: $quarter;
-  margin-top: 40px;
-  margin-bottom: 40px;
-  border: 2px solid #000;
-}
-
-.full-length-center {
-  width: $ninty;
-  margin-left: 5%;
-  margin-right: 5%;
-}
-
-.right-align {
-  flex-direction: row-reverse;
-}
-
+//components filter
 .issue-filter-clicked {
   width: 200px;
 }
@@ -434,12 +406,6 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
   }
 }
 
-.grid-row {
-  display: grid;
-  grid-auto-flow: column;
-  grid-gap: 0.2rem;
-}
-
 .avator-card {
   width: 600px;
 
@@ -454,34 +420,22 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
   }
 }
 
-.cursor {
-  cursor: pointer;
+//drawer
+.item-left {
+  margin-left: 10%;
 }
 
-.project-header {
-  display: grid;
-  grid-auto-flow: column;
-  grid-template-columns: 80px auto;
-
-  .item-left {
-    margin-left: 10%;
-  }
-}
-
+//drawer
 .drawer-img {
   width: 50px;
   height: 50px;
-}
-
-.flex-row {
-  display: flex;
-  width: 100%;
 }
 
 .board-container {
   padding: 2.5rem;
 }
 
+//TODO move
 .epic-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
@@ -523,6 +477,8 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
     justify-content: space-between;
     text-align: center;
     height: 3rem;
+    display: flex;
+    width: 100%;
 
     .epic-summary {
       padding: 1rem 1rem 1rem 1rem;
@@ -582,39 +538,14 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
     }
   }
 }
-.cursor-pointer {
-  cursor: pointer;
-}
 
-.inline-text_copy--active,
-.inline-text_input--active {
-  font: inherit;
-  color: inherit;
-  text-align: inherit;
-  padding: 0;
-  background: none;
-  border: none;
-  border-bottom: 1px dashed #666666;
-}
-.inline-text_copy--active {
-  cursor: pointer;
-}
-.inline-text_copy--hidden,
-.inline-text_input--hidden {
-  display: none;
-}
-.inline-text_input--active {
-  border-bottom: 1px solid #666666;
-  text-align: left;
-}
-
-.Login-Signup-Page {
-  background-color: skyblue;
-}
-
+//Deprecatd
 .logo-title {
   text-align: center;
 }
+
+//TODO
+//Organize these ones into the drag drop component
 
 .editable-input {
   height: $full;
@@ -638,14 +569,6 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
   background-color: #5bc2f2;
 }
 
-.show {
-  display: block;
-}
-
-.hide {
-  display: none;
-}
-
 .menu-container {
   width: 300px;
   padding: 1rem;
@@ -665,21 +588,18 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
   }
 }
 
-.full-width {
-  width: $full;
-}
-
+//TODO
+//move to components
 .issue-form-in-modal {
+  text-align: left;
   .field,
   .select {
     @include centered-form-field;
   }
+}
 
-  .form-label {
-    @include label;
-  }
-
-  @media (max-width: 415px) {
+@media (max-width: 415px) {
+  .issue-form-in-modal {
     width: $full;
 
     .form {
@@ -692,11 +612,12 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
       }
     }
   }
+}
 
-  @media (min-width: 416px) {
+@media (min-width: 416px) {
+  .issue-form-in-modal {
     width: 46.875rem;
     padding: 1.5rem;
-    text-align: left;
 
     .navbar-create-btn {
       @include call-to-action-button;
@@ -705,11 +626,11 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
     .title {
       @include title;
     }
-
-
   }
 }
 
+//TODO
+//Button components
 .cancel-btn {
   color: $call-to-action-color;
   cursor: pointer;
@@ -735,28 +656,17 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
     margin-bottom: 1rem;
   }
 
-  .margin {
-    margin-bottom: 1rem;
-  }
-
-  .issue-title {
-    font-size: 2rem;
-  }
-
-  .select {
-    width: $full;
-    margin: 0;
-    padding: 0;
-  }
-
   .left-container {
     margin-left: 1.5rem;
     width: $full;
   }
+
+  //TODO move this outside the  .issue-detail-form
   @media (max-width: 415px) {
     width: $full;
   }
 
+  //TODO move this outside the  .issue-detail-form
   @media (min-width: 416px) {
     padding: 1.5rem;
     text-align: left;
@@ -857,17 +767,6 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
   }
 }
 
-.container {
-  margin: 0;
-  padding: 0;
-}
-
-.input-form {
-  width: $full;
-  margin: 0;
-  padding: 0;
-}
-
 .issue-detail-dialogue {
   .close-btn {
     position: absolute;
@@ -894,6 +793,7 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
 }
 
 .project-list-table {
+  //TODO move to components
   .table-body {
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -921,12 +821,10 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
 .project-create-form {
   width: $full;
 
-  padding: 0;
+  padding: 0px;
 
-  .navbar-create-btn {
-    @include call-to-action-button;
-
-    @media (max-width: 415px) {
+  @media (max-width: 415px) {
+    .navbar-create-btn {
       width: 50%;
     }
   }
@@ -946,21 +844,6 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
   }
 }
 
-.issue-summary {
-  font-size: 1.71429em;
-  font-style: inherit;
-  line-height: 1.16667;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  color: rgb(23, 43, 77);
-}
-.confirm-btn {
-  @include call-to-action-button;
-}
-
 .input-container {
   @media (max-width: 415px) {
     width: $full;
@@ -970,10 +853,6 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
     width: 21.875rem;
   }
 
-  .form-label {
-    @include label;
-  }
-
   .field {
     @include centered-form-field;
     background-color: $bgc;
@@ -981,8 +860,4 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
     margin-top: 0;
     padding-top: 0;
   }
-}
-
-.navbar-create-btn {
-  @include call-to-action-button;
 }

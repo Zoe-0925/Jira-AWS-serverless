@@ -19,15 +19,15 @@ export function AddTab({ operationName, handleClick, className }) {
 
 export function ProjectHeaderTab({ title, subtite, imgSrc }) {
     return (
-        <div className="project-header">
-            <img className="item-left drawer-img" alt="project" src={imgSrc} />
-            <div>
-                <Typography className="item-right-up"
-                    variant="subtitle1" gutterBottom>{title}</Typography>
-                <Typography className="item-right-down"
-                    variant="caption" display="block" gutterBottom>{subtite}</Typography>
-            </div>
-        </div>
+        <Fragment>
+            <Col sm="5">
+                <img className="item-left drawer-img" alt="project" src={imgSrc} />
+            </Col>
+            <Col sm="7">
+                <Typography variant="subtitle1" gutterBottom>{title}</Typography>
+                <Typography variant="caption" display="block" gutterBottom>{subtite}</Typography>
+            </Col>
+        </Fragment>
     )
 }
 

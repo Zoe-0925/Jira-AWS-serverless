@@ -1,0 +1,74 @@
+// -----------------------------------------------------------------------------
+// This file contains very basic styles.
+// -----------------------------------------------------------------------------
+
+/**
+ * Set up a decent box model on the root element
+ */
+html {
+  box-sizing: border-box;
+}
+
+/**
+ * Make all elements from the DOM inherit from the parent box-sizing
+ * Since `*` has a specificity of 0, it does not override the `html` value
+ * making all elements inheriting from the root box-sizing value
+ * See: https://css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice/
+ */
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+/**
+ * Basic styles for links
+ */
+a {
+  color: $brand-color;
+  text-decoration: none;
+
+  @include on-event {
+    color: $text-color;
+    text-decoration: underline;
+  }
+}
+
+.App {
+  width: $full;
+  height: $full;
+  background-color: white;
+}
+
+
+.main {
+  padding-left: 3%;
+  padding-right: 3%;
+
+  .project-icon {
+    display: block;
+    width: 9.375rem;
+    height: 9.375rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .project-detail-dot {
+    padding: 0;
+  }
+
+  .bread-crumbs {
+    margin-top: 5rem;
+  }
+
+  .board-name {
+    cursor: text;
+    font-family: $sm-font;
+    font-size: 1.5rem;
+    width: auto;
+    max-width: 22.5rem;
+  }
+  .board-name:hover {
+    background-color: $bgc;
+  }
+}
