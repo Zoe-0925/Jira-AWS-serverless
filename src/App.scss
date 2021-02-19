@@ -1,45 +1,3 @@
-/*Typography*/
-$sm-font-size: 1.25rem;
-$sm-font: "Roboto", sans-serif;
-$xs-font-size: 1rem;
-$card-font-size: 0.75rem;
-$link-font-size: 1rem;
-$box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 1px 2px 0 rgba(0, 0, 0, 0.19);
-$title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-
-/***  Layout ***/
-$margin-1: 1rem;
-$full: 100%;
-$half: 50%;
-$quarter: 25%;
-$ten: 10%;
-
-%no-padding {
-  padding: 0px;
-}
-
-$forty: 40%;
-$eighty: 80%;
-$ninty: 90%;
-$one-third: 33%;
-
-$search: 18.75rem;
-$wide-search: 37.5rem;
-
-/***  Base ***/
-
-.cursor {
-  cursor: pointer;
-}
-
-/**** Components ****/
-
-@mixin select {
-  width: $full;
-  margin: 0px;
-  padding: 0px;
-}
-
 /****Theme *****/
 $blue: #5bc2f2;
 $puple: #a64bed;
@@ -60,7 +18,8 @@ $body-color: $nearly-black;
 $task-color: $blue;
 $subtask-color: $puple;
 
-/**Placeholdeers */
+
+/**Mixins */
 
 @mixin centered-form-field {
   display: block;
@@ -112,6 +71,17 @@ $subtask-color: $puple;
   padding-bottom: 0.2rem;
 }
 
+@mixin form_label {
+  font-size: 1em;
+  font-style: inherit;
+  font-weight: 600;
+  letter-spacing: -0.003em;
+  margin-top: 1rem;
+  line-height: 1.5rem;
+  color: rgb(23, 43, 77);
+  overflow-wrap: break-word;
+}
+
 @mixin title {
   color: #333;
   font-weight: normal;
@@ -124,10 +94,117 @@ $subtask-color: $puple;
   white-space: nowrap;
 }
 
+
+/*Typography*/
+$sm-font-size: 1.25rem;
+$sm-font: "Roboto", sans-serif;
+$xs-font-size: 1rem;
+$card-font-size: 0.75rem;
+$link-font-size: 1rem;
+$box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 1px 2px 0 rgba(0, 0, 0, 0.19);
+$title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+
+/***  Layout ***/
+$margin-1: 1rem;
+$full: 100%;
+$half: 50%;
+$quarter: 25%;
+$ten: 10%;
+
+%no-padding {
+  padding: 0px;
+}
+
+$forty: 40%;
+$eighty: 80%;
+$ninty: 90%;
+$one-third: 33%;
+
+$search: 18.75rem;
+$wide-search: 37.5rem;
+
+/***  Base ***/
+
+.cursor {
+  cursor: pointer;
+}
+
+@mixin select {
+  width: $full;
+  margin: 0px;
+  padding: 0px;
+}
+
+.text-area {
+  width: $full;
+  margin: 0;
+  padding: 0;
+}
+
+.select {
+  @include select;
+}
+
+.form-label {
+  @include label;
+}
+
+.navbar-create-btn {
+  @include call-to-action-button;
+}
+
 .App {
   width: $full;
   height: $full;
   background-color: white;
+}
+
+@media (min-width: 416px) {
+  .drawer-close {
+    margin-left: 16.25rem;
+  }
+}
+
+.main {
+  padding-left: 3%;
+  padding-right: 3%;
+
+  //At forms
+  .project-icon {
+    display: block;
+    width: 9.375rem;
+    height: 9.375rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  //At forms
+  .project-detail-dot {
+    padding: 0;
+  }
+
+  //base
+  .bread-crumbs {
+    margin-top: 5rem;
+  }
+}
+
+.nav-bar {
+  font-size: 1rem;
+  font-family: Roboto, sans-serif;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+  .dot-icon {
+    display: none;
+  }
+  .dot-icon:hover {
+    display: block;
+    height: $full;
+    cursor: pointer;
+  }
+  .navbar-create-btn {
+    @include call-to-action-button;
+  }
 }
 
 .nav-title {
@@ -149,67 +226,6 @@ $subtask-color: $puple;
   text-align: center;
   width: auto;
   height: auto;
-}
-
-.drawer-close {
-  @media (min-width: 416px) {
-    margin-left: 16.25rem;
-  }
-}
-
-.main {
-  padding-left: 3%;
-  padding-right: 3%;
-
-  .nav-bar {
-    font-size: 1rem;
-    font-family: Roboto, sans-serif;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-
-    .dot-icon {
-      display: none;
-    }
-    .dot-icon:hover {
-      display: block;
-      height: $full;
-      cursor: pointer;
-    }
-    .navbar-create-btn {
-      @include call-to-action-button;
-    }
-  }
-
-  .navbar-create-btn {
-    @include call-to-action-button;
-    margin-top: 1rem;
-  }
-
-  .project-icon {
-    display: block;
-    width: 9.375rem;
-    height: 9.375rem;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .project-detail-dot {
-    padding: 0;
-  }
-
-  .bread-crumbs {
-    margin-top: 5rem;
-  }
-
-  .board-name {
-    cursor: text;
-    font-family: $sm-font;
-    font-size: 1.5rem;
-    width: auto;
-    max-width: 22.5rem;
-  }
-  .board-name:hover {
-    background-color: $bgc;
-  }
 }
 
 // Deprecated
@@ -358,6 +374,7 @@ $subtask-color: $puple;
   }
 }
 
+//components filter
 .issue-filter-clicked {
   width: 200px;
 }
@@ -403,24 +420,15 @@ $subtask-color: $puple;
   }
 }
 
-.project-header {
-  display: grid;
-  grid-auto-flow: column;
-  grid-template-columns: 80px auto;
-
-  .item-left {
-    margin-left: 10%;
-  }
+//drawer
+.item-left {
+  margin-left: 10%;
 }
 
+//drawer
 .drawer-img {
   width: 50px;
   height: 50px;
-}
-
-.flex-row {
-  display: flex;
-  width: 100%;
 }
 
 .board-container {
@@ -469,6 +477,8 @@ $subtask-color: $puple;
     justify-content: space-between;
     text-align: center;
     height: 3rem;
+    display: flex;
+    width: 100%;
 
     .epic-summary {
       padding: 1rem 1rem 1rem 1rem;
@@ -581,16 +591,15 @@ $subtask-color: $puple;
 //TODO
 //move to components
 .issue-form-in-modal {
+  text-align: left;
   .field,
   .select {
     @include centered-form-field;
   }
+}
 
-  .form-label {
-    @include label;
-  }
-
-  @media (max-width: 415px) {
+@media (max-width: 415px) {
+  .issue-form-in-modal {
     width: $full;
 
     .form {
@@ -603,11 +612,12 @@ $subtask-color: $puple;
       }
     }
   }
+}
 
-  @media (min-width: 416px) {
+@media (min-width: 416px) {
+  .issue-form-in-modal {
     width: 46.875rem;
     padding: 1.5rem;
-    text-align: left;
 
     .navbar-create-btn {
       @include call-to-action-button;
@@ -644,11 +654,6 @@ $subtask-color: $puple;
   .divider {
     margin-top: 1rem;
     margin-bottom: 1rem;
-  }
-
-  //TODO move to components
-  .select {
-    @include select;
   }
 
   .left-container {
@@ -762,17 +767,6 @@ $subtask-color: $puple;
   }
 }
 
-.container {
-  margin: 0;
-  padding: 0;
-}
-
-.input-form {
-  width: $full;
-  margin: 0;
-  padding: 0;
-}
-
 .issue-detail-dialogue {
   .close-btn {
     position: absolute;
@@ -829,10 +823,8 @@ $subtask-color: $puple;
 
   padding: 0px;
 
-  .navbar-create-btn {
-    @include call-to-action-button;
-
-    @media (max-width: 415px) {
+  @media (max-width: 415px) {
+    .navbar-create-btn {
       width: 50%;
     }
   }
@@ -852,21 +844,6 @@ $subtask-color: $puple;
   }
 }
 
-.issue-summary {
-  font-size: 1.71429em;
-  font-style: inherit;
-  line-height: 1.16667;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  color: rgb(23, 43, 77);
-}
-.confirm-btn {
-  @include call-to-action-button;
-}
-
 .input-container {
   @media (max-width: 415px) {
     width: $full;
@@ -876,10 +853,6 @@ $subtask-color: $puple;
     width: 21.875rem;
   }
 
-  .form-label {
-    @include label;
-  }
-
   .field {
     @include centered-form-field;
     background-color: $bgc;
@@ -887,8 +860,4 @@ $subtask-color: $puple;
     margin-top: 0;
     padding-top: 0;
   }
-}
-
-.navbar-create-btn {
-  @include call-to-action-button;
 }

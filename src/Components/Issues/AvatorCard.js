@@ -17,8 +17,8 @@ export const AvatorCard = ({ user }) => {
             <Typography className="row" variant="subtitle1" gutterBottom>
                 <MailOutlineIcon size="small" />{user.email}</Typography>
             <div className="row">
-                <p className="tab">View Profile</p>
-                <p className="tab">Assigned Issues</p>
+                <p className="tab cursor">View Profile</p>
+                <p className="tab cursor">Assigned Issues</p>
             </div>
         </div>
     </div>

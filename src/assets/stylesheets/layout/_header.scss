@@ -1,0 +1,46 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the header of the site/application.
+// -----------------------------------------------------------------------------
+
+@import "../abstracts/mixins.scss";
+
+.nav-bar {
+  font-size: 1rem;
+  font-family: Roboto, sans-serif;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+  .dot-icon {
+    display: none;
+  }
+
+  .dot-icon:hover {
+    display: block;
+    height: $full;
+    cursor: pointer;
+  }
+  .navbar-create-btn {
+    @include call-to-action-button;
+    margin-top: 1rem;
+  }
+}
+
+.nav-title {
+  font-family: $title-font-family;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 400;
+  text-decoration-skip-ink: auto;
+  text-align: center;
+  width: auto;
+  height: auto;
+}
+
+.nav-tab {
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 400;
+  text-decoration-skip-ink: auto;
+  text-align: center;
+  width: auto;
+  height: auto;
+}

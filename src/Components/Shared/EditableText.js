@@ -76,7 +76,7 @@ export function TextareaWithActionBtns({ isSubmitting, handleChange, handleCance
         <Container>
             <Row>
                 <TextareaAutosize
-                    className="input-form"
+                    className="text-area"
                     name="description"
                     type="text"
                     variant="outlined"

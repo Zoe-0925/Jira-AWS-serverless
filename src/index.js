@@ -8,7 +8,7 @@ import configureStore from './Reducers/store';
 /**     Pages     */
 import App from './App';
 /**     Fonts    */
-import './fonts/Montserrat/Montserrat-Regular.ttf';
+import './assets/fonts/Montserrat/Montserrat-Regular.ttf';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const store = configureStore();
