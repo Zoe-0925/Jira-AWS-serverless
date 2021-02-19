@@ -7,20 +7,16 @@ import NavBar from "../Components/Shared/NavBar"
 import { selectCurrentProjectName } from '../Reducers/Selectors';
 import { Typography, Link, Breadcrumbs } from "@material-ui/core"
 import { mockgetUserAndProjectData } from "../Actions/user.actions"
-//import { loadBoardPage } from "../Actions/loading.actions"
-//import { wsConnect } from "../Actions/websocket.actions"
+//import BoardFilterList from "../Components/Filters/BoardFilterList"
 
 export default function Board() {
     const dispatch = useDispatch()
     const projectName = useSelector(selectCurrentProjectName)
-
     const [open, setOpen] = useState(true);
 
     useEffect(() => {
-        //dispatch(loadBoardPage())
         dispatch(mockgetUserAndProjectData())
-        // const host = `ws://pure-atoll-32256.herokuapp.com`;
-        //  dispatch(wsConnect(host));
+        // eslint-disable-next-line
     }, [])
 
     return (
@@ -38,3 +34,5 @@ export default function Board() {
         </div>
     )
 }
+
+//    <BoardFilterList />

@@ -1,9 +1,9 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { DragDropContext } from 'react-beautiful-dnd';
-import WithFilters from "../Filters/WithFilters"
 import { chainReorder, chainMove } from "../../Actions/status.actions"
 import { selectAllStatus } from '../../Reducers/Selectors';
+import DragAndDrop from "./DragAndDrop"
 
 export default function DragContextContainer() {
     const dispatch = useDispatch()
@@ -33,9 +33,7 @@ export default function DragContextContainer() {
 
 
 export const DragContext = ({ onDragEnd }) => (
-    <Fragment>
-        <DragDropContext onDragEnd={onDragEnd}>
-            <WithFilters />
-        </DragDropContext>
-    </Fragment>
+    <DragDropContext onDragEnd={onDragEnd}>
+        <DragAndDrop />
+    </DragDropContext>
 )
