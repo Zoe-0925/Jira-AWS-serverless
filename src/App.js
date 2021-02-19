@@ -8,7 +8,7 @@ import { Switch, Route } from "react-router-dom";
 import ProjectTable from "./Pages/ProjectTable"
 import Board from "./Pages/Board"
 import ProjectDetail from "./Pages/ProjectDetail"
-import './App.scss';
+import './assets/stylesheets/main.scss';
 import Amplify from 'aws-amplify';
 import aws_exports from './aws-exports';
 import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react'
