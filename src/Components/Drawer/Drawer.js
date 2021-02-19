@@ -8,7 +8,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import CloseIcon from '@material-ui/icons/Close';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { Row, Col } from "reactstrap"
+import { Row } from "reactstrap"
 
 const drawerWidth = 240;
 
@@ -78,28 +78,6 @@ export default function SideDrawer({ handleClick, open, ...props }) {
                 </div>
                 {props.children}
             </Drawer>
-            <Drawer
-                className="mobile-drawer"
-                variant="temporary"
-                anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-                open={open}
-                onClose={closeDrawer}
-                classes={{
-                    paper: classes.drawerPaper,
-                }}
-                ModalProps={{
-                    keepMounted: true, // Better open performance on mobile.
-                }}
-            >
-                {closeButton}
-                <div className="title">
-                    <ProjectHeaderTab title={title || ""} subtite="Software project" imgSrc="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcT2sa8Zxht8_5o8aMA9I1rHmr9FVXEoxoDVfw&usqp=CAU" />
-                </div>
-                {props.children}
-            </Drawer>
-
-
-
         </nav>
     </div>
 }
