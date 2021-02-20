@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSimpleState } from "../Shared/CustomHooks"
+import { useSimpleState } from "../shared/hooks"
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import { ListItem, Typography } from '@material-ui/core';

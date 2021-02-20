@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import { ListItem, TextareaAutosize } from '@material-ui/core';
 import { v4 as uuidv4 } from 'uuid'
 import { Container, Row } from "reactstrap"
-import { SubmitCancelButtonSet } from "../Shared/Buttons"
+import { SubmitCancelButtonSet } from "./buttons"
 
 export function Input({ state, setState, setEdit, handleSubmit }) {
 

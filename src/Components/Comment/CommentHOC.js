@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from "react-redux"
 import Pusher from 'pusher-js';
-import CommentBox from "./CommentBox"
-import { selectCommentByIssue } from "../../Reducers/Selectors"
+import CommentBox from "./commentBox"
+import { selectCommentByIssue } from "../../reducers/selectors"
 
 require('dotenv').config()  //Enable access to the ".env" file
 

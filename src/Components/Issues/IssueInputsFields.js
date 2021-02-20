@@ -1,9 +1,9 @@
 import React from 'react'
 import { useDispatch, useSelector } from "react-redux"
-import { EditableText, Input, TextareaWithActionBtns } from "../Shared/EditableText"
-import { useEditText } from "../Shared/CustomHooks"
-import { selectLoading } from '../../Reducers/Selectors';
-import { updateIssueAttribute } from '../../Actions/issue.actions';
+import { EditableText, Input, TextareaWithActionBtns } from "../shared/editableText"
+import { useEditText } from "../shared/hooks"
+import { selectLoading } from '../../reducers/selectors';
+import { updateIssueAttribute } from '../../actions/issue.actions';
 
 export function IssueSummaryInput({ id, summary }) {
     const { state, setState, edit, setEdit } = useEditText(summary)

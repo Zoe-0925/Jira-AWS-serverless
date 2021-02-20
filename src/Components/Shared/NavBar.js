@@ -6,17 +6,17 @@ import {
 } from '@material-ui/core'
 
 import history from "../../history"
-import CreateProjectDialog from "../Forms/CreateProjectDialog"
+import CreateProjectDialog from "../forms/createProjectDialog"
 /***** Icons ****/
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import SettingsIcon from '@material-ui/icons/Settings';
-import CreateIssueDialog from "../Forms/CreateIssueDialog"
+import CreateIssueDialog from "../forms/createIssueDialog"
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 /*******/
-import { useDotIconMenu } from "./CustomHooks"
-import { DropDownMenu } from "./Tabs"
+import { useDotIconMenu } from "./hooks"
+import { DropDownMenu } from "./tabs"
 
 const useStyles = makeStyles((theme) => ({
     appBar: {

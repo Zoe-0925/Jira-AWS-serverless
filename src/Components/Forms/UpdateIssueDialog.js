@@ -1,7 +1,7 @@
 import React from 'react';
-import IssueUpdateSkeleton from "../Issues/IssueUpdateSkeleton"
-import IssueDetailForm from "./UpdateIssueForm"
-import { MyDialog } from "../Shared/Dialog"
+import IssueUpdateSkeleton from "../issues/issueUpdateSkeleton"
+import IssueDetailForm from "./updateIssueForm"
+import { MyDialog } from "../shared/dialog"
 
 export const UpdateIssueDialog = ({ issue, open, handleClose }) => (
 <MyDialog open={open} handleClose={handleClose} maxWidth="lg">

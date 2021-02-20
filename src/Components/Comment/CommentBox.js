@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react'
-import CommentInput from "./CommentInput"
+import CommentInput from "./commentInput"
 import { ListItem, ListItemText, Divider } from '@material-ui/core';
 import { Row } from "reactstrap"
 

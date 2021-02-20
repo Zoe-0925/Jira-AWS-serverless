@@ -1,8 +1,8 @@
 import React from 'react'
 import { useDispatch, useSelector } from "react-redux"
-import { selectCurrentProject, selectAllUsers } from "../../Reducers/Selectors"
-import { updateProjectDetail } from "../../Actions/project.actions"
-import UpdateProjectFormHOC from "./UpdateProjectForm"
+import { selectCurrentProject, selectAllUsers } from "../../reducers/selectors"
+import { updateProjectDetail } from "../../actions/project.actions"
+import UpdateProjectFormHOC from "./updateProjectForm"
 
 const UpdateProject = () => {
     const dispatch = useDispatch()

@@ -2,8 +2,8 @@ import React, { useState, useEffect, Fragment } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Button, Menu, MenuItem, FormGroup, FormControlLabel, Checkbox, ClickAwayListener } from '@material-ui/core'
-import { useDotIconMenu } from "../Shared/CustomHooks"
-import { DropDownMenu } from "../Shared/Tabs"
+import { useDotIconMenu } from "../shared/hooks"
+import { DropDownMenu } from "../shared/tabs"
 
 export default function FilterButton({ data = [], buttonName, label, handleSelect }) {
     const [state, setState] = useState(data.map(each => {

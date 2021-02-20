@@ -5,7 +5,7 @@ import {
     APPEND_COMMENTS,
     UPDATE_COMMENT_DESCRIPTION,
     DELETE_COMMENT_BY_ISSUE
-} from "../Actions/comment.actions"
+} from "../actions/comment.actions"
 
 const initialState = {
     comments: [],

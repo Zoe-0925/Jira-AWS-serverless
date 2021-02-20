@@ -2,8 +2,8 @@ import React, { Fragment } from 'react'
 import { Form } from 'formik';
 import { withFormik } from 'formik';
 import { Typography, Button } from '@material-ui/core';
-import { DialogCloseIcon } from "../Shared/Tabs"
-import { FormTextField } from "./FormFields"
+import { DialogCloseIcon } from "../shared/tabs"
+import { FormTextField } from "./formFields"
 
 export const CreateProjectForm = ({
     values,

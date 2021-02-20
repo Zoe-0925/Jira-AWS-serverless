@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from "react-redux"
-import ProjectListTableHOC from "../Components/ProjectTable/ProjectTableHOC"
-import NavBar from "../Components/Shared/NavBar"
+import ProjectListTableHOC from "../components/projectTable/projectTableHOC"
+import NavBar from "../components/shared/navBar"
 import { Row, Col } from "reactstrap"
-import { selectCurrentUserId } from "../Reducers/Selectors"
-import { mockgetUserAndProjectData } from "../Actions/user.actions"
-import { loadProjectTablePage } from "../Actions/loading.actions"
+import { selectCurrentUserId } from "../reducers/selectors"
+import { mockgetUserAndProjectData } from "../actions/user.actions"
+import { loadProjectTablePage } from "../actions/loading.actions"
 
 const ProjectTable = () => {
     const dispatch = useDispatch()

@@ -5,15 +5,15 @@ import React from 'react';
 import { Router } from 'react-router-dom';
 import { Switch, Route } from "react-router-dom";
 /**    Pages     */
-import ProjectTable from "./Pages/ProjectTable"
-import Board from "./Pages/Board"
-import ProjectDetail from "./Pages/ProjectDetail"
+import ProjectTable from "./pages/projectTable"
+import Board from "./pages/board"
+import ProjectDetail from "./pages/projectDetail"
 import './assets/stylesheets/main.scss';
 import Amplify from 'aws-amplify';
 import aws_exports from './aws-exports';
 import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react'
 import history from "./history"
-import Test from "./Pages/Test"
+import Test from "./pages/Test"
 
 Amplify.configure(aws_exports);
 

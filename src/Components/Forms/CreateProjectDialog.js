@@ -1,10 +1,10 @@
 import React from 'react'
 import { useDispatch, useSelector } from "react-redux"
-import { selectCurrentUserId } from "../../Reducers/Selectors"
-import { chainCreactProject } from "../../Actions/project.actions"
-import { initiateProjectAndStatus } from "../Util"
-import CreateProjectFormHOC from "./CreateProjectForm"
-import { MyDialog } from "../Shared/Dialog"
+import { selectCurrentUserId } from "../../reducers/selectors"
+import { chainCreactProject } from "../../actions/project.actions"
+import { initiateProjectAndStatus } from "../util"
+import CreateProjectFormHOC from "./createProjectForm"
+import { MyDialog } from "../shared/dialog"
 
 const CreateProjectDialog = ({ open, setOpen }) => {
     const dispatch = useDispatch()

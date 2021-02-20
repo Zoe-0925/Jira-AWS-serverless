@@ -1,18 +1,18 @@
 import React from 'react';
 import { useSelector, useDispatch } from "react-redux"
-import { IssueSummaryInput, IssueDescriptionInput } from "../Issues/IssueInputsFields"
-import IssueAddEpic from "../Issues/IssueAddEpic"
+import { IssueSummaryInput, IssueDescriptionInput } from "../issues/issueInputsFields"
+import IssueAddEpic from "../issues/issueAddEpic"
 import { Row, Col } from 'reactstrap';
 import { Divider, Breadcrumbs, IconButton } from '@material-ui/core';
 import {
     selectStatusById, selectLabels, selectProjectMembers, selectUserById, selectStatus
-} from "../../Reducers/Selectors"
-import { chainUpdateIssueStatus, updateIssueAttribute } from "../../Actions/issue.actions"
-import CommentHOC from "../Comment/CommentHOC"
+} from "../../reducers/selectors"
+import { chainUpdateIssueStatus, updateIssueAttribute } from "../../actions/issue.actions"
+import CommentHOC from "../comment/commentHOC"
 import CloseIcon from '@material-ui/icons/Close';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
-import { formatDate } from "../Util"
-import { FormSelectField } from "./FormFields"
+import { formatDate } from "../util"
+import { FormSelectField } from "./formFields"
 
 const IssueDetailForm = ({ issue, handleClose }) => {
     const dispatch = useDispatch()

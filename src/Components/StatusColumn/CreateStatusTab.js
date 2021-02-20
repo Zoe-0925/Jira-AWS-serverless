@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import AddBoxRoundedIcon from '@material-ui/icons/AddBoxRounded';
 import { useSelector, useDispatch } from "react-redux"
-import { chainCreateStatus } from "../../Actions/status.actions"
-import { selectCurrentProjectId, selectLoading } from "../../Reducers/Selectors"
+import { chainCreateStatus } from "../../actions/status.actions"
+import { selectCurrentProjectId, selectLoading } from "../../reducers/selectors"
 import { v4 as uuidv4 } from 'uuid'
 import {  CircularProgress } from '@material-ui/core';
 

@@ -5,7 +5,7 @@ import {
     APPEND_ISSUES, CREATE_ISSUE,
     UPDATE_TASK_ATTRIBUTE, UPDATE_ISSUE_AFTER_DELETE_STATUS, REMOVE_LABEL_FROM_ISSUE
 
-} from "../Actions/issue.actions"
+} from "../actions/issue.actions"
 const { Map } = require('immutable');
 
 /**

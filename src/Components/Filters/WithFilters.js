@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 
-import DragAndDrop from "../DragDrop/DragAndDrop"
-import BoardFilterList from "./BoardFilterList"
+import DragAndDrop from "../dragdrop/DragAndDrop"
+import BoardFilterList from "./boardFilterList"
 
 const WithFilters = () => {
 

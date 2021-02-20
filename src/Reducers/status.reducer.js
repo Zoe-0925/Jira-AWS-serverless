@@ -2,7 +2,7 @@ import {
     CREATE_STATUS, DELETE_STATUS,
     APPEND_STATUS, MOVE_ISSUE, APPEND_NEW_ISSUE,
     DELETE_ISSUE_FROM_STATUS, UPDATE_ISSUE_ORDER, UPDATE_STATUS_ATTRIBUTE
-} from "../Actions/status.actions"
+} from "../actions/status.actions"
 
 const initialState = {
     status: []

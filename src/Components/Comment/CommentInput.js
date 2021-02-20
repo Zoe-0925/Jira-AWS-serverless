@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { useDispatch } from "react-redux"
-import { useEditText } from '../Shared/CustomHooks';
-import { EditableText, TextareaWithActionBtns } from "../Shared/EditableText"
+import { useEditText } from '../shared/hooks';
+import { EditableText, TextareaWithActionBtns } from "../shared/editableText"
 
 export default function CommentInput() {
     const dispatch = useDispatch()

@@ -1,10 +1,10 @@
 import React from 'react'
 import { useDispatch, useSelector } from "react-redux"
-import { setCurrentProject, chainDeleteProject } from "../../Actions/project.actions"
-import { selectAllUsers, selectAllProjects, selectLoading } from "../../Reducers/Selectors"
+import { setCurrentProject, chainDeleteProject } from "../../actions/project.actions"
+import { selectAllUsers, selectAllProjects, selectLoading } from "../../reducers/selectors"
 import history from "../../history"
 import { v4 as uuidv4 } from 'uuid'
-import ProjectTable from "./ProjectTable"
+import ProjectTable from "./projectTable"
 
 export default function ProjectTableHOC() {
     const loading = useSelector(selectLoading)

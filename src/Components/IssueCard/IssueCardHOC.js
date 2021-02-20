@@ -1,8 +1,8 @@
 import React from "react";
 import { useDispatch } from "react-redux"
-import { useDotIconMenu } from "../Shared/CustomHooks"
-import { chainDeleteIssue, updateIssueAttribute } from "../../Actions/issue.actions"
-import IssueCard from "./IssueCard"
+import { useDotIconMenu } from "../shared/hooks"
+import { chainDeleteIssue, updateIssueAttribute } from "../../actions/issue.actions"
+import IssueCard from "./issueCard"
 
 const IssueCardHOC = ({ issue }) => {
     const dispatch = useDispatch()

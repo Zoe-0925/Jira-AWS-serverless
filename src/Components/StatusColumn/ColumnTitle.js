@@ -1,14 +1,14 @@
 import React from 'react'
 /**--------------Redux-------------- */
 import { useDispatch } from "react-redux"
-import { updateStatusAttribute, deleteStatus } from "../../Actions/status.actions"
+import { updateStatusAttribute, deleteStatus } from "../../actions/status.actions"
 /**--------------UI-------------- */
 import { MenuItem } from '@material-ui/core';
-import { DotIconMenu } from "../Shared/Tabs"
-import { EditableText, Input } from "../Shared/EditableText"
-import { WarningFeedback } from "../Shared/Feedback"
+import { DotIconMenu } from "../shared/tabs"
+import { EditableText, Input } from "../shared/editableText"
+import { WarningFeedback } from "../shared/feedback"
 /**--------------Util-------------- */
-import { useEditText, useDotIconMenu } from '../Shared/CustomHooks';
+import { useEditText, useDotIconMenu } from '../shared/hooks';
 
 const ColumnTitle = ({ id = "", name = "" }) => {
     const { state, setState, edit, setEdit } = useEditText(name)

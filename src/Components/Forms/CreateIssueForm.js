@@ -3,9 +3,9 @@ import { useSelector } from "react-redux"
 import { withFormik } from 'formik';
 import { Divider, Typography } from '@material-ui/core';
 import * as Yup from 'yup';
-import { FormSelectField, FormTextField, FormTextAreaField } from "./FormFields"
-import { selectAllProjects } from "../../Reducers/Selectors"
-import { DialogContentContainer } from "../Shared/Dialog"
+import { FormSelectField, FormTextField, FormTextAreaField } from "./formFields"
+import { selectAllProjects } from "../../reducers/selectors"
+import { DialogContentContainer } from "../shared/dialog"
 
 const CreateIssueForm = props => {
     const {

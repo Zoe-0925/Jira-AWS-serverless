@@ -1,9 +1,9 @@
 import React from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { DragDropContext } from 'react-beautiful-dnd';
-import { chainReorder, chainMove } from "../../Actions/status.actions"
-import { selectAllStatus } from '../../Reducers/Selectors';
-import DragAndDrop from "./DragAndDrop"
+import { chainReorder, chainMove } from "../../actions/status.actions"
+import { selectAllStatus } from '../../reducers/selectors';
+import DragAndDrop from "./cragAndDrop"
 
 export default function DragContextContainer() {
     const dispatch = useDispatch()

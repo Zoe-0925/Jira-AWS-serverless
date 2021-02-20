@@ -1,14 +1,14 @@
 import React, { Fragment } from 'react'
 import { useSelector } from "react-redux"
-import { selectLoading } from "../../Reducers/Selectors"
+import { selectLoading } from "../../reducers/selectors"
 import { Form, withFormik } from 'formik';
-import { DotIconMenu } from "../Shared/Tabs"
+import { DotIconMenu } from "../shared/tabs"
 import {
     Link, Typography, Breadcrumbs, Button, Divider, MenuItem, CircularProgress
 } from '@material-ui/core';
-import { useDotIconMenu } from "../Shared/CustomHooks"
+import { useDotIconMenu } from "../shared/hooks"
 import { Container, Row, Col } from "reactstrap"
-import { FormTextField, FormSelectField } from "./FormFields"
+import { FormTextField, FormSelectField } from "./formFields"
 
 export const UpdateProjectForm = ({
     values,

@@ -2,7 +2,7 @@
 import {
    CLEAR_PROJECT, CREATE_PROJECT, APPEND_PROJECTS, SET_CURRENT_PROJECT, DELETE_PROJECT,
    UPDATE_PROJECT_ATTRIBUTE, UPDATE_PROJECT_DETAIL
-} from "../Actions/project.actions"
+} from "../actions/project.actions"
 
 
 const testState = {

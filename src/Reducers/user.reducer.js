@@ -1,6 +1,6 @@
 import {
 	UPDATE_USER, LOGIN, LOGOUT, ADD_OTHER_USERS, UPDATE_PROJECTS, CLEAR_USER,
-} from "../Actions/user.actions"
+} from "../actions/user.actions"
 
 const initialState = {
 	currentUserId: "",

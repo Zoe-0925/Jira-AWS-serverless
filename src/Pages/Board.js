@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from "react-redux"
-import Drawer from "../Components/Drawer/Drawer"
-import { DrawerLinks } from "../Components/Drawer/DrawerLinks"
-import DragContext from "../Components/DragDrop/DragContext"
-import NavBar from "../Components/Shared/NavBar"
-import { selectCurrentProjectName } from '../Reducers/Selectors';
+import Drawer from "../components/drawer/drawer"
+import { DrawerLinks } from "../components/drawer/drawerLinks"
+import DragContext from "../components/dragDrop/dragContext"
+import NavBar from "../components/shared/navBar"
+import { selectCurrentProjectName } from '../reducers/selectors';
 import { Typography, Link, Breadcrumbs } from "@material-ui/core"
-import { mockgetUserAndProjectData } from "../Actions/user.actions"
-//import BoardFilterList from "../Components/Filters/BoardFilterList"
+import { mockgetUserAndProjectData } from "../actions/user.actions"
+//import BoardFilterList from "../components/filters/BoardFilterList"
 
 export default function Board() {
     const dispatch = useDispatch()

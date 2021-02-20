@@ -1,11 +1,11 @@
 import React from "react";
 import { useSelector } from "react-redux"
-import { MyDraggable, MyDroppable } from "./DraggableAndDroppable";
-import CreateStatusTab from "../StatusColumn/CreateStatusTab"
-import Column from "../StatusColumn/Column"
+import { MyDraggable, MyDroppable } from "./draggableAndDroppable";
+import CreateStatusTab from "../statusColumn/createStatusTab"
+import Column from "../statusColumn/column"
 import { v4 as uuidv4 } from 'uuid'
-import IssueCardHOC from "../IssueCard/IssueCardHOC";
-import { selectStatusWithIssue } from "../../Reducers/Selectors"
+import IssueCardHOC from "../issueCard/issueCardHOC";
+import { selectStatusWithIssue } from "../../reducers/selectors"
 
 const DragAndDrop = () => {
     let columns = useSelector(selectStatusWithIssue)

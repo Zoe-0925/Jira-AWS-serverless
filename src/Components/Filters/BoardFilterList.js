@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux"
-import IssueFilter from "./IssueFilter"
+import IssueFilter from "./issueFilter"
 import { Tooltip } from '@material-ui/core'
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
-import GroupBy from "./GroupBy"
+import GroupBy from "./groupBy"
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import FilterButton from "./FilterButton"
-import { selectEpics, selectLabels } from '../../Reducers/Selectors';
+import FilterButton from "./filterButton"
+import { selectEpics, selectLabels } from '../../reducers/selectors';
 import { v4 as uuidv4 } from 'uuid'
 import { Container, Row, Col } from 'reactstrap';
 

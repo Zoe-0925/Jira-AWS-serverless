@@ -1,5 +1,5 @@
 import { createStore, compose, applyMiddleware } from "redux";
-import RootReducer from '../Reducers/root.reducer';
+import RootReducer from '../reducers/root.reducer';
 import logger from 'redux-logger'
 import thunk from 'redux-thunk';
 import history from "../history"
@@ -18,11 +18,11 @@ const configureStore = () => {
     const store = createStore(RootReducer(history), middleware);
 
     if (module.hot) {
-        module.hot.accept('../Reducers/root.reducer', () => {
+        module.hot.accept('../reducers/root.reducer', () => {
             // Webpack 1.0 without router-redux bind: store.replaceReducer(require('./RootReducer').default);
             // Webpack 2.0 with router-redux bind:  store.replaceReducer(rootReducer(history))
             // Webpack 1.0 with router-redux bind (as below): 
-            const nextRootReducer = require('../Reducers/root.reducer').default
+            const nextRootReducer = require('../reducers/root.reducer').default
             store.replaceReducer(nextRootReducer(history))
         });
     }

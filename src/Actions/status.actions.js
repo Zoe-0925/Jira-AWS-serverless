@@ -1,6 +1,6 @@
 import API from '@aws-amplify/api';
 import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
-import { reorder } from "../Components/Util"
+import { reorder } from "../components/util"
 import { sendWsToServer } from "./websocket.actions"
 
 export const UPDATE_STATUS_ATTRIBUTE="UPDATE_STATUS_ATTRIBUTE"

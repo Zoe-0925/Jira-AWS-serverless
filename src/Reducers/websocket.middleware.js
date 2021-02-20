@@ -1,5 +1,5 @@
-import * as actions from '../Actions/websocket.actions';
-import { AUTHENTICATED } from "../Actions/loading.actions"
+import * as actions from '../actions/websocket.actions';
+import { AUTHENTICATED } from "../actions/loading.actions"
 
 const socketMiddleware = () => {
     let socket = null;

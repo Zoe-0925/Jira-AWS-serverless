@@ -1,4 +1,4 @@
-import { LOADING, ERROR, CANCEL_LOADING, AUTHENTICATED } from "../Actions/loading.actions"
+import { LOADING, ERROR, CANCEL_LOADING, AUTHENTICATED } from "../actions/loading.actions"
 
 const initialState = { loading: false, authenticated: false, errorMessage: "" }
 export default function LoadingReducer(state = initialState, action) {

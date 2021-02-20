@@ -4,7 +4,7 @@ import MuiAlert from '@material-ui/lab/Alert';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
-import { DialogContentContainer } from "../Shared/Dialog"
+import { DialogContentContainer } from "./dialog"
 
 export const SuccessfulFeedback = ({ open, message }) => {
 

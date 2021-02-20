@@ -4,8 +4,8 @@ import {
     TableRow, Paper, MenuItem
 } from '@material-ui/core'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import { DotIconMenu } from "../Shared/Tabs"
-import { useDotIconMenu } from "../Shared/CustomHooks"
+import { DotIconMenu } from "../shared/tabs"
+import { useDotIconMenu } from "../shared/hooks"
 import Skeleton from '@material-ui/lab/Skeleton';
 import { v4 as uuidv4 } from 'uuid'
 

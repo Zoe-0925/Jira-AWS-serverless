@@ -2,7 +2,7 @@ import {
     CREATE_LABEL,
     DELETE_LABEL,
     APPEND_LABELS
-} from "../Actions/label.actions"
+} from "../actions/label.actions"
 
 /** 
 const testState = {

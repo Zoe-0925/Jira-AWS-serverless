@@ -5,11 +5,11 @@ import { withFormik } from 'formik';
 import Select from 'react-select';
 import {Button, InputLabel, Dialog} from '@material-ui/core';
 import * as Yup from 'yup';
-import { selectEpics } from "../../Reducers/Selectors"
-import { updateIssueAttribute } from "../../Actions/issue.actions"
-import { SuccessfulFeedback } from "../Shared/Feedback"
+import { selectEpics } from "../../reducers/selectors"
+import { updateIssueAttribute } from "../../actions/issue.actions"
+import { SuccessfulFeedback } from "../shared/feedback"
 import CreateIcon from '@material-ui/icons/Create';
-import { DialogContentContainer } from "../Shared/Dialog"
+import { DialogContentContainer } from "../shared/dialog"
 
 const IssueAddEpicForm = props => {
     const {

@@ -3,7 +3,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import { TextField, ClickAwayListener } from '@material-ui/core';
 import IconButton from "@material-ui/core/IconButton";
 import InputAdornment from "@material-ui/core/InputAdornment";
-import { useSimpleState } from '../Shared/CustomHooks';
+import { useSimpleState } from '../shared/hooks';
 
 
 export default function IssueFilter() {

@@ -1,17 +1,17 @@
 import React from 'react'
 /**--------------Redux-------------- */
 import { useDispatch, useSelector } from "react-redux"
-import { chainCreateIssueAndUpdateIssueOrder } from "../../Actions/issue.actions"
-import { selectLoading } from '../../Reducers/Selectors';
+import { chainCreateIssueAndUpdateIssueOrder } from "../../actions/issue.actions"
+import { selectLoading } from '../../reducers/selectors';
 /**--------------UI-------------- */
 import { CircularProgress } from '@material-ui/core';
-import { AddTab } from "../Shared/Tabs"
-import { Input } from "../Shared/EditableText"
-import ColumnTitle from "./ColumnTitle"
+import { AddTab } from "../shared/tabs"
+import { Input } from "../shared/editableText"
+import ColumnTitle from "./columnTitle"
 /**--------------Util-------------- */
-import { useEditText } from '../Shared/CustomHooks';
+import { useEditText } from '../shared/hooks';
 import { v4 as uuidv4 } from 'uuid'
-import Issue from "../Issues/Issue"
+import Issue from "../issues/issue"
 
 const Column = ({ status = { _id: "", project: "", issues: [], name: "" }, children }) => {
     const dispatch = useDispatch()

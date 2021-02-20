@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
 import { Form } from 'formik';
 import { DialogActions, Dialog } from '@material-ui/core';
-import { DialogCloseIcon } from "../Shared/Tabs"
-import { SubmitCancelButtonSet } from "../Shared/Buttons"
+import { DialogCloseIcon } from "./tabs"
+import { SubmitCancelButtonSet } from "./buttons"
 
 
 export const DialogContentContainer = ({ handleClose, dialogClassName = "", title = "", subtitle = "", children, isSubmitting = false, handleSubmit, handleCancel, submitLabel = "" }) => (

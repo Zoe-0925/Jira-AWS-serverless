@@ -7,7 +7,7 @@ import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import OpenInBrowserIcon from '@material-ui/icons/OpenInBrowser';
 import ArrowBackRoundedIcon from '@material-ui/icons/ArrowBackRounded';
 import ClearAllIcon from '@material-ui/icons/ClearAll'; //Roadmap
-import AssignmentIcon from '@material-ui/icons/Assignment'; //Board
+import AssignmentIcon from '@material-ui/icons/Assignment'; //board
 import SettingsIcon from '@material-ui/icons/Settings';
 
 export const MyListItem = ({ color, handleClick, id, selected, primary, children }) => (

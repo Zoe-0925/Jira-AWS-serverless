@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import Drawer from "../Components/Drawer/Drawer"
-import { ProjectSetting } from "../Components/Drawer/DrawerLinks"
-import NavBar from "../Components/Shared/NavBar"
-import UpdateProject from '../Components/Forms/UpdateProject';
+import Drawer from "../components/drawer/drawer"
+import { ProjectSetting } from "../components/drawer/drawerLinks"
+import NavBar from "../components/shared/navBar"
+import UpdateProject from '../components/forms/updateProject';
 
 export default function ProjectDetail() {
     const [open, setOpen] = useState(true);
