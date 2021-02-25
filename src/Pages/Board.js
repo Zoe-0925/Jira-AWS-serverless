@@ -19,7 +19,7 @@ export default function Board() {
     return (
         <DrawerContainer type ="board" currentLocation="board">
             <Breadcrumbs aria-label="breadcrumb" className="bread-crumbs" >
-                <Link color="inherit" href="/">Projects</Link>
+                <Link color="inherit" href="/projects">Projects</Link>
                 <Typography color="textPrimary">{projectName ? projectName : ""}</Typography>
             </Breadcrumbs>
             <p>{projectName} Board</p>

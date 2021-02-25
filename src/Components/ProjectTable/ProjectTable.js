@@ -12,8 +12,6 @@ import { v4 as uuidv4 } from 'uuid'
 const ProjectTable = ({ loading, projects, users, goToBoardPage, goToProjectDetail, tableHeader, deleteProject }) => {
     const { anchorEl, isOpen, anchorRef, handleMenuClose, handleMenuOpen } = useDotIconMenu()
 
-    console.log("projects", projects)
-
     return (
         <div key={uuidv4()} className="project-list-table">
             <TableContainer key={uuidv4()} component={Paper}>

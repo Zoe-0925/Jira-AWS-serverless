@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import AddIcon from '@material-ui/icons/Add';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import {
-    Typography, Menu, ListItem, IconButton
+    Typography, Menu, ListItem, IconButton, Tooltip, Avatar
 } from '@material-ui/core';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import CloseIcon from '@material-ui/icons/Close';
@@ -80,4 +80,10 @@ export const DropDownMenu = ({ anchorEl, isOpen, handleMenuClose, children }) =>
     >
         {children}
     </Menu>
+)
+
+export const MyAvatar = (id = "", name = "", src = "", handleClick) => (
+    <Tooltip key={name} title={name} aria-label={name}>
+        <Avatar onClick={() => handleClick(id)} style={{ cursor: "pointer" }} alt={name} src={src} sizes="1.3rem" />
+    </Tooltip>
 )
