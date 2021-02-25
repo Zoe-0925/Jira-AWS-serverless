@@ -6,10 +6,12 @@ import NavBar from "../Shared/NavBar"
 const DrawerContainer = ({ type = "", currentLocation = "", ...props }) => {
     const [open, setOpen] = useState(true);
 
+    const toggleDrawer = () => setOpen(!open)
+
     return (
         <div className={open ? "main drawer-close" : "main drawer-open"}>
-            <NavBar openDrawer={() => setOpen(true)} />
-            <Drawer handleClick={(open) => setOpen(!open)} open={open}>
+            <NavBar toggleDrawer={toggleDrawer} />
+            <Drawer handleClick={toggleDrawer} open={open}>
                 <DrawerLinks type={type} currentLocation={currentLocation} />
             </Drawer>
             {props.children}

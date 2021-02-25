@@ -87,7 +87,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function NavBar({ openDrawer }) {
+export default function NavBar({ toggleDrawer }) {
     const classes = useStyles();
     const [isCreateProjectOpen, setOpenCreateProject] = useState(false)
 
@@ -102,7 +102,7 @@ export default function NavBar({ openDrawer }) {
                         className={classes.menuButton}
                         color="inherit"
                         aria-label="open drawer"
-                        onClick={openDrawer}
+                        onClick={toggleDrawer}
                     >
                         <MenuIcon />
                     </IconButton>
@@ -124,7 +124,7 @@ export default function NavBar({ openDrawer }) {
                     </div>
                 </Toolbar>
             </AppBar>
-            <MobileMenu handleSignOut={handleSignOut} openDrawer={openDrawer} />
+            <MobileMenu handleSignOut={handleSignOut} toggleDrawer={toggleDrawer} />
             <CreateProjectDialog open={isCreateProjectOpen} setOpen={setOpenCreateProject} />
         </div>
     );
@@ -148,7 +148,7 @@ const ProjectMenu = ({ handleCreateProject }) => {
     )
 }
 
-const MobileMenu = ({ openDrawer, handleSignOut }) => {
+const MobileMenu = ({ toggleDrawer, handleSignOut }) => {
     const classes = useStyles();
     const { anchorEl, isOpen, handleMenuClose, handleMenuOpen } = useDotIconMenu()
 
@@ -159,7 +159,7 @@ const MobileMenu = ({ openDrawer, handleSignOut }) => {
                     aria-label="show more"
                     aria-controls={uuidv4()}
                     aria-haspopup="true"
-                    onClick={openDrawer}
+                    onClick={toggleDrawer}
                     color="inherit"
                 >
                     <MoreIcon />
