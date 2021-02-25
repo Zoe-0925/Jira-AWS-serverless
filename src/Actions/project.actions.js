@@ -1,5 +1,4 @@
 import { appendSuccessStatus } from "./status.actions"
-import { updateUserProjects } from "./user.actions"
 import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
 
 export const DELETE_PROJECT = "DELETE_PROJECT"
@@ -18,7 +17,7 @@ export const mockgetAllProjects = () => async dispatch => {
     try {
         let projects = [{
             _id: "7c1f9838-dbd7-4432-b52c-aae87022d578", default_assignee: "Project Lead",
-            image: "", key: "TestProject1", lead: "tsidadsjkdhiueiurt", members: ["tsidadsjkdhiueiurt"], name: "TestProject1",
+            image: "", key: "TestProject1", lead: "tsidadsjkdhiueiurt", members: ["tsidadsjkdhiueiurt", "user2", "user3"], name: "Jira Clone",
             statusOrder: ["9729f490-fd5f-43ab-8efb-40e8d132bc68", "efe83b13-9255-4339-a8f5-d5703beb9ffc", "439c3d96-30eb-497d-b336-228873048bc3", "f3a0e59f-635a-4b75-826f-b0f5bf24b5c4"]
         }]
         dispatch({
@@ -31,15 +30,11 @@ export const mockgetAllProjects = () => async dispatch => {
     }
 }
 
-export const chainCreactProject = (project, status) => async (dispatch, getState) => {
-    const userReducer = getState().UserReducer
-    let projects = userReducer.users.find(user => user._id === userReducer.currentUserId).projects
-    let projectsUpdated = [...projects, project._id]
+export const chainCreactProject = (project, status) => async (dispatch) => {
     dispatch({ type: LOADING })
     await Promise.all([
         dispatch(createProject(project)),
         dispatch(appendSuccessStatus(status)),
-        dispatch(updateUserProjects(projectsUpdated))
     ])
     dispatch({ type: AUTHENTICATED })
 }

@@ -10,7 +10,6 @@ export const ADD_OTHER_USERS = "ADD_OTHER_USERS"
 export const CLEAR = "CLEAR"
 export const SAVE_TOKENS = "SAVE_TOKENS"
 export const FINISH_LOADING = "FINISH_LOADING"
-export const UPDATE_PROJECTS = "UPDATE_PROJECTS"
 
 export function login(data) {
     return {
@@ -32,24 +31,35 @@ export function updateUser(data) {
     }
 }
 
+export function addOtherUsers(data) {
+    return {
+        type: ADD_OTHER_USERS,
+        data: data
+    }
+}
+
 export const mockgetUserAndProjectData = () => async (dispatch) => {
     try {
         dispatch({ type: LOADING })
-        const user = { _id: "tsidadsjkdhiueiurt", name: "Zoe Zhang", email: "jin0925aki@gmail.com", projects: ["7c1f9838-dbd7-4432-b52c-aae87022d578"] }
+        const user = { _id: "tsidadsjkdhiueiurt", name: "Zoe Zhang", email: "jin0925aki@gmail.com", avator: "https://cdn.pixabay.com/photo/2016/06/15/23/20/woman-1460150_960_720.jpg" }
         await Promise.all([
             dispatch(login(user)),
-            dispatch(mockgetAllProjects(user.projects))
+            dispatch(mockgetAllProjects())
         ])
         dispatch(setCurrentProject("7c1f9838-dbd7-4432-b52c-aae87022d578"))
         const now = new Date()
         const dateString = JSON.stringify(now)
         await Promise.all([
+            dispatch(addOtherUsers([
+                { _id: "user2", name: "Jay Harris", email: "jayharris@gmail.com", avator: "https://cdn.pixabay.com/photo/2020/06/02/08/30/man-5249991_960_720.jpg" },
+                { _id: "user3", name: "Stacy McGram", email: "stacymcgram@gmail.com", avator: "https://cdn.pixabay.com/photo/2019/10/04/13/40/woman-4525714_960_720.jpg" }
+            ])),
             dispatch({
                 type: APPEND_ISSUES,
                 data: {
                     tasks: [{
                         _id: "issueId1", summary: "Code feature A", description: "Coding...", updatedAt: dateString, createdAt: dateString, issueType: "task",
-                        labels: [], parent: "", status:  "9729f490-fd5f-43ab-8efb-40e8d132bc68", project:"7c1f9838-dbd7-4432-b52c-aae87022d578"
+                        labels: [], parent: "", status: "9729f490-fd5f-43ab-8efb-40e8d132bc68", project: "7c1f9838-dbd7-4432-b52c-aae87022d578"
                     }]
                 }
             }),
@@ -63,12 +73,4 @@ export const mockgetUserAndProjectData = () => async (dispatch) => {
     catch (err) {
         dispatch(dispatchError(err))
     }
-}
-
-export const updateUserProjects = projects => async (dispatch) => {
-    const payload = {
-        type: UPDATE_PROJECTS,
-        data: projects
-    }
-    dispatch(payload)
 }

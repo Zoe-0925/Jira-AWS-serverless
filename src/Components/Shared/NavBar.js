@@ -106,7 +106,7 @@ export default function NavBar({ toggleDrawer }) {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Button onClick={() => history.push("/projects/")} className="nav-title">Jira Mock </Button>
+                    <Button onClick={() => history.push("/projects/")} className="nav-title">Jira Clone </Button>
                     <ProjectMenu handleCreateProject={() => setOpenCreateProject(true)} />
                     <CreateIssueDialog />
                     <div className={classes.grow} />
