@@ -1,7 +1,6 @@
 .issue-form-in-modal {
   text-align: left;
-  .field,
-  .select {
+  .field {
     @include select;
   }
 }
@@ -50,13 +49,11 @@
     padding-right: 1.5rem;
     text-align: left;
     max-height: 43.75rem;
-
-
   }
 
   .editable-input {
     height: 2rem;
-    width:100%;
+    width: 100%;
   }
 
   .label {
@@ -122,14 +119,12 @@
     .container {
       padding: 0;
       margin: 0;
-
-    
     }
   }
 }
 
 .create-project-form {
-  width:fullscreen;
+  width: fullscreen;
 
   padding: 0px;
 
@@ -139,7 +134,7 @@
     }
   }
 
-  .navbar-create-btn{
+  .navbar-create-btn {
     @include call-to-action-button;
   }
 }
@@ -154,36 +149,35 @@
   }
 
   .field {
-    @include centered-form-field;
+    @include select;
     background-color: $bgc;
     height: 2.5rem;
     margin-top: 0;
     padding-top: 0;
   }
 
-  .select{
-    width:auto;
-    padding:0px;
-    margin:0px;
+  .select {
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
   }
 }
 
-
-.issue-summary{
-  font-size:1.4rem;
+.issue-summary {
+  font-size: 1.4rem;
   font-weight: 530;
   width: 100%;
-  padding:0px;
+  padding: 0px;
 }
 
-.left-container{
+.left-container {
   margin-top: 0px;
   padding-top: 0px;
 }
 
-.left-container{
+.left-container {
   .editable-input {
-    font-size:1.4rem;
+    font-size: 1.4rem;
     font-weight: 530;
     width: 100%;
   }

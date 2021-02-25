@@ -32,10 +32,10 @@ const CreateIssueForm = props => {
 
     return (
         <DialogContentContainer handleClose={handleClose} dialogClassName="issue-form-in-modal" title="Create issue"
-           isSubmitting={isSubmitting} handleSubmit={handleSubmit} handleCancel={handleClose} submitLabel="Create">
-            <FormSelectField className="field" id="project" inputLabel="Project Name*" options={projectOptions}
+            isSubmitting={isSubmitting} handleSubmit={handleSubmit} handleCancel={handleClose} submitLabel="Create">
+            <FormSelectField id="project" inputLabel="Project Name*" options={projectOptions}
                 handleChange={(e) => setFieldValue("project", e.value)} />
-            <FormSelectField className="field" id="issueType" inputLabel="Issue Type*" options={issueTypeOptions}
+            <FormSelectField id="issueType" inputLabel="Issue Type*" options={issueTypeOptions}
                 handleChange={(e) => setFieldValue("issueType", e.value)} />
             <Typography className="field" variant="caption">Some issue types are unavailable due to incompatible field configuration and/or workflow associations.</Typography>
             <Divider />
