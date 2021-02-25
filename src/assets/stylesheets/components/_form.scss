@@ -65,6 +65,7 @@
     line-height: 1.5rem;
     color: rgb(23, 43, 77);
     overflow-wrap: break-word;
+    text-align: left;
   }
 
   .time {
@@ -182,3 +183,10 @@
     width: 100%;
   }
 }
+
+.title {
+  @include title;
+  padding-left: 1.5rem;
+  padding-top: 1.5rem;
+}
+

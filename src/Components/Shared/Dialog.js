@@ -3,15 +3,17 @@ import { Form } from 'formik';
 import { DialogActions, Dialog } from '@material-ui/core';
 import { DialogCloseIcon } from "../Shared/Tabs"
 import { SubmitCancelButtonSet } from "../Shared/Buttons"
+import { Row, Col } from 'reactstrap';
 
 
 export const DialogContentContainer = ({ handleClose, dialogClassName = "", title = "", subtitle = "", children, isSubmitting = false, handleSubmit, handleCancel, submitLabel = "" }) => (
     <Fragment>
-        <DialogCloseIcon handleClose={handleClose} />
+        <Row>
+            <Col><p className="title">{title}</p></Col>
+            <Col md="auto"> <DialogCloseIcon handleClose={handleClose} /></Col>
+        </Row>
         <div className={dialogClassName}>
-            <p className="title">{title}</p>
             <p className="sub-title">{subtitle}</p>
-            <br />
             <Form onSubmit={handleSubmit}>
                 {children}
                 <DialogActions>
@@ -24,11 +26,11 @@ export const DialogContentContainer = ({ handleClose, dialogClassName = "", titl
 
 const dialogStyles = theme => ({
     dialogCustomizedWidth: {
-      'max-width': '80%'
+        'max-width': '80%'
     }
-  });
+});
 
-export const MyDialog = ({ open, handleClose, maxWidth, fullWidth=false, children, fullScreen = false }) => (
+export const MyDialog = ({ open, handleClose, maxWidth, fullWidth = false, children, fullScreen = false }) => (
     <Fragment>
         <Dialog
             open={open}
