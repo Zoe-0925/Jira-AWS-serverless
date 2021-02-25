@@ -25,11 +25,12 @@ const Column = ({ status = { _id: "", project: "", issues: [], name: "" }, child
     }
 
     return (
-        <div className="epic-box" key={uuidv4()}>
+        <div className="column" key={uuidv4()}>
             <ColumnTitle id={status._id} name={status.name} />
             {children}
             {loading ? <CircularProgress className="editable-input" /> : !edit ? <AddTab operationName="Create issue" handleClick={() => { setEdit(true) }} className="create-issue-tab" />
                 : <Input state={state} name="create-task-input" setState={setState} setEdit={setEdit} handleSubmit={() => handleSubmit(state.value)} />}
+       
         </div>
     )
 }

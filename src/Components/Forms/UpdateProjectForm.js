@@ -54,8 +54,7 @@ export const ProjectDetailForm = ({ values, loading, leadOptions, updateProjectL
                     </DotIconMenu></Col>
                 </Row>
             </Container>
-            <img className="project-icon" src="https://www.lovethispic.com/uploaded_images/218149-Hot-Guy-To-Wake-Up-To.jpg" alt="project icon" />
-            <div align="center"><Button>Change icon</Button></div>
+            <img className="project-icon" src="https://cdn.worldvectorlogo.com/logos/jira-1.svg" alt="project icon" />
             <div align="center" className="form">
                 <Form onSubmit={handleSubmit}>
                     <FormTextField id="name" inputLabel="Name" value={values.name} handleChange={handleChange} />

@@ -6,9 +6,8 @@ import { Drawer, IconButton } from '@material-ui/core';
 import { ProjectHeaderTab } from "../Shared/Tabs"
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import CloseIcon from '@material-ui/icons/Close';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { Row, Col } from "reactstrap"
+import { Row } from "reactstrap"
 
 const drawerWidth = 240;
 
@@ -43,17 +42,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SideDrawer({ handleClick, open, ...props }) {
-    const theme = useTheme();
     const classes = useStyles();
     const title = useSelector(selectCurrentProjectName)
-
-    function closeDrawer() {
-        handleClick(false)
-    }
-
-    const closeButton = (<IconButton onClick={closeDrawer} className={classes.closeMenuButton}>
-        <CloseIcon />
-    </IconButton>)
 
     return <div className="drawer">
         <CssBaseline />
@@ -72,34 +62,9 @@ export default function SideDrawer({ handleClick, open, ...props }) {
                     <Row>
                         <ProjectHeaderTab title={title || ""} subtite="Software project" imgSrc="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcT2sa8Zxht8_5o8aMA9I1rHmr9FVXEoxoDVfw&usqp=CAU" />
                     </Row>
-                    <IconButton className="close-drawer-icon" onClick={open ? () => { handleClick(false) } : () => { handleClick(true) }}>
-                        {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-                    </IconButton>
                 </div>
                 {props.children}
             </Drawer>
-            <Drawer
-                className="mobile-drawer"
-                variant="temporary"
-                anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-                open={open}
-                onClose={closeDrawer}
-                classes={{
-                    paper: classes.drawerPaper,
-                }}
-                ModalProps={{
-                    keepMounted: true, // Better open performance on mobile.
-                }}
-            >
-                {closeButton}
-                <div className="title">
-                    <ProjectHeaderTab title={title || ""} subtite="Software project" imgSrc="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcT2sa8Zxht8_5o8aMA9I1rHmr9FVXEoxoDVfw&usqp=CAU" />
-                </div>
-                {props.children}
-            </Drawer>
-
-
-
         </nav>
     </div>
 }

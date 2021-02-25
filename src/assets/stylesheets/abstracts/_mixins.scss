@@ -1,6 +1,7 @@
 // -----------------------------------------------------------------------------
 // This file contains all application-wide Sass mixins.
 // -----------------------------------------------------------------------------
+@import "./variables";
 
 @mixin centered-form-field {
   display: block;
@@ -13,7 +14,7 @@
   align-items: baseline;
   box-sizing: border-box;
   font-weight: 500;
-  max-width: $full;
+  max-width: 100%;
   text-align: center;
   white-space: nowrap;
   box-shadow: transparent 0px 0px 0px 2px;
@@ -62,4 +63,10 @@
   padding: 0;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+@mixin select {
+  width: $full;
+  margin: 0px;
+  padding: 0px;
 }

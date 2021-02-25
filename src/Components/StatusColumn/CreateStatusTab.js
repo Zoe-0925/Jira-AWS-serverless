@@ -18,8 +18,8 @@ export function EmptyColumn({ hide }) {
         hide()
     }
 
-    return (<div className="epic-box">
-        <div className="flex-row epic-title" >
+    return (<div className="column">
+        <div className="flex-row column-title" >
             <input
                 name="create-status-input"
                 type="text"

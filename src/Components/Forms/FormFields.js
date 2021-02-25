@@ -7,7 +7,7 @@ import {
 } from 'formik-material-ui';
 
 export const MyInputLabel = ({ id, inputLabel }) => (
-    <InputLabel className="form-label" id={id}>{inputLabel}</InputLabel>
+    <InputLabel className="label" id={id}>{inputLabel}</InputLabel>
 )
 
 export const FormSelectField = ({ id, inputLabel, options, handleChange, defaultValue = "", isMulti = false }) => {
@@ -15,9 +15,9 @@ export const FormSelectField = ({ id, inputLabel, options, handleChange, default
         <div className="input-container">
             <MyInputLabel id={id} inputLabel={inputLabel} />
             <Select
+                name={id}
                 className="select"
                 classNamePrefix="select"
-                name="issueType"
                 defaultValue={defaultValue !== "" ? defaultValue : options[0]}
                 options={options}
                 onChange={handleChange}
@@ -58,5 +58,5 @@ export const FormTextAreaField = ({ id, inputLabel, rowsMin, handleChange }) => 
             margin="normal"
             aria-label="minimum height" rowsMin={rowsMin}
         />
-  </div>)
+    </div>)
 }

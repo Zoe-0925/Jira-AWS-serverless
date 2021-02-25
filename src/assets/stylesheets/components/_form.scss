@@ -1,0 +1,190 @@
+.issue-form-in-modal {
+  text-align: left;
+  .field,
+  .select {
+    @include select;
+  }
+}
+
+@media (max-width: 415px) {
+  .issue-form-in-modal {
+    width: 100%;
+
+    .form {
+      width: 100%;
+
+      #description {
+        @include label;
+        display: block;
+        margin-left: 5%;
+      }
+    }
+  }
+}
+
+@media (min-width: 416px) {
+  .issue-form-in-modal {
+    width: 46.875rem;
+    padding: 1.5rem;
+
+    .navbar-create-btn {
+      @include call-to-action-button;
+    }
+
+    .title {
+      @include title;
+    }
+  }
+}
+
+//TODO move this outside the  .issue-detail-form
+@media (max-width: 415px) {
+  .issue-detail-form {
+    width: 100%;
+  }
+}
+//TODO move this outside the  .issue-detail-form
+@media (min-width: 416px) {
+  .issue-detail-form {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    text-align: left;
+    max-height: 43.75rem;
+
+
+  }
+
+  .editable-input {
+    height: 2rem;
+    width:100%;
+  }
+
+  .label {
+    font-size: 1em;
+    font-style: inherit;
+    font-weight: 600;
+    letter-spacing: -0.003em;
+    margin-top: 1rem;
+    line-height: 1.5rem;
+    color: rgb(23, 43, 77);
+    overflow-wrap: break-word;
+  }
+
+  .time {
+    color: rgb(107, 119, 140);
+    padding-top: 0.125rem;
+    white-space: nowrap;
+    margin-top: 0;
+    font-size: 0.75rem;
+    line-height: 1.33333;
+  }
+}
+
+.issue-detail-form {
+  .divider {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .left-container {
+    margin-left: 1.5rem;
+    width: 100%;
+  }
+}
+
+.CommentBox {
+  .title {
+    @include label;
+  }
+
+  .CommentContent {
+    width: 100%;
+
+    .primary {
+      margin-left: 0.1rem;
+    }
+
+    .author {
+      display: inline;
+      cursor: pointer;
+    }
+
+    .author:hover {
+      color: grey;
+    }
+
+    .date {
+      color: grey;
+    }
+  }
+
+  .CommentInput {
+    .container {
+      padding: 0;
+      margin: 0;
+
+    
+    }
+  }
+}
+
+.create-project-form {
+  width:fullscreen;
+
+  padding: 0px;
+
+  @media (max-width: 415px) {
+    .navbar-create-btn {
+      width: 50%;
+    }
+  }
+
+  .navbar-create-btn{
+    @include call-to-action-button;
+  }
+}
+
+.input-container {
+  @media (max-width: 415px) {
+    width: 100%;
+  }
+
+  @media (min-width: 416px) {
+    width: 21.875rem;
+  }
+
+  .field {
+    @include centered-form-field;
+    background-color: $bgc;
+    height: 2.5rem;
+    margin-top: 0;
+    padding-top: 0;
+  }
+
+  .select{
+    width:auto;
+    padding:0px;
+    margin:0px;
+  }
+}
+
+
+.issue-summary{
+  font-size:1.4rem;
+  font-weight: 530;
+  width: 100%;
+  padding:0px;
+}
+
+.left-container{
+  margin-top: 0px;
+  padding-top: 0px;
+}
+
+.left-container{
+  .editable-input {
+    font-size:1.4rem;
+    font-weight: 530;
+    width: 100%;
+  }
+}

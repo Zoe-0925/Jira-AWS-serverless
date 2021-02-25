@@ -593,7 +593,7 @@
   background-color: #f4f5f7;
 }
 
-.epic-list .epic-title {
+.epic-list .column-title {
   font-family: "Roboto", sans-serif;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
@@ -602,11 +602,11 @@
   height: 3rem;
 }
 
-.epic-list .epic-title .epic-summary {
+.epic-list .column-title .epic-summary {
   padding: 1rem 1rem 1rem 1rem;
 }
 
-.epic-list .epic-title .editable-create-issue {
+.epic-list .column-title .editable-create-issue {
   background-color: white;
   width: 100%;
   height: 5rem;
@@ -614,29 +614,29 @@
   font-family: inherit;
 }
 
-.epic-list .epic-title .create-new-task-editable {
+.epic-list .column-title .create-new-task-editable {
   font-size: 2rem;
   font-family: inherit;
 }
 
-.epic-list .epic-title .dot-icon {
+.epic-list .column-title .dot-icon {
   display: none;
 }
 
-.epic-list .epic-title:hover .dot-icon {
+.epic-list .column-title:hover .dot-icon {
   display: block;
   padding: 0.5rem;
 }
 
-.epic-list .epic-box {
+.epic-list .column {
   background-color: #f4f5f7;
 }
 
-.epic-list .epic-box .create-issue-tab {
+.epic-list .column .create-issue-tab {
   display: none;
 }
 
-.epic-list .epic-box:hover .create-issue-tab {
+.epic-list .column:hover .create-issue-tab {
   display: block;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -647,7 +647,7 @@
   height: 2.25rem;
 }
 
-.epic-list .epic-box:hover .create-issue-tab .create-issue-tab-icon {
+.epic-list .column:hover .create-issue-tab .create-issue-tab-icon {
   padding-bottom: 0.5rem;
   font-size: inherit;
   padding-right: 0.5rem;

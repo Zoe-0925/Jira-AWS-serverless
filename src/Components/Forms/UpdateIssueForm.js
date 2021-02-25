@@ -4,6 +4,7 @@ import { IssueSummaryInput, IssueDescriptionInput } from "../Issues/IssueInputsF
 import IssueAddEpic from "../Issues/IssueAddEpic"
 import { Row, Col } from 'reactstrap';
 import { Divider, Breadcrumbs, IconButton } from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
 import {
     selectStatusById, selectLabels, selectProjectMembers, selectUserById, selectStatus
 } from "../../Reducers/Selectors"
@@ -53,9 +54,13 @@ const IssueDetailForm = ({ issue, handleClose }) => {
         dispatch(updateIssueAttribute({ _id: issue._id, value: e.value, attribute: "reporter" }))
     }
 
+    const deleteIssue = () => { 
+        //TODO
+    }
+
     return (
         <div>
-            <MuiDialogTitle disableTypography className="title">
+            <MuiDialogTitle className="title">
                 <Row>
                     <Col>
                         <Breadcrumbs aria-label="breadcrumb" style={{ display: "inline" }}>
@@ -63,9 +68,12 @@ const IssueDetailForm = ({ issue, handleClose }) => {
                         </Breadcrumbs>
                     </Col>
                     <Col md="auto"></Col>
-                    <Col xs lg="1">
+                    <Col md="auto">
+                        <IconButton aria-label="delete" className="delete-btn" onClick={deleteIssue}>
+                            <DeleteIcon fontSize="small"/>
+                        </IconButton>
                         <IconButton aria-label="close" className="close-btn" onClick={handleClose}>
-                            <CloseIcon />
+                            <CloseIcon fontSize="small"/>
                         </IconButton>
                     </Col>
                 </Row>
@@ -79,8 +87,7 @@ const IssueDetailForm = ({ issue, handleClose }) => {
                                 <p className="label">Description</p>
                                 <IssueDescriptionInput id={issue._id} description={issue.description} />
                                 <br />
-                                <Divider className="divider" />
-                                <br />
+                                <p className="label">Comments</p>
                             </div>
                         </Row>
                         <br />
@@ -89,7 +96,6 @@ const IssueDetailForm = ({ issue, handleClose }) => {
                         <FormSelectField id="status" inputLabel="Status" options={statusOptions} defaultValue={{ label: defaultStatus.name || "", value: issue.status }}
                             handleChange={changeStatus}
                         />
-                        <br />
                         <br />
                         <FormSelectField id="assignee" inputLabel="Assignee" options={assigneeOptions} defaultValue={defaultAssignee}
                             handleChange={changeAssignee}

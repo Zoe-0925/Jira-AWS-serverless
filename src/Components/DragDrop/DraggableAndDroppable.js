@@ -11,7 +11,7 @@ export const MyDraggable = ({ id, index, ...props }) => {
     >
         {(provided, snapshot) => (
             <div
-                className={snapshot.isDragging ? "is-dragging" : "epic-box"}
+                className={snapshot.isDragging ? "is-dragging" : "column"}
                 ref={provided.innerRef}
                 {...provided.draggableProps}
                 {...provided.dragHandleProps}

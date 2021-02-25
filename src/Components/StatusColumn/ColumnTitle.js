@@ -18,7 +18,7 @@ const ColumnTitle = ({ id = "", name = "" }) => {
     const { anchorEl, isOpen, anchorRef, handleMenuClose, handleMenuOpen } = useDotIconMenu()
 
     return (
-        <div className="flex-row epic-title" id={id}>
+        <div className="flex-row column-title" id={id}>
             <EditableText name="epic-summary" className="epic-summary"
                 edit={edit} text={state.value || name} setEdit={setEdit}>
                 <Input name="status-title-input" state={state} setState={setState} setEdit={setEdit} handleSubmit={() => {

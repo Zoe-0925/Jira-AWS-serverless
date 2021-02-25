@@ -90,23 +90,16 @@ export const selectCurrentUserId = createSelector(
     reducer => reducer.currentUserId
 )
 
-export const selectAllUsers = createSelector(
+export const selectUsers = createSelector(
     selectUserReducer,
     reducer => reducer.users
 )
 
 export const selectUserName = createSelector(
-    selectAllUsers,
+    selectUsers,
     selectCurrentUserId,
     (users, id) => users.find(item => item._id === id)
 )
-
-export const selectUsersForProjectMember = createSelector(
-    selectProjectMembers,
-    selectAllUsers,
-    (memberIds, allUsers) => memberIds.map(each => allUsers.find(user => user._id === each))
-)
-
 /****************** Reselectors - Labels  *********************/
 export const selectLabels = createSelector(
     selectLabelReducer,

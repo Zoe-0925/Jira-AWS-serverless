@@ -23,7 +23,7 @@ export default function StatusReducer(state = initialState, action) {
             status[action.attribute] = action.value
             return newState
         case APPEND_NEW_ISSUE:
-            status = newState.status.find(aStatus => aStatus._id === action._id)
+            status = newState.status.find(aStatus => aStatus._id === action.status)
             status.issues = [...status.issues, action.issue]
             return newState
         case UPDATE_ISSUE_ORDER:

@@ -15,12 +15,12 @@
 
   .dot-icon:hover {
     display: block;
-    height: $full;
+    height: 100%;
     cursor: pointer;
   }
+
   .navbar-create-btn {
     @include call-to-action-button;
-    margin-top: 1rem;
   }
 }
 
@@ -43,4 +43,23 @@
   text-align: center;
   width: auto;
   height: auto;
+}
+
+.menu-container {
+  width: 300px;
+  padding: 1rem;
+  color: $body-color;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
+  font-size: 0.8rem;
+  font-style: normal;
+  font-weight: 400;
+
+  .menu-title {
+    font-size: 0.7rem;
+    line-height: 1.45455;
+    font-weight: 700;
+    color: rgb(107, 119, 140);
+    padding: 0px 20px;
+  }
 }

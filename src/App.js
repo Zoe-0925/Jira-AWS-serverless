@@ -7,7 +7,7 @@ import { Switch, Route } from "react-router-dom";
 import ProjectTable from "./Pages/ProjectTable"
 import Board from "./Pages/Board"
 import ProjectDetail from "./Pages/ProjectDetail"
-import './App.scss';
+import './assets/stylesheets/main.scss';
 import history from "./history"
 
 const App = () => {
@@ -16,7 +16,7 @@ const App = () => {
     <div className="App">
       <Router history={history}>
         <Switch>
-          <Route path="/" exact component={ProjectTable} />
+          <Route path="/" exact component={Board} />
           <Route path="/projects" exact component={ProjectTable} />
           <Route path="/projects/roadmap" component={App} />
           <Route path="/projects/board" exact component={Board} />

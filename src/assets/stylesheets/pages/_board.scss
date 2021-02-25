@@ -1,0 +1,110 @@
+.board-container {
+  padding: 2.5rem;
+}
+
+//TODO maybe change name to column list, and move it to the components part
+.epic-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  grid-gap: 1rem;
+  color: $card-color;
+  font-size: $card-font-size;
+
+  .column {
+    background-color: $bgc;
+  }
+
+  .epic-body {
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
+    background-color: white;
+    padding-top: 0.7rem;
+    padding-bottom: 0.7rem;
+    margin: 0.3rem;
+    border-radius: 3%;
+    min-height: 5rem;
+
+    .col {
+      width: 50%;
+      flex-direction: column;
+    }
+  }
+
+  .flagged {
+    background-color: yellow;
+  }
+
+  .epic-body:hover {
+    background-color: $bgc;
+  }
+
+  .column-title {
+    font-family: $sm-font;
+    justify-content: space-between;
+    text-align: center;
+    height: 3rem;
+    display: flex;
+    width: 100%;
+
+    .epic-summary {
+      padding: 1rem 1rem 1rem 1rem;
+    }
+
+    .editable-create-issue {
+      background-color: white;
+      width: $full;
+      height: 5rem;
+      font-size: 2rem;
+      font-family: inherit;
+    }
+
+    .create-new-task-editable {
+      font-size: 2rem;
+      font-family: inherit;
+    }
+
+    .dot-icon {
+      display: none;
+    }
+  }
+
+  .column-title:hover {
+    .dot-icon {
+      display: block;
+      padding: 0.5rem;
+    }
+  }
+
+  .column {
+    min-height: 15rem;
+    display: grid;
+    grid-template-rows: 3rem 6rem;
+
+    background-color: $bgc;
+    .create-issue-tab {
+      display: none;
+    }
+
+    .editable-input {
+      height: 2rem;
+      text-align: left;
+    }
+  }
+
+  .column:hover {
+    .create-issue-tab {
+      display: block;
+      display: flex;
+      text-align: bottom;
+      padding-top: 1rem;
+      font-size: inherit;
+      height: 2.25rem;
+      .create-issue-tab-icon {
+        padding-bottom: 0.5rem;
+        font-size: inherit;
+        padding-right: 0.5rem;
+      }
+    }
+  }
+}

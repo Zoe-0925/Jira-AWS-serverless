@@ -76,7 +76,7 @@ export function TextareaWithActionBtns({ isSubmitting, handleChange, handleCance
         <Container>
             <Row>
                 <TextareaAutosize
-                    className="input-form"
+                    className="textarea"
                     name="description"
                     type="text"
                     variant="outlined"
@@ -93,13 +93,8 @@ export function TextareaWithActionBtns({ isSubmitting, handleChange, handleCance
 export function EditableText({ edit, text, setEdit, className, ...props }) {
 
     return (
-        <Fragment>
-            {edit ? props.children : <ListItem button key={uuidv4()} onClick={() => {
-                setEdit(true)
-            }}>
-                <p className={className ? className : "no-class"}> {text}</p>
-            </ListItem>
-            }
-        </Fragment>
+        <div className={"editable " + className}>
+            {edit ? props.children : <p onClick={() => setEdit(true)}>{text}</p>}
+        </div>
     )
 }

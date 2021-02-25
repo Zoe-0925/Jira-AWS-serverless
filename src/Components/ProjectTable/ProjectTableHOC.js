@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { setCurrentProject, chainDeleteProject } from "../../Actions/project.actions"
-import { selectAllUsers, selectAllProjects, selectLoading } from "../../Reducers/Selectors"
+import { selectUsers, selectAllProjects, selectLoading } from "../../Reducers/Selectors"
 import history from "../../history"
 import { v4 as uuidv4 } from 'uuid'
 import ProjectTable from "./ProjectTable"
@@ -9,7 +9,7 @@ import ProjectTable from "./ProjectTable"
 export default function ProjectTableHOC() {
     const loading = useSelector(selectLoading)
     let projects = useSelector(selectAllProjects)
-    const users = useSelector(selectAllUsers)
+    const users = useSelector(selectUsers)
 
     const dispatch = useDispatch()
 

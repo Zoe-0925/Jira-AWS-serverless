@@ -22,46 +22,45 @@ export const MyListItem = ({ color, handleClick, id, selected, primary, children
 /**
  * @param CurentLocation: enum ("roadmap", "board", "detail")
  */
-export const DrawerLinks = ({ currentLocation }) => (
-    <Fragment>
-        <List>
-            <MyListItem color={currentLocation !== "roadmap" ? "inherit" : "primary"} handleClick={() => history.push("/projects/roadmap")}
-                id="Roadmap" selected={currentLocation === "roadmap"} primary="Roadmap">
-                <ClearAllIcon />
-            </MyListItem>
-            <MyListItem color={currentLocation !== "board" ? "inherit" : "primary"} handleClick={() => history.push("/projects/board")}
-                id="Board" selected={currentLocation === "board"} primary="Board">
-                <AssignmentIcon />
-            </MyListItem>
-            <MyListItem color={currentLocation !== "detail" ? "inherit" : "primary"} handleClick={() => history.push("/projects/settings/details")}
-                id="Project Details" selected={currentLocation === "detail"} primary="Project Settings">
-                <SettingsIcon />
-            </MyListItem>
-        </List>
-    </Fragment>
-)
-
-export const ProjectSetting = ({ currentLocation }) => (
-    <Fragment>
-        <MyListItem color={currentLocation !== "detail" ? "inherit" : "primary"} handleClick={() => history.push("/projects")}
-            id="Project Details" selected={currentLocation === "detail"} primary="Project Settings">
-            <ArrowBackRoundedIcon />
-        </MyListItem>
-        <Divider />
-        <ListItemText primary="Issue Types" />
-        <MyListItem color="inherit" handleClick={() => { }}
-            id="Epics" selected={false} primary="Epics">
-            <OpenInBrowserIcon />
-        </MyListItem>
-        <Divider />
-        <MyListItem className="list-item" color="inherit" handleClick={() => { }}
-            id="Tasks" selected={false} primary="Tasks">
-            <CheckBoxIcon />
-        </MyListItem>
-        <Divider />
-        <MyListItem className="list-item" color="inherit" handleClick={() => { }}
-            id="Subtasks" selected={false} primary="Subtasks">
-            <AllInboxIcon />
-        </MyListItem>
-    </Fragment>
-)
+export const DrawerLinks = ({ type, currentLocation }) => {
+    return type === "board" ? (
+        <Fragment>
+            <List>
+                <MyListItem color={currentLocation !== "roadmap" ? "inherit" : "primary"} handleClick={() => history.push("/projects/roadmap")}
+                    id="Roadmap" selected={currentLocation === "roadmap"} primary="Roadmap">
+                    <ClearAllIcon />
+                </MyListItem>
+                <MyListItem color={currentLocation !== "board" ? "inherit" : "primary"} handleClick={() => history.push("/projects/board")}
+                    id="Board" selected={currentLocation === "board"} primary="Board">
+                    <AssignmentIcon />
+                </MyListItem>
+                <MyListItem color={currentLocation !== "detail" ? "inherit" : "primary"} handleClick={() => history.push("/projects/settings/details")}
+                    id="Project Details" selected={currentLocation === "detail"} primary="Project Settings">
+                    <SettingsIcon />
+                </MyListItem>
+            </List>
+        </Fragment>
+    ) : (
+            <Fragment>
+                <MyListItem color={currentLocation !== "detail" ? "inherit" : "primary"} handleClick={() => history.push("/projects")}
+                    id="Project Details" selected={currentLocation === "detail"} primary="Project Settings">
+                    <ArrowBackRoundedIcon />
+                </MyListItem>
+                <Divider />
+                <ListItemText primary="Issue Types" />
+                <MyListItem color="inherit" handleClick={() => { }}
+                    id="Epics" selected={false} primary="Epics">
+                    <OpenInBrowserIcon />
+                </MyListItem>
+                <Divider />
+                <MyListItem className="list-item" color="inherit" handleClick={() => { }}
+                    id="Tasks" selected={false} primary="Tasks">
+                    <CheckBoxIcon />
+                </MyListItem>
+                <Divider />
+                <MyListItem className="list-item" color="inherit" handleClick={() => { }}
+                    id="Subtasks" selected={false} primary="Subtasks">
+                    <AllInboxIcon />
+                </MyListItem>
+            </Fragment>)
+}

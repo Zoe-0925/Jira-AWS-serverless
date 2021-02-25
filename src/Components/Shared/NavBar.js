@@ -91,9 +91,7 @@ export default function NavBar({ openDrawer }) {
     const classes = useStyles();
     const [isCreateProjectOpen, setOpenCreateProject] = useState(false)
 
-    const handleSignOut = async () => {
-        //TODO 
-    }
+    const handleSignOut = async () => history.push("/projects/")
 
     return (
         <div className={classes.grow + " nav-bar"} >

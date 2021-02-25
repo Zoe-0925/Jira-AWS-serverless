@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux"
 import { useDotIconMenu } from "../Shared/CustomHooks"
 import { chainDeleteIssue, updateIssueAttribute } from "../../Actions/issue.actions"
 import IssueCard from "./IssueCard"
 
-const IssueCardHOC = ({ issue }) => {
+const IssueCardHOC = ({ issue, handleClick }) => {
     const dispatch = useDispatch()
     // eslint-disable-next-line
     const { anchorEl, isOpen, anchorRef, handleMenuClose, handleMenuOpen } = useDotIconMenu()
@@ -29,10 +29,13 @@ const IssueCardHOC = ({ issue }) => {
         dispatch(updateIssueAttribute({ _id: issue._id, attribute: "flag", value: !issue.flag }))
     }
 
-    return (!issue ? <div></div> : <IssueCard issue={issue} handleDeleteIssue={handleDeleteIssue}
-        isOpen={isOpen} anchorRef={anchorRef} handleMenuOpen={handleMenuOpen} 
-        handleMenuClose={handleMenuClose} toggleFlag={toggleFlag} reorderToBotttom={reorderToBotttom}
-    />)
+    return (!issue ? <div></div> : (
+        <>
+            <IssueCard issue={issue} handleDeleteIssue={handleDeleteIssue} handleClick={handleClick}
+                isOpen={isOpen} anchorRef={anchorRef} handleMenuOpen={handleMenuOpen}
+                handleMenuClose={handleMenuClose} toggleFlag={toggleFlag} reorderToBotttom={reorderToBotttom}
+            />
+        </>))
 }
 
 export default IssueCardHOC

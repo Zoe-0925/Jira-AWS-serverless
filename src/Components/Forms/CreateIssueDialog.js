@@ -8,7 +8,7 @@ import { SuccessfulFeedback } from "../Shared/Feedback"
 import CreateIssueForm from "./CreateIssueForm"
 import { MyDialog } from "../Shared/Dialog"
 
-export default function CreatIssueDialog() {
+export default function CreateIssueDialog() {
     const dispatch = useDispatch()
     const defaultStatusId = useSelector(selectFirstStatus)
     const [open, setOpen] = useState(false)
@@ -20,21 +20,20 @@ export default function CreatIssueDialog() {
             _id: uuidv4(), status: defaultStatusId, issueType: "task",
             labels: [], assignee: "", reporter: "", ...value
         }
-        if (issue.issueTye === "epic") {
-            const today = new Date()
-            issue.startDate = JSON.stringify(today)
-            issue.dueDate = JSON.stringify(today.setMonth(today.getMonth() + 1))
-            if (issue.project === "") { issue.project = projects[0]._id }
-            dispatch(chainCreateIssueAndUpdateIssueOrder(issue)).then(
-                result => {
-                    if (result) {
-                        setSuccessful(true)
-                    }
+        const today = new Date()
+        issue.startDate = JSON.stringify(today)
+        issue.dueDate = JSON.stringify(today.setMonth(today.getMonth() + 1))
+        if (issue.project === "") { issue.project = projects[0]._id }
+        dispatch(chainCreateIssueAndUpdateIssueOrder(issue)).then(
+            result => {
+                if (result) {
+                    setSuccessful(true)
                 }
-            )
-            setOpen(false)
-        }
+            }
+        )
+        setOpen(false)
     }
+
 
     return (
         <Fragment>

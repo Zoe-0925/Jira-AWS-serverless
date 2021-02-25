@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import AddIcon from '@material-ui/icons/Add';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import {
@@ -7,6 +7,7 @@ import {
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import CloseIcon from '@material-ui/icons/Close';
 import { v4 as uuidv4 } from 'uuid'
+import { Col } from "reactstrap"
 
 export function AddTab({ operationName, handleClick, className }) {
     return (
