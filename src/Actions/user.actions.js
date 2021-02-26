@@ -41,7 +41,7 @@ export function addOtherUsers(data) {
 export const mockgetUserAndProjectData = () => async (dispatch) => {
     try {
         dispatch({ type: LOADING })
-        const user = { _id: "tsidadsjkdhiueiurt", name: "Zoe Zhang", email: "jin0925aki@gmail.com", avator: "https://cdn.pixabay.com/photo/2016/06/15/23/20/woman-1460150_960_720.jpg" }
+        const user = { _id: "tsidadsjkdhiueiurt", name: "Zoe Zhang", email: "jin0925aki@gmail.com", avatar: "https://cdn.pixabay.com/photo/2016/06/15/23/20/woman-1460150_960_720.jpg" }
         await Promise.all([
             dispatch(login(user)),
             dispatch(mockgetAllProjects())
@@ -51,8 +51,8 @@ export const mockgetUserAndProjectData = () => async (dispatch) => {
         const dateString = JSON.stringify(now)
         await Promise.all([
             dispatch(addOtherUsers([
-                { _id: "user2", name: "Jay Harris", email: "jayharris@gmail.com", avator: "https://cdn.pixabay.com/photo/2020/06/02/08/30/man-5249991_960_720.jpg" },
-                { _id: "user3", name: "Stacy McGram", email: "stacymcgram@gmail.com", avator: "https://cdn.pixabay.com/photo/2019/10/04/13/40/woman-4525714_960_720.jpg" }
+                { _id: "user2", name: "Jay Harris", email: "jayharris@gmail.com", avatar: "https://cdn.pixabay.com/photo/2020/06/02/08/30/man-5249991_960_720.jpg" },
+                { _id: "user3", name: "Stacy McGram", email: "stacymcgram@gmail.com", avatar: "https://cdn.pixabay.com/photo/2019/10/04/13/40/woman-4525714_960_720.jpg" }
             ])),
             dispatch({
                 type: APPEND_ISSUES,

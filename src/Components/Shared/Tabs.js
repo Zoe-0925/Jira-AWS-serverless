@@ -81,9 +81,3 @@ export const DropDownMenu = ({ anchorEl, isOpen, handleMenuClose, children }) =>
         {children}
     </Menu>
 )
-
-export const MyAvatar = (id = "", name = "", src = "", handleClick) => (
-    <Tooltip key={name} title={name} aria-label={name}>
-        <Avatar onClick={() => handleClick(id)} style={{ cursor: "pointer" }} alt={name} src={src} sizes="1.3rem" />
-    </Tooltip>
-)
