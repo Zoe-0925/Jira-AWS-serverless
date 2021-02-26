@@ -51,3 +51,22 @@ export const filterByEpic = (issues, epicIds) => {
     })
     return result // a list of issueIds
 }
+
+export const searchBySummary = (query, list = []) => list.length > 0 ? list.filter(item => item.summary.includes(query)) : []
+
+export const findItemById = (list = [], id = "") => {
+    return list.find(item => item._id === id)
+}
+
+export const handleDrag = ({ sInd, dInd, statusUpdated }) => {
+    const sourceStatus = statusUpdated[sInd]
+    const destinationStatus = statusUpdated[dInd]
+    if (sInd === dInd) {
+        const issuesReordered = reorder(sourceStatus.issues, sInd, dInd)
+        statusUpdated[sInd].issues = issuesReordered
+    } else {
+        const [removedToMove] = sourceStatus.issues.splice(sInd, 1)
+        destinationStatus.issues.splice(dInd, 0, removedToMove)
+    }
+    return statusUpdated
+}

@@ -40,6 +40,15 @@
 @media (max-width: 415px) {
   .issue-detail-form {
     width: 100%;
+
+    .label {
+      margin: 24px 0px 5px;
+      text-transform: uppercase;
+      color: rgb(94, 108, 132);
+      font-size: 12.5px;
+      font-family: CircularStdBold;
+      font-weight: normal;
+    }
   }
 }
 //TODO move this outside the  .issue-detail-form
@@ -49,6 +58,15 @@
     padding-right: 1.5rem;
     text-align: left;
     max-height: 43.75rem;
+
+    .label {
+      margin: 24px 0px 5px;
+      text-transform: uppercase;
+      color: rgb(94, 108, 132);
+      font-size: 12.5px;
+      font-family: CircularStdBold;
+      font-weight: normal;
+    }
   }
 
   .editable-input {
@@ -189,4 +207,3 @@
   padding-left: 1.5rem;
   padding-top: 1.5rem;
 }
-

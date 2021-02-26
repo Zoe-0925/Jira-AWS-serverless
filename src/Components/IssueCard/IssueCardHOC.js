@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux"
-import { useDotIconMenu } from "../Shared/CustomHooks"
+import { useDotIconMenu } from "../Hooks/Hooks"
 import { chainDeleteIssue, updateIssueAttribute } from "../../Actions/issue.actions"
 import IssueCard from "./IssueCard"
 

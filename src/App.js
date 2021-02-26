@@ -1,5 +1,6 @@
 import { hot } from 'react-hot-loader/root';
 import React from 'react';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 /**     Router    */
 import { Router } from 'react-router-dom';
 import { Switch, Route } from "react-router-dom";

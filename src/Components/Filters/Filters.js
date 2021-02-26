@@ -1,16 +1,14 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux"
-import IssueFilter from "./IssueFilter"
-import GroupBy from "./GroupBy"
+import IssueSearchBox from "./IssueSearchBox"
 import FilterButton from "./FilterButton"
-import { selectEpics, selectLabels, selectUsers, selectCurrentUserId } from '../../Reducers/Selectors';
 import { v4 as uuidv4 } from 'uuid'
 import { Row } from 'reactstrap';
 import { Tooltip, Avatar ,Button , Divider} from '@material-ui/core';
 
-const Filters = ({ users, handleUserFilter,  handleFilterByCurrentUser, handleClearFilter}) => {
+const Filters = ({ users, handleUserFilter, handleQuery, handleFilterByCurrentUser, handleClearFilter}) => {
     const [filters, setFilter] = useState({ filtered: false, users: [], currentUser:false, issueId: ""})
-   
+ 
+    
    //const labels = useSelector(selectLabels)
    // const epics = useSelector(selectEpics)
   
@@ -19,7 +17,7 @@ const Filters = ({ users, handleUserFilter,  handleFilterByCurrentUser, handleCl
    handleFilterByCurrentUser()
  }
 
-    const setUserFilter = id => {
+    const setUserFilter = (id) => {
         let newFilters = {...filters, filtered:true,currentUser:false }
         if(filters.users.includes(id)){ //Toggle remove the user id
             newFilters.users=newFilters.users.filter(userId => userId!==id) 
@@ -27,7 +25,7 @@ const Filters = ({ users, handleUserFilter,  handleFilterByCurrentUser, handleCl
             newFilters.users.push(id)
         }
         setFilter(newFilters)
-        handleUserFilter(newFilters.users)
+        handleUserFilter(newFilters.users)  
     }
 
     const clearFilter = ()=>{
@@ -35,15 +33,17 @@ const Filters = ({ users, handleUserFilter,  handleFilterByCurrentUser, handleCl
         handleClearFilter()
     }
 
-    const avatars =  users.map(user => (
+    const avatars = users.map(user => {
+       return (
         <Tooltip key={user.name} title={user.name} aria-label={user.name}>
-        <Avatar className="avatar" onClick={() => setUserFilter(user._id)} style={{ cursor: "pointer" }} alt={user.name} src={user.avatar} sizes="1.3rem" />
+        <Avatar className="avatar" onClick={()=>setUserFilter(user._id)} style={{ cursor: "pointer" }} alt={user.name} src={user.avatar}/>
     </Tooltip>
-    ))
+    )
+        })
 
     return (
         <Row key={uuidv4()} className="filter-row">
-            <IssueFilter className="issue-search" />
+            <IssueSearchBox handleQuery={handleQuery} className="issue-search" />
             {avatars}
             <Button className="filter-btn" onClick={filterByCurrentUser}>Only My Issues</Button>
         {filters.filtered &&   ( 
@@ -51,7 +51,6 @@ const Filters = ({ users, handleUserFilter,  handleFilterByCurrentUser, handleCl
             <Divider className="vertical-divider" orientation="vertical" flexItem/>
             <Button className="filter-btn" onClick={clearFilter}>Clear All</Button>
             </> )   }
-          <GroupBy className="item-5" />
         </Row>
     )
 }

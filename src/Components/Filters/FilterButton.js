@@ -1,8 +1,8 @@
 import React, { useState,  Fragment } from 'react'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Button,  MenuItem, FormGroup, FormControlLabel, Checkbox} from '@material-ui/core'
-import { useDotIconMenu } from "../Shared/CustomHooks"
-import { DropDownMenu } from "../Shared/Tabs"
+import { useDotIconMenu } from "../Hooks/Hooks"
+import { DropDownMenu } from "../Buttons/IconButtons"
 
 // eslint-disable-next-line
 export default function FilterButton({ data = [], buttonName, label, handleSelect }) {

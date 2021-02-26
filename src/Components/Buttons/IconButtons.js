@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import AddIcon from '@material-ui/icons/Add';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import {
-    Typography, Menu, ListItem, IconButton, Tooltip, Avatar
+    Typography, Menu, ListItem, IconButton
 } from '@material-ui/core';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import CloseIcon from '@material-ui/icons/Close';

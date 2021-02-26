@@ -48,8 +48,8 @@ export const chainReorder = (sourceStatus, startIndex, endIndex) => async (dispa
 export const chainMove = (sourceStatus, destinationStatus, startIndex, endIndex) => async (dispatch) => {
     dispatch({ type: LOADING })
     try {
-        let sourceIssueorder = sourceStatus.issues.map(each=>each._id)
-        let destinationIssueorder = destinationStatus.issues.map(each=>each._id)
+        let sourceIssueorder = sourceStatus.issues
+        let destinationIssueorder = destinationStatus.issues
         const [removedToMove] = sourceIssueorder.splice(startIndex, 1);
         destinationIssueorder.splice(endIndex, 0, removedToMove)
         const sourceUpdated = { _id: sourceStatus._id, value: sourceIssueorder, attribute: "issues" }

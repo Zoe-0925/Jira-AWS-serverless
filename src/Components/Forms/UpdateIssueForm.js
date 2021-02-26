@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from "react-redux"
-import { IssueSummaryInput, IssueDescriptionInput } from "../Issues/IssueInputsFields"
+import { IssueSummaryInput, IssueDescriptionInput } from "../EditableInput/IssueInputsFields"
 import IssueAddEpic from "../Issues/IssueAddEpic"
 import { Row, Col } from 'reactstrap';
 import { Divider, Breadcrumbs, IconButton } from '@material-ui/core';

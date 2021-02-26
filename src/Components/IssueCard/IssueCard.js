@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { Container, Row, Col } from 'reactstrap';
 import { Avatar, Tooltip, MenuItem, Box } from '@material-ui/core';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
-import { DotIconMenu } from "../Shared/Tabs"
+import { DotIconMenu } from "../Buttons/IconButtons"
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(() => ({

@@ -1,11 +1,9 @@
 import React from 'react';
 import { useSelector } from "react-redux"
 import { selectCurrentProjectName } from "../../Reducers/Selectors"
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { Drawer, IconButton } from '@material-ui/core';
-import { ProjectHeaderTab } from "../Shared/Tabs"
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import { makeStyles } from '@material-ui/core/styles';
+import { Drawer } from '@material-ui/core';
+import { ProjectHeaderTab } from "../Buttons/IconButtons"
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Row } from "reactstrap"
 

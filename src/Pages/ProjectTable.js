@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from "react-redux"
 import ProjectListTableHOC from "../Components/ProjectTable/ProjectTableHOC"
-import NavBar from "../Components/Shared/NavBar"
+import NavBar from "../Components/NavBar/NavBar"
 import { Row, Col } from "reactstrap"
 import { selectCurrentUserId } from "../Reducers/Selectors"
 import { mockgetUserAndProjectData } from "../Actions/user.actions"

@@ -4,11 +4,11 @@ import { useDispatch } from "react-redux"
 import { updateStatusAttribute, deleteStatus } from "../../Actions/status.actions"
 /**--------------UI-------------- */
 import { MenuItem } from '@material-ui/core';
-import { DotIconMenu } from "../Shared/Tabs"
-import { EditableText, Input } from "../Shared/EditableText"
-import { WarningFeedback } from "../Shared/Feedback"
+import { DotIconMenu } from "../Buttons/IconButtons"
+import { EditableText, Input } from "../EditableInput/EditableInput"
+import { WarningFeedback } from "../Feedback/Feedback"
 /**--------------Util-------------- */
-import { useEditText, useDotIconMenu } from '../Shared/CustomHooks';
+import { useEditText, useDotIconMenu } from '../Hooks/Hooks';
 
 const ColumnTitle = ({ id = "", name = "" }) => {
     const { state, setState, edit, setEdit } = useEditText(name)

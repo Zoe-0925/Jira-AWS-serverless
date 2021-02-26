@@ -5,7 +5,7 @@ import { Divider, Typography } from '@material-ui/core';
 import * as Yup from 'yup';
 import { FormSelectField, FormTextField, FormTextAreaField } from "./FormFields"
 import { selectAllProjects } from "../../Reducers/Selectors"
-import { DialogContentContainer } from "../Shared/Dialog"
+import { DialogContentContainer } from "../Dialog/Dialog"
 
 const CreateIssueForm = props => {
     const {

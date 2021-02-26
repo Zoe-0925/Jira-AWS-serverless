@@ -5,11 +5,11 @@ import { chainCreateIssueAndUpdateIssueOrder } from "../../Actions/issue.actions
 import { selectLoading } from '../../Reducers/Selectors';
 /**--------------UI-------------- */
 import { CircularProgress } from '@material-ui/core';
-import { AddTab } from "../Shared/Tabs"
-import { Input } from "../Shared/EditableText"
+import { AddTab } from "../Buttons/IconButtons"
+import { Input } from "../EditableInput/EditableInput"
 import ColumnTitle from "./ColumnTitle"
 /**--------------Util-------------- */
-import { useEditText } from '../Shared/CustomHooks';
+import { useEditText } from '../Hooks/Hooks';
 import { v4 as uuidv4 } from 'uuid'
 import Issue from "../Issues/Issue"
 

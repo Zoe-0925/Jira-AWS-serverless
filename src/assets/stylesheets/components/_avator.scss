@@ -12,7 +12,9 @@
   }
 }
 
-.avatar:hover {
+.avatar:hover,
+.avator-clicked,
+.avator-clicked:hover {
   width: 3rem;
   height: 3rem;
   border: 3px solid;

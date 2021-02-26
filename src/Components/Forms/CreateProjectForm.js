@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import { Form } from 'formik';
 import { withFormik } from 'formik';
 import { Typography, Button } from '@material-ui/core';
-import { DialogCloseIcon } from "../Shared/Tabs"
+import { DialogCloseIcon } from "../Buttons/IconButtons"
 import { FormTextField } from "./FormFields"
 
 export const CreateProjectForm = ({

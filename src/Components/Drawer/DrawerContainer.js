@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Drawer from "./Drawer"
 import { DrawerLinks } from "./DrawerLinks"
-import NavBar from "../Shared/NavBar"
+import NavBar from "../NavBar/NavBar"
 
 const DrawerContainer = ({ type = "", currentLocation = "", ...props }) => {
     const [open, setOpen] = useState(true);

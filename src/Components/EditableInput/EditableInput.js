@@ -1,8 +1,7 @@
-import React, { Fragment } from 'react'
-import { ListItem, TextareaAutosize } from '@material-ui/core';
-import { v4 as uuidv4 } from 'uuid'
+import React from 'react'
+import { TextareaAutosize } from '@material-ui/core';
 import { Container, Row } from "reactstrap"
-import { SubmitCancelButtonSet } from "../Shared/Buttons"
+import { SubmitCancelButtonSet } from "../Buttons/Buttons"
 
 export function Input({ state, setState, setEdit, handleSubmit }) {
 
@@ -98,3 +97,20 @@ export function EditableText({ edit, text, setEdit, className, ...props }) {
         </div>
     )
 }
+
+
+
+
+export const EditableInput = ({
+    state,
+    edit,
+    setEdit,
+    className,
+    name,
+    handleUpdate
+}) => (
+        <EditableText className={className} name={name}
+            setEdit={setEdit} edit={edit} text={state.value}>
+            <Input state={state} setState={handleUpdate} setEdit={setEdit} />
+        </EditableText>
+    )

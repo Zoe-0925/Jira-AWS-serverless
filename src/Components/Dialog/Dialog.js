@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
 import { Form } from 'formik';
 import { DialogActions, Dialog } from '@material-ui/core';
-import { DialogCloseIcon } from "../Shared/Tabs"
-import { SubmitCancelButtonSet } from "../Shared/Buttons"
+import { DialogCloseIcon } from "../Buttons/IconButtons"
+import { SubmitCancelButtonSet } from "../Buttons/Buttons"
 import { Row, Col } from 'reactstrap';
 
 

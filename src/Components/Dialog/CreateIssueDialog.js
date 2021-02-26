@@ -4,9 +4,9 @@ import { v4 as uuidv4 } from 'uuid'
 import { Button } from '@material-ui/core';
 import { selectAllProjects, selectFirstStatus } from "../../Reducers/Selectors"
 import { chainCreateIssueAndUpdateIssueOrder } from "../../Actions/issue.actions"
-import { SuccessfulFeedback } from "../Shared/Feedback"
-import CreateIssueForm from "./CreateIssueForm"
-import { MyDialog } from "../Shared/Dialog"
+import { SuccessfulFeedback } from "../Feedback/Feedback"
+import CreateIssueForm from "../Forms/CreateIssueForm"
+import { MyDialog } from "./Dialog"
 
 export default function CreateIssueDialog() {
     const dispatch = useDispatch()

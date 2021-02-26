@@ -1,9 +1,10 @@
 import React from 'react'
 import { useDispatch, useSelector } from "react-redux"
-import { EditableText, Input, TextareaWithActionBtns } from "../Shared/EditableText"
-import { useEditText } from "../Shared/CustomHooks"
+import { EditableText, TextareaWithActionBtns } from "../EditableInput/EditableInput"
+import { useEditText } from "../Hooks/Hooks"
 import { selectLoading } from '../../Reducers/Selectors';
 import { updateIssueAttribute } from '../../Actions/issue.actions';
+import { EditableInput } from "./EditableInput"
 
 export function IssueSummaryInput({ id, summary }) {
     const { state, setState, edit, setEdit } = useEditText(summary)
@@ -21,15 +22,13 @@ export function IssueSummaryInput({ id, summary }) {
     }
 
     return (
-        <EditableText className="issue-summary" name="issue-summary"
-            setEdit={setEdit} edit={edit} text={state.value}>
-            <Input state={state} setState={updateSummary} setEdit={setEdit} />
-        </EditableText>
+        <EditableInput className="issue-summary" name="issue-summary" setEdit={setEdit}
+            edit={edit} text={state.value} state={state} handleUpdate={updateSummary} setEdit={setEdit} />
     )
 }
 
 export function IssueDescriptionInput({ id, description }) {
-    const { state, setState, edit, setEdit } = useEditText(description!==""?description:"Add a description...")
+    const { state, setState, edit, setEdit } = useEditText(description !== "" ? description : "Add a description...")
     const dispatch = useDispatch()
 
     const updateDesciption = () => {

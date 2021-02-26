@@ -7,9 +7,9 @@ import {Button, InputLabel, Dialog} from '@material-ui/core';
 import * as Yup from 'yup';
 import { selectEpics } from "../../Reducers/Selectors"
 import { updateIssueAttribute } from "../../Actions/issue.actions"
-import { SuccessfulFeedback } from "../Shared/Feedback"
+import { SuccessfulFeedback } from "../Feedback/Feedback"
 import CreateIcon from '@material-ui/icons/Create';
-import { DialogContentContainer } from "../Shared/Dialog"
+import { DialogContentContainer } from "../Dialog/Dialog"
 
 const IssueAddEpicForm = props => {
     const {
