@@ -1,5 +1,5 @@
 import {
-	UPDATE_USER, LOGIN, LOGOUT, ADD_OTHER_USERS, CLEAR
+	LOGIN, LOGOUT, ADD_OTHER_USERS, CLEAR
 } from "../Actions/user.actions"
 
 const initialState = {
@@ -20,11 +20,6 @@ const UserReducer = (state = initialState, action) => {
 			return newState
 		case LOGOUT:
 			return initialState
-		case UPDATE_USER:
-			let tempUsers = newState.users.filter(item => item._id === action.data._id)
-			tempUsers.push(action.data)
-			newState.users = tempUsers
-			return newState
 		case CLEAR:
 			return initialState
 		default:

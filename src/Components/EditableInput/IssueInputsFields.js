@@ -3,8 +3,9 @@ import { useDispatch, useSelector } from "react-redux"
 import { EditableText, TextareaWithActionBtns } from "../EditableInput/EditableInput"
 import { useEditText } from "../Hooks/Hooks"
 import { selectLoading } from '../../Reducers/Selectors';
-import { updateIssueAttribute } from '../../Actions/issue.actions';
+import { updateTaskAttribute } from '../../Actions/issue.actions';
 import { EditableInput } from "./EditableInput"
+import { generateDateString } from "../Util"
 
 export function IssueSummaryInput({ id, summary }) {
     const { state, setState, edit, setEdit } = useEditText(summary)
@@ -13,11 +14,7 @@ export function IssueSummaryInput({ id, summary }) {
     const updateSummary = (value) => {
         if (state.value !== state.backup) {
             setState(value)
-
-
-            //TODO
-            //need updatedAt
-            dispatch(updateIssueAttribute({ _id: id, attribute: "summary", value: value.value }))
+            dispatch(updateTaskAttribute({ _id: id, attribute: "summary", updatedAt: generateDateString(), value: value.value }))
         }
     }
 
@@ -32,13 +29,8 @@ export function IssueDescriptionInput({ id, description }) {
     const dispatch = useDispatch()
 
     const updateDesciption = () => {
-        if (state.value !== state.backup) {
-
-
-            //TODO
-            //Need updatedAt
-            setTimeout(dispatch(updateIssueAttribute({ _id: id, attribute: "description", value: state.value })), 1000)
-        }
+        console.log("saved")
+        dispatch(updateTaskAttribute({ _id: id, attribute: "description", updatedAt: generateDateString(), value: state.value }))
     }
 
     const loading = useSelector(selectLoading)
@@ -52,7 +44,7 @@ export function IssueDescriptionInput({ id, description }) {
         <EditableText name="issue-description" className="issue-description"
             setEdit={setEdit} edit={edit} text={state.value} >
             <TextareaWithActionBtns isSubmitting={loading} handleChange={value => setState(value)}
-                handleCancel={cancel} handleSave={updateDesciption} />
+                handleCancel={cancel} handleSave={updateDesciption} value={description} />
         </EditableText>
     )
 }

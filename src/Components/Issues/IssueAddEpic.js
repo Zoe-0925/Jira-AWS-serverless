@@ -5,8 +5,8 @@ import { withFormik } from 'formik';
 import Select from 'react-select';
 import {Button, InputLabel, Dialog} from '@material-ui/core';
 import * as Yup from 'yup';
-import { selectEpics } from "../../Reducers/Selectors"
-import { updateIssueAttribute } from "../../Actions/issue.actions"
+//import { selectEpics } from "../../Reducers/Selectors"
+import { updateTaskAttribute } from "../../Actions/issue.actions"
 import { SuccessfulFeedback } from "../Feedback/Feedback"
 import CreateIcon from '@material-ui/icons/Create';
 import { DialogContentContainer } from "../Dialog/Dialog"
@@ -19,7 +19,8 @@ const IssueAddEpicForm = props => {
         isSubmitting,
     } = props
 
-    const epics = useSelector(selectEpics)
+    const epics = []
+    //useSelector(selectEpics)
 
     const epicOptions = epics.map(each => {
         return {
@@ -67,7 +68,7 @@ const IssueAddEpic = ({ issueId }) => {
         //TODO 
         //Need last updated at.....
 
-        dispatch(updateIssueAttribute({ _id: issueId, attribute: "epic", value: value.epic })).then(
+        dispatch(updateTaskAttribute({ _id: issueId, attribute: "epic", value: value.epic })).then(
             result => {
                 if (result) {
                     setSuccessful(true)

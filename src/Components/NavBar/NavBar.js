@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { fade, makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import {
     AppBar, Button, IconButton, Toolbar,
 } from '@material-ui/core'
@@ -33,7 +33,7 @@ export const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function NavBar({ toggleDrawer }) {
+const NavBar = ({ toggleDrawer }) => {
     const classes = useStyles();
     const [isCreateProjectOpen, setOpenCreateProject] = useState(false)
 
@@ -76,3 +76,4 @@ export default function NavBar({ toggleDrawer }) {
     );
 }
 
+export default React.memo(NavBar)

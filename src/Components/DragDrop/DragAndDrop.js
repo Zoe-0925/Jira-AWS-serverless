@@ -4,10 +4,8 @@ import CreateStatusTab from "../StatusColumn/CreateStatusTab"
 import Column from "../StatusColumn/Column"
 import { v4 as uuidv4 } from 'uuid'
 import IssueCardHOC from "../IssueCard/IssueCardHOC";
-import IssueUpdateSkeleton from "../Forms/IssueUpdateSkeleton"
-import IssueDetailForm from "../Forms/UpdateIssueForm"
-import { MyDialog } from "../Dialog/Dialog"
-import { searchBySummary, findItemById } from "../Util"
+import { findItemById } from "../Util"
+import IssueDetailDialog from "../Dialog/UpdateIssueDIalog"
 
 const DragAndDrop = ({ status, filteredTasks }) => {
     const [isIssueDetailOpen, setOpen] = useState(false)
@@ -17,13 +15,6 @@ const DragAndDrop = ({ status, filteredTasks }) => {
         setOpen(true)
         setIssue(issue)
     }
-
-    const issueDetail = (
-        <MyDialog open={isIssueDetailOpen} handleClose={() => setOpen(false)} maxWidth={false} fullWidth={true}>
-            {!currentIssue ? <IssueUpdateSkeleton handleClose={() => setOpen(false)} />
-                : <IssueDetailForm issue={currentIssue} handleClose={() => setOpen(false)} />}
-        </MyDialog>
-    )
 
     return (
         <>
@@ -41,7 +32,8 @@ const DragAndDrop = ({ status, filteredTasks }) => {
                 )}
                 <CreateStatusTab />
             </div>
-            {isIssueDetailOpen && issueDetail}
+            {isIssueDetailOpen && <IssueDetailDialog currentIssue={currentIssue} handleClose={() => setOpen(false)} open={isIssueDetailOpen}
+            />}
         </>
     )
 }

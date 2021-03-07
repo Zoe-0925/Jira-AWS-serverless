@@ -1,35 +1,23 @@
-import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
+import { dispatchError, loadingContainer } from "./loading.actions"
+import { comments } from "../Data"
+import { v4 as uuidv4 } from 'uuid'
 
 export const CREATE_COMMENT = "CREATE_COMMENT"
+export const CLEAR_COMMENT = "CLEAR_COMMENT"
 export const DELETE_COMMENT = "DELETE_COMMENT"
 export const UPDATE_COMMENT_DESCRIPTION = "UPDATE_COMMENT_DESCRIPTION"
 export const APPEND_COMMENTS = "APPEND_COMMENTS"
-export const APPEND_COMMENTS_CHILDREN = "APPEND_COMMENTS_CHILDREN"
-export const DELETE_COMMENT_BY_PROJECT = "DELETE_COMMENT_BY_PROJECT"
-export const GET_COMMENT_BY_ID = "GET_COMMENT_BY_ID"
-export const GET_ALL_COMMENTS = "GET_ALL_COMMENTS"
 export const DELETE_COMMENT_BY_ISSUE = "DELETE_COMMENT_BY_ISSUE"
 
-/**********************************  Actions  ******************************************/
-
-
-export function deleteSuccessCommentByProject(id) {
-    return {
-        type: DELETE_COMMENT_BY_PROJECT,
-        id: id
-    }
-}
-
 /**********************************  Thunk Actions  ******************************************/
-export const getCommentsForIssue = (issueId) => async  dispatch => {
-    dispatch({ type: LOADING })
+
+export const getCommentsForIssue = (issueId) => async dispatch => {
     try {
-        const data = [] //TODO fix
-        dispatch({
+        const data = comments.filter(items => items.issue === issueId)
+        dispatch(loadingContainer({
             type: APPEND_COMMENTS,
             data: data
-        })
-        dispatch({ type: AUTHENTICATED })
+        }))
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -38,8 +26,8 @@ export const getCommentsForIssue = (issueId) => async  dispatch => {
 
 export const createComment = (newComment) => async dispatch => {
     try {
-        dispatch({ type: LOADING })
-        dispatch({ type: AUTHENTICATED })
+        const commentWithId = { ...newComment, _id: uuidv4() }
+        dispatch(loadingContainer({ type: CREATE_COMMENT, data: commentWithId }))
     } catch (err) {
         dispatch(dispatchError(err))
     }
@@ -47,9 +35,7 @@ export const createComment = (newComment) => async dispatch => {
 
 export const updateCommentDescription = (data) => async dispatch => {
     try {
-        dispatch({ type: LOADING })
-        dispatch(updateCommentDescription(data))
-        dispatch({ type: AUTHENTICATED })
+        dispatch(loadingContainer({ type: UPDATE_COMMENT_DESCRIPTION, data: data }))
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -58,9 +44,7 @@ export const updateCommentDescription = (data) => async dispatch => {
 
 export const deleteComment = (id) => async dispatch => {
     try {
-        dispatch({ type: LOADING })
-        dispatch(deleteCommentAction(id))
-        dispatch({ type: AUTHENTICATED })
+        dispatch(loadingContainer({ type: DELETE_COMMENT, id: id }))
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -68,42 +52,11 @@ export const deleteComment = (id) => async dispatch => {
 }
 
 //TODO
-export const deleteCommentByProject = (projectId) => async  dispatch => {
-
-}
-
-//TODO
-export const deleteCommentByIssue = (issueId) => async  dispatch => {
-    dispatch({ type: LOADING })
+export const deleteCommentByIssue = (issueId) => async dispatch => {
     try {
-        //TODO
-        //update batch write item and update the api call
-        dispatch({
-            type: "CLEAR_COMMENT"
-        })
+        dispatch(loadingContainer({  DELETE_COMMENT_BY_ISSUE, id: issueId }))
     }
     catch (err) {
         dispatch(dispatchError(err))
     }
-}
-
-export const createCommentAction = newComment => async dispatch => {
-    await dispatch({
-        type: CREATE_COMMENT,
-        data: newComment
-    })
-}
-
-export const updateCommentAction = data => async dispatch => {
-    await dispatch({
-        type: UPDATE_COMMENT_DESCRIPTION,
-        data: data
-    })
-}
-
-export const deleteCommentAction = id => async dispatch => {
-    await dispatch({
-        type: DELETE_COMMENT,
-        id: id
-    })
 }

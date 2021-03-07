@@ -49,4 +49,5 @@ const ProjectTable = ({ loading, projects, users, goToBoardPage, goToProjectDeta
     )
 }
 
-export default ProjectTable
+
+export default React.memo(ProjectTable);

@@ -19,4 +19,4 @@ const DrawerContainer = ({ type = "", currentLocation = "", ...props }) => {
     )
 }
 
-export default DrawerContainer
+export default React.memo(DrawerContainer)

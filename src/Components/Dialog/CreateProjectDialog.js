@@ -10,6 +10,7 @@ const CreateProjectDialog = ({ open, setOpen }) => {
     const dispatch = useDispatch()
     const userId = useSelector(selectCurrentUserId)
 
+    //TODO fix
     const submitForm = values => {
         const { project, statusList } = initiateProjectAndStatus(values, userId)
         dispatch(chainCreactProject(project, statusList))

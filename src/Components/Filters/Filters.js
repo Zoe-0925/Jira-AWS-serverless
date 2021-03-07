@@ -9,7 +9,7 @@ const Filters = ({ users, handleUserFilter, handleQuery, handleFilterByCurrentUs
     const [filters, setFilter] = useState({ filtered: false, users: [], currentUser:false, issueId: ""})
  
     
-   //const labels = useSelector(selectLabels)
+
    // const epics = useSelector(selectEpics)
   
  const filterByCurrentUser = ()=>{
@@ -58,12 +58,8 @@ const Filters = ({ users, handleUserFilter, handleQuery, handleFilterByCurrentUs
 export default Filters
 
  /**
-  *    const setLabelFilter = (newList) => {
-        setFilter({ ...filters, labels: newList })
-    }
-  * 
+
   * 
   *   {epics.length > 0 && <FilterButton key={uuidv4()} data={epics} buttonName="Epic" label="summary" handleSelect={setEpicFilter} />}
-            {labels.length > 0 && <FilterButton key={uuidv4()} data={labels} buttonName="Label" label="name" handleSelect={setLabelFilter} />}
-           
+            
   */

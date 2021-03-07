@@ -5,7 +5,7 @@ import { updateStatusAttribute, deleteStatus } from "../../Actions/status.action
 /**--------------UI-------------- */
 import { MenuItem } from '@material-ui/core';
 import { DotIconMenu } from "../Buttons/IconButtons"
-import { EditableText, Input } from "../EditableInput/EditableInput"
+import { EditableText, Input, EditableInput } from "../EditableInput/EditableInput"
 import { WarningFeedback } from "../Feedback/Feedback"
 /**--------------Util-------------- */
 import { useEditText, useDotIconMenu } from '../Hooks/Hooks';
@@ -37,4 +37,4 @@ const ColumnTitle = ({ id = "", name = "" }) => {
     )
 }
 
-export default ColumnTitle
+export default React.memo( ColumnTitle);

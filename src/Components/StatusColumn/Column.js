@@ -1,7 +1,7 @@
 import React from 'react'
 /**--------------Redux-------------- */
 import { useDispatch, useSelector } from "react-redux"
-import { chainCreateIssueAndUpdateIssueOrder } from "../../Actions/issue.actions"
+import { chainCreateIssue } from "../../Actions/issue.actions"
 import { selectLoading } from '../../Reducers/Selectors';
 /**--------------UI-------------- */
 import { CircularProgress } from '@material-ui/core';
@@ -20,7 +20,8 @@ const Column = ({ status = { _id: "", project: "", issues: [], name: "" }, child
 
     const handleSubmit = (value) => {
         let issue = Issue(value, status._id, status.project, "task")
-        dispatch(chainCreateIssueAndUpdateIssueOrder(issue, status.issues))
+        //Update
+        dispatch(chainCreateIssue(issue, status.issues))
         setEdit(false)
     }
 

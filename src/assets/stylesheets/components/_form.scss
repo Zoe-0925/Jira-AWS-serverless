@@ -1,31 +1,51 @@
+@import "abstracts/variables";
+
+.issue-detail-form {
+  .divider {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .left-container {
+    padding-left: 1rem;
+    width: 100%;
+    margin-top: 0px;
+    padding-top: 0px;
+
+    .editable-input {
+      font-size: 1.4rem;
+      font-weight: 530;
+      width: 100%;
+    }
+  }
+}
+
 .issue-form-in-modal {
   text-align: left;
+  width: 100%;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+
+  .label {
+    font-size: 0.9em;
+    font-style: roboto;
+    font-weight: 500;
+    letter-spacing: -0.003em;
+    margin-top: 1rem;
+    line-height: 1.5rem;
+    color: rgb(23, 43, 77);
+    overflow-wrap: break-word;
+    text-align: left;
+    padding-bottom: 0;
+  }
+
   .field {
     @include select;
   }
 }
 
-@media (max-width: 415px) {
-  .issue-form-in-modal {
-    width: 100%;
-
-    .form {
-      width: 100%;
-
-      #description {
-        @include label;
-        display: block;
-        margin-left: 5%;
-      }
-    }
-  }
-}
-
 @media (min-width: 416px) {
   .issue-form-in-modal {
-    width: 46.875rem;
-    padding: 1.5rem;
-
     .navbar-create-btn {
       @include call-to-action-button;
     }
@@ -36,11 +56,8 @@
   }
 }
 
-//TODO move this outside the  .issue-detail-form
 @media (max-width: 415px) {
-  .issue-detail-form {
-    width: 100%;
-
+  .issue-form-in-modal {
     .label {
       margin: 24px 0px 5px;
       text-transform: uppercase;
@@ -51,39 +68,19 @@
     }
   }
 }
-//TODO move this outside the  .issue-detail-form
+
 @media (min-width: 416px) {
   .issue-detail-form {
+    width: 90%;
     padding-left: 1.5rem;
     padding-right: 1.5rem;
     text-align: left;
     max-height: 43.75rem;
-
-    .label {
-      margin: 24px 0px 5px;
-      text-transform: uppercase;
-      color: rgb(94, 108, 132);
-      font-size: 12.5px;
-      font-family: CircularStdBold;
-      font-weight: normal;
-    }
   }
 
   .editable-input {
     height: 2rem;
     width: 100%;
-  }
-
-  .label {
-    font-size: 1em;
-    font-style: inherit;
-    font-weight: 600;
-    letter-spacing: -0.003em;
-    margin-top: 1rem;
-    line-height: 1.5rem;
-    color: rgb(23, 43, 77);
-    overflow-wrap: break-word;
-    text-align: left;
   }
 
   .time {
@@ -93,18 +90,6 @@
     margin-top: 0;
     font-size: 0.75rem;
     line-height: 1.33333;
-  }
-}
-
-.issue-detail-form {
-  .divider {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-  }
-
-  .left-container {
-    margin-left: 1.5rem;
-    width: 100%;
   }
 }
 
@@ -158,13 +143,18 @@
   }
 }
 
-.input-container {
-  @media (max-width: 415px) {
-    width: 100%;
-  }
+.field-container {
+  width: 100%;
 
-  @media (min-width: 416px) {
-    width: 21.875rem;
+  .label {
+    font-size: 0.9em;
+    font-style: roboto;
+    font-weight: 500;
+    letter-spacing: -0.003em;
+    line-height: 1.5rem;
+    color: #172b4d;
+    overflow-wrap: break-word;
+    text-align: left;
   }
 
   .field {
@@ -189,21 +179,76 @@
   padding: 0px;
 }
 
-.left-container {
-  margin-top: 0px;
-  padding-top: 0px;
-}
-
-.left-container {
-  .editable-input {
-    font-size: 1.4rem;
-    font-weight: 530;
-    width: 100%;
-  }
-}
-
 .title {
   @include title;
   padding-left: 1.5rem;
   padding-top: 1.5rem;
+}
+
+/**
+.label {
+  margin: 24px 0px 5px;
+  color: rgb(94, 108, 132);
+  font-size: 0.8rem;
+  font-family: CircularStdBold;
+  font-weight: 600;
+}
+
+*/
+
+.textarea,
+.editable-input {
+  outline: grey;
+}
+
+.label {
+  font-size: 0.9em;
+  font-style: roboto;
+  font-weight: 500;
+  letter-spacing: -0.003em;
+  margin-top: 1rem;
+  line-height: 1.5rem;
+  color: #172b4d;
+  overflow-wrap: break-word;
+  text-align: left;
+}
+
+/**
+The className structure looks like below.
+
+<div class="react-select-container">
+  <div class="react-select__control">
+    <div class="react-select__value-container">...</div>
+    <div class="react-select__indicators">...</div>
+  </div>
+  <div class="react-select__menu">
+    <div class="react-select__menu-list">
+      <div class="react-select__option">...</div>
+    </div>
+  </div>
+</div>
+*/
+.issue-detail-select{
+  .control {
+    background-color: blue;
+
+
+    .value-container {
+      width: 100%;
+    }
+
+    .indicators{
+      width: 100%;
+    }
+  }
+}
+
+.issue-detail-select-new{
+  .container{
+    width:100%;
+  }
+
+  .input{
+    background-color: blue;
+  }
 }

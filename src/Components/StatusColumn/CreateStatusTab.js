@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import AddBoxRoundedIcon from '@material-ui/icons/AddBoxRounded';
 import { useSelector, useDispatch } from "react-redux"
-import { chainCreateStatus } from "../../Actions/status.actions"
+import { createStatus } from "../../Actions/status.actions"
 import { selectCurrentProjectId, selectLoading } from "../../Reducers/Selectors"
 import { v4 as uuidv4 } from 'uuid'
-import {  CircularProgress } from '@material-ui/core';
+import { CircularProgress } from '@material-ui/core';
 
 export function EmptyColumn({ hide }) {
     const dispatch = useDispatch()
@@ -12,7 +12,7 @@ export function EmptyColumn({ hide }) {
     const currentProjectId = useSelector(selectCurrentProjectId)
 
     const handleSubmit = (value) => {
-        dispatch(chainCreateStatus({
+        dispatch(createStatus({
             _id: uuidv4(), name: value, project: currentProjectId, issues: []
         }))
         hide()
@@ -43,7 +43,7 @@ export function EmptyColumn({ hide }) {
     </div>)
 }
 
-export default function CreateStatusTab() {
+const CreateStatusTab = () => {
     const [showNewEditable, setShowEditable] = useState(false)
 
     return (
@@ -53,3 +53,5 @@ export default function CreateStatusTab() {
         </div>
     )
 }
+
+export default React.memo(CreateStatusTab);

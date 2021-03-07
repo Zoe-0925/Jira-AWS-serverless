@@ -10,7 +10,7 @@ export const DialogContentContainer = ({ handleClose, dialogClassName = "", titl
     <Fragment>
         <Row>
             <Col><p className="title">{title}</p></Col>
-            <Col md="auto"> <DialogCloseIcon handleClose={handleClose} /></Col>
+            <Col xs="auto"> <DialogCloseIcon handleClose={handleClose} /></Col>
         </Row>
         <div className={dialogClassName}>
             <p className="sub-title">{subtitle}</p>
@@ -24,12 +24,6 @@ export const DialogContentContainer = ({ handleClose, dialogClassName = "", titl
     </Fragment>
 )
 
-const dialogStyles = theme => ({
-    dialogCustomizedWidth: {
-        'max-width': '80%'
-    }
-});
-
 export const MyDialog = ({ open, handleClose, maxWidth, fullWidth = false, children, fullScreen = false }) => (
     <Fragment>
         <Dialog
@@ -39,12 +33,8 @@ export const MyDialog = ({ open, handleClose, maxWidth, fullWidth = false, child
             maxWidth={maxWidth}
             fullWidth={fullWidth}
             fullScreen={fullScreen}
-            className="dialog-container"
         >
             {children}
         </Dialog>
     </Fragment>
 )
-
-//TODO Fix dialog max width width
-//https://stackoverflow.com/questions/51781244/how-can-i-make-dialog-take-80-of-the-screen-in-material-ui/51782463

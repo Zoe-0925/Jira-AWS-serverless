@@ -9,3 +9,9 @@ export function dispatchError(data) {
         data: data
     }
 }
+
+export const loadingContainer = (action) => async dispatch => {
+    dispatch({ type: LOADING })
+    dispatch(action)
+    dispatch({ type: AUTHENTICATED })
+}

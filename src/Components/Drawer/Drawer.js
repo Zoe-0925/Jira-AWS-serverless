@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function SideDrawer({ handleClick, open, ...props }) {
+const SideDrawer = ({ handleClick, open, ...props }) => {
     const classes = useStyles();
     const title = useSelector(selectCurrentProjectName)
 
@@ -67,3 +67,4 @@ export default function SideDrawer({ handleClick, open, ...props }) {
     </div>
 }
 
+export default React.memo(SideDrawer)

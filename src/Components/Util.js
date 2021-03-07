@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from 'uuid'
 import format from 'date-fns/format'
 import parseJSON from 'date-fns/parseJSON'
+import { formatISO } from 'date-fns'
 
 export const initiateProjectAndStatus = (projectData, currentUserId) => {
     const projectId = uuidv4()
@@ -32,14 +33,12 @@ export const formatDate = dateString => {
     }
 }
 
-export const filterByLabel = (issues, labelIds) => {
-    let result = []
-    // eslint-disable-next-line
-    labelIds.map(labelId => {
-        let midResult = issues.filter(issue => issue.labels.includes(labelId))
-        if (midResult.length > 0) { result.concat(midResult.map(each => each._id)) }
-    })
-    return result // a list of issueIds
+export const generateDateString = () => {
+    try {
+        return formatISO(new Date(), { representation: 'date' })
+    } catch (err) {
+        return ""
+    }
 }
 
 export const filterByEpic = (issues, epicIds) => {
@@ -54,10 +53,6 @@ export const filterByEpic = (issues, epicIds) => {
 
 export const searchBySummary = (query, list = []) => list.length > 0 ? list.filter(item => item.summary.includes(query)) : []
 
-export const findItemById = (list = [], id = "") => {
-    return list.find(item => item._id === id)
-}
-
 export const handleDrag = ({ sInd, dInd, statusUpdated }) => {
     const sourceStatus = statusUpdated[sInd]
     const destinationStatus = statusUpdated[dInd]
@@ -69,4 +64,18 @@ export const handleDrag = ({ sInd, dInd, statusUpdated }) => {
         destinationStatus.issues.splice(dInd, 0, removedToMove)
     }
     return statusUpdated
+}
+
+export const findItemById = (list = [], id = "") => list.find(item => item._id === id)
+
+export const sortByCreatDate = (a, b) => { //Sort by createdAt date, at the descending order
+    var dateA = a.createdAt
+    var dateB = b.createdAt
+    if (dateA < dateB) {
+        return 1;
+    }
+    if (dateA > dateB) {
+        return -1;
+    }
+    return 0;
 }
