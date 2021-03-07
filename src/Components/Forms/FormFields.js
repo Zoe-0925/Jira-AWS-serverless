@@ -6,7 +6,6 @@ import { TextField, } from 'formik-material-ui';
 import RichTextArea from "../EditableInput/RichTextArea"
 import Button from '@material-ui/core/Button';
 import { Menu, ClickAwayListener } from '@material-ui/core';
-import { ListItem } from 'semantic-ui-react';
 
 export const FieldContainer = ({ id, inputLabel, ...props }) => (
     <div className="field-container">
