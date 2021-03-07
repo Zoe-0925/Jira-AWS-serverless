@@ -29,9 +29,6 @@ export const selectFirstStatus = createSelector(
     statusList => statusList[0]
 )
 
-
-export const selectStatusById = (id) => state => state.StatusReducer.status.find(aStatus => aStatus._id === id)
-
 /****************** Selectors - Project  *********************/
 export const selectCurrentProjectId = createSelector(
     selectProjectReducer,
@@ -125,4 +122,14 @@ export const selectStatusWithIssue = createSelector(
         each.issues = each.issues.map(issueId => tasks.get(issueId))
         return each
     })
-)  
+)
+
+export const selectStatusById = (id) => createSelector(
+    selectStatusReducer,
+    reducer => reducer.status.find(aStatus => aStatus._id === id)
+)
+
+export const selectStatusNameById = (id) => createSelector(
+    selectStatusById,
+    status => status ? status.name : ""
+)

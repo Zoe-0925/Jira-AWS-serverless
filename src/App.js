@@ -10,6 +10,7 @@ import Board from "./Pages/Board"
 import ProjectDetail from "./Pages/ProjectDetail"
 import './assets/stylesheets/main.scss';
 import history from "./history"
+import Text from "./Pages/Text"
 
 const App = () => {
 
@@ -17,7 +18,7 @@ const App = () => {
     <div className="App">
       <Router history={history}>
         <Switch>
-          <Route path="/" exact component={Board} />
+          <Route path="/" exact component={Text} />
           <Route path="/projects" exact component={ProjectTable} />
           <Route path="/projects/roadmap" component={App} />
           <Route path="/projects/board" exact component={Board} />

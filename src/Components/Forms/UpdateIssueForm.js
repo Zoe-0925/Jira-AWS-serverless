@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from "react-redux"
-import { IssueSummaryInput, IssueDescriptionInput } from "../EditableInput/IssueInputsFields"
+import { IssueSummaryInput, NewIssueDescriptionInput, IssueDescriptionInput } from "../EditableInput/IssueInputsFields"
 import { Row, Col } from 'reactstrap';
 import { Avatar, Divider, Breadcrumbs, IconButton } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -9,22 +9,25 @@ import { updateTaskAttribute, chainDeleteIssue } from "../../Actions/issue.actio
 import CloseIcon from '@material-ui/icons/Close';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import { formatDate } from "../Util"
-import { FormSelectField , IssueDetailFormSelectField} from "./FormFields"
+import { FormSelectField, IssueDetailFormSelectField } from "./FormFields"
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 
+export const UserAvatar = ({ name, avatar }) => (
+    <Row>
+        <Avatar className="avatar" style={{ cursor: "pointer" }} alt={name} src={avatar} />
+        <span style={{ paddingLeft: "1rem" }}>{name}</span>
+    </Row>
+)
 
 const IssueDetailForm = ({ issue, handleClose }) => {
     const dispatch = useDispatch()
+
     const assignee = useSelector(selectUserById(issue.assignee || ""))
     const reporter = useSelector(selectUserById(issue.reporter || ""))
     const allStatus = useSelector(selectStatus)
     const statusName = allStatus.find(status => status._id === issue.status).name
 
     let statusOptions = allStatus.map(each => { return { label: each.name, value: each._id } })
-
-    const UserAvatar = ({ name, avatar }) => (<Row><Avatar className="avatar" style={{ cursor: "pointer" }} alt={name} src={avatar} />
-        <span style={{ paddingLeft: "1rem" }}>{name}</span></Row>)
-
     const userOptions = useSelector(selectUsers).map(each => {
         return {
             label: (<UserAvatar name={each.name} avatar={each.avatar} />), value: each._id
@@ -78,7 +81,7 @@ const IssueDetailForm = ({ issue, handleClose }) => {
                             <div className="left-container">
                                 <IssueSummaryInput id={issue._id} summary={issue.summary} />
                                 <p className="label">Description</p>
-                                <IssueDescriptionInput id={issue._id} description={issue.description} />
+                                <NewIssueDescriptionInput id={issue._id} description={issue.description} />
                                 <br />
                                 <p className="label">Comments</p>
                             </div>
