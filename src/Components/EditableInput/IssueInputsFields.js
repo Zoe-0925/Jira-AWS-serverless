@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux"
-import { EditableText, TextareaWithActionBtns } from "../EditableInput/EditableInput"
+import { EditableText, TextareaWithActionBtns } from "./EditableInput"
 import { useEditText } from "../Hooks/Hooks"
 import { selectLoading } from '../../Reducers/Selectors';
 import { updateTaskAttribute } from '../../Actions/issue.actions';
 import { EditableInput } from "./EditableInput"
 import { generateDateString } from "../Util"
-import RichTextArea from "../RichTextEditor/RichTextArea"
+import RichTextArea from "./RichTextArea"
 import { convertFromRaw, convertToRaw, EditorState } from 'draft-js';
 import { SubmitCancelButtonSet } from "../Buttons/Buttons"
 
