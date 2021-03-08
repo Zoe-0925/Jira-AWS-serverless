@@ -1,4 +1,5 @@
 import React from "react"
+import Button from "@material-ui/core/Button"
 
 const BlockStyleButton = ({ onToggle, style, active, label }) => {
     const handleToggle = (e) => {
@@ -12,11 +13,11 @@ const BlockStyleButton = ({ onToggle, style, active, label }) => {
     }
 
     return (
-        <button>
+        <Button className="rich-text-editor-btn">
             <span className={className} onClick={handleToggle}>
                 {label}
             </span>
-        </button>
+        </Button>
     );
 }
 

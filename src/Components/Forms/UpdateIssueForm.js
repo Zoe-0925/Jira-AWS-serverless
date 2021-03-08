@@ -4,7 +4,7 @@ import { IssueSummaryInput, NewIssueDescriptionInput, IssueDescriptionInput } fr
 import { Row, Col } from 'reactstrap';
 import { Avatar, Divider, Breadcrumbs, IconButton } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { selectUsers, selectUserById, selectStatus } from "../../Reducers/Selectors"
+import { selectUsers, selectUserById, selectStatus, selectStatusNameById } from "../../Reducers/Selectors"
 import { updateTaskAttribute, chainDeleteIssue } from "../../Actions/issue.actions"
 import CloseIcon from '@material-ui/icons/Close';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
@@ -25,7 +25,7 @@ const IssueDetailForm = ({ issue, handleClose }) => {
     const assignee = useSelector(selectUserById(issue.assignee || ""))
     const reporter = useSelector(selectUserById(issue.reporter || ""))
     const allStatus = useSelector(selectStatus)
-    const statusName = allStatus.find(status => status._id === issue.status).name
+    const statusName = useSelector(selectStatusNameById(issue.status))
 
     let statusOptions = allStatus.map(each => { return { label: each.name, value: each._id } })
     const userOptions = useSelector(selectUsers).map(each => {
@@ -56,11 +56,11 @@ const IssueDetailForm = ({ issue, handleClose }) => {
 
     return (
         <div>
-            <MuiDialogTitle className="title">
+            <MuiDialogTitle className="issue-detail-form">
                 <Row>
                     <Col>
                         <Breadcrumbs aria-label="breadcrumb" style={{ display: "inline" }}>
-                            <Row><CheckBoxIcon className="icon" style={{ color: "#5BC2F2" }} /><p>Task</p></Row>
+                            <Row className="breadcrums"><CheckBoxIcon className="icon" style={{ color: "#5BC2F2" }} /><p>Task</p></Row>
                         </Breadcrumbs>
                     </Col>
                     <Col xs="auto"></Col>

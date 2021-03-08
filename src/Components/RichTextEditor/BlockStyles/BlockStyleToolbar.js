@@ -17,12 +17,12 @@ export const BLOCK_TYPE_HEADINGS = [
 ]
 
 export function getBlockStyle({ block, }) {
-  //  switch (block.getType()) {
+    //  switch (block.getType()) {
     //    case "blockquote":
-            return "RichEditor-blockquote";
-   //     default:
-   //         return null;
- //   }
+    return "RichEditor-blockquote";
+    //     default:
+    //         return null;
+    //   }
 }
 
 const BlockStyleToolbar = ({ editorState, onToggle }) => {
@@ -33,25 +33,21 @@ const BlockStyleToolbar = ({ editorState, onToggle }) => {
         .getType();
 
     return (
-            <>
-                <HeaderStyleDropdown
-                    headerOptions={BLOCK_TYPE_HEADINGS}
-                    active={blockType}
+        <>
+            <HeaderStyleDropdown
+                headerOptions={BLOCK_TYPE_HEADINGS}
+                active={blockType}
+                onToggle={onToggle}
+            />
+               {BLOCK_TYPES.map(type => <BlockStyleButton
+                    active={type.style === blockType}
+                    label={type.label}
                     onToggle={onToggle}
-                />
-                {BLOCK_TYPES.map(type => {
-                    return (
-                        <BlockStyleButton
-                            active={type.style === blockType}
-                            label={type.label}
-                            onToggle={onToggle}
-                            style={type.style}
-                            key={type.label}
-                            type={type}
-                        />
-                    );
-                })}
-            </>
+                    style={type.style}
+                    key={type.label}
+                    type={type}
+                />)}
+        </>
     );
 }
 export default BlockStyleToolbar

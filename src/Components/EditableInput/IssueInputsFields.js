@@ -6,8 +6,9 @@ import { selectLoading } from '../../Reducers/Selectors';
 import { updateTaskAttribute } from '../../Actions/issue.actions';
 import { EditableInput } from "./EditableInput"
 import { generateDateString } from "../Util"
-import RichTextArea from "./RichTextArea"
+import RichTextArea from "../RichTextEditor/RichTextArea"
 import { convertFromRaw, convertToRaw, EditorState } from 'draft-js';
+import { SubmitCancelButtonSet } from "../Buttons/Buttons"
 
 export function IssueSummaryInput({ id, summary }) {
     const { state, setState, edit, setEdit } = useEditText(summary)
@@ -48,10 +49,14 @@ export function IssueDescriptionInput({ id, description }) {
     )
 }
 
+const getTextFromEditorState = (editorState) => {
+    return editorState && editorState.blocks ? editorState.blocks[0].text : ""
+}
+
 
 export function NewIssueDescriptionInput({ id, description }) {
     const dispatch = useDispatch()
-
+    const [hideInput, setHide] = useState(true)
     const [editorState, setEditorState] = useState(
         () => EditorState.createEmpty())
 
@@ -61,18 +66,31 @@ export function NewIssueDescriptionInput({ id, description }) {
         }
     }, [description])
 
+
     const submit = () => {
         let newDescription = convertToRaw(editorState.getCurrentContent())
         newDescription = JSON.stringify(newDescription)
-        dispatch(updateTaskAttribute({ _id: id, attribute: "description", updatedAt: generateDateString(), value: newDescription }))
+        if (newDescription !== description) {
+            dispatch(updateTaskAttribute({ _id: id, attribute: "description", updatedAt: generateDateString(), value: newDescription }))
+        }
+        setHide(true)
     }
 
     const loading = useSelector(selectLoading)
 
+    const showRichTextArea = () => {
+        if (hideInput) {
+            setHide(false)
+        }
+    }
+
     return (
         <>
-            <RichTextArea editorState={editorState} setEditorState={setEditorState} />
-
+            <RichTextArea onClick={showRichTextArea} editorState={editorState} setEditorState={setEditorState} readOnly={hideInput} />
+            {!hideInput && <SubmitCancelButtonSet isSubmitting={loading} handleSave={submit} handleCancel={() => setHide(true)} />}
         </>
     )
 }
+
+
+// <div className="description-text" onClick={() => setText(false)}>{text}</div>

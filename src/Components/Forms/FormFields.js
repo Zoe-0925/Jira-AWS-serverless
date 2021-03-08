@@ -3,7 +3,7 @@ import Select from 'react-select';
 import { InputLabel, TextareaAutosize } from '@material-ui/core';
 import { Field } from 'formik';
 import { TextField, } from 'formik-material-ui';
-import RichTextArea from "../EditableInput/RichTextArea"
+import RichTextArea from "../RichTextEditor/RichTextArea"
 import Button from '@material-ui/core/Button';
 import { Menu, ClickAwayListener } from '@material-ui/core';
 

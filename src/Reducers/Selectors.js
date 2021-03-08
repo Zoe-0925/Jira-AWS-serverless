@@ -130,6 +130,6 @@ export const selectStatusById = (id) => createSelector(
 )
 
 export const selectStatusNameById = (id) => createSelector(
-    selectStatusById,
+    selectStatusById(id),
     status => status ? status.name : ""
 )

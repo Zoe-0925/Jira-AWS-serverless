@@ -1,6 +1,12 @@
 @import "abstracts/variables";
 
 .issue-detail-form {
+  width: 100%;
+  padding-left: 4rem;
+  padding-right: 4rem;
+  text-align: left;
+  max-height: 43.75rem;
+
   .divider {
     margin-top: 1rem;
     margin-bottom: 1rem;
@@ -70,14 +76,6 @@
 }
 
 @media (min-width: 416px) {
-  .issue-detail-form {
-    width: 90%;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-    text-align: left;
-    max-height: 43.75rem;
-  }
-
   .editable-input {
     height: 2rem;
     width: 100%;
@@ -228,27 +226,30 @@ The className structure looks like below.
   </div>
 </div>
 */
-.issue-detail-select{
+.issue-detail-select {
   .control {
     background-color: blue;
-
 
     .value-container {
       width: 100%;
     }
 
-    .indicators{
+    .indicators {
       width: 100%;
     }
   }
 }
 
-.issue-detail-select-new{
-  .container{
-    width:100%;
+.issue-detail-select-new {
+  .container {
+    width: 100%;
   }
 
-  .input{
+  .input {
     background-color: blue;
   }
+}
+
+.breadcrums{
+  padding-left: 4rem;
 }

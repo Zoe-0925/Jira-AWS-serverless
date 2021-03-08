@@ -10,7 +10,6 @@ const Text = () => {
 
     return (
         <>
-            Rich Text Editor
             <IssueDetailForm issue={currentIssue} handleClose={() => { }} />
         </>
     )

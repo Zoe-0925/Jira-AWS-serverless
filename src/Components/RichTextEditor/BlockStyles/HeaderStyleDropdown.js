@@ -1,8 +1,6 @@
 import React from "react";
 const HeaderStyleDropdown = ({ onToggle, active, headerOptions }) => {
 
-
-
     return (
         <select value={active} onChange={e => onToggle(e.target.value)}>
             <option value="">Header Levels</option>

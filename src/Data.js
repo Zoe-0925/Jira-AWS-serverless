@@ -17,10 +17,14 @@ export const tasks = [{
     _id: "issueId1", summary: "Code feature A", description: "", updatedAt: "", createdAt: "", issueType: "task",
     parent: "", status: "9729f490-fd5f-43ab-8efb-40e8d132bc68", project: "7c1f9838-dbd7-4432-b52c-aae87022d578", assignee: "tsidadsjkdhiueiurt", reporter: "user2"
 }, {
-    _id: "issueId2", summary: "Code feature B", description: "", updatedAt: "", createdAt: "", issueType: "task",
+    _id: "issueId2", summary: "Code feature B",
+    description: { "blocks": [{ "key": "ar9v5", "text": "Coding...", "type": "unstyled", "depth": 0, "inlineStyleRanges": [], "entityRanges": [], "data": {} }, { "key": "1rs54", "text": "", "type": "unstyled", "depth": 0, "inlineStyleRanges": [], "entityRanges": [], "data": {} }], "entityMap": {} },
+    updatedAt: "", createdAt: "", issueType: "task",
     parent: "", status: "9729f490-fd5f-43ab-8efb-40e8d132bc68", project: "7c1f9838-dbd7-4432-b52c-aae87022d578", assignee: "user2", reporter: "user3"
 }, {
-    _id: "issueId3", summary: "Code feature C", description: "", updatedAt: "", createdAt: "", issueType: "task",
+    _id: "issueId3", summary: "Code feature C",
+    description: { "blocks": [{ "key": "ar9v5", "text": "testing...", "type": "unstyled", "depth": 0, "inlineStyleRanges": [], "entityRanges": [], "data": {} }, { "key": "1rs54", "text": "", "type": "unstyled", "depth": 0, "inlineStyleRanges": [], "entityRanges": [], "data": {} }], "entityMap": {} },
+    updatedAt: "", createdAt: "", issueType: "task",
     parent: "", status: "efe83b13-9255-4339-a8f5-d5703beb9ffc", project: "7c1f9838-dbd7-4432-b52c-aae87022d578"
 }]
 
