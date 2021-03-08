@@ -66,7 +66,11 @@ export const handleDrag = ({ sInd, dInd, statusUpdated }) => {
     return statusUpdated
 }
 
-export const findItemById = (list = [], id = "") => list.find(item => item._id === id)
+export const findItemById = (list = [], id = "") => {
+    const result = list.find(item => item._id === id)
+    console.log("result", result.avatar)
+    return result
+}
 
 export const sortByCreatDate = (a, b) => { //Sort by createdAt date, at the descending order
     var dateA = a.createdAt

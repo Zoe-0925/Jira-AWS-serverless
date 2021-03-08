@@ -144,5 +144,9 @@ export const selectStatusNameById = (id) => createSelector(
 
 export const selectCommentByIssue = (id) => createSelector(
     selectCommentReducer,
-    reducer => reducer.comments.filter(comments => comments.issue === id)
+    reducer => {
+        let filtered = [...reducer.comments]
+        filtered.filter(comments => comments.issue === id)
+        return filtered
+    }
 )
