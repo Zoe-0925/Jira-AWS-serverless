@@ -1,16 +1,17 @@
 import React from 'react';
 import { useSelector, useDispatch } from "react-redux"
-import { IssueSummaryInput, NewIssueDescriptionInput, IssueDescriptionInput } from "../EditableInput/IssueInputsFields"
+import { IssueSummaryInput, IssueDescriptionInput } from "../EditableInput/IssueInputsFields"
 import { Row, Col } from 'reactstrap';
 import { Avatar, Divider, Breadcrumbs, IconButton } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { selectUsers, selectUserById, selectStatus, selectStatusNameById } from "../../Reducers/Selectors"
+import { selectUsers, selectUserById, selectStatus, selectStatusNameById, selectCurrentUserId } from "../../Reducers/Selectors"
 import { updateTaskAttribute, chainDeleteIssue } from "../../Actions/issue.actions"
 import CloseIcon from '@material-ui/icons/Close';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import { formatDate } from "../Util"
-import { FormSelectField, IssueDetailFormSelectField } from "./FormFields"
+import { IssueDetailFormSelectField } from "./FormFields"
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import CommentHOC from "../Comment/CommentBox"
 
 export const UserAvatar = ({ name, avatar }) => (
     <Row>
@@ -21,7 +22,6 @@ export const UserAvatar = ({ name, avatar }) => (
 
 const IssueDetailForm = ({ issue, handleClose }) => {
     const dispatch = useDispatch()
-
     const assignee = useSelector(selectUserById(issue.assignee || ""))
     const reporter = useSelector(selectUserById(issue.reporter || ""))
     const allStatus = useSelector(selectStatus)
@@ -81,9 +81,10 @@ const IssueDetailForm = ({ issue, handleClose }) => {
                             <div className="left-container">
                                 <IssueSummaryInput id={issue._id} summary={issue.summary} />
                                 <p className="label">Description</p>
-                                <NewIssueDescriptionInput id={issue._id} description={issue.description} />
+                                <IssueDescriptionInput id={issue._id} description={issue.description} />
                                 <br />
                                 <p className="label">Comments</p>
+                                <CommentHOC issueId={issue._id}/>
                             </div>
                         </Row>
                         <br />

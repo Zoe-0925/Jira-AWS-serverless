@@ -19,7 +19,7 @@ export const selectLoading = state => state.LoadingReducer.loading
 
 export const selectAllProjects = state => state.ProjectReducer.projects
 
-
+export const selectCommentReducer = state => state.CommentReducer
 /****************** Selectors - Status  *********************/
 
 export const selectStatus = state => state.StatusReducer.status.sort(sortByCreatDate)
@@ -95,6 +95,12 @@ export const selectUsers = createSelector(
     reducer => reducer.users
 )
 
+export const selectCurrentUser = createSelector(
+    selectCurrentUserId,
+    selectUsers,
+    (currentUserId, users) => users.find(item => item._id === currentUserId)
+)
+
 export const selectUserName = createSelector(
     selectUsers,
     selectCurrentUserId,
@@ -132,4 +138,11 @@ export const selectStatusById = (id) => createSelector(
 export const selectStatusNameById = (id) => createSelector(
     selectStatusById(id),
     status => status ? status.name : ""
+)
+
+/****************** Reselectors - Comment  *********************/
+
+export const selectCommentByIssue = (id) => createSelector(
+    selectCommentReducer,
+    reducer => reducer.comments.filter(comments => comments.issue === id)
 )

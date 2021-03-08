@@ -1,29 +1,40 @@
 import React, { Fragment } from 'react'
+import { useDispatch, useSelector } from "react-redux"
+import { createComment } from "../../Actions/comment.actions"
+import { selectCommentByIssue, selectCurrentUser, selectUsers } from "../../Reducers/Selectors"
+import { findItemById } from "../Util"
 import CommentInput from "./CommentInput"
 import { Row, Col } from "reactstrap"
-import { findItemById } from "../Util"
-import { Tooltip, Avatar ,Button , Divider} from '@material-ui/core';
+import Avatar from '@material-ui/core/Avatar';
 
-export default function CommentBox({ comments, authors }) {
+export default function CommentHOC({ issueId }) {
+    const dispatch = useDispatch()
+    const comments = useSelector(selectCommentByIssue(issueId)) || []
+    const users = useSelector(selectUsers)
+    const authors = comments.map(each => each.user).map(each => findItemById(users, each))
+    const currentUser = useSelector(selectCurrentUser)
+
+    const handleSubmit = (value) => {
+        dispatch(createComment({ user: currentUser._id, description: value, issue: issueId }))
+    }
 
     const CommentContent = comment => (
-        <Row>
-            <Col xs={1}>
-                <Avatar className="avatar" alt={comment.user || "Author"} src={() => findItemById(authors, comment.user).avatar} />
+        <Row key={comments._id}>
+            <Col xs={2}>
+                <Avatar className="avatar" alt="Author" src={() => findItemById(authors, comment.user).avatar || ""} />
             </Col>
-            <Col xs={11}></Col>
+            <Col xs={10}>
+                <p> {comment.description}</p>
+            </Col>
         </Row>
     )
 
     return (
         <Fragment>
-            <p className="title">Comments</p>
             {
                 comments && comments.length > 0 &&
-                <div className="CommentList">
-                    {comments.map(each => <CommentContent comment={each} />)}
-                </div>
+                comments.map(each => <CommentContent key={comments._id} comment={each} />)
             }
-            <CommentInput />
+            <CommentInput currentUser={currentUser} handleSubmit={handleSubmit} />
         </Fragment>)
 }

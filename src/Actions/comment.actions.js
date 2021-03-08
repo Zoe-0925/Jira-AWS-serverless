@@ -1,4 +1,4 @@
-import { dispatchError, loadingContainer } from "./loading.actions"
+import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
 import { comments } from "../Data"
 import { v4 as uuidv4 } from 'uuid'
 
@@ -11,23 +11,11 @@ export const DELETE_COMMENT_BY_ISSUE = "DELETE_COMMENT_BY_ISSUE"
 
 /**********************************  Thunk Actions  ******************************************/
 
-export const getCommentsForIssue = (issueId) => async dispatch => {
-    try {
-        const data = comments.filter(items => items.issue === issueId)
-        dispatch(loadingContainer({
-            type: APPEND_COMMENTS,
-            data: data
-        }))
-    }
-    catch (err) {
-        dispatch(dispatchError(err))
-    }
-}
-
 export const createComment = (newComment) => async dispatch => {
     try {
-        const commentWithId = { ...newComment, _id: uuidv4() }
-        dispatch(loadingContainer({ type: CREATE_COMMENT, data: commentWithId }))
+        dispatch({ type: LOADING })
+        dispatch({ type: CREATE_COMMENT, data: { ...newComment, _id: uuidv4() } })
+        dispatch({ type: AUTHENTICATED })
     } catch (err) {
         dispatch(dispatchError(err))
     }
@@ -35,7 +23,9 @@ export const createComment = (newComment) => async dispatch => {
 
 export const updateCommentDescription = (data) => async dispatch => {
     try {
-        dispatch(loadingContainer({ type: UPDATE_COMMENT_DESCRIPTION, data: data }))
+        dispatch({ type: LOADING })
+        dispatch({ type: UPDATE_COMMENT_DESCRIPTION, data: data })
+        dispatch({ type: AUTHENTICATED })
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -44,7 +34,9 @@ export const updateCommentDescription = (data) => async dispatch => {
 
 export const deleteComment = (id) => async dispatch => {
     try {
-        dispatch(loadingContainer({ type: DELETE_COMMENT, id: id }))
+        dispatch({ type: LOADING })
+        dispatch({ type: DELETE_COMMENT, id: id })
+        dispatch({ type: AUTHENTICATED })
     }
     catch (err) {
         dispatch(dispatchError(err))
@@ -54,7 +46,9 @@ export const deleteComment = (id) => async dispatch => {
 //TODO
 export const deleteCommentByIssue = (issueId) => async dispatch => {
     try {
-        dispatch(loadingContainer({  DELETE_COMMENT_BY_ISSUE, id: issueId }))
+        dispatch({ type: LOADING })
+        dispatch({ DELETE_COMMENT_BY_ISSUE, id: issueId })
+        dispatch({ type: AUTHENTICATED })
     }
     catch (err) {
         dispatch(dispatchError(err))
