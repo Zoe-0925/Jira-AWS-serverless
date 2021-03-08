@@ -10,7 +10,6 @@ import Board from "./Pages/Board"
 import ProjectDetail from "./Pages/ProjectDetail"
 import './assets/stylesheets/main.scss';
 import history from "./history"
-import Text from "./Pages/Text"
 
 const App = () => {
 
