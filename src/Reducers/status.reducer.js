@@ -15,9 +15,6 @@ export default function StatusReducer(state = initialState, action) {
         case CREATE_STATUS:
             newState.status = [...newState.status, action.data]
             return { status: [...newState.status] }
-        case DELETE_STATUS:
-            newState.status.filter(remainingStatus => remainingStatus._id !== action.id)
-            return { status: [...newState.status] }
         case UPDATE_STATUS_ATTRIBUTE:
             status = newState.status.find(aStatus => aStatus._id === action._id)
             status[action.attribute] = action.value
