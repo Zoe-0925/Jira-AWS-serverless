@@ -26,7 +26,7 @@ export const selectStatus = state => state.StatusReducer.status.sort(sortByCreat
 
 export const selectFirstStatus = createSelector(
     selectStatus,
-    statusList => statusList[0]
+    statusList => statusList[0]?statusList[0]._id:""
 )
 
 /****************** Selectors - Project  *********************/

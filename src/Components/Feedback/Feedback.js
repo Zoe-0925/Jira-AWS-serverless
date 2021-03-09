@@ -20,23 +20,3 @@ export const SuccessfulFeedback = ({ open, message }) => {
         </Snackbar>
     )
 }
-
-export const WarningFeedback = ({ open, title, message, handleClose, handleConfirm }) => (
-    <div>
-        <Dialog
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-        >
-            <DialogContentContainer handleClose={handleClose} title={title} isSubmitting={false}
-                handleSubmit={handleConfirm} handleCancel={handleClose} submitLabel="Delete">
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        {message}
-                    </DialogContentText>
-                </DialogContent>
-            </DialogContentContainer>
-        </Dialog>
-    </div>
-)

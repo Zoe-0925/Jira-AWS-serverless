@@ -24,14 +24,12 @@ const IssueCard = ({ handleClick, issue, handleDeleteIssue, anchorEl, isOpen, an
             <Container>
                 <Row >
                     <Col xs="10" onClick={() => handleClick(issue)}>
-                        {issue.summary}
+                        Task
                     </Col>
                     <Col xs="2">
                         <DotIconMenu className="dot-icon" anchorEl={anchorEl} isOpen={isOpen} anchorRef={anchorRef}
                             handleMenuClose={handleMenuClose} handleMenuOpen={handleMenuOpen}>
                             <MenuItem onClick={toggleFlag}>{!issue.flag ? "Add flag" : "Remove flag"}</MenuItem>
-                            <MenuItem >Add parent</MenuItem>
-                            <MenuItem >Add label</MenuItem>
                             <MenuItem onClick={e => handleDeleteIssue(e, issue._id, issue.status)}>Delete</MenuItem>
                         </DotIconMenu>
                     </Col>

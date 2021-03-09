@@ -35,14 +35,13 @@ export default function CreateIssueDialog() {
         setOpen(false)
     }
 
-
     return (
         <Fragment>
             {projects && (
                 <Fragment>
                     <Button className="navbar-create-btn" onClick={() => setOpen(true)}>Create</Button>
                     <MyDialog open={open} handleClose={() => setOpen(false)} maxWidth="lg">
-                        <CreateIssueForm projects={projects} onContinue={submitCreateIssue} handleClose={() => setOpen(false)}
+                        <CreateIssueForm onContinue={submitCreateIssue} handleClose={() => setOpen(false)}
                             editorState={editorState} setEditorState={setEditorState}
                         />
                     </MyDialog>

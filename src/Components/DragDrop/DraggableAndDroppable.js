@@ -25,7 +25,7 @@ export const MyDraggable = ({ id, index, ...props }) => {
 export const MyDroppable = ({ el, ind, ...props }) => (<Droppable key={ind} droppableId={`${ind}`}>
     {(provided, snapshot) => (
         <div
-            className={snapshot.isDraggingOver ? "column drag-over" : "epic-list"}
+            className={snapshot.isDraggingOver ? "column drag-over" : "column-list"}
             ref={provided.innerRef}
             {...provided.droppableProps}
         >

@@ -6,6 +6,9 @@ import IssueCard from "./IssueCard"
 import { selectUserAvatarById } from "../../Reducers/Selectors"
 
 const IssueCardHOC = ({ issue, handleClick }) => {
+
+    console.log("issue in HOC", issue)
+
     const dispatch = useDispatch()
     // eslint-disable-next-line
     const { anchorEl, isOpen, anchorRef, handleMenuClose, handleMenuOpen } = useDotIconMenu()

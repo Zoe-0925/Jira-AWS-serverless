@@ -17,7 +17,7 @@ export const DialogContentContainer = ({ handleClose, dialogClassName = "", titl
             <Form onSubmit={handleSubmit}>
                 {children}
                 <DialogActions>
-                    <SubmitCancelButtonSet isSubmitting={isSubmitting} handleSubmit={handleSubmit} handleCancel={handleCancel} submitLabel={submitLabel} />
+                    <SubmitCancelButtonSet isSubmitting={isSubmitting} handleSave={handleSubmit} handleCancel={handleCancel} submitLabel={submitLabel} />
                 </DialogActions>
             </Form>
         </div>

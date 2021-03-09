@@ -1,7 +1,7 @@
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
-const RichTextEditor = ({ editorState, onClick, setEditorState, readOnly = true, onBlur }) => (
+const RichTextEditor = ({ editorState, onClick = () => { }, setEditorState, readOnly = true, onBlur= () => { } }) => (
     <div className="rich-text-editor" onClick={onClick}>
         <Editor
             editorState={editorState}
@@ -13,7 +13,7 @@ const RichTextEditor = ({ editorState, onClick, setEditorState, readOnly = true,
             toolbarHidden={readOnly}
             onBlur={onBlur}
         />
-        
+
     </div>
 )
 

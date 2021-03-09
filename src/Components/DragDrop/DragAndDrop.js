@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MyDraggable, MyDroppable } from "./DraggableAndDroppable";
-import CreateStatusTab from "../StatusColumn/CreateStatusTab"
 import Column from "../StatusColumn/Column"
 import { v4 as uuidv4 } from 'uuid'
 import IssueCardHOC from "../IssueCard/IssueCardHOC";
@@ -10,15 +9,18 @@ import IssueDetailDialog from "../Dialog/UpdateIssueDIalog"
 const DragAndDrop = ({ status, filteredTasks }) => {
     const [isIssueDetailOpen, setOpen] = useState(false)
     const [currentIssue, setIssue] = useState()
-
+  
     const openIssueDetail = issue => {
         setOpen(true)
         setIssue(issue)
     }
 
+    console.log("filteredTasks", filteredTasks)
+    console.log("status", status)
+
     return (
         <>
-            <div className="epic-list">
+            <div className="column-list">
                 {status.map((el, ind) =>
                     <MyDroppable key={ind} el={el} ind={ind}>
                         <Column key={uuidv4()} status={el}>
@@ -30,7 +32,6 @@ const DragAndDrop = ({ status, filteredTasks }) => {
                         </Column>
                     </MyDroppable>
                 )}
-                <CreateStatusTab />
             </div>
             {isIssueDetailOpen && <IssueDetailDialog currentIssue={currentIssue} handleClose={() => setOpen(false)} open={isIssueDetailOpen}
             />}

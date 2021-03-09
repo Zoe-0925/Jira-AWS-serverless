@@ -1,37 +1,18 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useSelector, useDispatch } from "react-redux"
 import { DragDropContext } from 'react-beautiful-dnd';
 import DragAndDrop from "./DragAndDrop"
 import Filters from "../Filters/Filters"
-import { selectUsers, selectCurrentUserId, selectTasks, selectStatus } from "../../Reducers/Selectors"
-import { searchBySummary } from "../Util"
+import { selectUsers, selectStatus } from "../../Reducers/Selectors"
 import { chainMove } from "../../Actions/status.actions"
+import { useFilter } from "../Hooks/Hooks"
 
 export default function DragContext() {
     const dispatch = useDispatch()
     const users = useSelector(selectUsers)
     const status = useSelector(selectStatus)
-    const tasks = useSelector(selectTasks)
-    const [filtered, setFiltered] = useState(false)
-    const [filteredTasks, setFilteredTasks] = useState()
-    const currentUserId = useSelector(selectCurrentUserId)
 
-    const handleQuery = (query) => {
-        const searchResult = searchBySummary(query, tasks)
-        setFilteredTasks(searchResult)
-    }
-
-    const handleFilterByCurrentUser = () => {
-        const result = tasks.filter(task => task.assignee === currentUserId)
-        setFiltered(true)
-        setFilteredTasks(result)
-    }
-
-    const handleUserFilter = userIds => {
-        const result = tasks.filter(task => userIds.includes(task.assignee))
-        setFiltered(true)
-        setFilteredTasks(result)
-    }
+    const { handleQuery, filteredTasks, handleFilterByCurrentUser, handleUserFilter, clearFilter } = useFilter()
 
     function onDragEnd(result) {
         const { source, destination } = result;
@@ -43,16 +24,11 @@ export default function DragContext() {
         dispatch(chainMove(sInd, dInd, source.index, destination.index))
     }
 
-    const clearFilter = ()=>{
-        setFilteredTasks(tasks)
-        setFiltered(true)
-    }
-
     return (
         <DragDropContext onDragEnd={onDragEnd}>
             <Filters users={users} handleUserFilter={handleUserFilter} handleQuery={handleQuery}
                 handleFilterByCurrentUser={handleFilterByCurrentUser} handleClearFilter={clearFilter} />
-            <DragAndDrop status={status} filteredTasks={!filtered ? tasks : filteredTasks} />
+            <DragAndDrop status={status} filteredTasks={filteredTasks} />
         </DragDropContext>
     )
 }

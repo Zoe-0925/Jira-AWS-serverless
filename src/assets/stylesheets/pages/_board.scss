@@ -2,7 +2,7 @@
   padding: 2.5rem;
 }
 
-.epic-list {
+.column-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
   grid-gap: 1rem;
@@ -11,6 +11,7 @@
 
   .column {
     background-color: $bgc;
+    max-height: 20rem;
   }
 
   .issue-card {
@@ -40,7 +41,7 @@
     display: flex;
     width: 100%;
 
-    .epic-summary {
+    .column-summary {
       padding: 1rem 1rem 1rem 1rem;
     }
 
@@ -101,4 +102,8 @@
       }
     }
   }
+}
+
+.draggable{
+  height: 5.5rem;
 }

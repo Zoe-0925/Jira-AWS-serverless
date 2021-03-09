@@ -14,8 +14,8 @@ export const CreateProjectForm = ({
     return <Fragment>
         <DialogCloseIcon handleClose={handleClose} />
         <div align="center"><Typography variant="h5">Create project</Typography></div>
-        <div align="center" className="create-project-form">
-            <Form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit}>
+            <div align="center" className="create-project-form">
                 <FormTextField id="name" inputLabel="Name *" value={values.name} handleChange={handleChange} />
                 <FormTextField id="key" inputLabel="Key *" value={values.key} handleChange={handleChange} />
                 <br />
@@ -24,8 +24,8 @@ export const CreateProjectForm = ({
                     className="navbar-create-btn"
                     onClick={handleSubmit}
                 >Create</Button>
-            </Form>
-        </div>
+            </div>
+        </Form>
     </Fragment>
 }
 

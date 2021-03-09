@@ -35,7 +35,6 @@ export default function IssueReducer(state = initialState, action) {
             }
         case DELETE_TASK:
             newState.tasks.delete(action.id)
-            newState.subtasks.filter(item => item.parent !== action.id)
             return {
                 tasks: newState.tasks, //Map()
                 epics: newState.epics

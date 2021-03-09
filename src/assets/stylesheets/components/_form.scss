@@ -32,13 +32,18 @@
   padding-left: 1.5rem;
   padding-right: 1.5rem;
 
-
   .field {
     @include select;
   }
 }
 
 @media (min-width: 416px) {
+  .create-project-form {
+    margin-left: auto;
+    margin-right: auto;
+    width: 20rem;
+  }
+
   .issue-form-in-modal {
     .navbar-create-btn {
       @include call-to-action-button;
@@ -119,6 +124,9 @@
   padding: 0px;
 
   @media (max-width: 415px) {
+    margin-left: 3rem;
+    margin-right: 3rem;
+
     .navbar-create-btn {
       width: 50%;
     }
@@ -133,8 +141,7 @@
   width: 100%;
 
   .label {
-    font-family: CircularStdMedium;
-    font-weight: normal;
+    font-weight: bold;
     font-size: 1em;
     font-style: roboto;
     letter-spacing: -0.003em;
@@ -192,13 +199,12 @@
   padding-bottom: 0;
 }
 
-
-.comment, .CommentInput{
+.comment,
+.CommentInput {
   color: rgb(66, 82, 110);
   font-style: roboto;
-  font-weight:500;
+  font-weight: 500;
 }
-
 
 /**
 The className structure looks like below.
@@ -239,6 +245,12 @@ The className structure looks like below.
   }
 }
 
-.breadcrums{
+.breadcrums {
   padding-left: 4rem;
+}
+
+.CommentInput {
+  .editable-input {
+    font-size: 1rem;
+  }
 }
