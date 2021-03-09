@@ -41,6 +41,14 @@ export const generateDateString = () => {
     }
 }
 
+export const generateTimeString = () => {
+    try {
+        return formatISO(new Date(), { representation: 'date' })
+    } catch (err) {
+        return ""
+    }
+}
+
 export const filterByEpic = (issues, epicIds) => {
     let result = []
     // eslint-disable-next-line
@@ -68,7 +76,6 @@ export const handleDrag = ({ sInd, dInd, statusUpdated }) => {
 
 export const findItemById = (list = [], id = "") => {
     const result = list.find(item => item._id === id)
-    console.log("result", result.avatar)
     return result
 }
 

@@ -1,6 +1,6 @@
 import { dispatchError, LOADING, AUTHENTICATED } from "./loading.actions"
-import { comments } from "../Data"
 import { v4 as uuidv4 } from 'uuid'
+import { generateDateString, formatDate } from "../Components/Util"
 
 export const CREATE_COMMENT = "CREATE_COMMENT"
 export const CLEAR_COMMENT = "CLEAR_COMMENT"
@@ -13,8 +13,9 @@ export const DELETE_COMMENT_BY_ISSUE = "DELETE_COMMENT_BY_ISSUE"
 
 export const createComment = (newComment) => async dispatch => {
     try {
+        let createdAt = generateDateString()
         dispatch({ type: LOADING })
-        dispatch({ type: CREATE_COMMENT, data: { ...newComment, _id: uuidv4() } })
+        dispatch({ type: CREATE_COMMENT, data: { ...newComment, _id: uuidv4() , createdAt: createdAt }})
         dispatch({ type: AUTHENTICATED })
     } catch (err) {
         dispatch(dispatchError(err))

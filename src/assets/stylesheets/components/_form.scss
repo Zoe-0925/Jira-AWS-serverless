@@ -32,18 +32,6 @@
   padding-left: 1.5rem;
   padding-right: 1.5rem;
 
-  .label {
-    font-size: 0.9em;
-    font-style: roboto;
-    font-weight: 500;
-    letter-spacing: -0.003em;
-    margin-top: 1rem;
-    line-height: 1.5rem;
-    color: rgb(23, 43, 77);
-    overflow-wrap: break-word;
-    text-align: left;
-    padding-bottom: 0;
-  }
 
   .field {
     @include select;
@@ -145,14 +133,17 @@
   width: 100%;
 
   .label {
-    font-size: 0.9em;
+    font-family: CircularStdMedium;
+    font-weight: normal;
+    font-size: 1em;
     font-style: roboto;
-    font-weight: 500;
     letter-spacing: -0.003em;
+    margin-top: 1rem;
     line-height: 1.5rem;
-    color: #172b4d;
+    color: rgb(23, 43, 77);
     overflow-wrap: break-word;
     text-align: left;
+    padding-bottom: 0;
   }
 
   .field {
@@ -183,33 +174,31 @@
   padding-top: 1.5rem;
 }
 
-/**
-.label {
-  margin: 24px 0px 5px;
-  color: rgb(94, 108, 132);
-  font-size: 0.8rem;
-  font-family: CircularStdBold;
-  font-weight: 600;
-}
-
-*/
-
 .textarea,
 .editable-input {
   outline: grey;
 }
 
 .label {
-  font-size: 0.9em;
+  font-weight: bold;
+  font-size: 1em;
   font-style: roboto;
-  font-weight: 500;
   letter-spacing: -0.003em;
   margin-top: 1rem;
   line-height: 1.5rem;
-  color: #172b4d;
+  color: rgb(66, 82, 110);
   overflow-wrap: break-word;
   text-align: left;
+  padding-bottom: 0;
 }
+
+
+.comment, .CommentInput{
+  color: rgb(66, 82, 110);
+  font-style: roboto;
+  font-weight:500;
+}
+
 
 /**
 The className structure looks like below.
