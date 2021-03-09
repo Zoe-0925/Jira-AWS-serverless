@@ -46,21 +46,5 @@ export const DrawerLinks = ({ type, currentLocation }) => {
                     id="Project Details" selected={currentLocation === "detail"} primary="Project Settings">
                     <ArrowBackRoundedIcon />
                 </MyListItem>
-                <Divider />
-                <ListItemText primary="Issue Types" />
-                <MyListItem color="inherit" handleClick={() => { }}
-                    id="Epics" selected={false} primary="Epics">
-                    <OpenInBrowserIcon />
-                </MyListItem>
-                <Divider />
-                <MyListItem className="list-item" color="inherit" handleClick={() => { }}
-                    id="Tasks" selected={false} primary="Tasks">
-                    <CheckBoxIcon />
-                </MyListItem>
-                <Divider />
-                <MyListItem className="list-item" color="inherit" handleClick={() => { }}
-                    id="Subtasks" selected={false} primary="Subtasks">
-                    <AllInboxIcon />
-                </MyListItem>
             </Fragment>)
 }

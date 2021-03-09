@@ -10,7 +10,7 @@ const IssueCardHOC = ({ issue, handleClick }) => {
     // eslint-disable-next-line
     const { anchorEl, isOpen, anchorRef, handleMenuClose, handleMenuOpen } = useDotIconMenu()
 
-    const avatar = useSelector(selectUserAvatarById(issue.assignee))
+    const avatar = useSelector(selectUserAvatarById(issue ? issue.assignee : ""))
 
     const handleDeleteIssue = (e, id, status) => {
         e.preventDefault()

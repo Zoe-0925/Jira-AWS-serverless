@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useSelector, useDispatch } from "react-redux"
 import { DragDropContext } from 'react-beautiful-dnd';
 import DragAndDrop from "./DragAndDrop"
@@ -23,11 +23,13 @@ export default function DragContext() {
 
     const handleFilterByCurrentUser = () => {
         const result = tasks.filter(task => task.assignee === currentUserId)
+        setFiltered(true)
         setFilteredTasks(result)
     }
 
     const handleUserFilter = userIds => {
         const result = tasks.filter(task => userIds.includes(task.assignee))
+        setFiltered(true)
         setFilteredTasks(result)
     }
 
@@ -41,10 +43,15 @@ export default function DragContext() {
         dispatch(chainMove(sInd, dInd, source.index, destination.index))
     }
 
+    const clearFilter = ()=>{
+        setFilteredTasks(tasks)
+        setFiltered(true)
+    }
+
     return (
         <DragDropContext onDragEnd={onDragEnd}>
             <Filters users={users} handleUserFilter={handleUserFilter} handleQuery={handleQuery}
-                handleFilterByCurrentUser={handleFilterByCurrentUser} handleClearFilter={() => setFilteredTasks(tasks)} />
+                handleFilterByCurrentUser={handleFilterByCurrentUser} handleClearFilter={clearFilter} />
             <DragAndDrop status={status} filteredTasks={!filtered ? tasks : filteredTasks} />
         </DragDropContext>
     )
