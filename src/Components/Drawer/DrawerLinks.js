@@ -1,10 +1,7 @@
 import React, { Fragment } from 'react';
-import { Divider, List, ListItem, ListItemIcon, ListItemText, Link } from '@material-ui/core';
+import {  List, ListItem, ListItemIcon, ListItemText, Link } from '@material-ui/core';
 import history from "../../history"
 /**--------------Icons-------------- */
-import AllInboxIcon from '@material-ui/icons/AllInbox';
-import CheckBoxIcon from '@material-ui/icons/CheckBox';
-import OpenInBrowserIcon from '@material-ui/icons/OpenInBrowser';
 import ArrowBackRoundedIcon from '@material-ui/icons/ArrowBackRounded';
 import ClearAllIcon from '@material-ui/icons/ClearAll'; //Roadmap
 import AssignmentIcon from '@material-ui/icons/Assignment'; //Board
