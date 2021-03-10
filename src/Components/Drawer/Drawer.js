@@ -7,6 +7,7 @@ import { ProjectHeaderTab } from "../Buttons/IconButtons"
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Row } from "reactstrap"
 
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -67,4 +68,4 @@ const SideDrawer = ({ handleClick, open, ...props }) => {
     </div>
 }
 
-export default React.memo(SideDrawer)
+export default React.memo(SideDrawer, (prevProps, nextProps) => prevProps.open !== nextProps.open)

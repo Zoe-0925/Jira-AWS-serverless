@@ -3,7 +3,7 @@ import React from 'react'
 import { useDispatch } from "react-redux"
 import { updateStatusAttribute } from "../../Actions/status.actions"
 /**--------------UI-------------- */
-import { EditableText, Input} from "../EditableInput/EditableInput"
+import { EditableText, Input } from "../EditableInput/EditableInput"
 /**--------------Util-------------- */
 import { useEditText } from '../Hooks/Hooks';
 
@@ -23,4 +23,4 @@ const ColumnTitle = ({ id = "", name = "" }) => {
     )
 }
 
-export default React.memo( ColumnTitle);
+export default React.memo(ColumnTitle, (prev, next) => prev.name !== next.name);

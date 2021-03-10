@@ -18,7 +18,6 @@ export const mockgetAllProjects = () => async dispatch => {
         let projects = [{
             _id: "7c1f9838-dbd7-4432-b52c-aae87022d578", default_assignee: "Project Lead",
             image: "", key: "TestProject1", lead: "tsidadsjkdhiueiurt", members: ["tsidadsjkdhiueiurt", "user2", "user3"], name: "Jira Clone",
-            statusOrder: ["9729f490-fd5f-43ab-8efb-40e8d132bc68", "efe83b13-9255-4339-a8f5-d5703beb9ffc", "439c3d96-30eb-497d-b336-228873048bc3", "f3a0e59f-635a-4b75-826f-b0f5bf24b5c4"]
         }]
         dispatch({
             type: APPEND_PROJECTS,

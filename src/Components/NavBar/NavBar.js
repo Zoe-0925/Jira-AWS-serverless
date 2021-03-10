@@ -75,4 +75,4 @@ const NavBar = ({ toggleDrawer }) => {
     );
 }
 
-export default React.memo(NavBar)
+export default React.memo(NavBar, (prev, next) => prev.toggleDrawer === next.toggleDrawer)

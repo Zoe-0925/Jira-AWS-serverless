@@ -50,4 +50,4 @@ const ProjectTable = ({ loading, projects, users, goToBoardPage, goToProjectDeta
 }
 
 
-export default React.memo(ProjectTable);
+export default React.memo(ProjectTable, (prev, next) => prev.projects !== next.projects);

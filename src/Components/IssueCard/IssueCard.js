@@ -18,7 +18,7 @@ const IssueCard = ({ handleClick, issue, handleDeleteIssue, anchorEl, isOpen, an
     const classes = useStyles();
 
 
-    
+
     return (<>
         <Box boxShadow={1}
             key={uuidv4()} className={!issue.flag ? "issue-card" : "issue-card flagged"
@@ -39,7 +39,7 @@ const IssueCard = ({ handleClick, issue, handleDeleteIssue, anchorEl, isOpen, an
                 <Row onClick={() => handleClick(issue)}>
                     <Col xs="1">
                         <Tooltip title="task" aria-label="task">
-                        <CheckBoxIcon className="icon" style={{ color: "#5BC2F2" }} />
+                            <CheckBoxIcon className="icon" style={{ color: "#5BC2F2" }} />
                         </Tooltip>
                     </Col>
                     <Col xs="8">
@@ -54,4 +54,4 @@ const IssueCard = ({ handleClick, issue, handleDeleteIssue, anchorEl, isOpen, an
     </>)
 }
 
-export default React.memo(IssueCard)
+export default React.memo(IssueCard, (prev, next) => prev.issue._id !== next.issue._id)
