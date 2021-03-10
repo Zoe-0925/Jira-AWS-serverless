@@ -37,7 +37,9 @@
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test --env=jsdom",
-    "eject": "react-app-rewired eject"
+    "eject": "react-app-rewired eject",
+    "heroku-prebuild": "npm install -f",
+    "heroku-postbuild": "npm run production"
   },
   "eslintConfig": {
     "extends": "react-app"
