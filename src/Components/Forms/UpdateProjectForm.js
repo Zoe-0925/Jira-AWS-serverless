@@ -59,9 +59,9 @@ export const ProjectDetailForm = ({ values, loading, leadOptions, updateProjectL
                     <FormTextField id="name" inputLabel="Name" value={values.name} handleChange={handleChange} />
                     <FormTextField id="key" inputLabel="Key" value={values.key} handleChange={handleChange} />
                     <FormSelectField id="lead" inputLabel="Project Lead" options={leadOptions} handleChange={updateProjectLead} />
-                    <br />
                     <FormSelectField id="default_assignee" inputLabel="Default Assignee" options={[{ value: "lead", label: "Project Lead" }, { value: "", label: "None" }]} handleChange={updateDefaultAssignee} />
                     <Divider />
+                    <br />
                     <Button
                         disabled={loading}
                         className="navbar-create-btn"

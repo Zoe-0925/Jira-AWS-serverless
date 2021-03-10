@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { sortByCreatDate } from "../Components/Util"
+import { sortByIndex } from "../Components/Util"
 
 export const selectStatusReducer = state => state.StatusReducer
 
@@ -22,7 +22,7 @@ export const selectAllProjects = state => state.ProjectReducer.projects
 export const selectCommentReducer = state => state.CommentReducer
 /****************** Selectors - Status  *********************/
 
-export const selectStatus = state => state.StatusReducer.status.sort(sortByCreatDate)
+export const selectStatus = state => state.StatusReducer.status.sort(sortByIndex)
 
 export const selectFirstStatus = createSelector(
     selectStatus,
@@ -67,7 +67,6 @@ export const selectCurrentProject = createSelector(
     selectCurrentProjectId,
     selectProjects,
     (currentProjectId, projects) => {
-        console.log("currentProjectId", currentProjectId, "projects", projects)
         const project = projects.find(item => item._id === currentProjectId)
         return project
     }

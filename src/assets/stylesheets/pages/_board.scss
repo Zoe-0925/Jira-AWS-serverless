@@ -8,10 +8,10 @@
   grid-gap: 1rem;
   color: $card-color;
   font-size: $card-font-size;
-
+  height: 20rem;
+ 
   .column {
     background-color: $bgc;
-    max-height: 20rem;
   }
 
   .issue-card {

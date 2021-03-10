@@ -8,7 +8,6 @@ export const otherUsers = [
 export const projects = [{
     _id: "7c1f9838-dbd7-4432-b52c-aae87022d578", default_assignee: "Project Lead",
     image: "", key: "TestProject1", lead: "tsidadsjkdhiueiurt", members: ["tsidadsjkdhiueiurt", "user2", "user3"], name: "Jira Clone",
-    statusOrder: ["9729f490-fd5f-43ab-8efb-40e8d132bc68", "efe83b13-9255-4339-a8f5-d5703beb9ffc", "439c3d96-30eb-497d-b336-228873048bc3", "f3a0e59f-635a-4b75-826f-b0f5bf24b5c4"]
 }]
 
 export const currentProject = { _id: "7c1f9838-dbd7-4432-b52c-aae87022d578" }
@@ -28,10 +27,10 @@ export const tasks = [{
     parent: "", status: "efe83b13-9255-4339-a8f5-d5703beb9ffc", project: "7c1f9838-dbd7-4432-b52c-aae87022d578"
 }]
 
-export const status = [{ _id: "9729f490-fd5f-43ab-8efb-40e8d132bc68", issues: ["issueId1", "issueId2"], name: "TO DO", project: "7c1f9838-dbd7-4432-b52c-aae87022d578" },
-{ _id: "efe83b13-9255-4339-a8f5-d5703beb9ffc", issues: ["issueId3"], name: "IN PROGRESS", project: "7c1f9838-dbd7-4432-b52c-aae87022d578" },
-{ _id: "439c3d96-30eb-497d-b336-228873048bc3", issues: [], name: "TESTING", project: "7c1f9838-dbd7-4432-b52c-aae87022d578" },
-{ _id: "f3a0e59f-635a-4b75-826f-b0f5bf24b5c4", issues: [], name: "DONE", project: "7c1f9838-dbd7-4432-b52c-aae87022d578" }]
+export const status = [{ _id: "9729f490-fd5f-43ab-8efb-40e8d132bc68", issues: ["issueId1", "issueId2"], name: "TO DO", project: "7c1f9838-dbd7-4432-b52c-aae87022d578", index:0 },
+{ _id: "efe83b13-9255-4339-a8f5-d5703beb9ffc", issues: ["issueId3"], name: "IN PROGRESS", project: "7c1f9838-dbd7-4432-b52c-aae87022d578", index:1 },
+{ _id: "439c3d96-30eb-497d-b336-228873048bc3", issues: [], name: "TESTING", project: "7c1f9838-dbd7-4432-b52c-aae87022d578",index:2 },
+{ _id: "f3a0e59f-635a-4b75-826f-b0f5bf24b5c4", issues: [], name: "DONE", project: "7c1f9838-dbd7-4432-b52c-aae87022d578" ,index:3}]
 
 export const comments = [
     { _id: "comment1", issue: "issueId1", description: "Comment 1.", createdAt: "", user: "tsidadsjkdhiueiurt" },

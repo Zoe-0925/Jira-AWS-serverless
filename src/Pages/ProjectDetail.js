@@ -1,16 +1,19 @@
-import React from 'react'
+import React, { useEffect, Suspense } from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { selectCurrentProject, selectUsers } from "../Reducers/Selectors"
 import { updateProjectDetail } from "../Actions/project.actions"
-import UpdateProjectFormHOC from '../Components/Forms/UpdateProjectForm';
 import DrawerContainer from "../Components/Drawer/DrawerContainer"
+import history from "../history"
+const UpdateProjectFormHOC = React.lazy(() => import("../Components/Forms/UpdateProjectForm"))
 
 const ProjectDetail = () => {
     const dispatch = useDispatch()
-    const project = useSelector(selectCurrentProject) 
+    const project = useSelector(selectCurrentProject)
     const members = useSelector(selectUsers)
 
-    console.log("project", project)
+    useEffect(() => {
+        if (!project) { history.push("/") }
+    }, [project])
 
     const submitForm = values => {
         const formattedValues = { ...values, members: project.members }
@@ -19,7 +22,9 @@ const ProjectDetail = () => {
 
     return (
         <DrawerContainer type="projectDetail" currentLocation="detail">
-            {!project ? <p>Loading</p> : <UpdateProjectFormHOC members={members} project={project} onContinue={submitForm} />}
+            <Suspense fallback={<div>loading...</div>}>
+                {!project ? <p>Loading</p> : <UpdateProjectFormHOC members={members} project={project} onContinue={submitForm} />}
+            </Suspense>
         </DrawerContainer>
     )
 }

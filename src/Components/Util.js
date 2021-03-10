@@ -90,3 +90,15 @@ export const sortByCreatDate = (a, b) => { //Sort by createdAt date, at the desc
     }
     return 0;
 }
+
+export const sortByIndex = (a, b) => { //Sort by createdAt date, at the descending order
+    var dateA = a.index
+    var dateB = b.index
+    if (dateA < dateB) {
+        return -1;
+    }
+    if (dateA > dateB) {
+        return 1;
+    }
+    return 0;
+}

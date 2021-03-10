@@ -35,13 +35,17 @@ export function IssueDescriptionInput({ id, description }) {
 
     useEffect(() => {
         if (description && description !== "") {
-            setEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(description))))
+            const parsed = JSON.parse(description)
+            const converted = convertFromRaw(parsed)
+            setEditorState(EditorState.createWithContent(converted))
         }
+
     }, [description])
 
     const submit = () => {
         let newDescription = convertToRaw(editorState.getCurrentContent())
         newDescription = JSON.stringify(newDescription)
+        console.log("newDescription", newDescription)
         if (newDescription !== description) {
             dispatch(updateTaskAttribute({ _id: id, attribute: "description", updatedAt: generateDateString(), value: newDescription }))
         }

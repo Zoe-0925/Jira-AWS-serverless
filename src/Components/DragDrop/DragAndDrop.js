@@ -22,7 +22,7 @@ const DragAndDrop = () => {
         setOpen(true)
         setIssue(issue)
     }
-
+    
     return (
         <>
             <Filters filtered={filters.filtered}

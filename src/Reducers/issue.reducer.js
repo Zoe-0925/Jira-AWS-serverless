@@ -22,7 +22,6 @@ export default function IssueReducer(state = initialState, action) {
                 epics: newState.epics
             }
         case CREATE_ISSUE:
-            //TODO bug
             if (action.data.issueType === "task") {
                 newState.tasks = newState.tasks.merge({ [action.data._id]: [action.data] })
             }
@@ -40,7 +39,6 @@ export default function IssueReducer(state = initialState, action) {
                 epics: newState.epics
             }
         case DELETE_EPIC:
-            //delete the epic
             newState.epics.filter(item => item._id !== action.id)
             return {
                 tasks: newState.tasks, //Map()
@@ -64,15 +62,6 @@ export default function IssueReducer(state = initialState, action) {
             }
         })
         return newState*/
-        case ADD_TASK_TO_EPIC:
-
-
-
-            return newState
-        case REMOVE_TASK_FROM_EPIC:
-
-
-            return newState
         case UPDATE_EPIC:
             newState.epics.filter(item => item._id !== action.data._id)
             newState.epics.push(action.data)

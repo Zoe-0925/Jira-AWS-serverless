@@ -11,7 +11,7 @@ export const MyDraggable = ({ id, index, ...props }) => {
     >
         {(provided, snapshot) => (
             <div
-                className={snapshot.isDragging ? "is-dragging" : "column"}
+                className={snapshot.isDragging ? "issue-card is-dragging" : "issue-card"}
                 ref={provided.innerRef}
                 {...provided.draggableProps}
                 {...provided.dragHandleProps}
@@ -25,7 +25,7 @@ export const MyDraggable = ({ id, index, ...props }) => {
 export const MyDroppable = ({ el, ind, ...props }) => (<Droppable key={ind} droppableId={`${ind}`}>
     {(provided, snapshot) => (
         <div
-            className={snapshot.isDraggingOver ? "column drag-over" : "column-list"}
+            className={snapshot.isDraggingOver ? "column-list drag-over" : "column-list"}
             ref={provided.innerRef}
             {...provided.droppableProps}
         >
