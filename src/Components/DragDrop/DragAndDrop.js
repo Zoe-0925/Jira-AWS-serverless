@@ -15,6 +15,7 @@ const DragAndDrop = () => {
     const [currentIssue, setIssue] = useState()
     const status = useSelector(selectStatus)
     const tasks = useSelector(selectTasks)
+    const [rerender, setRerender] = useState(false)
 
     const { filteredTasks, filters, filterByCurrentUser, setUserFilter, clearFilter } = useFilter(tasks)
 
@@ -22,7 +23,9 @@ const DragAndDrop = () => {
         setOpen(true)
         setIssue(issue)
     }
-    
+
+    const handleRerender = () => setRerender(true)
+
     return (
         <>
             <Filters filtered={filters.filtered}
@@ -33,7 +36,7 @@ const DragAndDrop = () => {
                         <Column key={uuidv4()} status={el}>
                             {el.issues.map((issueId, index) =>
                                 <MyDraggable key={uuidv4()} id={issueId} index={index}>
-                                    <IssueCardHOC key={uuidv4()} issue={findItemById(!filters.filtered?tasks:filteredTasks, issueId)} handleClick={openIssueDetail} />
+                                    <IssueCardHOC key={uuidv4()} issue={findItemById(!filters.filtered ? tasks : filteredTasks, issueId)} handleClick={openIssueDetail} />
                                 </MyDraggable>
                             )}
                         </Column>

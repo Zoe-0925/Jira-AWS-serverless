@@ -17,6 +17,8 @@ const useStyles = makeStyles(() => ({
 const IssueCard = ({ handleClick, issue, handleDeleteIssue, anchorEl, isOpen, anchorRef, handleMenuOpen, handleMenuClose, toggleFlag }) => {
     const classes = useStyles();
 
+
+    
     return (<>
         <Box boxShadow={1}
             key={uuidv4()} className={!issue.flag ? "issue-card" : "issue-card flagged"

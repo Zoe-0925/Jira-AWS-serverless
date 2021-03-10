@@ -17,5 +17,4 @@ const IssueDetailDialog = ({ currentIssue, handleClose, open }) => (
     </Dialog>
 )
 
-
 export default IssueDetailDialog

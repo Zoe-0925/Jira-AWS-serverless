@@ -41,6 +41,7 @@ const IssueDetailForm = ({ issue, handleClose }) => {
 
     const deleteIssue = () => {
         dispatch(chainDeleteIssue(issue._id, issue.status, issue.issueType))
+        handleClose()
     }
 
     const selectOptions = [

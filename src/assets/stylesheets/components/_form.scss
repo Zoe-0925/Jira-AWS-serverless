@@ -62,7 +62,7 @@
 @media (max-width: 415px) {
   .issue-form-in-modal {
     .label {
-      margin: 24px 0px 5px;
+      width:100%;
       text-transform: uppercase;
       color: rgb(94, 108, 132);
       font-size: 12.5px;
@@ -145,6 +145,7 @@
   width: 100%;
 
   .label {
+    width:100%;
     font-weight: bold;
     font-size: 1em;
     font-style: roboto;
@@ -191,6 +192,7 @@
 }
 
 .label {
+  width:100%;
   font-weight: bold;
   font-size: 1em;
   font-style: roboto;
