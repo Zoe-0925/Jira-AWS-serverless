@@ -1,32 +1,39 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux"
 import { MyDraggable, MyDroppable } from "./DraggableAndDroppable";
 import Column from "../StatusColumn/Column"
 import { v4 as uuidv4 } from 'uuid'
 import IssueCardHOC from "../IssueCard/IssueCardHOC";
 import { findItemById } from "../Util"
 import IssueDetailDialog from "../Dialog/UpdateIssueDIalog"
+import Filters from "../Filters/Filters"
+import { selectTasks, selectStatus } from "../../Reducers/Selectors"
+import { useFilter } from "../Hooks/Hooks"
 
-const DragAndDrop = ({ status, filteredTasks }) => {
+const DragAndDrop = () => {
     const [isIssueDetailOpen, setOpen] = useState(false)
     const [currentIssue, setIssue] = useState()
-  
+    const status = useSelector(selectStatus)
+    const tasks = useSelector(selectTasks)
+
+    const { filteredTasks, filters, filterByCurrentUser, setUserFilter, clearFilter } = useFilter(tasks)
+
     const openIssueDetail = issue => {
         setOpen(true)
         setIssue(issue)
     }
 
-    console.log("filteredTasks", filteredTasks)
-    console.log("status", status)
-
     return (
         <>
+            <Filters filtered={filters.filtered}
+                filterByCurrentUser={filterByCurrentUser} setUserFilter={setUserFilter} clearFilter={clearFilter} />
             <div className="column-list">
                 {status.map((el, ind) =>
                     <MyDroppable key={ind} el={el} ind={ind}>
                         <Column key={uuidv4()} status={el}>
                             {el.issues.map((issueId, index) =>
                                 <MyDraggable key={uuidv4()} id={issueId} index={index}>
-                                    <IssueCardHOC key={uuidv4()} issue={findItemById(filteredTasks, issueId)} handleClick={openIssueDetail} />
+                                    <IssueCardHOC key={uuidv4()} issue={findItemById(!filters.filtered?tasks:filteredTasks, issueId)} handleClick={openIssueDetail} />
                                 </MyDraggable>
                             )}
                         </Column>

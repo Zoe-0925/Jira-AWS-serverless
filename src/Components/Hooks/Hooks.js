@@ -1,6 +1,6 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { useSelector } from "react-redux"
-import { selectCurrentUserId, selectTasks } from "../../Reducers/Selectors"
+import { selectCurrentUserId, selectTasks, selectUserIds } from "../../Reducers/Selectors"
 import { searchBySummary } from "../Util"
 
 export function useSimpleState() {
@@ -44,57 +44,26 @@ export const useDotIconMenu = () => {
     return { anchorEl, isOpen, anchorRef, handleMenuClose, handleMenuOpen }
 }
 
-export const useFilter = () => {
-    const tasks = useSelector(selectTasks)
-    const [filteredTasks, setFilteredTasks] = useState(tasks || [])
+export const useFilter = (tasks = [] ) => {
+    const [filters, setFilter] = useState({ filtered: false, users: [], currentUser: false, issueId: "" })
+    const [query, setQuery] = useState("")
     const currentUserId = useSelector(selectCurrentUserId)
+    const userIds = useSelector(selectUserIds)
+    const [filteredTasks, setFilteredTasks] = useState([])
 
-    useEffect(() => {
-        setFilteredTasks(tasks)
-    }, [tasks])
-
-    const handleQuery = (query) => {
-        const searchResult = searchBySummary(query, tasks)
-        setFilteredTasks(searchResult)
-    }
-
-    const handleFilterByCurrentUser = () => {
+    const filterByCurrentUser = () => {
+        setFilter({ filtered: true, users: [], currentUser: true })
         const result = tasks.filter(task => task.assignee === currentUserId)
         setFilteredTasks(result)
     }
 
-    const handleUserFilter = userIds => {
-        const result = tasks.filter(task => userIds.includes(task.assignee))
-
-        setFilteredTasks(result)
-    }
-
-    const clearFilter = () => {
-        setFilteredTasks(tasks)
-    }
-
-    console.log("filteredTasks", filteredTasks)
-
-    return { handleQuery, filteredTasks, handleFilterByCurrentUser, handleUserFilter, clearFilter }
-}
-
-export const useLocalFilter = ({ handleFilterByCurrentUser, handleUserFilter, handleClearFilter }) => {
-    const [filters, setFilter] = useState({ filtered: false, users: [], currentUser: false, issueId: "" })
-    const [query, setQuery] = useState("")
-
-
- 
-
-    /** 
-    useEffect(() => {
-        setTimeout(handleQuery(query), 1500)
-        return false
-    }, [query])*/
-
-    const filterByCurrentUser = () => {
-        setFilter({ filtered: true, users: [], currentUser: true })
-        handleFilterByCurrentUser()
-    }
+    /**
+     * 
+     *  const handleQuery = (query) => {
+        const searchResult = searchBySummary(query, tasks)
+        setFilteredTasks(searchResult)
+    }} id 
+     */
 
     const setUserFilter = (id) => {
         let newFilters = { ...filters, filtered: true, currentUser: false }
@@ -104,17 +73,18 @@ export const useLocalFilter = ({ handleFilterByCurrentUser, handleUserFilter, ha
             newFilters.users.push(id)
         }
         setFilter(newFilters)
-        handleUserFilter(newFilters.users)
+        const result = tasks.filter(task => userIds.includes(task.assignee))
+        setFilteredTasks(result)
     }
 
     const clearFilter = () => {
         setFilter({ filtered: false, users: [], currentUser: false, issueId: "" })
-        handleClearFilter()
+        setFilteredTasks([])
     }
 
     const handleChange = e => {
         setQuery(e.target.value)
     }
 
-    return { filters, filterByCurrentUser,  setUserFilter, clearFilter }
+    return { filteredTasks, filters, filterByCurrentUser, setUserFilter, clearFilter }
 }

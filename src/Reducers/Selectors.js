@@ -26,7 +26,7 @@ export const selectStatus = state => state.StatusReducer.status.sort(sortByCreat
 
 export const selectFirstStatus = createSelector(
     selectStatus,
-    statusList => statusList[0]?statusList[0]._id:""
+    statusList => statusList[0] ? statusList[0]._id : ""
 )
 
 /****************** Selectors - Project  *********************/
@@ -66,7 +66,11 @@ export const selectProjects = createSelector(
 export const selectCurrentProject = createSelector(
     selectCurrentProjectId,
     selectProjects,
-    (currentProjectId, projects) => projects.find(item => item._id === currentProjectId)
+    (currentProjectId, projects) => {
+        console.log("currentProjectId", currentProjectId, "projects", projects)
+        const project = projects.find(item => item._id === currentProjectId)
+        return project
+    }
 )
 
 export const selectCurrentProjectName = createSelector(
@@ -93,6 +97,11 @@ export const selectCurrentUserId = createSelector(
 export const selectUsers = createSelector(
     selectUserReducer,
     reducer => reducer.users
+)
+
+export const selectUserIds = createSelector(
+    selectUserReducer,
+    reducer => reducer.users ? reducer.users.map(each => each._id) : []
 )
 
 export const selectCurrentUser = createSelector(

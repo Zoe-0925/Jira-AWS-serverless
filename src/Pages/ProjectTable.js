@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, Suspense } from 'react'
 import { useSelector, useDispatch } from "react-redux"
-import ProjectListTableHOC from "../Components/ProjectTable/ProjectTableHOC"
 import NavBar from "../Components/NavBar/NavBar"
 import { Row, Col } from "reactstrap"
 import { selectCurrentUserId } from "../Reducers/Selectors"
 import { mockgetUserAndProjectData } from "../Actions/user.actions"
+const ProjectListTableHOC = React.lazy(() => import("../Components/ProjectTable/ProjectTableHOC"))
 
 const ProjectTable = () => {
     const dispatch = useDispatch()
@@ -25,7 +25,9 @@ const ProjectTable = () => {
                     <Col md="1">  <p align="left" className="project-list-title">Project</p></Col>
                     <Col ml="auto"></Col>
                 </Row>
-                <ProjectListTableHOC />
+                <Suspense fallback={<div>loading...</div>}>
+                    <ProjectListTableHOC />
+                </Suspense>
             </div>
         </div>
     )

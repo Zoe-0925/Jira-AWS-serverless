@@ -55,7 +55,7 @@ export const ProjectDetailForm = ({ values, loading, leadOptions, updateProjectL
             </Container>
             <img className="project-icon" src="https://cdn.worldvectorlogo.com/logos/jira-1.svg" alt="project icon" />
             <div align="center" className="form">
-                <Form onSubmit={handleSubmit}>
+                <Form onSubmit={handleSubmit} className="project-detail-form">
                     <FormTextField id="name" inputLabel="Name" value={values.name} handleChange={handleChange} />
                     <FormTextField id="key" inputLabel="Key" value={values.key} handleChange={handleChange} />
                     <FormSelectField id="lead" inputLabel="Project Lead" options={leadOptions} handleChange={updateProjectLead} />

@@ -7,8 +7,10 @@ import DrawerContainer from "../Components/Drawer/DrawerContainer"
 
 const ProjectDetail = () => {
     const dispatch = useDispatch()
-    const project = useSelector(selectCurrentProject)  //bug. Select current project
+    const project = useSelector(selectCurrentProject) 
     const members = useSelector(selectUsers)
+
+    console.log("project", project)
 
     const submitForm = values => {
         const formattedValues = { ...values, members: project.members }

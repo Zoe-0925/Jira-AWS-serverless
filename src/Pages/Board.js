@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, Suspense } from 'react'
 import { useSelector, useDispatch } from "react-redux"
-import DragContext from "../Components/DragDrop/DragContext"
+import { mockgetUserAndProjectData } from "../Actions/user.actions"
 import { selectCurrentProjectName, selectCurrentUserId } from '../Reducers/Selectors';
 import { Typography, Link, Breadcrumbs } from "@material-ui/core"
-import { mockgetUserAndProjectData } from "../Actions/user.actions"
 import DrawerContainer from "../Components/Drawer/DrawerContainer"
+const DragContext = React.lazy(() => import("../Components/DragDrop/DragContext"))
 
 export default function Board() {
     const dispatch = useDispatch()
@@ -25,9 +25,9 @@ export default function Board() {
                 <Typography color="textPrimary">{projectName ? projectName : ""}</Typography>
             </Breadcrumbs>
             <p>{projectName} Board</p>
-            <DragContext />
+            <Suspense fallback={<div>loading...</div>}>
+                <DragContext />
+            </Suspense>
         </DrawerContainer>
     )
 }
-
-//    <BoardFilterList />
