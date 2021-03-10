@@ -2,8 +2,8 @@ import React, { Fragment } from 'react'
 import { Form } from 'formik';
 import { withFormik } from 'formik';
 import { Typography, Button } from '@material-ui/core';
-import { DialogCloseIcon } from "../shared/tabs"
-import { FormTextField } from "./formFields"
+import { DialogCloseIcon } from "../buttons/iconButtons"
+import { FormTextField } from "./fields"
 
 export const CreateProjectForm = ({
     values,
@@ -14,8 +14,8 @@ export const CreateProjectForm = ({
     return <Fragment>
         <DialogCloseIcon handleClose={handleClose} />
         <div align="center"><Typography variant="h5">Create project</Typography></div>
-        <div align="center" className="project-create-form">
-            <Form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit}>
+            <div align="center" className="create-project-form">
                 <FormTextField id="name" inputLabel="Name *" value={values.name} handleChange={handleChange} />
                 <FormTextField id="key" inputLabel="Key *" value={values.key} handleChange={handleChange} />
                 <br />
@@ -24,8 +24,8 @@ export const CreateProjectForm = ({
                     className="navbar-create-btn"
                     onClick={handleSubmit}
                 >Create</Button>
-            </Form>
-        </div>
+            </div>
+        </Form>
     </Fragment>
 }
 

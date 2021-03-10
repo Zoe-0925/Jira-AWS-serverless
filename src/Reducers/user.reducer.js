@@ -1,5 +1,5 @@
 import {
-	UPDATE_USER, LOGIN, LOGOUT, ADD_OTHER_USERS, UPDATE_PROJECTS, CLEAR_USER,
+	LOGIN, LOGOUT, ADD_OTHER_USERS, CLEAR
 } from "../actions/user.actions"
 
 const initialState = {
@@ -13,9 +13,6 @@ const UserReducer = (state = initialState, action) => {
 		case ADD_OTHER_USERS:
 			newState.users = newState.users.concat(action.data)
 			return newState
-		case UPDATE_PROJECTS:
-			newState.users.find(user => user._id === newState.currentUserId).projects = action.data
-			return newState
 		case LOGIN:
 			if (typeof action.data === Array) { return newState }
 			newState.currentUserId = action.data._id
@@ -23,12 +20,7 @@ const UserReducer = (state = initialState, action) => {
 			return newState
 		case LOGOUT:
 			return initialState
-		case UPDATE_USER:
-			let tempUsers = newState.users.filter(item => item._id === action.data._id)
-			tempUsers.push(action.data)
-			newState.users = tempUsers
-			return newState
-		case CLEAR_USER:
+		case CLEAR:
 			return initialState
 		default:
 			return state

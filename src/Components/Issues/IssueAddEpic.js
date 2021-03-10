@@ -1,15 +1,14 @@
 import React, { Fragment, useState } from 'react';
 import { useDispatch } from "react-redux"
-import { useSelector } from "react-redux"
 import { withFormik } from 'formik';
 import Select from 'react-select';
 import {Button, InputLabel, Dialog} from '@material-ui/core';
 import * as Yup from 'yup';
-import { selectEpics } from "../../reducers/selectors"
-import { updateIssueAttribute } from "../../actions/issue.actions"
-import { SuccessfulFeedback } from "../shared/feedback"
+//import { selectEpics } from "../../Reducers/Selectors"
+import { updateTaskAttribute } from "../../actions/issue.actions"
+import { SuccessfulFeedback } from "../feedback/feedback"
 import CreateIcon from '@material-ui/icons/Create';
-import { DialogContentContainer } from "../shared/dialog"
+import { DialogContentContainer } from "../dialog/dialog"
 
 const IssueAddEpicForm = props => {
     const {
@@ -19,7 +18,8 @@ const IssueAddEpicForm = props => {
         isSubmitting,
     } = props
 
-    const epics = useSelector(selectEpics)
+    const epics = []
+    //useSelector(selectEpics)
 
     const epicOptions = epics.map(each => {
         return {
@@ -67,7 +67,7 @@ const IssueAddEpic = ({ issueId }) => {
         //TODO 
         //Need last updated at.....
 
-        dispatch(updateIssueAttribute({ _id: issueId, attribute: "epic", value: value.epic })).then(
+        dispatch(updateTaskAttribute({ _id: issueId, attribute: "epic", value: value.epic })).then(
             result => {
                 if (result) {
                     setSuccessful(true)

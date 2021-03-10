@@ -13,7 +13,6 @@ import Amplify from 'aws-amplify';
 import aws_exports from './aws-exports';
 import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react'
 import history from "./history"
-import Test from "./pages/Test"
 
 Amplify.configure(aws_exports);
 
@@ -23,12 +22,11 @@ const App = () => {
     <div className="App">
       <Router history={history}>
         <Switch>
-          <Route path="/" exact component={ProjectTable} />
+          <Route path="/" exact component={Board} />
           <Route path="/projects" exact component={ProjectTable} />
           <Route path="/projects/roadmap" component={App} />
           <Route path="/projects/board" exact component={Board} />
-          <Route path="/projects/settings/details" exact component={ProjectDetail} />
-        </Switch>
+          <Route path="/projects/settings/details" exact component={ProjectDetail} /> </Switch>
       </Router>
     </div>
   )

@@ -1,15 +1,16 @@
-import React, { useState, useEffect, Fragment } from 'react'
-import { v4 as uuidv4 } from 'uuid'
+import React, { useState,  Fragment } from 'react'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { Button, Menu, MenuItem, FormGroup, FormControlLabel, Checkbox, ClickAwayListener } from '@material-ui/core'
-import { useDotIconMenu } from "../shared/hooks"
-import { DropDownMenu } from "../shared/tabs"
+import { Button,  MenuItem, FormGroup, FormControlLabel, Checkbox} from '@material-ui/core'
+import { useDotIconMenu } from "../hooks/hooks"
+import { DropDownMenu } from "../vuttons/iconButtons"
 
+// eslint-disable-next-line
 export default function FilterButton({ data = [], buttonName, label, handleSelect }) {
     const [state, setState] = useState(data.map(each => {
         return { [each._id]: false }
     }));
 
+    // eslint-disable-next-line
     const { anchorEl, isOpen, anchorRef, handleMenuClose, handleMenuOpen } = useDotIconMenu()
 
     const handleChange = (event) => {

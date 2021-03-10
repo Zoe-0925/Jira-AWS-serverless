@@ -2,13 +2,13 @@ import React, { Fragment } from 'react'
 import { useSelector } from "react-redux"
 import { selectLoading } from "../../reducers/selectors"
 import { Form, withFormik } from 'formik';
-import { DotIconMenu } from "../shared/tabs"
+import { DotIconMenu } from "../buttons/iconButtons"
 import {
     Link, Typography, Breadcrumbs, Button, Divider, MenuItem, CircularProgress
 } from '@material-ui/core';
-import { useDotIconMenu } from "../shared/hooks"
+import { useDotIconMenu } from "../hooks/hooks"
 import { Container, Row, Col } from "reactstrap"
-import { FormTextField, FormSelectField } from "./formFields"
+import { FormTextField, FormSelectField } from "./fields"
 
 export const UpdateProjectForm = ({
     values,
@@ -17,7 +17,6 @@ export const UpdateProjectForm = ({
     removeProject,
     setFieldValue
 }) => {
-
     const loading = useSelector(selectLoading)
     const leadOptions = values.memberObjects.map(each => { return { value: each._id, label: each.name } })
     const updateProjectLead = (e) => {
@@ -54,16 +53,15 @@ export const ProjectDetailForm = ({ values, loading, leadOptions, updateProjectL
                     </DotIconMenu></Col>
                 </Row>
             </Container>
-            <img className="project-icon" src="https://www.lovethispic.com/uploaded_images/218149-Hot-Guy-To-Wake-Up-To.jpg" alt="project icon" />
-            <div align="center"><Button>Change icon</Button></div>
+            <img className="project-icon" src="https://cdn.worldvectorlogo.com/logos/jira-1.svg" alt="project icon" />
             <div align="center" className="form">
-                <Form onSubmit={handleSubmit}>
+                <Form onSubmit={handleSubmit} className="project-detail-form">
                     <FormTextField id="name" inputLabel="Name" value={values.name} handleChange={handleChange} />
                     <FormTextField id="key" inputLabel="Key" value={values.key} handleChange={handleChange} />
                     <FormSelectField id="lead" inputLabel="Project Lead" options={leadOptions} handleChange={updateProjectLead} />
-                    <br />
                     <FormSelectField id="default_assignee" inputLabel="Default Assignee" options={[{ value: "lead", label: "Project Lead" }, { value: "", label: "None" }]} handleChange={updateDefaultAssignee} />
                     <Divider />
+                    <br />
                     <Button
                         disabled={loading}
                         className="navbar-create-btn"

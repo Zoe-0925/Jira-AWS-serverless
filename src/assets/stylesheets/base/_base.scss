@@ -1,7 +1,8 @@
 // -----------------------------------------------------------------------------
 // This file contains very basic styles.
 // -----------------------------------------------------------------------------
-@import "../abstracts//variables";
+@import "../abstracts/variables";
+@import "../abstracts/mixins";
 
 .App {
   width: 100%;
@@ -10,13 +11,14 @@
 }
 
 .main {
+  background-color: white;
   padding-left: 3%;
   padding-right: 3%;
 
   .project-icon {
     display: block;
-    width: 9.375rem;
-    height: 9.375rem;
+    width: 8rem;
+    height: 8rem;
     margin-left: auto;
     margin-right: auto;
   }
@@ -39,6 +41,18 @@
   .board-name:hover {
     background-color: $bgc;
   }
+
+  .filter-row{
+    padding-left: 2%;
+    padding-bottom: 2rem;
+
+
+    .issue-filter:hover,
+    .issue-filter-clicked:hover {
+      background-color: $bgc;
+    }
+
+  }
 }
 
 @media (min-width: 416px) {
@@ -57,9 +71,6 @@
   padding: 0;
 }
 
-.select {
-  @include select;
-}
 
 .form-label {
   @include label;
@@ -71,6 +82,7 @@
 
 .body {
   margin-top: 4rem;
+  background-color: white;
 
   .create-pj-btn {
     @include call-to-action-button;

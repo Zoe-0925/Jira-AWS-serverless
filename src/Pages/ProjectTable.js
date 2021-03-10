@@ -1,11 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, Suspense } from 'react'
 import { useSelector, useDispatch } from "react-redux"
-import ProjectListTableHOC from "../components/projectTable/projectTableHOC"
-import NavBar from "../components/shared/navBar"
+import NavBar from "../components/navBar/navBar"
 import { Row, Col } from "reactstrap"
 import { selectCurrentUserId } from "../reducers/selectors"
 import { mockgetUserAndProjectData } from "../actions/user.actions"
-import { loadProjectTablePage } from "../actions/loading.actions"
+const ProjectListTableHOC = React.lazy(() => import("../components/projectTable/projectTableHOC"))
 
 const ProjectTable = () => {
     const dispatch = useDispatch()
@@ -14,9 +13,6 @@ const ProjectTable = () => {
     useEffect(() => {
         if (currentUserId === "") {
             dispatch(mockgetUserAndProjectData())
-
-            //TODO: Uncomment to switch
-            //dispatch(loadProjectTablePage())
         }
         // eslint-disable-next-line
     }, [])
@@ -29,7 +25,9 @@ const ProjectTable = () => {
                     <Col md="1">  <p align="left" className="project-list-title">Project</p></Col>
                     <Col ml="auto"></Col>
                 </Row>
-                <ProjectListTableHOC />
+                <Suspense fallback={<div>loading...</div>}>
+                    <ProjectListTableHOC />
+                </Suspense>
             </div>
         </div>
     )

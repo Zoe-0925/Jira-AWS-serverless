@@ -1,8 +1,11 @@
 .is-dragging {
-    background-color: lightblue;
-  }
-  
-  .drag-over {
-    background-color: #5bc2f2;
-  }
-  
+  background-color: lightblue;
+}
+
+.drag-over {
+  background-color: #5bc2f2;
+}
+
+.draggable {
+  height: auto;
+}

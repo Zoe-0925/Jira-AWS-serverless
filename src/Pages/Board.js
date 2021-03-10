@@ -1,38 +1,33 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, Suspense } from 'react'
 import { useSelector, useDispatch } from "react-redux"
-import Drawer from "../components/drawer/drawer"
-import { DrawerLinks } from "../components/drawer/drawerLinks"
-import DragContext from "../components/dragDrop/dragContext"
-import NavBar from "../components/shared/navBar"
-import { selectCurrentProjectName } from '../reducers/selectors';
-import { Typography, Link, Breadcrumbs } from "@material-ui/core"
 import { mockgetUserAndProjectData } from "../actions/user.actions"
-//import BoardFilterList from "../components/filters/BoardFilterList"
+import { selectCurrentProjectName, selectCurrentUserId } from '../reducers/selectors';
+import { Typography, Link, Breadcrumbs } from "@material-ui/core"
+import DrawerContainer from "../components/drawer/drawerContainer"
+const DragContext = React.lazy(() => import("../components/dragDrop/dragContext"))
 
 export default function Board() {
     const dispatch = useDispatch()
     const projectName = useSelector(selectCurrentProjectName)
-    const [open, setOpen] = useState(true);
+    const currentUserId = useSelector(selectCurrentUserId)
 
     useEffect(() => {
-        dispatch(mockgetUserAndProjectData())
+        if (currentUserId === "") {
+            dispatch(mockgetUserAndProjectData())
+        }
         // eslint-disable-next-line
     }, [])
 
     return (
-        <div className={open ? "main drawer-close" : "main drawer-open"}>
-            <NavBar openDrawer={() => setOpen(true)} />
-            <Drawer handleClick={setOpen} open={open}>
-                <DrawerLinks currentLocation="board" />
-            </Drawer>
+        <DrawerContainer type="board" currentLocation="board">
             <Breadcrumbs aria-label="breadcrumb" className="bread-crumbs" >
-                <Link color="inherit" href="/">Projects</Link>
+                <Link color="inherit" href="/projects">Projects</Link>
                 <Typography color="textPrimary">{projectName ? projectName : ""}</Typography>
             </Breadcrumbs>
             <p>{projectName} Board</p>
-            <DragContext />
-        </div>
+            <Suspense fallback={<div>loading...</div>}>
+                <DragContext />
+            </Suspense>
+        </DrawerContainer>
     )
 }
-
-//    <BoardFilterList />

@@ -1,0 +1,60 @@
+@import "abstracts/variables";
+
+.editable {
+  cursor: text;
+  width: 100%;
+  padding: 0;
+  text-align: left;
+}
+
+.editable:hover {
+  background-color: #f8f8ff;
+}
+
+.issue-description {
+  width: 100%;
+}
+
+.textarea {
+  width: 100%;
+}
+
+.wrapper-class {
+  padding: 1rem;
+  border: 1px solid #ccc;
+}
+.editor-class {
+  background-color: lightgray;
+  padding: 1rem;
+  border: 1px solid #ccc;
+}
+.toolbar-class {
+  border: 1px solid #ccc;
+}
+
+.rich-text-editor {
+  background-color: white;
+  min-height: 18rem;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: left;
+  font-size: calc(10px + 2vmin);
+  color: $body-color;
+  margin-bottom: 5vh;
+  text-align: left;
+  width: 100%;
+  outline-color: $light-grey;
+  outline: 2px dashed $light-grey;
+  border: 1px solid #ccc;
+
+  .toolbar-class {
+    border: 1px solid #ccc;
+  }
+}
+
+
+.description-text{
+  min-height:10rem;
+  background-color: $bgc;
+}

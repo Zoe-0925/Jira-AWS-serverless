@@ -18,9 +18,9 @@
     height: 100%;
     cursor: pointer;
   }
+
   .navbar-create-btn {
     @include call-to-action-button;
-    margin-top: 1rem;
   }
 }
 

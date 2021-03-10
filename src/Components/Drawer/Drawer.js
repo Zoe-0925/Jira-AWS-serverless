@@ -1,12 +1,9 @@
 import React from 'react';
 import { useSelector } from "react-redux"
-import { selectCurrentProjectName } from "../../reducers/selectors"
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { Drawer, IconButton } from '@material-ui/core';
-import { ProjectHeaderTab } from "../shared/tabs"
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import CloseIcon from '@material-ui/icons/Close';
+import { selectCurrentProjectName } from "../../Reducers/Selectors"
+import { makeStyles } from '@material-ui/core/styles';
+import { Drawer } from '@material-ui/core';
+import { ProjectHeaderTab } from "../buttons/iconButtons"
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Row } from "reactstrap"
 
@@ -42,18 +39,9 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function SideDrawer({ handleClick, open, ...props }) {
-    const theme = useTheme();
+const SideDrawer = ({ handleClick, open, ...props }) => {
     const classes = useStyles();
     const title = useSelector(selectCurrentProjectName)
-
-    function closeDrawer() {
-        handleClick(false)
-    }
-
-    const closeButton = (<IconButton onClick={closeDrawer} className={classes.closeMenuButton}>
-        <CloseIcon />
-    </IconButton>)
 
     return <div className="drawer">
         <CssBaseline />
@@ -72,9 +60,6 @@ export default function SideDrawer({ handleClick, open, ...props }) {
                     <Row>
                         <ProjectHeaderTab title={title || ""} subtite="Software project" imgSrc="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcT2sa8Zxht8_5o8aMA9I1rHmr9FVXEoxoDVfw&usqp=CAU" />
                     </Row>
-                    <IconButton className="close-drawer-icon" onClick={open ? () => { handleClick(false) } : () => { handleClick(true) }}>
-                        {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-                    </IconButton>
                 </div>
                 {props.children}
             </Drawer>
@@ -82,3 +67,4 @@ export default function SideDrawer({ handleClick, open, ...props }) {
     </div>
 }
 
+export default React.memo(SideDrawer)

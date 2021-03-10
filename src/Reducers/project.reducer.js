@@ -1,31 +1,14 @@
 
 import {
-   CLEAR_PROJECT, CREATE_PROJECT, APPEND_PROJECTS, SET_CURRENT_PROJECT, DELETE_PROJECT,
-   UPDATE_PROJECT_ATTRIBUTE, UPDATE_PROJECT_DETAIL
+    CREATE_PROJECT, APPEND_PROJECTS, SET_CURRENT_PROJECT, UPDATE_PROJECT_ATTRIBUTE, UPDATE_PROJECT_DETAIL
 } from "../actions/project.actions"
-
-
-const testState = {
-    projects: [{
-        _id: "test id",
-        name: "test project name",
-        key: "test key",
-        lead: "testUserId",
-        members: ["testUserId"],
-        image: "",
-        default_assignee: "Project Lead",
-        start_date: "",
-        statusOrder: ["1", "2", "3", "4"]
-    }],
-    currentProjectId: "test id"
-}
 
 const initialState = {
     projects: [],
     currentProjectId: ""
 }
 
-export default function ProjectReducer(state = testState, action) {
+export default function ProjectReducer(state = initialState, action) {
     let newState = { ...state }
     let target
     switch (action.type) {
@@ -33,7 +16,7 @@ export default function ProjectReducer(state = testState, action) {
             return { ...state, currentProjectId: action.id }
         case CREATE_PROJECT:
             return { ...state, projects: [...state.projects, action.data] }
-        case DELETE_PROJECT:
+        case "DELETE_PROJECT":
             newState.projects = newState.projects.filter(item => item._id !== action.id)
             if (newState.currentProjectId === action.id) {
                 newState.currentProjectId = ""
@@ -51,7 +34,7 @@ export default function ProjectReducer(state = testState, action) {
             target.name = action.data.name
             target.key = action.data.key
             return newState
-        case CLEAR_PROJECT:
+        case "CLEAR_PROJECT":
             return initialState
         default:
             return state
