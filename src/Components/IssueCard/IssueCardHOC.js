@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useDotIconMenu } from "../Hooks/Hooks"
 import { chainDeleteIssue, updateTaskAttribute } from "../../Actions/issue.actions"
 import IssueCard from "./IssueCard"
-import { selectUserAvatarById } from "../../Reducers/Selectors"
+import { selectUserAvatarById } from "../../reducers/Selectors"
 
 const IssueCardHOC = ({ issue, handleClick }) => {
 

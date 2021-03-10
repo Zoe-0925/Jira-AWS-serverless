@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { setCurrentProject, chainDeleteProject } from "../../Actions/project.actions"
-import { selectUsers, selectAllProjects, selectLoading } from "../../Reducers/Selectors"
+import { selectUsers, selectAllProjects, selectLoading } from "../../reducers/Selectors"
 import history from "../../history"
 import { v4 as uuidv4 } from 'uuid'
 import ProjectTable from "./ProjectTable"

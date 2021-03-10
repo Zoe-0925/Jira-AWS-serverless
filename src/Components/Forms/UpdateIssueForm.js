@@ -4,7 +4,7 @@ import { IssueSummaryInput, IssueDescriptionInput } from "../EditableInput/Issue
 import { Row, Col } from 'reactstrap';
 import { Avatar, Divider, Breadcrumbs, IconButton } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { selectUsers, selectUserById, selectStatus, selectStatusNameById } from "../../Reducers/Selectors"
+import { selectUsers, selectUserById, selectStatus, selectStatusNameById } from "../../reducers/Selectors"
 import { updateTaskAttribute, chainDeleteIssue } from "../../Actions/issue.actions"
 import CloseIcon from '@material-ui/icons/Close';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';

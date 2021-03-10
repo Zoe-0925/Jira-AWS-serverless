@@ -1,6 +1,6 @@
 import React, { useEffect, Suspense } from 'react'
 import { useDispatch, useSelector } from "react-redux"
-import { selectCurrentProject, selectUsers } from "../Reducers/Selectors"
+import { selectCurrentProject, selectUsers } from "../reducers/Selectors"
 import { updateProjectDetail } from "../Actions/project.actions"
 import DrawerContainer from "../Components/Drawer/DrawerContainer"
 import history from "../history"

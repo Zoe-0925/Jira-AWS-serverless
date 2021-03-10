@@ -34,10 +34,8 @@ export const mockgetUserAndProjectData = () => async (dispatch) => {
         dispatch({ type: LOADING })
         await Promise.all([
             dispatch(login(user)),
-            dispatch(mockgetAllProjects())
-        ])
-        dispatch(setCurrentProject(currentProject._id))
-        await Promise.all([
+            dispatch(mockgetAllProjects()),
+            dispatch(setCurrentProject(currentProject._id)),
             dispatch(addOtherUsers(otherUsers)),
             dispatch({
                 type: APPEND_ISSUES,

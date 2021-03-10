@@ -7,7 +7,7 @@ import IssueCardHOC from "../IssueCard/IssueCardHOC";
 import { findItemById } from "../Util"
 import IssueDetailDialog from "../Dialog/UpdateIssueDIalog"
 import Filters from "../Filters/Filters"
-import { selectTasks, selectStatus } from "../../Reducers/Selectors"
+import { selectTasks, selectStatus } from "../../reducers/Selectors"
 import { useFilter } from "../Hooks/Hooks"
 import IssueSearchBox from "../Filters/IssueSearchBox"
 

@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { createComment } from "../../Actions/comment.actions"
-import { selectCommentByIssue, selectCurrentUser, selectUsers } from "../../Reducers/Selectors"
+import { selectCommentByIssue, selectCurrentUser, selectUsers } from "../../reducers/Selectors"
 import { findItemById } from "../Util"
 import CommentInput from "./CommentInput"
 import { Row, Col } from "reactstrap"

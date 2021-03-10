@@ -2,7 +2,7 @@ import React, { Fragment, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux"
 import { v4 as uuidv4 } from 'uuid'
 import { Button } from '@material-ui/core';
-import { selectAllProjects, selectCurrentProjectId, selectFirstStatus } from "../../Reducers/Selectors"
+import { selectAllProjects, selectCurrentProjectId, selectFirstStatus } from "../../reducers/Selectors"
 import { chainCreateIssue} from "../../Actions/issue.actions"
 import { SuccessfulFeedback } from "../Feedback/Feedback"
 import CreateIssueForm from "../Forms/CreateIssueForm"

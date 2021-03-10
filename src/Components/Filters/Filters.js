@@ -3,7 +3,7 @@ import { useSelector } from "react-redux"
 import { v4 as uuidv4 } from 'uuid'
 import { Row } from 'reactstrap';
 import { Tooltip, Avatar, Button, Divider } from '@material-ui/core';
-import { selectUsers } from "../../Reducers/Selectors"
+import { selectUsers } from "../../reducers/Selectors"
 
 const Filters = ({ filtered, filterByCurrentUser, setUserFilter, clearFilter, children }) => {
     const users = useSelector(selectUsers)

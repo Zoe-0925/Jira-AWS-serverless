@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from "react-redux"
-import { selectCurrentUserId } from "../../Reducers/Selectors"
+import { selectCurrentUserId } from "../../reducers/Selectors"
 import { chainCreactProject } from "../../Actions/project.actions"
 import { initiateProjectAndStatus } from "../Util"
 import CreateProjectFormHOC from "../Forms/CreateProjectForm"

@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 import { useSelector } from "react-redux"
-import { selectCurrentUserId } from "../../Reducers/Selectors"
+import { selectCurrentUserId } from "../../reducers/Selectors"
 import { searchBySummary } from "../Util"
 
 export function useSimpleState() {

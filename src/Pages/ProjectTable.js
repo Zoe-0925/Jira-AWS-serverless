@@ -2,7 +2,7 @@ import React, { useEffect, Suspense } from 'react'
 import { useSelector, useDispatch } from "react-redux"
 import NavBar from "../Components/NavBar/NavBar"
 import { Row, Col } from "reactstrap"
-import { selectCurrentUserId } from "../Reducers/Selectors"
+import { selectCurrentUserId } from "../reducers/Selectors"
 import { mockgetUserAndProjectData } from "../Actions/user.actions"
 const ProjectListTableHOC = React.lazy(() => import("../Components/ProjectTable/ProjectTableHOC"))
 

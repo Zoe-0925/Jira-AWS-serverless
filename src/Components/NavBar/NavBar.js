@@ -57,7 +57,6 @@ const NavBar = ({ toggleDrawer }) => {
                     <CreateIssueDialog />
                     <div className={classes.grow} />
                     <div className={classes.sectionDesktop}>
-
                         <IconButton
                             edge="start"
                             className={classes.menuButton}

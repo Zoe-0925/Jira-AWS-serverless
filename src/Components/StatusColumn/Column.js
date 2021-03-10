@@ -2,7 +2,7 @@ import React from 'react'
 /**--------------Redux-------------- */
 import { useDispatch, useSelector } from "react-redux"
 import { chainCreateIssue } from "../../Actions/issue.actions"
-import { selectLoading } from '../../Reducers/Selectors';
+import { selectLoading } from '../../reducers/Selectors';
 /**--------------UI-------------- */
 import { CircularProgress } from '@material-ui/core';
 import { AddTab } from "../Buttons/IconButtons"

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { useEditText } from "../Hooks/Hooks"
-import { selectLoading } from '../../Reducers/Selectors';
+import { selectLoading } from '../../reducers/Selectors';
 import { updateTaskAttribute } from '../../Actions/issue.actions';
 import { EditableInput } from "./EditableInput"
 import { generateDateString } from "../Util"

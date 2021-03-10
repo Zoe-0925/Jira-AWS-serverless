@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from "react-redux"
-import { selectCurrentProjectName } from "../../Reducers/Selectors"
+import { selectCurrentProjectName } from "../../reducers/Selectors"
 import { makeStyles } from '@material-ui/core/styles';
 import { Drawer } from '@material-ui/core';
 import { ProjectHeaderTab } from "../Buttons/IconButtons"
