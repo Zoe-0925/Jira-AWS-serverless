@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 import { useSelector } from "react-redux"
-import { selectCurrentUserId, selectTasks, selectUserIds } from "../../Reducers/Selectors"
+import { selectCurrentUserId } from "../../Reducers/Selectors"
 import { searchBySummary } from "../Util"
 
 export function useSimpleState() {
@@ -44,11 +44,9 @@ export const useDotIconMenu = () => {
     return { anchorEl, isOpen, anchorRef, handleMenuClose, handleMenuOpen }
 }
 
-export const useFilter = (tasks = [] ) => {
+export const useFilter = (tasks = []) => {
     const [filters, setFilter] = useState({ filtered: false, users: [], currentUser: false, issueId: "" })
-    const [query, setQuery] = useState("")
     const currentUserId = useSelector(selectCurrentUserId)
-    const userIds = useSelector(selectUserIds)
     const [filteredTasks, setFilteredTasks] = useState([])
 
     const filterByCurrentUser = () => {
@@ -57,13 +55,11 @@ export const useFilter = (tasks = [] ) => {
         setFilteredTasks(result)
     }
 
-    /**
-     * 
-     *  const handleQuery = (query) => {
-        const searchResult = searchBySummary(query, tasks)
-        setFilteredTasks(searchResult)
-    }} id 
-     */
+    const handleQuery = (query) => {
+        const result = tasks.filter(task => task.summary.includes(query))
+        setFilter({ filtered: true, users: [], currentUser: false })
+        setFilteredTasks(result)
+    }
 
     const setUserFilter = (id) => {
         let newFilters = { ...filters, filtered: true, currentUser: false }
@@ -73,7 +69,7 @@ export const useFilter = (tasks = [] ) => {
             newFilters.users.push(id)
         }
         setFilter(newFilters)
-        const result = tasks.filter(task => userIds.includes(task.assignee))
+        const result = tasks.filter(task => newFilters.users.includes(task.assignee))
         setFilteredTasks(result)
     }
 
@@ -82,9 +78,5 @@ export const useFilter = (tasks = [] ) => {
         setFilteredTasks([])
     }
 
-    const handleChange = e => {
-        setQuery(e.target.value)
-    }
-
-    return { filteredTasks, filters, filterByCurrentUser, setUserFilter, clearFilter }
+    return { filteredTasks, filters, filterByCurrentUser, setUserFilter, clearFilter, handleQuery }
 }

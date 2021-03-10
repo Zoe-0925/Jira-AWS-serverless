@@ -9,27 +9,28 @@ import IssueDetailDialog from "../Dialog/UpdateIssueDIalog"
 import Filters from "../Filters/Filters"
 import { selectTasks, selectStatus } from "../../Reducers/Selectors"
 import { useFilter } from "../Hooks/Hooks"
+import IssueSearchBox from "../Filters/IssueSearchBox"
 
 const DragAndDrop = () => {
     const [isIssueDetailOpen, setOpen] = useState(false)
     const [currentIssue, setIssue] = useState()
     const status = useSelector(selectStatus)
     const tasks = useSelector(selectTasks)
-    const [rerender, setRerender] = useState(false)
 
-    const { filteredTasks, filters, filterByCurrentUser, setUserFilter, clearFilter } = useFilter(tasks)
+    const { filteredTasks, filters, filterByCurrentUser, setUserFilter, clearFilter, handleQuery } = useFilter(tasks)
 
     const openIssueDetail = issue => {
         setOpen(true)
         setIssue(issue)
     }
 
-    const handleRerender = () => setRerender(true)
 
     return (
         <>
-            <Filters filtered={filters.filtered}
-                filterByCurrentUser={filterByCurrentUser} setUserFilter={setUserFilter} clearFilter={clearFilter} />
+            <Filters filtered={filters.filtered} filterByCurrentUser={filterByCurrentUser}
+                setUserFilter={setUserFilter} clearFilter={clearFilter} >
+                <IssueSearchBox handleChange={handleQuery} />
+            </Filters>
             <div className="column-list">
                 {status.map((el, ind) =>
                     <MyDroppable key={ind} el={el} ind={ind}>

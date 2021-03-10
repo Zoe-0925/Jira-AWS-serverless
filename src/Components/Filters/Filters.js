@@ -1,12 +1,11 @@
 import React from "react";
 import { useSelector } from "react-redux"
-import IssueSearchBox from "./IssueSearchBox"
 import { v4 as uuidv4 } from 'uuid'
 import { Row } from 'reactstrap';
 import { Tooltip, Avatar, Button, Divider } from '@material-ui/core';
-import {  selectUsers } from "../../Reducers/Selectors"
+import { selectUsers } from "../../Reducers/Selectors"
 
-const Filters = ({  filtered, filterByCurrentUser, setUserFilter, clearFilter }) => {
+const Filters = ({ filtered, filterByCurrentUser, setUserFilter, clearFilter, children }) => {
     const users = useSelector(selectUsers)
 
     const avatars = users.map(user => (
@@ -17,7 +16,7 @@ const Filters = ({  filtered, filterByCurrentUser, setUserFilter, clearFilter })
 
     return (
         <Row key={uuidv4()} className="filter-row">
-            <IssueSearchBox handleChange={() => { }} />
+            {children}
             {avatars}
             <Button className="filter-btn" onClick={filterByCurrentUser}>Only My Issues</Button>
             {filtered && (
