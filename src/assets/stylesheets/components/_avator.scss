@@ -1,0 +1,22 @@
+.avator-card {
+  width: 600px;
+
+  .blue-bg {
+    width: $full;
+    background-color: $call-to-action-color;
+  }
+
+  .white-bg {
+    width: $full;
+    background-color: white;
+  }
+}
+
+.avatar:hover,
+.avator-clicked,
+.avator-clicked:hover {
+  width: 3rem;
+  height: 3rem;
+  border: 3px solid;
+  border-color: blue;
+}

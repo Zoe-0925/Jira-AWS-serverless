@@ -1,0 +1,272 @@
+@import "abstracts/variables";
+
+.issue-detail-form {
+  width: 100%;
+  padding-left: 4rem;
+  padding-right: 4rem;
+  text-align: left;
+  max-height: 43.75rem;
+
+  .divider {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .left-container {
+    padding-left: 1rem;
+    width: 100%;
+    margin-top: 0px;
+    padding-top: 0px;
+
+    .editable-input {
+      font-size: 1.4rem;
+      font-weight: 530;
+      width: 100%;
+    }
+
+    .action-btns{
+      margin-left: 0rem;
+    }
+  }
+}
+
+.issue-form-in-modal {
+  text-align: left;
+  width: 100%;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+
+  .field {
+    @include select;
+  }
+}
+
+@media (min-width: 416px) {
+  .create-project-form {
+    margin-left: auto;
+    margin-right: auto;
+    width: 20rem;
+  }
+
+  .issue-form-in-modal {
+    .navbar-create-btn {
+      @include call-to-action-button;
+    }
+
+    .title {
+      @include title;
+    }
+  }
+}
+
+@media (max-width: 415px) {
+  .issue-form-in-modal {
+    .label {
+      width:100%;
+      text-transform: uppercase;
+      color: rgb(94, 108, 132);
+      font-size: 12.5px;
+      font-family: CircularStdBold;
+      font-weight: normal;
+    }
+  }
+}
+
+@media (min-width: 416px) {
+  .editable-input {
+    height: 2rem;
+    width: 100%;
+  }
+
+  .time {
+    color: rgb(107, 119, 140);
+    padding-top: 0.125rem;
+    white-space: nowrap;
+    margin-top: 0;
+    font-size: 0.75rem;
+    line-height: 1.33333;
+  }
+}
+
+.CommentBox {
+  .title {
+    @include label;
+  }
+
+  .CommentContent {
+    width: 100%;
+
+    .primary {
+      margin-left: 0.1rem;
+    }
+
+    .author {
+      display: inline;
+      cursor: pointer;
+    }
+
+    .author:hover {
+      color: grey;
+    }
+
+    .date {
+      color: grey;
+    }
+  }
+
+  .CommentInput {
+    .container {
+      padding: 0;
+      margin: 0;
+    }
+  }
+}
+
+.create-project-form {
+  width: fullscreen;
+
+  padding: 0px;
+
+  @media (max-width: 415px) {
+    margin-left: 3rem;
+    margin-right: 3rem;
+
+    .navbar-create-btn {
+      width: 50%;
+    }
+  }
+
+  .navbar-create-btn {
+    @include call-to-action-button;
+  }
+}
+
+.field-container {
+  width: 100%;
+
+  .label {
+    width:100%;
+    font-weight: bold;
+    font-size: 1em;
+    font-style: roboto;
+    letter-spacing: -0.003em;
+    margin-top: 1rem;
+    line-height: 1.5rem;
+    color: rgb(23, 43, 77);
+    overflow-wrap: break-word;
+    text-align: left;
+    padding-bottom: 0;
+  }
+
+  .field {
+    @include select;
+    background-color: $bgc;
+    height: 2.5rem;
+    margin-top: 0;
+    padding-top: 0;
+  }
+
+  .select {
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+  }
+}
+
+.issue-summary {
+  font-size: 1.4rem;
+  font-weight: 530;
+  width: 100%;
+  padding: 0px;
+}
+
+.title {
+  @include title;
+  padding-left: 1.5rem;
+  padding-top: 1.5rem;
+}
+
+.textarea,
+.editable-input {
+  outline: grey;
+}
+
+.label {
+  width:100%;
+  font-weight: bold;
+  font-size: 1em;
+  font-style: roboto;
+  letter-spacing: -0.003em;
+  margin-top: 1rem;
+  line-height: 1.5rem;
+  color: rgb(66, 82, 110);
+  overflow-wrap: break-word;
+  text-align: left;
+  padding-bottom: 0;
+}
+
+.comment,
+.CommentInput {
+  color: rgb(66, 82, 110);
+  font-style: roboto;
+  font-weight: 500;
+}
+
+/**
+The className structure looks like below.
+
+<div class="react-select-container">
+  <div class="react-select__control">
+    <div class="react-select__value-container">...</div>
+    <div class="react-select__indicators">...</div>
+  </div>
+  <div class="react-select__menu">
+    <div class="react-select__menu-list">
+      <div class="react-select__option">...</div>
+    </div>
+  </div>
+</div>
+*/
+.issue-detail-select {
+  .control {
+    background-color: blue;
+
+    .value-container {
+      width: 100%;
+    }
+
+    .indicators {
+      width: 100%;
+    }
+  }
+}
+
+.issue-detail-select-new {
+  .container {
+    width: 100%;
+  }
+
+  .input {
+    background-color: blue;
+  }
+}
+
+.breadcrums {
+  padding-left: 4rem;
+}
+
+.CommentInput {
+  .editable-input {
+    font-size: 1rem;
+  }
+}
+
+.project-detail-form{
+  width:70%;
+  margin-left: auto;
+  margin-right: auto;
+
+  .navbar-create-btn{
+    @include call-to-action-button;
+  }
+}

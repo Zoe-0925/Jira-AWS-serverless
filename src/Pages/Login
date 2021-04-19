@@ -1,0 +1,16 @@
+import React from 'react'
+import history from "../history"
+import LoginController from "../components/Credential/Login"
+
+export default function Login() {
+    //const authenticated = useSelector(state => state.state)
+
+  
+
+    return (
+        <div className="Login-Page">
+            <p className="logo-title">Mock Jira</p>
+            <LoginController />
+        </div>
+    )
+}

@@ -1,0 +1,109 @@
+.board-container {
+  padding: 2.5rem;
+}
+
+.column-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  grid-gap: 1rem;
+  color: $card-color;
+  font-size: $card-font-size;
+  height: 20rem;
+ 
+  .column {
+    background-color: $bgc;
+  }
+
+  .issue-card {
+    cursor: pointer;
+    background-color: white;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    margin: 0.3rem;
+    border-radius: 3%;
+    min-height: 5.5rem;
+
+  }
+
+  .flagged {
+    background-color: yellow;
+  }
+
+  .issue-card:hover {
+    background-color: $bgc;
+  }
+
+  .column-title {
+    font-family: $sm-font;
+    justify-content: space-between;
+    text-align: center;
+    height: 3rem;
+    display: flex;
+    width: 100%;
+
+    .column-summary {
+      padding: 1rem 1rem 1rem 1rem;
+    }
+
+    .editable-create-issue {
+      background-color: white;
+      width: $full;
+      height: 5rem;
+      font-size: 2rem;
+      font-family: inherit;
+    }
+
+    .create-new-task-editable {
+      font-size: 2rem;
+      font-family: inherit;
+    }
+
+    .dot-icon {
+      display: none;
+    }
+  }
+
+  .column-title:hover {
+    .dot-icon {
+      display: block;
+      font-size: 1.5rem;
+      padding-top:0;
+    }
+  }
+
+  .column {
+    min-height: 15rem;
+    display: grid;
+    grid-template-rows: 3rem 6rem;
+
+    background-color: $bgc;
+    .create-issue-tab {
+      display: none;
+    }
+
+    .editable-input {
+      height: 2rem;
+      text-align: left;
+    }
+  }
+
+  .column:hover {
+    .create-issue-tab {
+      display: block;
+      display: flex;
+      text-align: bottom;
+      padding-top: 1rem;
+      font-size: inherit;
+      height: 2.25rem;
+      .create-issue-tab-icon {
+        padding-bottom: 0.5rem;
+        font-size: inherit;
+        padding-right: 0.5rem;
+      }
+    }
+  }
+}
+
+.draggable{
+  height: 5.5rem;
+}

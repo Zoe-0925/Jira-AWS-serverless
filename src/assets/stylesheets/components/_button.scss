@@ -1,0 +1,68 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the button component.
+// -----------------------------------------------------------------------------
+
+.cancel-btn {
+  color: $call-to-action-color;
+  cursor: pointer;
+  font-family: $sm-font;
+  margin-left: 0.9375rem;
+  margin-right: 0.9375rem;
+}
+
+.cancel-btn:hover {
+  text-decoration: underline;
+}
+
+.add-epic-btn {
+  width: 7rem;
+  font-size: 0.7rem;
+}
+
+.issue-detail-dialogue {
+  .close-btn {
+    position: absolute;
+    width: 1rem;
+    padding-top: 1rem;
+    color: grey;
+    display: block;
+    margin-left: 0rem;
+    margin-right: auto;
+  }
+}
+
+.loading-btn {
+  .root {
+    height: 1.5rem;
+  }
+}
+
+.action-btns {
+  margin-left: 2rem;
+  display: flex;
+  float: left;
+
+  .cancel-btn {
+    margin-left: 0.5rem;
+  }
+
+  .navbar-create-btn {
+    @include call-to-action-button;
+  }
+}
+
+.filter-btn {
+  margin-left: 1rem;
+  padding-left: 1rem;
+}
+
+
+.vertical-divider{
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+/**
+.rich-text-editor-btn{
+  
+}*/

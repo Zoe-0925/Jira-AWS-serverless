@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "storage": {
+      "Issue": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    },
+    "api": {
+      "Status": [
+        "read"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}

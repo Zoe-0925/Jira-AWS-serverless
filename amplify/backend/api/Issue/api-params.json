@@ -1,0 +1,42 @@
+{
+    "paths": [
+        {
+            "name": "/issues",
+            "lambdaFunction": "IssueLambda",
+            "privacy": {
+                "private": true,
+                "auth": [
+                    "/POST",
+                    "/GET",
+                    "/PUT",
+                    "/PATCH",
+                    "/DELETE"
+                ]
+            },
+            "policyResourceName": "/issues"
+        }
+    ],
+    "resourceName": "Issue",
+    "apiName": "Issue",
+    "functionArns": [
+        {
+            "lambdaFunction": "IssueLambda"
+        }
+    ],
+    "privacy": {
+        "auth": 1,
+        "unauth": 0,
+        "authRoleName": "amplify-jiraserverless-dev-152557-authRole",
+        "unAuthRoleName": "amplify-jiraserverless-dev-152557-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "IssueLambda",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}

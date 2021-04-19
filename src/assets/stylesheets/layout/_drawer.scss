@@ -1,0 +1,51 @@
+@import "../abstracts/variables";
+
+@media (min-width: 416px) {
+  .drawer-close {
+    margin-left: 16.25rem;
+  }
+}
+
+.drawer {
+  position: relative;
+  display: grid;
+  width: 250px;
+  background-color: $bgc;
+  height: $full;
+  font-family: $sm-font;
+  font-size: $xs-font-size;
+  color: $drawer-color;
+
+  .container {
+    color: $drawer-color;
+  }
+
+  .list-item {
+    max-height: 3rem;
+  }
+
+  .title {
+    display: inline-flex;
+    width: $ninty;
+    align-items: center;
+    padding-left: 5%;
+    padding-right: 5%;
+
+    p {
+      padding-left: 1rem;
+    }
+  }
+
+  .tab {
+    background-color: $bgc;
+  }
+}
+
+.item-left {
+  margin-left: 10%;
+}
+
+.drawer-img {
+  width: 50px;
+  height: 50px;
+}

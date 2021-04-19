@@ -1,0 +1,45 @@
+{
+    "paths": [
+        {
+            "name": "/users",
+            "lambdaFunction": "UserLambda",
+            "privacy": {
+                "protected": true,
+                "auth": [
+                    "/POST",
+                    "/GET",
+                    "/PUT",
+                    "/PATCH",
+                    "/DELETE"
+                ],
+                "unauth": [
+                    "/GET"
+                ]
+            },
+            "policyResourceName": "/users"
+        }
+    ],
+    "resourceName": "User",
+    "apiName": "User",
+    "functionArns": [
+        {
+            "lambdaFunction": "UserLambda"
+        }
+    ],
+    "privacy": {
+        "auth": 1,
+        "unauth": 1,
+        "authRoleName": "amplify-jiraserverless-dev-152557-authRole",
+        "unAuthRoleName": "amplify-jiraserverless-dev-152557-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "UserLambda",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}

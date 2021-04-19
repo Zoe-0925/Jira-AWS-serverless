@@ -1,0 +1,90 @@
+// -----------------------------------------------------------------------------
+// This file contains very basic styles.
+// -----------------------------------------------------------------------------
+@import "../abstracts/variables";
+@import "../abstracts/mixins";
+
+.App {
+  width: 100%;
+  height: 100%;
+  background-color: white;
+}
+
+.main {
+  background-color: white;
+  padding-left: 3%;
+  padding-right: 3%;
+
+  .project-icon {
+    display: block;
+    width: 8rem;
+    height: 8rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .project-detail-dot {
+    padding: 0;
+  }
+
+  .bread-crumbs {
+    margin-top: 5rem;
+  }
+
+  .board-name {
+    cursor: text;
+    font-family: $sm-font;
+    font-size: 1.5rem;
+    width: auto;
+    max-width: 22.5rem;
+  }
+  .board-name:hover {
+    background-color: $bgc;
+  }
+
+  .filter-row{
+    padding-left: 2%;
+    padding-bottom: 2rem;
+
+
+    .issue-filter:hover,
+    .issue-filter-clicked:hover {
+      background-color: $bgc;
+    }
+
+  }
+}
+
+@media (min-width: 416px) {
+  .drawer-close {
+    margin-left: 16.25rem;
+  }
+}
+
+.cursor {
+  cursor: pointer;
+}
+
+.text-area {
+  width: $full;
+  margin: 0;
+  padding: 0;
+}
+
+
+.form-label {
+  @include label;
+}
+
+.navbar-create-btn {
+  @include call-to-action-button;
+}
+
+.body {
+  margin-top: 4rem;
+  background-color: white;
+
+  .create-pj-btn {
+    @include call-to-action-button;
+  }
+}

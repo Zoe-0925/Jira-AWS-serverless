@@ -1,0 +1,103 @@
+// -----------------------------------------------------------------------------
+// This file contains all application-wide Sass variables.
+// -----------------------------------------------------------------------------
+
+/// Regular font family
+/// @type List
+$text-font-stack: "Open Sans", "Helvetica Neue Light", "Helvetica Neue", "Helvetica", "Arial", sans-serif !default;
+
+/// Code (monospace) font family
+/// @type List
+$code-font-stack: "Courier New", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Monaco", monospace !default;
+
+/// Copy text color
+/// @type Color
+$text-color: rgb(34, 34, 34) !default;
+
+/// Light grey
+/// @type Color
+$light-grey: rgb(237, 237, 237) !default;
+
+/// Medium grey
+/// @type Color
+$mid-grey: rgb(153, 153, 153) !default;
+
+/// Dark grey
+/// @type Color
+$dark-grey: rgb(68, 68, 68) !default;
+
+/// Container's maximum width
+/// @type Length
+$max-width: 1180px !default;
+
+/// Breakpoints map
+/// @prop {String} keys - Keys are identifiers mapped to a given length
+/// @prop {Map} values - Values are actual breakpoints expressed in pixels
+$breakpoints: (
+  "small": 320px,
+  "medium": 768px,
+  "large": 1024px
+) !default;
+
+/****Theme *****/
+
+/// Task color on Issue Card
+/// @type Color
+$blue: #5bc2f2;
+/// Epic color on Issue Card
+/// @type Color
+$puple: #a64bed;
+/// header background
+/// @type Color
+$header-color: #6b778c;
+/// font color
+/// @type Color
+$black: black;
+/// background color
+/// @type Color
+$white: white;
+/// background color
+/// @type Color
+$off-white: rgb(244, 245, 247);
+/// Call to action button color
+/// @type Color
+$navy-blue: rgb(0, 82, 204);
+/// font color
+/// @type Color
+$nearly-black: #172b4d;
+
+/// background color
+/// @type Color
+$bgc: $off-white;
+$primary-bgc: rgb(94, 108, 132);
+$secondary-bgc: rgb(66, 82, 110);
+$call-to-action-color: $navy-blue;
+$card-color: $primary-bgc;
+$drawer-color: rgb(66, 82, 110);
+$body-color: $nearly-black;
+$task-color: $blue;
+$subtask-color: $puple;
+
+$forty: 40%;
+$eighty: 80%;
+$ninty: 90%;
+$one-third: 33%;
+
+$search: 18.75rem;
+$wide-search: 37.5rem;
+
+/*Typography*/
+$sm-font-size: 1.25rem;
+$sm-font: "Roboto", sans-serif;
+$xs-font-size: 1rem;
+$card-font-size: 0.75rem;
+$link-font-size: 1rem;
+$box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 1px 2px 0 rgba(0, 0, 0, 0.19);
+$title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+
+/***  Layout ***/
+$margin-1: 1rem;
+$full: 100%;
+$half: 50%;
+$quarter: 25%;
+$ten: 10%;

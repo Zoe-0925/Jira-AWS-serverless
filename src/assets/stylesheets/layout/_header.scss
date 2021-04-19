@@ -1,0 +1,65 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the header of the site/application.
+// -----------------------------------------------------------------------------
+
+@import "../abstracts/mixins.scss";
+
+.nav-bar {
+  font-size: 1rem;
+  font-family: Roboto, sans-serif;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+  .dot-icon {
+    display: none;
+  }
+
+  .dot-icon:hover {
+    display: block;
+    height: 100%;
+    cursor: pointer;
+  }
+
+  .navbar-create-btn {
+    @include call-to-action-button;
+  }
+}
+
+.nav-title {
+  font-family: $title-font-family;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 400;
+  text-decoration-skip-ink: auto;
+  text-align: center;
+  width: auto;
+  height: auto;
+}
+
+.nav-tab {
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 400;
+  text-decoration-skip-ink: auto;
+  text-align: center;
+  width: auto;
+  height: auto;
+}
+
+.menu-container {
+  width: 300px;
+  padding: 1rem;
+  color: $body-color;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
+  font-size: 0.8rem;
+  font-style: normal;
+  font-weight: 400;
+
+  .menu-title {
+    font-size: 0.7rem;
+    line-height: 1.45455;
+    font-weight: 700;
+    color: rgb(107, 119, 140);
+    padding: 0px 20px;
+  }
+}
